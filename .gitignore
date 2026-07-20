@@ -1,0 +1,56 @@
+## LaTeX 编译辅助文件
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.pdfsync
+
+## 参考文献 / 索引
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.glg
+*.ist
+*.acn
+*.acr
+*.alg
+
+## 交叉引用 / 导航
+*.nav
+*.snm
+*.vrb
+*.dvi
+*.xdv
+
+## 宏包 / 字体缓存
+*.sty.bak
+*.cls.bak
+*.def.bak
+
+## 编辑器临时文件
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.tmp
+
+## 输出 PDF（按需取消注释）
+*.pdf
+
+## 系统文件
+Thumbs.db
+.DS_Store
+desktop.ini
