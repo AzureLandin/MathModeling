@@ -35,13 +35,7 @@
     stringstyle=\color{red!70!black},
     tabsize=4
 }
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\leftmark}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-\setlength{\headheight}{14pt}
+
 \usepackage{setspace}
 \onehalfspacing
 \usepackage{enumitem}
@@ -57,10 +51,15 @@
 \setCJKmonofont{FangSong}
 \setmainfont{Times New Roman}
 
+% ======================== 编号格式 ========================
+\renewcommand{\thesection}{\chinese{section}、}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
 % ======================== 标题格式 ========================
 \titleformat{\section}
-  {\heiti\zihao{-3}\bfseries}
-  {\thesection}{1em}{}
+  {\centering\heiti\zihao{-3}\bfseries}
+  {\thesection}{0em}{}
 \titlespacing*{\section}{0pt}{1.5ex plus .5ex minus .2ex}{1.0ex plus .2ex}
 
 \titleformat{\subsection}
@@ -86,7 +85,7 @@
 \newtheorem{remark}{注}[section]
 
 % ======================== 自定义命令 ========================
-\newenvironment{abstract}
+\renewenvironment{abstract}
   {\begin{center}\heiti\zihao{-3}摘\quad 要\end{center}\zihao{-4}\songti}
   {\par\vspace{1em}}
 
@@ -105,28 +104,12 @@
 % ============================================================
 \begin{document}
 
-% ======================== 封面 ========================
-\begin{titlepage}
-\centering
-\vspace*{2cm}
-{\zihao{2}\heiti\bfseries 全国大学生数学建模竞赛论文\par}
-\vspace{1.5cm}
-{\zihao{-2}\heiti\bfseries 论文标题\par}
-\vspace{2cm}
-{\zihao{4}\songti
-\begin{tabular}{rl}
-参赛队号：& \underline{\hspace{4cm}} \\[0.8em]
-参赛队员：& \underline{\hspace{4cm}} \\[0.8em]
-& \underline{\hspace{4cm}} \\[0.8em]
-& \underline{\hspace{4cm}} \\[0.8em]
-指导教师：& \underline{\hspace{4cm}} \\[0.8em]
-\end{tabular}\par}
-\vfill
-{\zihao{4}\songti \the\year 年 \the\month 月\par}
-\end{titlepage}
+\begin{center}
+{\zihao{-2}\heiti\bfseries 论文标题}
+\end{center}
+\vspace{1em}
 
 % ======================== 摘要 ========================
-\newpage
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
@@ -279,13 +262,15 @@ f(x) = ax^2 + bx + c
 % 给出贯穿全文的核心数学判据。
 
 
-\section{问题一模型建立及求解}
+\section{模型建立与求解}
 
-\subsection{模型建立}
+\subsection{问题一模型建立及求解}
+
+\subsubsection{模型建立}
 
 % 决策变量、目标函数、约束条件。
 
-\subsection{模型求解}
+\subsubsection{模型求解}
 
 % 算法描述，可用 \step{} 命令：
 \step{1} 初始化。
@@ -294,7 +279,7 @@ f(x) = ax^2 + bx + c
 
 \step{3} 输出结果。
 
-\subsection{结果展示}
+\subsubsection{结果展示}
 
 % 给出数值结果，配合表格。
 \begin{table}[H]
@@ -311,22 +296,22 @@ f(x) = ax^2 + bx + c
 \end{tabular}
 \end{table}
 
-\subsection{结果分析与验证}
+\subsubsection{结果分析与验证}
 
 % 敏感性分析、对比验证、合理性讨论。
 
 
-\section{问题二模型建立及求解}
+\subsection{问题二模型建立及求解}
 
-\subsection{模型建立}
-\subsection{模型求解}
-\subsection{结果展示}
-\subsection{结果分析与验证}
+\subsubsection{模型建立}
+\subsubsection{模型求解}
+\subsubsection{结果展示}
+\subsubsection{结果分析与验证}
 
 
 % 更多问题依此类推：
-% \section{问题三模型建立及求解}
-% \section{问题四模型建立及求解}
+% \subsection{问题三模型建立及求解}
+% \subsection{问题四模型建立及求解}
 % ...
 
 
