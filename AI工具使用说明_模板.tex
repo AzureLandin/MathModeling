@@ -1,0 +1,163 @@
+% =============================================================
+%  数学建模竞赛 —— AI 工具使用说明 LaTeX 模板
+%  编译方式: XeLaTeX（需 ctex 宏包支持中文）
+%  使用说明: 将各处【】占位符替换为实际内容即可
+% =============================================================
+\documentclass[a4paper,12pt]{article}
+
+% ---------- 中文支持 ----------
+\usepackage[UTF8, scheme=plain]{ctex}
+
+% ---------- 页面与版式 ----------
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\usepackage{setspace}
+\onehalfspacing                              % 1.5 倍行距
+
+% ---------- 字体与列表 ----------
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=2em}              % 紧凑列表
+
+% ---------- 超链接 ----------
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue}
+
+% ---------- 代码块 ----------
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    framesep=4pt,
+    xleftmargin=1em,
+    tabsize=4,
+    showstringspaces=false,
+}
+
+% ---------- 自定义段落间距 ----------
+\setlength{\parskip}{0.4em}
+
+% =============================================================
+\begin{document}
+
+% ===================== 标题 =====================
+\begin{center}
+    {\zihao{3}\heiti AI 工具使用说明}
+\end{center}
+\vspace{0.5em}
+
+\noindent\rule{\linewidth}{0.8pt}
+\vspace{0.8em}
+
+% ===================== 一、工具名称和版本 =====================
+\section*{一、AI 工具名称和版本}
+\noindent
+【在此填写参赛使用的 AI 工具名称与版本，可列出多个工具，用顿号分隔。】
+
+% 示例（可替换）：
+% DeepSeek（V4 Pro）、通义千问（3.7 Max）
+
+% ===================== 二、具体使用目的与环节 =====================
+\section*{二、具体使用目的与环节}
+
+% ---------- 工具 A ----------
+\subsection*{\textbf{【AI 工具 A 名称（版本）】}}
+\begin{enumerate}[label=(\arabic*)]
+    \item \textbf{【使用环节一】}：【描述该环节中 AI 的具体使用目的与作用。】
+    \item \textbf{【使用环节二】}：【描述第二个使用环节……】
+    \item \textbf{【使用环节三】}：【描述第三个使用环节……】
+\end{enumerate}
+
+% ---------- 工具 B ----------
+\subsection*{\textbf{【AI 工具 B 名称（版本）】}}
+\begin{enumerate}[label=(\arabic*)]
+    \item \textbf{【使用环节一】}：【描述该环节中 AI 的具体使用目的与作用。】
+    \item \textbf{【使用环节二】}：【描述第二个使用环节……】
+    \item \textbf{【使用环节三】}：【描述第三个使用环节……】
+\end{enumerate}
+
+% ===================== 三、关键交互记录 =====================
+\section*{三、关键交互记录（重要提示词与回复）}
+
+% ---------- 工具 A 交互记录 ----------
+\subsection*{\textbf{【AI 工具 A 名称（版本）】}}
+
+\noindent\textbf{Query 1：}\\
+【填写第一条提示词原文。】
+
+\noindent\textbf{Output：}\\
+【填写 AI 的回复要点摘要。例如：分三大模块给出多组中英文检索关键词，区分图书、期刊文献检索方向……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 2：}\\
+【填写第二条提示词原文……】
+
+\noindent\textbf{Output：}\\
+【填写 AI 的回复要点摘要……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 3：}\\
+【填写第三条提示词原文……】
+
+\noindent\textbf{Output：}\\
+【填写 AI 的回复要点摘要……】
+
+% ---------- 工具 B 交互记录 ----------
+\subsection*{\textbf{【AI 工具 B 名称（版本）】}}
+
+\noindent\textbf{Query 1：}\\
+【填写第一条提示词原文……】
+
+\noindent\textbf{Output：}\\
+【填写 AI 的回复要点摘要……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 2：}\\
+【填写第二条提示词原文……】
+
+\noindent\textbf{Output：}\\
+【填写 AI 的回复要点摘要……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 3：}\\
+【填写第三条提示词原文……】
+
+\noindent\textbf{Output：}\\
+【填写 AI 的回复要点摘要……】
+
+% ===================== 四、采纳和人工修改情况 =====================
+\section*{四、采纳和人工修改情况}
+
+% ---------- 工具 A ----------
+\subsection*{\textbf{【AI 工具 A 名称（版本）】}}
+
+\noindent\textbf{Query 1 采纳和人工修改情况说明：}\\
+【说明采纳了 AI 哪些内容，人工做了哪些修改与核验。例如：采纳 AI 给出的检索关键词组合与综述基础写作框架；人工筛选贴合课题的内容，剔除无关领域解读，所有外文文献由团队手动进入数据库核对原始出版信息，修正 AI 给出的错误年份、页码。】
+
+\vspace{0.6em}
+\noindent\textbf{Query 2 采纳和人工修改情况说明：}\\
+【说明采纳与人工修改情况……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 3 采纳和人工修改情况说明：}\\
+【说明采纳与人工修改情况……】
+
+% ---------- 工具 B ----------
+\subsection*{\textbf{【AI 工具 B 名称（版本）】}}
+
+\noindent\textbf{Query 1 采纳和人工修改情况说明：}\\
+【说明采纳与人工修改情况……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 2 采纳和人工修改情况说明：}\\
+【说明采纳与人工修改情况……】
+
+\vspace{0.6em}
+\noindent\textbf{Query 3 采纳和人工修改情况说明：}\\
+【说明采纳与人工修改情况……】
+
+
+
+\end{document}
