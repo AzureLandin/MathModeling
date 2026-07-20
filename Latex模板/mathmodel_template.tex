@@ -1,0 +1,391 @@
+% !TEX program = xelatex
+% ============================================================
+%  全国大学生数学建模竞赛 (CUMCM) LaTeX 通用论文模板
+%  编译方式: XeLaTeX
+% ============================================================
+\documentclass[12pt,a4paper]{ctexart}
+
+% ======================== 宏包加载 ========================
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=green!50!black,
+    urlcolor=blue!60!black
+}
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red!70!black},
+    tabsize=4
+}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\leftmark}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14pt}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=2em}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{bm}
+\usepackage{mathtools}
+
+% ======================== 字体设置 ========================
+\setCJKmainfont{SimSun}[BoldFont=SimHei, ItalicFont=KaiTi]
+\setCJKsansfont{SimHei}
+\setCJKmonofont{FangSong}
+\setmainfont{Times New Roman}
+
+% ======================== 标题格式 ========================
+\titleformat{\section}
+  {\heiti\zihao{-3}\bfseries}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{1.5ex plus .5ex minus .2ex}{1.0ex plus .2ex}
+
+\titleformat{\subsection}
+  {\heiti\zihao{4}\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{1.2ex plus .4ex minus .2ex}{0.8ex plus .2ex}
+
+\titleformat{\subsubsection}
+  {\heiti\zihao{-4}\bfseries}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus .3ex minus .1ex}{0.6ex plus .1ex}
+
+% ======================== 定理环境 ========================
+\theoremstyle{definition}
+\newtheorem{definition}{定义}[section]
+\newtheorem{assumption}{假设}[section]
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{corollary}{推论}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{注}[section]
+
+% ======================== 自定义命令 ========================
+\newenvironment{abstract}
+  {\begin{center}\heiti\zihao{-3}摘\quad 要\end{center}\zihao{-4}\songti}
+  {\par\vspace{1em}}
+
+\newcommand{\keywords}[1]{%
+  \par\noindent\textbf{关键词：}#1}
+
+\newenvironment{symboltable}
+  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
+  \toprule
+  \textbf{符号} & \textbf{含义} & \textbf{单位} \\
+  \midrule}
+  {\bottomrule\end{tabular}\end{center}}
+
+\newcommand{\step}[1]{\par\noindent\textbf{Step #1}\quad}
+
+% ============================================================
+\begin{document}
+
+% ======================== 封面 ========================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\zihao{2}\heiti\bfseries 全国大学生数学建模竞赛论文\par}
+\vspace{1.5cm}
+{\zihao{-2}\heiti\bfseries 论文标题\par}
+\vspace{2cm}
+{\zihao{4}\songti
+\begin{tabular}{rl}
+参赛队号：& \underline{\hspace{4cm}} \\[0.8em]
+参赛队员：& \underline{\hspace{4cm}} \\[0.8em]
+& \underline{\hspace{4cm}} \\[0.8em]
+& \underline{\hspace{4cm}} \\[0.8em]
+指导教师：& \underline{\hspace{4cm}} \\[0.8em]
+\end{tabular}\par}
+\vfill
+{\zihao{4}\songti \the\year 年 \the\month 月\par}
+\end{titlepage}
+
+% ======================== 摘要 ========================
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\begin{abstract}
+% 第一段：研究背景 + 本文总体思路概述（2~3句）
+本文针对……问题，首先建立了……模型，并对……进行了详细分析。
+
+% 之后每段对应一个问题，格式为"针对问题X：方法+关键结果"
+\textbf{针对问题一：}本问在给定参数下，建立了……模型，采用……方法（如二分查找法/解析求解）进行求解，最终得到……（关键数值结果）。
+
+\textbf{针对问题二：}在问题一的基础上，本问以……为决策变量，以最大化……为目标建立了优化模型，通过……算法（如多起点变步长搜索/粒子群算法）求解，得到最优策略为……，此时目标函数值为……。此外，本文用……算法进行验证，两种方法的相对误差仅为……，说明算法可靠。
+
+\textbf{针对问题三：}本问将模型拓展至……情形，建立了……优化模型，采用……算法（如差分进化算法）对……进行优化，求解出……（关键结果）。
+
+\textbf{针对问题四：}本问进一步考虑……情形，建立了……模型，提出了……策略（如降维/协同优化），最终求得……。
+
+\textbf{针对问题五：}本问为最复杂的……情形，由于决策变量维度过高，本文采用……策略（如分层次优化/任务分配+参数优化），将问题分解为……，最终求得……。
+\end{abstract}
+
+\keywords{关键词1\quad 关键词2\quad 关键词3\quad 关键词4\quad 关键词5}
+
+% ======================== 目录（可选，取消注释启用） ========================
+% \newpage
+% \tableofcontents
+% \newpage
+
+% ============================================================
+%  正文
+% ============================================================
+
+\section{问题重述}
+
+\subsection{问题背景}
+
+% 写作框架：
+% (1) 介绍研究对象/现象的实际背景（是什么、用在哪）；
+% (2) 说明该问题的现实意义或应用价值（为什么要研究）；
+% (3) 引出本文要解决的核心问题（从背景自然过渡到题目）。
+%
+% 示例写法：
+% ……是……领域中的关键技术，其通过……实现……，具有……的特点，
+% 在……方面得到了广泛的应用。然而，如何……仍然是一个亟待解决的
+% 问题。本文针对……这一情景，在……条件已经给定的前提下，需要综合
+% 考虑……，对……进行优化，以达到……的目标。
+
+\subsection{问题提出}
+
+% 写作框架：
+% (1) 先用一句话概括已知条件（给了什么数据/参数）；
+% (2) 再逐条列出各问题，每条包含：问题类型 + 需要做什么 + 目标是什么；
+% (3) 可简要说明各问题之间的递进关系（从简单到复杂）。
+%
+% 示例写法：
+% 现已知道……的初始参数和……数据，本文需要解决以下问题：
+%
+% 问题一：在给定参数下，建立……模型，计算……（基础计算问题）。
+%
+% 问题二：在问题一的基础上，将……作为决策变量，以……为目标，
+% 建立优化模型，求解最优策略（单因素优化）。
+%
+% 问题三：将问题二拓展至……情形，需要协调……（多因素协同）。
+%
+% 问题四：进一步考虑……情形，核心难点在于……（更复杂约束）。
+%
+% 问题五：综合以上所有情形，需要同时解决……和……问题，
+% 实现全局最优（最复杂情形）。
+
+
+\section{问题分析}
+
+\subsection{问题一的分析}
+
+% 分析框架：
+% (1) 明确本问要算什么（目标）；
+% (2) 梳理已知条件与未知量；
+% (3) 说明解题路线：先做什么、再做什么、最后做什么；
+% (4) 点明选用该方法的理由。
+%
+% 示例写法：
+% 问题一要求在给定参数下计算……。首先，根据题目条件可以求出……
+% 作为后续模型的初值；其次，需要利用……知识建立……的数学关系；
+% 最后，基于上述关系，采用……方法（如变步长搜索/解析法）求解……。
+
+\subsection{问题二的分析}
+
+% 分析框架：
+% (1) 说明本问与问题一的区别（从"给定参数计算"到"多参数优化"）；
+% (2) 明确决策变量是什么、目标函数是什么；
+% (3) 分析约束来源（物理约束、边界条件等）；
+% (4) 说明为何选择某优化算法（如目标函数无解析表达式→不能用梯度法）。
+%
+% 示例写法：
+% 问题二不同于问题一在给定参数下求解，而是需要将……作为决策变量，
+% 以最大化……为目标建立优化模型。由于目标函数没有解析表达式，
+% 梯度信息难以获取，因此本文采用……算法进行求解。
+
+\subsection{问题三的分析}
+
+% 分析框架：
+% (1) 本问相比前一问新增了什么复杂度（如多弹协同、时序耦合）；
+% (2) 分析新复杂度带来的建模变化（判定式如何扩展、约束如何增加）；
+% (3) 说明求解策略的调整（如从低维搜索升级为进化算法）。
+
+\subsection{问题四的分析}
+
+% 分析框架：
+% (1) 本问与问题三的本质区别（如从单机多弹→多机协同）；
+% (2) 新的核心难点（如空间协同、决策变量维度增大）；
+% (3) 降维或分解策略的思路来源（如利用几何关系缩小搜索空间）。
+
+\subsection{问题五的分析}
+
+% 分析框架：
+% (1) 本问为何不能直接求解（变量维度过高、组合爆炸）；
+% (2) 分层/分解策略的核心思想（如先分配任务再优化参数）；
+% (3) 各子问题如何独立求解、最终结果如何合并。
+
+
+\section{模型假设}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 假设一。
+  \item 假设二。
+  \item 假设三。
+\end{enumerate}
+
+
+\section{符号说明}
+
+\begin{symboltable}
+$x(t)$ & 示例符号含义 & m \\
+$v$ & 示例符号含义 & m/s \\
+$\theta$ & 示例符号含义 & rad \\
+\end{symboltable}
+
+
+\section{模型准备}
+
+% 推导后续各问建模所需的公共公式、基本定理、几何关系等。
+
+\subsection{基础公式推导}
+
+\begin{equation}
+f(x) = ax^2 + bx + c
+\label{eq:example}
+\end{equation}
+
+\subsection{核心判定条件}
+
+% 给出贯穿全文的核心数学判据。
+
+
+\section{问题一模型建立及求解}
+
+\subsection{模型建立}
+
+% 决策变量、目标函数、约束条件。
+
+\subsection{模型求解}
+
+% 算法描述，可用 \step{} 命令：
+\step{1} 初始化。
+
+\step{2} 迭代计算。
+
+\step{3} 输出结果。
+
+\subsection{结果展示}
+
+% 给出数值结果，配合表格。
+\begin{table}[H]
+\centering
+\caption{表标题}
+\label{tab:example}
+\zihao{5}
+\begin{tabular}{ccc}
+\toprule
+列1 & 列2 & 列3 \\
+\midrule
+数据 & 数据 & 数据 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{结果分析与验证}
+
+% 敏感性分析、对比验证、合理性讨论。
+
+
+\section{问题二模型建立及求解}
+
+\subsection{模型建立}
+\subsection{模型求解}
+\subsection{结果展示}
+\subsection{结果分析与验证}
+
+
+% 更多问题依此类推：
+% \section{问题三模型建立及求解}
+% \section{问题四模型建立及求解}
+% ...
+
+
+\section{模型的评价与推广}
+
+\subsection{模型的优点}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 优点一。
+  \item 优点二。
+\end{enumerate}
+
+\subsection{模型的缺点}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 缺点一。
+  \item 缺点二。
+\end{enumerate}
+
+\subsection{模型的推广}
+
+% 讨论模型在更一般情形下的适用性与改进方向。
+
+
+% ======================== 参考文献 ========================
+\newpage
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{参考文献}
+
+\bibitem{ref1} 作者. 文献标题[J]. 期刊名, 年份, 卷(期).
+
+\bibitem{ref2} 作者. 书名[M]. 出版社, 年份.
+
+\end{thebibliography}
+
+
+% ======================== 附录 ========================
+\newpage
+\appendix
+
+\section{支撑材料目录}
+
+\begin{table}[H]
+\centering
+\zihao{5}
+\begin{tabular}{lll}
+\toprule
+文件名 & 类型 & 说明 \\
+\midrule
+problem1.py & Python & 问题一求解代码 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{核心代码}
+
+\begin{lstlisting}[language=Python, caption={示例代码}]
+# 在此粘贴关键算法代码
+\end{lstlisting}
+
+
+\end{document}
