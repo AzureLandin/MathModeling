@@ -376,39 +376,30 @@ II型管道费用 & 17662.55 万元 & 占比 49.5\% \\
 \begin{table}[H]
 \centering
 \zihao{5}
-\begin{tabular}{llp{7cm}}
-\toprule
-\textbf{文件名} & \textbf{类型} & \textbf{说明} \\
-\midrule
-\multicolumn{3}{l}{\textit{代码文件（code/）}} \\
-code/main.py & Python & 主程序：串联五步求解流程，输出CSV结果与论文配图 \\
-code/data\_loader.py & Python & 第一步：加载181个节点坐标，计算距离矩阵与Delaunay三角剖分 \\
-code/clustering.py & Python & 第二步：基于30公里MST上限的约束凝聚聚类 \\
-code/station\_selection.py & Python & 第三步：加权评分一级站选址（$\alpha=0.6$, $\beta=0.4$） \\
-code/network\_design.py & Python & 第四步：I型与II型管网MST生成及总成本核算 \\
-code/optimization.py & Python & 第五步：模拟退火优化，含三类邻域算子与多重启动策略 \\
-code/utils.py & Python & 公共工具：Prim MST计算、欧氏距离矩阵生成 \\
-code/visualization.py & Python & 可视化：生成论文全部8张配图（PNG+PDF） \\
-\midrule
-\multicolumn{3}{l}{\textit{结果文件（results/）}} \\
-results/结果总览.csv & CSV & 核心指标汇总：一级站数量、管道总长、总费用、改善率 \\
-results/各簇详情.csv & CSV & 17个簇的完整信息：节点数、MST长度、容量利用率、节点列表 \\
-results/I型管道边.csv & CSV & 17条I型边的端点、长度、费用明细 \\
-results/II型管道边.csv & CSV & 163条II型边的簇编号、端点、长度、费用明细 \\
-results/收敛曲线.csv & CSV & 模拟退火迭代次数与对应总费用记录 \\
-\bottomrule
+\setlength{\arrayrulewidth}{1.2pt}
+\begin{tabular}{|c|p{0.62\textwidth}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{支撑材料列表}} \\
+\hline
+\multirow{9}{*}{源代码} & main.py \\
+ & data\_loader.py \\
+ & clustering.py \\
+ & station\_selection.py \\
+ & network\_design.py \\
+ & optimization.py \\
+ & utils.py \\
+ & visualization.py \\
+ & regenerate\_figures.py \\
+\hline
+\multirow{5}{*}{结果表格} & 结果总览.csv \\
+ & 各簇详情.csv \\
+ & I型管道边.csv \\
+ & II型管道边.csv \\
+ & 收敛曲线.csv \\
+\hline
 \end{tabular}
 \end{table}
 
-\section{AI 使用说明}
-本文在建模思路构建、算法逻辑设计及LaTeX排版过程中，使用了AI大语言模型作为辅助工具。AI主要用于：
-\begin{enumerate}
-    \item 协助梳理带容量约束设施选址问题（C2FLP）的学术背景与经典求解范式。
-    \item 辅助推导Delaunay三角剖分在欧氏空间最小生成树中的降维理论依据。
-    \item 优化模拟退火算法邻域算子的逻辑描述与LaTeX代码的规范排版。
-\end{enumerate}
-
-所有核心数学模型的设计、算法参数的调优、数据的计算验证及最终方案的决策均由参赛队员独立完成，AI未直接生成任何核心代码或最终结论数据。
 
 \clearpage
 \section{相关核心代码}

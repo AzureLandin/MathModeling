@@ -1,0 +1,110 @@
+% AI工具使用说明（可独立编译）
+% 也可直接粘贴到论文.tex 中替换附录B部分
+
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\lhead{} \chead{} \rhead{}
+\cfoot{\thepage}
+
+\setCJKmainfont{SimSun}[BoldFont=SimHei]
+\setCJKsansfont{SimHei}[AutoFakeBold=3]
+
+\renewcommand{\thesection}{\chinese{section}、}
+\newcommand{\bluesectitle}[1]{%
+  \colorbox{blue!50!gray!50}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\raggedright\heiti\zihao{-3}\bfseries\thesection#1}}}
+\titleformat{\section}[block]
+  {}
+  {}
+  {0pt}
+  {\bluesectitle}
+
+\begin{document}
+
+\begin{center}
+{\zihao{-2}\heiti\bfseries AI 工具使用说明}
+\end{center}
+
+\section{AI 工具名称和版本}
+
+DeepSeek V4 Pro、通义千问 3.7 Max
+
+\section{具体使用目的与环节}
+
+\noindent\textbf{\textbullet~DeepSeek V4 Pro}
+
+\begin{enumerate}[label=(\arabic*)]
+  \item 文献搜集环节：生成两级管网选址的中英文检索关键词，梳理约束聚类、模拟退火等方向的文献观点，搭建综述写作框架。
+  \item 模型推导环节：整理Delaunay三角剖分保证MST子图性质的推导依据、约束凝聚聚类合并判据、加权选址函数设计逻辑、模拟退火邻域算子校验步骤，对比各阶段算法优劣。
+  \item 代码编写环节：生成距离矩阵计算、约束聚类、Prim MST求解、模拟退火优化的Python代码骨架，排查MST超限与邻域解越界等报错，精简冗余代码。
+\end{enumerate}
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{\textbullet~通义千问 3.7 Max}
+
+\begin{enumerate}[label=(\arabic*)]
+  \item 参考文献排版环节：按GB/T 7714规范将文献信息转换成LaTeX \verb|\bibitem|代码，区分图书、期刊、会议文献类型标识，统一外文作者缩写与标点。
+  \item 正文润色环节：优化口语化表述，统一约束聚类、容量利用率等专业术语，结合仿真数据产出图表描述与结果分析初稿。
+  \item 格式规整环节：提供竞赛论文排版规范，输出AI使用说明与代码附录的写作模板，规范摘要与结论的行文结构，调整附录表格格式。
+\end{enumerate}
+
+\section{关键交互记录}
+
+\noindent\textbf{\textbullet~DeepSeek V4 Pro}
+
+\textbf{Query1：}帮我们找两级管网选址方面的文献，中英文检索词都给一下，再说下综述怎么写。
+
+\textbf{Output：}关键词：约束聚类、两级选址路径、模拟退火组合优化；综述思路：从设施选址到层次组网再到全局寻优递进展开。
+
+\textbf{Query2：}推导一下Delaunay三角剖分保证MST子图性质的依据，再推导约束聚类合并判据和加权选址函数，对比各算法优劣。
+
+\textbf{Output：}Delaunay子图性质推导、MST合并判据数学表述、加权选址内外距离推导、模拟退火三类算子校验步骤；表格对比各算法优劣与局限。
+
+\textbf{Query3：}写个Python代码框架，包括距离矩阵计算、约束聚类、加权选址、两级MST组网、模拟退火优化、可视化，按模块拆分加注释。
+
+\textbf{Output：}分模块代码骨架：数据预处理、聚类、选址、组网、优化、可视化；列举MST越界与约束校验失效的排查方案。
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{\textbullet~通义千问 3.7 Max}
+
+\textbf{Query1：}帮我按GB/T 7714规范把文献信息转成LaTeX参考文献代码，不确定的信息标出来别编。
+
+\textbf{Output：}逐条输出标准化\verb|\bibitem|代码，区分期刊与专著标识；存疑信息单独标注提示人工核验。
+
+\textbf{Query2：}润色一下论文各章节文字，统一专业术语，结合仿真数据写图表分析段落。
+
+\textbf{Output：}改写口语化表述，统一专业词汇；结合仿真数值写图表描述，删减模板套话。
+
+\textbf{Query3：}给竞赛论文排版规范，生成AI使用说明和代码附录的写作模板，调整附录表格格式。
+
+\textbf{Output：}论文标题层级与排版要求；AI使用说明与代码附录写作模板；附录表格多行合并单元格模板代码。
+
+\section{采纳和人工修改情况}
+
+\noindent\textbf{\textbullet~DeepSeek V4 Pro}
+
+\textbf{Query1：}采纳检索关键词与综述写作框架；人工筛选贴合课题的内容，剔除无关解读，自主搭建递进逻辑；所有文献由团队手动核对原始出版信息，修正AI错误年份与页码。
+
+\textbf{Query2：}采纳Delaunay推导步骤与算法优劣对比框架；人工补充30公里MST约束与管道不允许分支等专属条件，代入坐标参数验算全部公式，修正变量定义偏差，自主确定组合求解策略。
+
+\textbf{Query3：}采纳分模块代码框架；人工适配181节点坐标改写代码，逐行调试修复索引越界与聚类越限bug，调整退火温度与迭代次数等超参数，新增约束校验与选址自定义函数，独立运行仿真导出全部配图。
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{\textbullet~通义千问 3.7 Max}
+
+\textbf{Query1：}采纳LaTeX参考文献格式模板；人工对照数据库逐条核验文献元数据，修正AI添加的错误期号与页码。
+
+\textbf{Query2：}采纳专业语句逻辑；人工结合仿真数据补充量化分析，修正脱离工况的片面解读，核心分析与创新点由团队独立撰写。
+
+\textbf{Query3：}采纳附录排版基础模板与表格代码；人工对照官方模板调整行距与编号，核对附录代码片段完整性，调整章节层级适配全文结构。
+
+\end{document}
