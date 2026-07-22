@@ -3,6 +3,7 @@
 可视化模块：生成论文所需8张图
 """
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -12,8 +13,12 @@ from utils import compute_mst
 
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False
+plt.rcParams['axes.labelsize'] = 15
+plt.rcParams['xtick.labelsize'] = 13
+plt.rcParams['ytick.labelsize'] = 13
+plt.rcParams['legend.fontsize'] = 13
 
-FIGURES_DIR = r'E:\MathModeling\模块二练习\figures'
+FIGURES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'figures')
 
 
 def plot_fig1(coords):
@@ -22,12 +27,11 @@ def plot_fig1(coords):
     ax.scatter(coords[1:, 0], coords[1:, 1], c='#3498DB', s=30, zorder=3, label='供水点 (P1-P180)')
     ax.scatter(coords[0, 0], coords[0, 1], c='#E74C3C', s=300, marker='*', zorder=5, label='中心供水站 A')
     ax.annotate('A (26, 31)', xy=(26, 31), xytext=(28, 28),
-                fontsize=11, fontweight='bold', color='#E74C3C',
+                fontsize=14, fontweight='bold', color='#E74C3C',
                 arrowprops=dict(arrowstyle='->', color='#E74C3C'))
-    ax.set_xlabel('X 坐标 (km)', fontsize=12)
-    ax.set_ylabel('Y 坐标 (km)', fontsize=12)
-    ax.set_title('图1  供水点空间分布', fontsize=14)
-    ax.legend(fontsize=11, loc='upper left')
+    ax.set_xlabel('X 坐标 (km)')
+    ax.set_ylabel('Y 坐标 (km)')
+    ax.legend(loc='upper left')
     ax.set_aspect('equal')
     ax.grid(True, alpha=0.3)
     plt.tight_layout()
@@ -66,10 +70,9 @@ def plot_fig2(coords, dist_matrix):
         Line2D([0], [0], color='#BDC3C7', linewidth=1, label=f'Delaunay候选边 ({len(edges_plotted)}条)'),
         Line2D([0], [0], color='#E67E22', linewidth=2, label=f'全局MST ({len(mst_edges)}条)'),
     ]
-    ax.legend(handles=legend_elements, fontsize=10, loc='upper left')
-    ax.set_title('图2  Delaunay三角剖分与全局MST', fontsize=14)
-    ax.set_xlabel('X 坐标 (km)', fontsize=12)
-    ax.set_ylabel('Y 坐标 (km)', fontsize=12)
+    ax.legend(handles=legend_elements, loc='upper left')
+    ax.set_xlabel('X 坐标 (km)')
+    ax.set_ylabel('Y 坐标 (km)')
     ax.set_aspect('equal')
     ax.grid(True, alpha=0.2)
     plt.tight_layout()
@@ -83,7 +86,7 @@ def plot_fig3(coords, clusters, primary_stations, cluster_mst_lengths, cluster_m
     """图3：约束聚类结果图"""
     fig, ax = plt.subplots(figsize=(11, 10))
     K = len(clusters)
-    cmap = cm.get_cmap('tab20', K)
+    cmap = plt.get_cmap('tab20', K)
 
     for k in range(K):
         cluster = clusters[k]
@@ -112,20 +115,19 @@ def plot_fig3(coords, clusters, primary_stations, cluster_mst_lengths, cluster_m
 
         centroid = coords[nodes].mean(axis=0)
         ax.annotate(f'C{k+1}\n({cluster_mst_lengths[k]:.1f}km)',
-                    xy=centroid, fontsize=8, ha='center', color=color, fontweight='bold')
+                     xy=centroid, fontsize=11, ha='center', color=color, fontweight='bold')
 
     ax.scatter(coords[0, 0], coords[0, 1], c='#E74C3C', s=300, marker='*', zorder=6)
-    ax.annotate('A', xy=(26, 31), xytext=(27, 29), fontsize=12, fontweight='bold', color='#E74C3C')
+    ax.annotate('A', xy=(26, 31), xytext=(27, 29), fontsize=15, fontweight='bold', color='#E74C3C')
 
     legend_elements = [
         Line2D([0], [0], marker='s', color='w', markerfacecolor='black', markersize=10, label='一级供水站'),
         Line2D([0], [0], marker='*', color='w', markerfacecolor='#E74C3C', markersize=15, label='中心站 A'),
         Line2D([0], [0], linestyle='--', color='gray', linewidth=1.2, label='簇边界(凸包)'),
     ]
-    ax.legend(handles=legend_elements, fontsize=10, loc='upper left')
-    ax.set_title('图3  约束凝聚聚类结果（各簇MST长度标注）', fontsize=14)
-    ax.set_xlabel('X 坐标 (km)', fontsize=12)
-    ax.set_ylabel('Y 坐标 (km)', fontsize=12)
+    ax.legend(handles=legend_elements, loc='upper left')
+    ax.set_xlabel('X 坐标 (km)')
+    ax.set_ylabel('Y 坐标 (km)')
     ax.set_aspect('equal')
     ax.grid(True, alpha=0.2)
     plt.tight_layout()
@@ -146,7 +148,7 @@ def plot_fig4(coords, E_I, primary_stations, L_I, dist_matrix):
                 c='#E74C3C', linewidth=2.5, zorder=3, solid_capstyle='round')
         mid = (coords[u] + coords[v]) / 2
         length = dist_matrix[u][v]
-        ax.annotate(f'{length:.1f}', xy=mid, fontsize=7, color='#C0392B',
+        ax.annotate(f'{length:.1f}', xy=mid, fontsize=10, color='#C0392B',
                     ha='center', va='bottom',
                     bbox=dict(boxstyle='round,pad=0.1', fc='white', alpha=0.7, ec='none'))
 
@@ -154,14 +156,13 @@ def plot_fig4(coords, E_I, primary_stations, L_I, dist_matrix):
         ax.scatter(coords[ps, 0], coords[ps, 1], c='#2C3E50', s=150, marker='s', zorder=5,
                    edgecolors='white', linewidths=1.5)
         ax.annotate(f'P{ps}', xy=(coords[ps, 0], coords[ps, 1]),
-                    xytext=(5, 5), textcoords='offset points', fontsize=8, fontweight='bold')
+                     xytext=(5, 5), textcoords='offset points', fontsize=11, fontweight='bold')
 
     ax.scatter(coords[0, 0], coords[0, 1], c='#E74C3C', s=350, marker='*', zorder=6)
-    ax.annotate('A', xy=(26, 31), xytext=(27, 29), fontsize=13, fontweight='bold', color='#E74C3C')
+    ax.annotate('A', xy=(26, 31), xytext=(27, 29), fontsize=16, fontweight='bold', color='#E74C3C')
 
-    ax.set_title(f'图4  I型管网（一级站MST，总长 {L_I:.2f} km）', fontsize=14)
-    ax.set_xlabel('X 坐标 (km)', fontsize=12)
-    ax.set_ylabel('Y 坐标 (km)', fontsize=12)
+    ax.set_xlabel('X 坐标 (km)')
+    ax.set_ylabel('Y 坐标 (km)')
     ax.set_aspect('equal')
     ax.grid(True, alpha=0.2)
     plt.tight_layout()
@@ -198,7 +199,7 @@ def plot_fig5(coords, E_I, E_II, primary_stations, L_I, L_II, C_total):
 
     # 中心站A
     ax.scatter(coords[0, 0], coords[0, 1], c='#E74C3C', s=350, marker='*', zorder=6)
-    ax.annotate('A', xy=(26, 31), xytext=(27, 29), fontsize=13, fontweight='bold', color='#E74C3C')
+    ax.annotate('A', xy=(26, 31), xytext=(27, 29), fontsize=16, fontweight='bold', color='#E74C3C')
 
     legend_elements = [
         Line2D([0], [0], color='#E74C3C', linewidth=2.5, label=f'I型管道 ({L_I:.2f} km)'),
@@ -207,10 +208,9 @@ def plot_fig5(coords, E_I, E_II, primary_stations, L_I, L_II, C_total):
         Line2D([0], [0], marker='s', color='w', markerfacecolor='#2C3E50', markersize=10, label='一级供水站'),
         Line2D([0], [0], marker='o', color='w', markerfacecolor='#3498DB', markersize=7, label='二级供水站'),
     ]
-    ax.legend(handles=legend_elements, fontsize=10, loc='upper left')
-    ax.set_title(f'图5  最优输水管道网络（总费用 {C_total/10000:.2f} 万元）', fontsize=14)
-    ax.set_xlabel('X 坐标 (km)', fontsize=12)
-    ax.set_ylabel('Y 坐标 (km)', fontsize=12)
+    ax.legend(handles=legend_elements, loc='upper left')
+    ax.set_xlabel('X 坐标 (km)')
+    ax.set_ylabel('Y 坐标 (km)')
     ax.set_aspect('equal')
     ax.grid(True, alpha=0.2)
     plt.tight_layout()
@@ -232,14 +232,13 @@ def plot_fig6(cluster_mst_lengths):
 
     for bar, h in zip(bars, cluster_mst_lengths):
         ax.annotate(f'{h:.1f}', xy=(bar.get_x() + bar.get_width() / 2, h),
-                    xytext=(0, 3), textcoords='offset points', ha='center', fontsize=9)
+                     xytext=(0, 3), textcoords='offset points', ha='center', fontsize=12)
 
-    ax.set_xlabel('簇编号', fontsize=12)
-    ax.set_ylabel('II型管道MST总长 (km)', fontsize=12)
-    ax.set_title('图6  各簇II型管道长度与30km约束', fontsize=14)
+    ax.set_xlabel('簇编号')
+    ax.set_ylabel('II型管道MST总长 (km)')
     ax.set_xticks(x)
     ax.set_xticklabels([f'C{i}' for i in x])
-    ax.legend(fontsize=11)
+    ax.legend()
     ax.set_ylim(0, 35)
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
@@ -267,13 +266,12 @@ def plot_fig7(convergence_curve, initial_cost):
         ax.annotate(f'改善 {improvement:.1f}%',
                     xy=(iterations[-1], costs[-1]),
                     xytext=(iterations[-1] * 0.6, costs[-1] * 1.03),
-                    fontsize=11, color='#27AE60', fontweight='bold',
+                    fontsize=14, color='#27AE60', fontweight='bold',
                     arrowprops=dict(arrowstyle='->', color='#27AE60'))
 
-    ax.set_xlabel('迭代次数', fontsize=12)
-    ax.set_ylabel('总费用 (万元)', fontsize=12)
-    ax.set_title('图7  模拟退火收敛曲线', fontsize=14)
-    ax.legend(fontsize=11)
+    ax.set_xlabel('迭代次数')
+    ax.set_ylabel('总费用 (万元)')
+    ax.legend()
     ax.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.savefig(f'{FIGURES_DIR}/图7_收敛曲线.png', dpi=300, bbox_inches='tight')
@@ -290,18 +288,17 @@ def plot_fig8(L_I, L_II, C_total):
     type_costs = [1291000 * L_I, 445000 * L_II]
     colors_type = ['#E74C3C', '#3498DB']
     ax1.pie(type_costs, labels=type_labels, colors=colors_type, autopct='%1.1f%%',
-            startangle=90, textprops={'fontsize': 11})
-    ax1.set_title('按管道类型', fontsize=13)
+            startangle=90, textprops={'fontsize': 14})
+    ax1.set_title('按管道类型', fontsize=16)
 
     detail_labels = ['I型材料费\n(571元/m)', 'I型铺设费\n(720元/m)',
                      'II型材料费\n(235元/m)', 'II型铺设费\n(210元/m)']
     detail_costs = [571000 * L_I, 720000 * L_I, 235000 * L_II, 210000 * L_II]
     colors_detail = ['#E74C3C', '#F1948A', '#3498DB', '#85C1E9']
     ax2.pie(detail_costs, labels=detail_labels, colors=colors_detail, autopct='%1.1f%%',
-            startangle=90, textprops={'fontsize': 10})
-    ax2.set_title('按费用性质', fontsize=13)
+            startangle=90, textprops={'fontsize': 13})
+    ax2.set_title('按费用性质', fontsize=16)
 
-    fig.suptitle(f'图8  总费用构成分析（总计 {C_total/10000:.2f} 万元）', fontsize=14, y=1.02)
     plt.tight_layout()
     plt.savefig(f'{FIGURES_DIR}/图8_成本构成.png', dpi=300, bbox_inches='tight')
     plt.savefig(f'{FIGURES_DIR}/图8_成本构成.pdf', bbox_inches='tight')

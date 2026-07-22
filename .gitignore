@@ -10,6 +10,7 @@
 *.synctex.gz
 *.synctex(busy)
 *.pdfsync
+*.pyc
 
 ## 参考文献 / 索引
 *.bbl
