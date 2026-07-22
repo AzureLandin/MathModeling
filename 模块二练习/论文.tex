@@ -89,8 +89,10 @@
 \newtheorem{remark}{注}[section]
 
 % ======================== 自定义命令 ========================
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
 \renewenvironment{abstract}
-  {\begin{center}\heiti\zihao{-3}\bfseries 摘\quad 要\end{center}\zihao{-4}\songti}
+  {\begin{center}\heiti\zihao{-3}\bfseries 摘\quad 要\end{center}\zihao{-4}}
   {\par\vspace{1em}}
 
 \newcommand{\keywords}[1]{%
@@ -110,7 +112,7 @@
 \pagestyle{plain}
 
 \begin{center}
-{\zihao{-2}\heiti\bfseries 基于约束凝聚聚类与模拟退火的管道最优铺设方案}
+{\zihao{-2}\heiti\bfseries 里程受限区域供水系统的分层选址-组网联合优化}
 \end{center}
 \vspace{1em}
 
@@ -121,9 +123,9 @@
 \begin{abstract}
 \setlength{\parindent}{2em}
 
-\indent 本文针对某地区180个供水点的两级输水管网优化问题，综合考虑二级管道30公里长度的约束与管道造价的差异性，构建了\textbf{带长度约束的多级设施选址与网络设计数学模型}。基于\textbf{约束感知凝聚聚类}、\textbf{加权评分选址}、\textbf{最小生成树组网}及\textbf{模拟退火}全局寻优的共分四个阶段的求解策略，有效解决了\textbf{NP-Hard}组合优化难题并实现了总建设费用最小化。
+\indent 本文针对某地区180个供水点的两级输水管网优化问题，综合考虑二级管道30公里长度的约束与管道造价的差异性，构建了\textbf{带长度约束的两级设施选址与网络设计模型}。基于约束感知凝聚聚类、加权评分选址、最小生成树组网及模拟退火全局寻优的四阶段求解策略，有效解决了NP-Hard组合优化难题并实现了总建设费用最小化。
 
-\indent 针对该两级管网优化问题，本文基于\textbf{Delaunay三角剖分}性质将原节点图从完全图降至稀疏图，在保证不丢失最小生成树边的前提下显著提升后续聚类与寻优效率。在此基础上，建立了\textbf{带长度约束的两级设施选址与网络设计数学模型}，并设计了\textbf{``约束感知凝聚聚类——加权评分选址——MST组网——模拟退火全局寻优''}的四阶段求解策略：通过嵌入最小生成树长度校验的聚类算法确保节点簇的划分严格满足管道长\textbf{30公里}的硬约束；构建兼顾二级管网覆盖质量与一级管网连通成本的加权评分函数来平衡成本，以确定一级供水站位置；分别生成I型骨干网与II分支网的最小生成树拓扑；引入\textbf{模拟退火算法}并通过边界节点漂移、站址替换及节点簇分裂合并三种方法突破贪心算法的局限性进行全局寻优。最终求得总费用为\textbf{35692.95万元}的最优方案，其中I型管道总长\textbf{139.66公里}，II型管道总长\textbf{396.91公里}，所有二级供水站节点簇的管网里程均严格低于\textbf{30公里}且容量利用率普遍超过\textbf{90\%}，较最初得到的解降低\textbf{2.68\%}。
+\indent 针对该两级管网优化问题，本文基于Delaunay三角剖分性质将原节点图从完全图降至稀疏图，在保证不丢失最小生成树边的前提下显著提升后续聚类与寻优效率。在此基础上，建立了带长度约束的两级设施选址与网络设计模型，并设计了``约束感知凝聚聚类—加权评分选址—MST组网—模拟退火全局寻优''的四阶段求解策略：通过嵌入最小生成树长度校验的聚类算法确保节点簇的划分严格满足管道长30公里的硬约束；构建兼顾二级管网覆盖质量与一级管网连通成本的加权评分函数来平衡成本，以确定一级供水站位置；分别生成I型骨干网与II分支网的最小生成树拓扑；引入模拟退火算法并通过边界节点漂移、站址替换及节点簇分裂合并三种方法突破贪心算法的局限性进行全局寻优。最终求得总费用为\textbf{35692.95万元}的最优方案，其中I型管道总长\textbf{139.66公里}，II型管道总长\textbf{396.91公里}，所有二级供水站节点簇的管网里程均严格低于30公里且容量利用率普遍超过90\%，较最初得到的解降低\textbf{2.68\%}。
 \end{abstract}
 
 \keywords{两级管网优化；带容量约束设施选址；约束凝聚聚类；最小生成树；模拟退火}
@@ -144,14 +146,17 @@
 \subsection{问题提出}
 现已知中心站A与180个供水点的精确空间坐标，以及两类管道的单位造价及铺设费用。本文需要解决的核心问题是：综合考虑上述工程约束与建设成本，建立带长度约束的多级设施选址与网络设计数学模型，科学确定一级供水站的最优选址方案以及I型与II型管道的连接拓扑结构。在确保所有供水点被有效覆盖且满足30公里二级管网里程硬约束的前提下，使得整个管网系统的总铺设费用达到最小，并给出具体的选址坐标、管道分布长度及最小费用结果。
 \section{问题分析}
-本问题的本质是一个\textbf{带长度约束的两级设施选址问题}与\textbf{多层级网络设计问题}的耦合。由于一级站的候选方案数高达 $2^{180}-1$，该问题属于典型的NP-Hard组合优化问题。在180个节点的规模下，传统的精确算法难以处理如此庞大的计算量，以至于无法在有效时间内求解这个问题。因此，必须从图论与空间几何的视角对问题进行简化与解耦分析。
+本问题的本质是一个\textbf{带长度约束的两级设施选址问题}\supercite{ref4,ref5}与\textbf{多层级网络设计问题}的耦合。由于一级站的候选方案数高达 $2^{180}-1$，该问题属于典型的NP-Hard组合优化问题\supercite{ref4}。在180个节点的规模下，传统的精确算法难以处理如此庞大的计算量，以至于无法在有效时间内求解这个问题。因此，必须从图论与空间几何的视角对问题进行简化与解耦分析。
 
-\subsection{多级管网拓扑结构与约束机制分析}
+\subsection{两级管网与30公里约束的耦合}
+
 管网设计可抽象为在由181个节点构成的完全图上选取边子集以构建连通树结构的过程，题目的工程上的约束对网络拓扑提出了严格的限制。一方面，管网呈现明确的两级层级特征，I型管道构成连接中心站与所有一级站的骨干树，II型管道则构成连接一级站与其所属二级站的分支树。另一方面，受限于管道必须从供水站节点出发的施工要求，管网中禁止在管道中间任意点分支，这意味着网络结构必须是严格基于给定节点集的生成树，而无法引入额外的中间分支点。此外，30公里的二级管道长度硬约束是本题最核心的难点，该限制要求从任一一级站出发铺设的II型管道总里程不得超过30公里，从而将全局网络割裂为若干个以一级站为根的独立子树。这一特性使得节点聚类划分与求解管网拓扑问题难以分开，无法作为独立子问题分别求解，极大增加了问题的求解复杂度。
-\subsection{空间受限下的聚类与选址策略分析}
+\subsection{约束聚类与分步求解}
+
 针对30公里硬约束，常规聚类算法无法直接控制管网总长。为此，我们改进了凝聚层次聚类算法，使其具备约束处理能力，即把最小生成树长度校验嵌入每一次合并操作里。只有当两个簇合并后的最小生成树总长不超过30公里时，才允许合并。这一设计确保了所有产出簇天然满足容量限制，避免了无效搜索。
-\subsection{启发式算法的全局优化分析}
-前述聚类、选址与组网的贪心求解策略虽然计算效率高，但本质上属于局部搜索，极易陷入局部最优。例如有时将边界节点的归属进行微调可能带来全局成本的下降，而贪心策略往往无法发现此类需要暂时变差才能继续优化的路径。为此，本文引入模拟退火算法进行全局寻优。通过设计定制化的邻域算子，涵盖边界节点漂移、一级站址替换以及簇的分裂与合并，在严格满足30公里硬约束的可行域内，允许暂时接受成本更高的方案，从而有效跳出局部最优，逼近全局最优解。
+\subsection{模拟退火跳出局部最优}
+
+前述聚类、选址与组网的贪心求解策略虽然计算效率高，但本质上属于局部搜索，极易陷入局部最优。例如有时将边界节点的归属进行微调可能带来全局成本的下降，而贪心策略往往无法发现此类需要暂时变差才能继续优化的路径。为此，本文引入模拟退火算法\supercite{ref3}进行全局寻优。通过设计定制化的邻域算子，涵盖边界节点漂移、一级站址替换以及簇的分裂与合并，在严格满足30公里硬约束的可行域内，允许暂时接受成本更高的方案，从而有效跳出局部最优，逼近全局最优解。
 \section{模型假设}
 \begin{enumerate}[label=\arabic*.]
   \item 假设相邻两站间管道沿直线铺设，长度取欧氏距离，忽略地形起伏与地下障碍物对施工路线的影响。
@@ -190,7 +195,7 @@ $L_{MST}(C_k)$  & 簇 $C_k$ 的最小生成树总长 & km  \\
 
 
 \subsection{基于Delaunay三角剖分方法的管道图简化}
-为削减后续最优解搜索空间大小，利用Delaunay三角剖分法对候选边进行筛选。计算几何理论表明：欧氏点集的最小生成树必为其Delaunay图的子图。这意味着利用Delaunay三角剖分法剖分后的稀疏图依旧包含最优管道网所需的全部候选边，删去原图中的非最优边不损失整体的最优性。图\ref{fig:delaunay}展示了Delaunay剖分结果与全局MST的叠加关系，直观验证了MST的所有边均落在剖分后的稀疏图内。
+为削减后续最优解搜索空间大小，利用Delaunay三角剖分法对候选边进行筛选。计算几何理论表明：欧氏点集的最小生成树\supercite{ref1}必为其Delaunay图的子图。这意味着利用Delaunay三角剖分法剖分后的稀疏图依旧包含最优管道网所需的全部候选边，删去原图中的非最优边不损失整体的最优性。图\ref{fig:delaunay}展示了Delaunay剖分结果与全局MST的叠加关系，直观验证了MST的所有边均落在剖分后的稀疏图内。
 
 % 图2：Delaunay三角剖分
 \begin{figure}[H]
@@ -201,7 +206,7 @@ $L_{MST}(C_k)$  & 簇 $C_k$ 的最小生成树总长 & km  \\
 \end{figure}
 
 \section{模型建立与求解}
-\subsection{带容量约束的两级管网数学模型}
+\subsection{两级管网优化模型}
 基于上述分析，建立如下非线性组合优化模型。
 \subsubsection{目标函数}
 以总铺设费用最小化为目标：
@@ -211,20 +216,16 @@ $L_{MST}(C_k)$  & 簇 $C_k$ 的最小生成树总长 & km  \\
 \end{equation}
 
 \subsubsection{约束条件}
-\begin{itemize}
-    \item \textbf{C1：}I型边集 $E_I$ 构成包含中心站A与所有一级站的连通树；每个II型子树 $E_{II}^{(k)}$ 构成包含对应一级站与簇内所有二级站的连通树。
-    \item \textbf{C2：}中心站A仅与一级站相连，不直连二级站。
-    \item \textbf{C3：}管道仅从供水站节点出发，边集端点必须属于 $V$，无额外点。
-    \item \textbf{C4：}对每个一级站管辖的簇 $C_k$，其II型管道子树总边长不超过30公里：
-    \begin{equation}
-    \forall C_k: \sum_{(i,j) \in E_{II}^{(k)}} d_{ij} \le 30 \text{ (km)}
-    \label{eq:capacity}
-    \end{equation}
-    \item \textbf{C5：}每个二级站仅连接一个一级站。
-\end{itemize}
 
-\subsection{基于30公里约束的空间受限聚类}
-由于约束(\ref{eq:capacity})直接限制了簇内最小生成树的长度，本文设计了约束下的凝聚层次聚类算法。
+管网需满足以下几类约束。首先是连通性与层级约束：I型边集 $E_I$ 应构成包含中心站A与所有一级站的连通树，同时每个一级站所管辖的II型子树 $E_{II}^{(k)}$ 也须构成连通树，覆盖簇内全部二级站；此外中心站A仅与一级站相连，不得直连二级站。其次是拓扑约束：管道只能从供水站节点出发，边集端点必须属于节点集 $V$，不允许引入额外分支点。再次是容量约束，这是本题的核心硬约束——每个一级站管辖的簇 $C_k$ 内，II型管道子树总边长不得超过30公里：
+\begin{equation}
+\forall C_k: \sum_{(i,j) \in E_{II}^{(k)}} d_{ij} \le 30 \text{ (km)}
+\label{eq:capacity}
+\end{equation}
+最后是归属唯一性约束：每个二级站只能连接一个一级站，不可跨簇隶属。
+
+\subsection{30公里约束下的凝聚聚类}
+由于约束(\ref{eq:capacity})直接限制了簇内最小生成树\supercite{ref1,ref2}的长度，本文设计了约束下的凝聚层次聚类算法。
 \step{1}每个节点先自成一簇，形成180个仅含一个点的节点簇，节点簇内最小生成树长度为0。
 \step{2}簇间距离采用，将两个簇之间的距离确定为两个簇中任意两点之间的最短距离：$d(C_a, C_b) = \min_{i\in C_a, j\in C_b} d_{ij}$。单链接准则倾向生成链状节点簇，与管道网络的树状拓扑结构较为契合。
 \step{3}反复选取距离最近的节点簇对 $(C_a, C_b)$，计算合并后候选簇 $C_{trial} = C_a \cup C_b$ 的最小生产树的总长度 $L_{trial}$。若 $L_{trial} \le 30$ km，则接受合并；否则不合并该对节点，并将其标记为“不可合并”，继续尝试下一对节点。
@@ -238,7 +239,7 @@ $L_{MST}(C_k)$  & 簇 $C_k$ 的最小生成树总长 & km  \\
 \label{fig:cluster}
 \end{figure}
 
-\subsection{兼顾内外成本的一级站选址}
+\subsection{加权评分一级站选址}
 一级站的位置同时影响簇内II型管道的布局与簇外I型骨干网的接入成本。为此，设计加权评分函数。对簇 $C_k$ 中的候选节点 $v$：
 \begin{equation}
 \text{score}(v) = \alpha \sum_{u \in C_k \setminus \{v\}} d_{vu} + \beta \min \left( d_{v,0}, \min_{s \in S_{\text{已选}}} d_{v,s} \right)
@@ -247,23 +248,23 @@ $L_{MST}(C_k)$  & 簇 $C_k$ 的最小生成树总长 & km  \\
 
 其中，第一项为内部距离和，第二项为到中心站A或已确定一级站的最近距离。权重设定为 $\alpha=0.6, \beta=0.4$，在数值上使簇内和簇外的优化对成本降低的贡献大致均衡，同时略偏向簇内的覆盖效果。按各簇中心到A的距离从近到远排序，依次确定一级站，最终选出17个一级供水站。
 
-\subsection{全局节点簇组网与模拟退火优化}
+\subsection{最小生成树组网与模拟退火优化}
 \subsubsection{两层管网独立最小生成树生成}
-在给定二级节点簇的划分与一级站位置后，两层管网的最优结构互不耦合，可以分开求解最小生成树：
+在给定二级节点簇的划分与一级站位置后，两层管网的最小生成树\supercite{ref1,ref2}结构互不耦合，可以分开求解：
 \begin{itemize}
-    \item \textbf{二级管网：}在每个簇内部求解最小生成树，即为II型管道铺设方案。
-    \item \textbf{一级管网：}提取中心站A与17个一级站，对这18个节点求解最小生成树，构成I型骨干网络。
+    \item \textbf{二级管网：}在每个簇内部求解最小生成树\supercite{ref1,ref2}，所得结果即为II型管道铺设方案。
+    \item \textbf{一级管网：}提取中心站A与17个一级站，对这18个节点求解最小生成树\supercite{ref2}，构成I型骨干网络。
 \end{itemize}
 
 \subsubsection{模拟退火局部搜索}
-为突破贪心算法聚类的局部最优局限，引入模拟退火算法。设计三类邻域算子：
+为突破贪心算法聚类的局部最优局限，引入模拟退火算法\supercite{ref3,ref5}。设计三类邻域算子：
 \begin{itemize}
     \item \textbf{算子A：}将边界二级供水站连接到相邻的节点簇，以此调整一级站连接的边界。
     \item \textbf{算子B：}在簇内重新选取一级站节点，改变I型管道接入点。
     \item \textbf{算子C：}改变宏观上的节点簇结构。
 \end{itemize}
 
-所有算子生成的邻域解须严格满足30公里硬约束，不可行解直接丢弃。接受准则采用Metropolis准则，用于确定是否接受新的解：$P = \exp(-\Delta C / T)$。经过5次多重搜索，最终收敛并输出近似最优解。
+所有算子生成的邻域解须严格满足30公里硬约束，不可行解直接丢弃。接受准则采用Metropolis准则\supercite{ref3}，用于确定是否接受新的解：$P = \exp(-\Delta C / T)$。经过5次多重搜索，最终收敛并输出近似最优解。
 
 \subsection{结果展示与验证分析}
 \subsubsection{最终方案汇总}
@@ -314,7 +315,7 @@ II型管道费用 & 17662.55 万元 & 占比 49.5\% \\
 \end{figure}
 
 \subsubsection{优化过程与成本结构}
-图\ref{fig:sa_convergence}展示了模拟退火的收敛过程。初始解总费用36677.54万元，经3次优化后收敛至35692.95万元，改善幅度2.68\%。图\ref{fig:cost_pie}的成本构成分析表明，I型与II型管道费用基本均衡（50.5\% vs 49.5\%），说明聚类划分在骨干成本与分支成本之间取得了良好平衡。
+图\ref{fig:sa_convergence}展示了模拟退火的收敛过程。初始解总费用36677.54万元，经3次优化后收敛至35692.95万元，改善幅度2.68\%。图\ref{fig:cost_pie}的成本构成分析表明，I型与II型管道费用基本均衡，说明聚类划分在骨干成本与分支成本之间取得了良好平衡。
 
 \begin{figure}[H]
 \centering
@@ -333,36 +334,31 @@ II型管道费用 & 17662.55 万元 & 占比 49.5\% \\
 \section{模型的评价与推广}
 \subsection{模型的优点}
 \begin{enumerate}[label=\arabic*.]
-  \item \textbf{分治策略有效简化了问题：}将NP-Hard组合优化问题分解为“约束聚类$\rightarrow$加权选址$\rightarrow$MST组网”的子问题，计算时间控制在分钟量级。
-  \item \textbf{严格满足30公里约束条件：}约束凝聚聚类直接在合并过程中嵌入最小生成树校验，保证每个簇都满足30公里硬约束，无需进行复杂的后处理。
-  \item \textbf{全局搜索能力强：}模拟退火结合多重启动策略，配合三类邻域算子，有效跳出局部最优，2.68\%的改善幅度证实了初始解仍存在优化空间。
-  \item \textbf{容量利用率极高：}最终方案的节点簇长度利用率普遍在90\%以上，说明聚类结果紧凑高效。
+  \item 将30公里容量硬约束直接嵌入聚类合并过程而非后置校验，从算法层面保证了簇划分的约束满足性，避免了反复修正的冗余计算。
+  \item 采用分治策略将NP-Hard组合优化逐层简化为可高效求解的子问题，计算时间控制在分钟量级。
+  \item 针对管网拓扑特点设计了三类定制化邻域算子，使模拟退火更贴合层次网络结构，有效跳出贪心初始解的局部最优。
+  \item 对最终方案逐簇校验，全部17个簇均严格满足30公里上限且利用率普遍超过90\%，验证了模型的可行性与紧凑性。
 \end{enumerate}
 
 \subsection{模型的缺点}
 \begin{enumerate}[label=\arabic*.]
-  \item 凝聚聚类的贪心策略可能遗漏全局最优的划分，尽管SA进行了弥补，但算子C的新解接受率较低，对宏观拓扑结构的优化能力有限。
+  \item 凝聚聚类的贪心策略可能遗漏全局最优的划分，尽管模拟退火进行了弥补，但簇分裂合并算子的新解接受率较低，对宏观拓扑结构的优化能力有限。
   \item 选址权重(0.6, 0.4)为启发式设定，未通过严格的分析进行自适应调整。
   \item 模型为理想化平面模型，未考虑地形起伏、管道转弯半径及水压沿程衰减等工程实际因素。
 \end{enumerate}
 
 \subsection{模型的推广}
-本文构建的“带组合约束的空间聚类、图论组网启发式优化”框架，不仅适用于本题的输水管网设计，还可广泛推广至其他基础设施规划领域。例如：
-\begin{itemize}
-    \item \textbf{新能源微电网规划：}将30公里管道约束替换为变压器容量或线损约束，用于风电或光伏节点的聚类与集电线路拓扑优化。
-    \item \textbf{城市物流配送网络：}将最小生成树长度替换为车辆路径总时长，用于多级仓储中心的选址与配送区域划分。
-    \item \textbf{通信光缆铺设：}引入不同带宽等级光缆的成本差异，进行多级通信骨干网与接入网的协同设计。
-\end{itemize}
+本文构建的带组合约束的空间聚类、图论组网启发式优化框架具有通用性，可用于新能源微电网的风电或光伏节点聚类与集电线路拓扑优化、城市多级仓储中心选址与配送区域划分，还可进行多级通信骨干网与接入网的协同设计。
 
 % ======================== 参考文献 ========================
 \newpage
 \begin{thebibliography}{99}
 \addcontentsline{toc}{section}{参考文献}
+\bibitem{ref4} 杨珺, 张敏, 陈新. 一类带服务半径的服务站截流选址-分配问题[J]. 系统工程理论与实践, 2006, 26(1): 117-122.
+\bibitem{ref5} 李想, 李苏剑, 李宏. 两级选址-路径问题的大规模邻域搜索模拟退火算法[J]. 工程科学学报, 2017, 39(6): 953-961.
+\bibitem{ref3} Kirkpatrick, S., Gelatt, C. D., Vecchi, M. P. Optimization by simulated annealing[J]. Science, 1983, 220(4598): 671-680.
 \bibitem{ref1} Kruskal, J. B. On the shortest spanning subtree of a graph and the traveling salesman problem[J]. Proceedings of the American Mathematical Society, 1956, 7(1): 48-50.
 \bibitem{ref2} Prim, R. C. Shortest connection networks and some generalizations[J]. The Bell System Technical Journal, 1957, 36(6): 1389-1401.
-\bibitem{ref3} Kirkpatrick, S., Gelatt, C. D., Vecchi, M. P. Optimization by simulated annealing[J]. Science, 1983, 220(4598): 671-680.
-\bibitem{ref4} 卓凡, 等. 基于改进遗传算法的带容量约束设施选址问题研究[J]. 系统工程理论与实践, 2021, 41(5): 1234-1245.
-\bibitem{ref5} 赵越, 等. 考虑多级拓扑结构的管网优化设计模型与算法[J]. 运筹与管理, 2022, 31(2): 88-95.
 \end{thebibliography}
 
 % ======================== 附录 ========================
@@ -380,16 +376,26 @@ II型管道费用 & 17662.55 万元 & 占比 49.5\% \\
 \begin{table}[H]
 \centering
 \zihao{5}
-\begin{tabular}{lll}
+\begin{tabular}{llp{7cm}}
 \toprule
 \textbf{文件名} & \textbf{类型} & \textbf{说明} \\
 \midrule
-results/结果总览.csv & CSV & 核心指标汇总数据 \\
-results/各簇详情.csv & CSV & 17个簇的完整信息与容量利用率 \\
-results/I型管道边.csv & CSV & 17条I型边的端点、长度、费用 \\
-results/II型管道边.csv & CSV & 163条II型边的端点、长度、费用 \\
-main.py & Python & 核心求解算法与模拟退火优化代码 \\
-visualization.py & Python & 论文所有配图的生成脚本 \\
+\multicolumn{3}{l}{\textit{代码文件（code/）}} \\
+code/main.py & Python & 主程序：串联五步求解流程，输出CSV结果与论文配图 \\
+code/data\_loader.py & Python & 第一步：加载181个节点坐标，计算距离矩阵与Delaunay三角剖分 \\
+code/clustering.py & Python & 第二步：基于30公里MST上限的约束凝聚聚类 \\
+code/station\_selection.py & Python & 第三步：加权评分一级站选址（$\alpha=0.6$, $\beta=0.4$） \\
+code/network\_design.py & Python & 第四步：I型与II型管网MST生成及总成本核算 \\
+code/optimization.py & Python & 第五步：模拟退火优化，含三类邻域算子与多重启动策略 \\
+code/utils.py & Python & 公共工具：Prim MST计算、欧氏距离矩阵生成 \\
+code/visualization.py & Python & 可视化：生成论文全部8张配图（PNG+PDF） \\
+\midrule
+\multicolumn{3}{l}{\textit{结果文件（results/）}} \\
+results/结果总览.csv & CSV & 核心指标汇总：一级站数量、管道总长、总费用、改善率 \\
+results/各簇详情.csv & CSV & 17个簇的完整信息：节点数、MST长度、容量利用率、节点列表 \\
+results/I型管道边.csv & CSV & 17条I型边的端点、长度、费用明细 \\
+results/II型管道边.csv & CSV & 163条II型边的簇编号、端点、长度、费用明细 \\
+results/收敛曲线.csv & CSV & 模拟退火迭代次数与对应总费用记录 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -405,31 +411,353 @@ visualization.py & Python & 论文所有配图的生成脚本 \\
 所有核心数学模型的设计、算法参数的调优、数据的计算验证及最终方案的决策均由参赛队员独立完成，AI未直接生成任何核心代码或最终结论数据。
 
 \section{相关核心代码}
-\begin{lstlisting}[language=Python, caption={约束凝聚聚类核心逻辑}]
-def constrained_agglomerative_clustering(nodes, dist_matrix, max_len=30.0):
-    clusters = [{i} for i in nodes]
+
+\begin{lstlisting}[language=Python, caption={main.py：主程序入口}]
+# -*- coding: utf-8 -*-
+"""B题 管道最优铺设问题 -- 主程序"""
+
+import sys, os, csv, numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_loader import preprocess
+from clustering import constrained_agglomerative_clustering
+from station_selection import select_primary_stations
+from network_design import build_network, C_I, C_II
+from optimization import simulated_annealing, Solution, evaluate_solution
+from visualization import generate_all_figures
+
+RESULTS_DIR = r'E:\MathModeling\模块二练习\results'
+
+def save_results_csv(solution, cluster_mst_lengths,
+                     convergence_curve, initial_cost):
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    with open(f'{RESULTS_DIR}/结果总览.csv', 'w',
+              newline='', encoding='utf-8-sig') as f:
+        writer = csv.writer(f)
+        writer.writerow(['指标', '数值', '单位'])
+        writer.writerow(['一级供水站数量',
+                         len(solution.primary_stations), '个'])
+        writer.writerow(['总费用',
+                         f'{solution.C_total/10000:.4f}', '万元'])
+        writer.writerow(['优化改善率',
+            f'{(initial_cost-solution.C_total)/initial_cost*100:.2f}',
+                         '%'])
+    # 各簇详情、管道边、收敛曲线同理保存
+
+def main():
+    coords, dist_matrix, delaunay_edges = preprocess()
+    clusters, cl_mst_len, cl_mst_edges = \
+        constrained_agglomerative_clustering(
+            nodes=list(range(1,181)), dist_matrix=dist_matrix,
+            max_mst_length=30.0)
+    primary_stations, S, T = select_primary_stations(
+        clusters=clusters, dist_matrix=dist_matrix, center_node=0)
+    E_I, E_II, L_I, L_II, C_total, cl_lengths = \
+        build_network(clusters, primary_stations, dist_matrix)
+    initial_cost = C_total
+    X0 = Solution(clusters, primary_stations, E_I, E_II,
+                  L_I, L_II, C_total)
+    X_best, convergence_curve = \
+        simulated_annealing(X0, dist_matrix, n_restarts=5)
+    save_results_csv(X_best, cl_mst_final,
+                     convergence_curve, initial_cost)
+    generate_all_figures(coords=coords, dist_matrix=dist_matrix,
+        clusters=X_best.clusters,
+        primary_stations=X_best.primary_stations, ...)
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={data\_loader.py：数据预处理}]
+# -*- coding: utf-8 -*-
+"""第一步：数据读取与距离矩阵计算"""
+import numpy as np
+from scipy.spatial import Delaunay
+from utils import compute_distance_matrix
+
+def load_coordinates():
+    """加载181个节点坐标，索引0为中心站A"""
+    coords = np.array([
+        [26, 31],  # 0: A
+        [5, 33], [8, 9], [10, 24], [13, 34], [17, 23],
+        [20, 10], [25, 47], [31, 18], [35, 42], [36, 25],
+        # ... 共181个节点坐标
+    ], dtype=np.float64)
+    return coords
+
+def build_delaunay_edges(coords):
+    """Delaunay三角剖分，提取候选边集"""
+    tri = Delaunay(coords)
+    edges = set()
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                a, b = simplex[i], simplex[j]
+                edges.add((min(a, b), max(a, b)))
+    return edges
+
+def preprocess():
+    coords = load_coordinates()
+    dist_matrix = compute_distance_matrix(coords)
+    delaunay_edges = build_delaunay_edges(coords)
+    return coords, dist_matrix, delaunay_edges
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={clustering.py：约束凝聚聚类}]
+# -*- coding: utf-8 -*-
+"""第二步：基于30公里MST上限的约束凝聚聚类"""
+import numpy as np
+from utils import compute_mst, compute_mst_length
+
+def constrained_agglomerative_clustering(
+        nodes, dist_matrix, max_mst_length=30.0):
+    clusters = [frozenset([n]) for n in nodes]
+    forbidden_pairs = set()
+    def single_link_distance(c1, c2):
+        min_d = float('inf')
+        for i in c1:
+            for j in c2:
+                if dist_matrix[i][j] < min_d:
+                    min_d = dist_matrix[i][j]
+        return min_d
     while True:
         best_pair, best_dist = None, float('inf')
-        # 寻找最近且合法的簇对
         for i in range(len(clusters)):
-            for j in range(i + 1, len(clusters)):
-                d = min(dist_matrix[u][v] for u in clusters[i] for v in clusters[j])
+            for j in range(i+1, len(clusters)):
+                if (i,j) in forbidden_pairs:
+                    continue
+                d = single_link_distance(clusters[i],
+                                         clusters[j])
                 if d < best_dist:
-                    best_dist, best_pair = d, (i, j)
-        if best_pair is None: break
-        
+                    best_dist, best_pair = d, (i,j)
+        if best_pair is None:
+            break
         i, j = best_pair
-        trial_cluster = clusters[i] | clusters[j]
-        mst_len, _ = compute_mst(trial_cluster, dist_matrix)
-        
-        if mst_len <= max_len:
-            clusters.pop(j)
-            clusters.pop(i)
-            clusters.append(trial_cluster)
+        merged = clusters[i] | clusters[j]
+        mst_len = compute_mst_length(merged, dist_matrix)
+        if mst_len <= max_mst_length:
+            new_clusters = [clusters[k]
+                for k in range(len(clusters))
+                if k != i and k != j]
+            new_clusters.append(merged)
+            clusters = new_clusters
+            forbidden_pairs = set()
         else:
-            # 标记不可合并，此处简化为直接打破或跳过
-            break 
-    return clusters
+            forbidden_pairs.add((i,j))
+    cluster_mst_lengths = []
+    cluster_mst_edges = []
+    for cluster in clusters:
+        length, edges = compute_mst(cluster, dist_matrix)
+        cluster_mst_lengths.append(length)
+        cluster_mst_edges.append(edges)
+    return clusters, cluster_mst_lengths, cluster_mst_edges
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={station\_selection.py：一级站选址}]
+# -*- coding: utf-8 -*-
+"""第三步：加权评分一级站选址"""
+import numpy as np
+
+def select_primary_stations(clusters, dist_matrix,
+                             center_node=0, alpha=0.6, beta=0.4):
+    centroids = [np.mean([dist_matrix[n][center_node]
+                          for n in cluster])
+                 for cluster in clusters]
+    sorted_indices = np.argsort(centroids)
+    primary_stations = [None] * len(clusters)
+    S_already = set()
+    for idx in sorted_indices:
+        cluster = clusters[idx]
+        best_node, best_score = None, float('inf')
+        for v in cluster:
+            f_int = sum(dist_matrix[v][u]
+                        for u in cluster if u != v)
+            f_ext = dist_matrix[v][center_node]
+            if S_already:
+                f_ext = min(f_ext,
+                    min(dist_matrix[v][s]
+                        for s in S_already))
+            score = alpha * f_int + beta * f_ext
+            if score < best_score:
+                best_score, best_node = score, v
+        primary_stations[idx] = best_node
+        S_already.add(best_node)
+    return primary_stations, set(primary_stations), \
+           set(range(1,181)) - set(primary_stations)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={network\_design.py：管网生成}]
+# -*- coding: utf-8 -*-
+"""第四步：管网生成与总成本核算"""
+import numpy as np
+from utils import compute_mst
+C_I = 1291000    # I型单价(元/公里)
+C_II = 445000    # II型单价(元/公里)
+
+def generate_secondary_network(clusters, dist_matrix):
+    E_II, L_II, cluster_lengths = [], 0.0, []
+    for cluster in clusters:
+        length, edges = compute_mst(cluster, dist_matrix)
+        E_II.append(edges)
+        L_II += length
+        cluster_lengths.append(length)
+    return E_II, L_II, cluster_lengths
+
+def generate_primary_network(primary_stations,
+                              dist_matrix, center_node=0):
+    nodes_I = set(primary_stations) | {center_node}
+    L_I, E_I = compute_mst(nodes_I, dist_matrix)
+    return E_I, L_I
+
+def build_network(clusters, primary_stations, dist_matrix):
+    E_II, L_II, cl_len = generate_secondary_network(
+        clusters, dist_matrix)
+    E_I, L_I = generate_primary_network(
+        primary_stations, dist_matrix)
+    C_total = C_I * L_I + C_II * L_II
+    return E_I, E_II, L_I, L_II, C_total, cl_len
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={optimization.py：模拟退火优化}]
+# -*- coding: utf-8 -*-
+"""第五步：模拟退火优化"""
+import numpy as np, copy, random
+from utils import compute_mst, compute_mst_length
+from network_design import (C_I, C_II,
+    generate_secondary_network, generate_primary_network,
+    calculate_total_cost)
+
+class Solution:
+    def __init__(self, clusters, primary_stations,
+                 E_I, E_II, L_I, L_II, C_total):
+        self.clusters = clusters
+        self.primary_stations = primary_stations
+        self.E_I, self.E_II = E_I, E_II
+        self.L_I, self.L_II = L_I, L_II
+        self.C_total = C_total
+
+def operator_node_reassign(solution, dist_matrix,
+                            max_mst=30.0):
+    """算子A：边界节点漂移"""
+    clusters = [set(c) for c in solution.clusters]
+    K = len(clusters)
+    all_sec = [(v,k) for k,c in enumerate(clusters)
+               for v in c if v != solution.primary_stations[k]]
+    v, src_k = random.choice(all_sec)
+    best_tgt = min((k for k in range(K) if k != src_k),
+        key=lambda k: min(dist_matrix[v][u]
+                          for u in clusters[k]))
+    clusters[src_k].remove(v)
+    clusters[best_tgt].add(v)
+    if compute_mst_length(clusters[best_tgt],
+                          dist_matrix) > max_mst:
+        return None
+    # 重新选一级站并评估
+
+def operator_primary_swap(solution, dist_matrix):
+    """算子B：一级站替换"""
+    k = random.randint(0, len(solution.clusters)-1)
+    candidates = [v for v in solution.clusters[k]
+                  if v != solution.primary_stations[k]]
+    new_ps = list(solution.primary_stations)
+    new_ps[k] = random.choice(candidates)
+    # 评估新解
+
+def operator_split_merge(solution, dist_matrix,
+                          max_mst=30.0):
+    """算子C：簇分裂与合并"""
+    # 50%合并 + 50%分裂，校验MST约束
+
+def simulated_annealing(X0, dist_matrix,
+                         n_restarts=5, seed_base=42):
+    """模拟退火主框架（含多次重启）"""
+    best_overall = X0
+    for restart in range(n_restarts):
+        random.seed(seed_base + restart)
+        np.random.seed(seed_base + restart)
+        X_current = X0.copy()
+        X_best = X0.copy()
+        # 自适应初始温度
+        T = -np.mean(pos_deltas) / np.log(0.8)
+        while T > 0.01:
+            for _ in range(100):
+                # 随机选算子生成邻域解
+                delta_C = X_n.C_total - X_current.C_total
+                if delta_C < 0 or random.random() < \
+                   np.exp(-delta_C / T):
+                    X_current = X_n
+                if X_current.C_total < X_best.C_total:
+                    X_best = X_current.copy()
+            T *= 0.995
+        if X_best.C_total < best_overall.C_total:
+            best_overall = X_best
+    return best_overall, best_convergence
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={utils.py：公共工具}]
+# -*- coding: utf-8 -*-
+"""公共工具模块：MST计算、距离矩阵"""
+import numpy as np
+from scipy.spatial.distance import cdist
+
+def compute_distance_matrix(coords):
+    return cdist(coords, coords, metric='euclidean')
+
+def compute_mst(node_subset, dist_matrix):
+    """Prim算法计算给定节点子集的MST"""
+    nodes = list(node_subset)
+    n = len(nodes)
+    if n <= 1: return 0.0, []
+    in_tree = {nodes[0]}
+    mst_edges, total_length = [], 0.0
+    while len(in_tree) < n:
+        min_dist = float('inf')
+        min_edge = None
+        for u in in_tree:
+            for v in nodes:
+                if v not in in_tree and \
+                   dist_matrix[u][v] < min_dist:
+                    min_dist = dist_matrix[u][v]
+                    min_edge = (u, v)
+        in_tree.add(min_edge[1])
+        mst_edges.append(min_edge)
+        total_length += min_dist
+    return total_length, mst_edges
+
+def compute_mst_length(node_subset, dist_matrix):
+    """仅计算MST总长度（用于聚类校验）"""
+    # 同上但不返回边列表
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={visualization.py：论文配图}]
+# -*- coding: utf-8 -*-
+"""可视化模块：生成论文8张配图"""
+import numpy as np, matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib.lines import Line2D
+from scipy.spatial import Delaunay, ConvexHull
+from utils import compute_mst
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+
+def plot_fig1(coords): ...
+def plot_fig2(coords, dist_matrix): ...
+def plot_fig3(coords, clusters, ...): ...
+def plot_fig4(coords, E_I, primary_stations, ...): ...
+def plot_fig5(coords, E_I, E_II, ...): ...
+def plot_fig6(cluster_mst_lengths): ...
+def plot_fig7(convergence_curve, initial_cost): ...
+def plot_fig8(L_I, L_II, C_total): ...
+
+def generate_all_figures(coords, dist_matrix,
+    clusters, primary_stations, cluster_mst_lengths,
+    cluster_mst_edges, E_I, E_II, L_I, L_II,
+    C_total, convergence_curve, initial_cost):
+    plot_fig1(coords); plot_fig2(coords, dist_matrix)
+    plot_fig3(coords, clusters, ...)
+    plot_fig4(coords, E_I, ...); plot_fig5(...)
+    plot_fig6(cluster_mst_lengths)
+    plot_fig7(convergence_curve, initial_cost)
+    plot_fig8(L_I, L_II, C_total)
 \end{lstlisting}
 
 \end{document}
