@@ -410,9 +410,54 @@ results/收敛曲线.csv & CSV & 模拟退火迭代次数与对应总费用记�
 
 所有核心数学模型的设计、算法参数的调优、数据的计算验证及最终方案的决策均由参赛队员独立完成，AI未直接生成任何核心代码或最终结论数据。
 
+\clearpage
 \section{相关核心代码}
 
-\begin{lstlisting}[language=Python, caption={main.py：主程序入口}]
+\begingroup
+\renewcommand{\lstlistingname}{代码}
+\renewcommand{\thelstlisting}{\Alph{section}.\arabic{lstlisting}}
+\setcounter{lstlisting}{0}
+\captionsetup[lstlisting]{
+    font=small,
+    labelfont=bf,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false,
+    margin=0pt,
+    skip=5pt
+}
+\lstset{
+    language=Python,
+    basicstyle=\scriptsize\ttfamily,
+    keywordstyle=\color{blue!65!black}\bfseries,
+    commentstyle=\color{green!40!black}\itshape,
+    stringstyle=\color{red!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray!75},
+    stepnumber=1,
+    numbersep=9pt,
+    frame=tb,
+    framerule=0.45pt,
+    rulecolor=\color{gray!55},
+    backgroundcolor=\color{gray!5},
+    framesep=5pt,
+    xleftmargin=2.6em,
+    xrightmargin=0pt,
+    framexleftmargin=2.1em,
+    framexrightmargin=0pt,
+    aboveskip=0.9em,
+    belowskip=1.2em,
+    tabsize=4,
+    showstringspaces=false,
+    keepspaces=true,
+    columns=flexible,
+    breaklines=true,
+    breakatwhitespace=false
+}
+
+\noindent\zihao{5}本附录给出模型求解过程中使用的核心程序。代码按“数据预处理—约束聚类—一级站选址—两级组网—模拟退火优化—结果可视化”的执行顺序编排；为控制篇幅，仅保留关键函数与主要调用关系。\par
+
+\begin{lstlisting}[caption={\texttt{main.py}：主程序入口与结果输出}]
 # -*- coding: utf-8 -*-
 """B题 管道最优铺设问题 -- 主程序"""
 
@@ -467,7 +512,7 @@ if __name__ == "__main__":
     main()
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={data\_loader.py：数据预处理}]
+\begin{lstlisting}[caption={\texttt{data\_loader.py}：坐标读取与空间数据预处理}]
 # -*- coding: utf-8 -*-
 """第一步：数据读取与距离矩阵计算"""
 import numpy as np
@@ -502,7 +547,7 @@ def preprocess():
     return coords, dist_matrix, delaunay_edges
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={clustering.py：约束凝聚聚类}]
+\begin{lstlisting}[caption={\texttt{clustering.py}：30公里约束凝聚聚类}]
 # -*- coding: utf-8 -*-
 """第二步：基于30公里MST上限的约束凝聚聚类"""
 import numpy as np
@@ -552,7 +597,7 @@ def constrained_agglomerative_clustering(
     return clusters, cluster_mst_lengths, cluster_mst_edges
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={station\_selection.py：一级站选址}]
+\begin{lstlisting}[caption={\texttt{station\_selection.py}：一级供水站选址}]
 # -*- coding: utf-8 -*-
 """第三步：加权评分一级站选址"""
 import numpy as np
@@ -585,7 +630,7 @@ def select_primary_stations(clusters, dist_matrix,
            set(range(1,181)) - set(primary_stations)
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={network\_design.py：管网生成}]
+\begin{lstlisting}[caption={\texttt{network\_design.py}：两级管网生成与成本核算}]
 # -*- coding: utf-8 -*-
 """第四步：管网生成与总成本核算"""
 import numpy as np
@@ -617,7 +662,7 @@ def build_network(clusters, primary_stations, dist_matrix):
     return E_I, E_II, L_I, L_II, C_total, cl_len
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={optimization.py：模拟退火优化}]
+\begin{lstlisting}[caption={\texttt{optimization.py}：模拟退火与邻域搜索}]
 # -*- coding: utf-8 -*-
 """第五步：模拟退火优化"""
 import numpy as np, copy, random
@@ -693,7 +738,7 @@ def simulated_annealing(X0, dist_matrix,
     return best_overall, best_convergence
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={utils.py：公共工具}]
+\begin{lstlisting}[caption={\texttt{utils.py}：距离矩阵与最小生成树工具}]
 # -*- coding: utf-8 -*-
 """公共工具模块：MST计算、距离矩阵"""
 import numpy as np
@@ -728,7 +773,7 @@ def compute_mst_length(node_subset, dist_matrix):
     # 同上但不返回边列表
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={visualization.py：论文配图}]
+\begin{lstlisting}[caption={\texttt{visualization.py}：论文图表生成}]
 # -*- coding: utf-8 -*-
 """可视化模块：生成论文8张配图"""
 import numpy as np, matplotlib.pyplot as plt
@@ -759,5 +804,7 @@ def generate_all_figures(coords, dist_matrix,
     plot_fig7(convergence_curve, initial_cost)
     plot_fig8(L_I, L_II, C_total)
 \end{lstlisting}
+
+\endgroup
 
 \end{document}
