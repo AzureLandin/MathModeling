@@ -18,9 +18,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ============ 路径配置 ============
-DIR_RESULTS = r'E:\MathModeling\模块三练习\results'
-DIR_FIGURES = r'E:\MathModeling\模块三练习\figures'
-FILE1 = r'E:\MathModeling\模块三练习\2026C附件\附件1：123家有信贷记录企业的相关数据.xlsx'
+DIR_RESULTS = r'D:\建模\MathModeling\模块三练习\results'
+DIR_FIGURES = r'D:\建模\MathModeling\模块三练习\figures'
+FILE1 = r'D:\建模\MathModeling\模块三练习\2026C附件\附件1：123家有信贷记录企业的相关数据.xlsx'
 
 # ============ 1. 读取特征 ============
 print("=" * 60)

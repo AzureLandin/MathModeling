@@ -15,9 +15,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ============ 路径配置 ============
-FILE1 = r'E:\MathModeling\模块三练习\2026C附件\附件1：123家有信贷记录企业的相关数据.xlsx'
-FILE2 = r'E:\MathModeling\模块三练习\2026C附件\附件2：302家无信贷记录企业的相关数据.xlsx'
-DIR_RESULTS = r'E:\MathModeling\模块三练习\results'
+FILE1 = r'D:\建模\MathModeling\模块三练习\2026C附件\附件1：123家有信贷记录企业的相关数据.xlsx'
+FILE2 = r'D:\建模\MathModeling\模块三练习\2026C附件\附件2：302家无信贷记录企业的相关数据.xlsx'
+DIR_RESULTS = r'D:\建模\MathModeling\模块三练习\results'
 
 cols_19 = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8',
            'x9', 'x10', 'x11', 'x12', 'x13', 'x14', 'x15', 'x16',

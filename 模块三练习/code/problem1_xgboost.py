@@ -19,8 +19,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ============ 路径配置 ============
-DIR_RESULTS = r'E:\MathModeling\模块三练习\results'
-DIR_FIGURES = r'E:\MathModeling\模块三练习\figures'
+DIR_RESULTS = r'D:\建模\MathModeling\模块三练习\results'
+DIR_FIGURES = r'D:\建模\MathModeling\模块三练习\figures'
 
 # ============ 1. 读取特征 ============
 print("=" * 60)
