@@ -180,14 +180,12 @@ for grade in ['A', 'B', 'C', 'D']:
                  color=color_map[grade], edgecolor='black', linewidth=0.5)
 axes[0].set_xlabel('TOPSIS综合得分')
 axes[0].set_ylabel('企业数')
-axes[0].set_title('123家企业TOPSIS得分分布(按银行评级)')
 axes[0].legend()
 
 axes[1].hist(df_302_out['TOPSIS得分'], bins=25, color='#9b59b6', alpha=0.7,
              edgecolor='black', linewidth=0.5)
 axes[1].set_xlabel('TOPSIS综合得分')
 axes[1].set_ylabel('企业数')
-axes[1].set_title('302家企业TOPSIS得分分布')
 plt.tight_layout()
 plt.savefig(f'{DIR_FIGURES}\\fig8_topsis_distribution.png', dpi=150, bbox_inches='tight')
 plt.close()
@@ -207,7 +205,6 @@ kde_all = gaussian_kde(C_123)
 ax.plot(x_grid, kde_all(x_grid), 'k--', linewidth=1.5, alpha=0.6, label='全部123家')
 ax.set_xlabel('TOPSIS综合得分')
 ax.set_ylabel('核密度')
-ax.set_title('123家企业TOPSIS得分核密度图')
 ax.legend()
 plt.tight_layout()
 plt.savefig(f'{DIR_FIGURES}\\fig9_topsis_kde.png', dpi=150, bbox_inches='tight')
@@ -219,7 +216,6 @@ fig, ax = plt.subplots(figsize=(7, 5))
 colors_w = ['#2ecc71' if f in POSITIVE_FEATURES else '#e74c3c' for f in FEATURE_COLS]
 bars = ax.barh(FEATURE_COLS, w, color=colors_w, edgecolor='black', linewidth=0.5)
 ax.set_xlabel('权重')
-ax.set_title('熵权法特征权重 (绿色=正向, 红色=负向)')
 ax.invert_yaxis()
 for bar, val in zip(bars, w):
     ax.text(bar.get_width() + 0.01, bar.get_y() + bar.get_height()/2,

@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-问题二 - K-Means标签划分 + 随机森林分类预测 (步骤一后半段 + 步骤二)
+问题二 - TOPSIS分位数标签划分 + 随机森林分类预测
 输入: results/topsis_scores.csv, results/features_123_raw.csv, results/features_302_raw.csv
 输出: results/rf_pred_302.csv, results/rf_feature_importance.csv
       figures/fig11-16
 
-标签划分: 两种方案对比
-  方案1(K-Means): 1维TOPSIS得分上K-Means(k=4) — 数据驱动断点
-  方案2(分位数): 按TOPSIS得分25/50/75分位数断点 — 均衡分组
+标签划分: 按123家TOPSIS得分的25%/50%/75%分位数生成A/B/C/D四档。
+该方案避免一维K-Means受长尾得分影响产生极不均衡的小簇。
 """
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 import numpy as np
 import pandas as pd
-from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_predict, StratifiedKFold
 from sklearn.metrics import (confusion_matrix, accuracy_score, cohen_kappa_score,
@@ -35,33 +33,8 @@ BANK_LABEL_MAP = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
 GRADE_COLORS = ['#2ecc71', '#3498db', '#f39c12', '#e74c3c']
 
 
-def kmeans_labels(scores_123, scores_302):
-    """方案1: K-Means (k=4) 在1维得分上"""
-    kmeans = KMeans(n_clusters=4, random_state=42, n_init='auto')
-    c123 = kmeans.fit_predict(scores_123.reshape(-1, 1))
-    c302 = kmeans.predict(scores_302.reshape(-1, 1))
-
-    centers = kmeans.cluster_centers_.ravel()
-    rank = np.argsort(np.argsort(-centers))
-    grade_map = {i: LABEL_MAP[r] for i, r in enumerate(rank)}
-
-    labels_123 = np.array([BANK_LABEL_MAP[grade_map[c]] for c in c123])
-    labels_302 = np.array([BANK_LABEL_MAP[grade_map[c]] for c in c302])
-
-    # 断点
-    bps = []
-    for g in ['A', 'B', 'C']:
-        gid = BANK_LABEL_MAP[g]
-        nid = gid + 1
-        mx = scores_123[labels_123 == gid].max() if (labels_123 == gid).any() else 0
-        mn = scores_123[labels_123 == nid].min() if (labels_123 == nid).any() else 1
-        bps.append((mx + mn) / 2)
-
-    return labels_123, labels_302, bps, centers, rank
-
-
 def quantile_labels(scores_123, scores_302):
-    """方案2: 基于123家TOPSIS得分的25%/50%/75%分位数作为断点"""
+    """基于123家TOPSIS得分的25%/50%/75%分位数作为断点。"""
     q25, q50, q75 = np.percentile(scores_123, [25, 50, 75])
 
     def assign(s):
@@ -143,82 +116,34 @@ df_scores = pd.read_csv(f'{DIR_RESULTS}\\topsis_scores.csv')
 
 X_123 = df_123[FEATURE_COLS].values
 X_302 = df_302[FEATURE_COLS].values
-C_123 = df_scores[df_scores['企业代号'].isin(df_123['企业代号'])]['TOPSIS得分'].values
-C_302 = df_scores[df_scores['企业代号'].isin(df_302['企业代号'])]['TOPSIS得分'].values
+C_123 = df_123[['企业代号']].merge(
+    df_scores[['企业代号', 'TOPSIS得分']], on='企业代号', how='left', validate='one_to_one'
+)['TOPSIS得分'].values
+C_302 = df_302[['企业代号']].merge(
+    df_scores[['企业代号', 'TOPSIS得分']], on='企业代号', how='left', validate='one_to_one'
+)['TOPSIS得分'].values
+if np.isnan(C_123).any() or np.isnan(C_302).any():
+    raise ValueError('TOPSIS得分与企业代号未完全匹配，请先运行 problem2_topsis.py。')
 bank_labels = df_123['信誉评级'].map(BANK_LABEL_MAP).values
 
 print(f"   123家TOPSIS得分: [{C_123.min():.3f}, {C_123.max():.3f}]")
 print(f"   302家TOPSIS得分: [{C_302.min():.3f}, {C_302.max():.3f}]")
 
-# ============ 2. 方案1: K-Means ============
+# ============ 2. 分位数标签 ============
 print("\n" + "=" * 60)
-print("2. 方案1: K-Means (k=4) 断点划分")
+print("2. 分位数断点 (25%/50%/75%)")
 print("=" * 60)
-l1_123, l1_302, bp1, centers, rank = kmeans_labels(C_123, C_302)
-ari1, nmi1, acc1, kap1 = evaluate_labels(l1_123, bank_labels, "K-Means")
-acc1_rf, kap1_rf, pred1_302, proba1_302, imp1 = train_and_evaluate_rf(
-    X_123, l1_123, X_302, "K-Means")
-
-# ============ 3. 方案2: 分位数 ============
-print("\n" + "=" * 60)
-print("3. 方案2: 分位数断点 (25%/50%/75%)")
-print("=" * 60)
-l2_123, l2_302, bp2 = quantile_labels(C_123, C_302)
-ari2, nmi2, acc2, kap2 = evaluate_labels(l2_123, bank_labels, "分位数")
-acc2_rf, kap2_rf, pred2_302, proba2_302, imp2 = train_and_evaluate_rf(
-    X_123, l2_123, X_302, "分位数")
-
-# ============ 4. 选择最优方案 ============
-print("\n" + "=" * 60)
-print("4. 方案比较与选择")
-print("=" * 60)
-
-print(f"\n   {'指标':<20} {'K-Means':>12} {'分位数':>12}")
-print(f"   {'-'*44}")
-print(f"   {'ARI(新标签vs银行)':<20} {ari1:>12.4f} {ari2:>12.4f}")
-print(f"   {'NMI(新标签vs银行)':<20} {nmi1:>12.4f} {nmi2:>12.4f}")
-print(f"   {'RF CV准确率':<20} {acc1_rf:>12.4f} {acc2_rf:>12.4f}")
-print(f"   {'RF CV Kappa':<20} {kap1_rf:>12.4f} {kap2_rf:>12.4f}")
-
-# 选择RF CV准确率更高的方案
-if acc2_rf >= acc1_rf:
-    use_method = '分位数'
-    final_labels_123 = l2_123
-    final_labels_302 = l2_302
-    final_bps = bp2
-    final_imp = imp2
-    final_acc = acc2_rf
-    final_kappa = kap2_rf
-    final_pred_302 = pred2_302
-    final_proba_302 = proba2_302
-    print(f"\n   → 选择方案2(分位数), RF CV准确率={final_acc:.4f}")
-else:
-    use_method = 'K-Means'
-    final_labels_123 = l1_123
-    final_labels_302 = l1_302
-    final_bps = bp1
-    final_imp = imp1
-    final_acc = acc1_rf
-    final_kappa = kap1_rf
-    final_pred_302 = pred2_302  # 仍然用分位数预测302
-    final_proba_302 = proba2_302
-    print(f"\n   → 选择方案1(K-Means), RF CV准确率={final_acc:.4f}")
-
-# 强制使用分位数方案(因为分布更合理)
+final_labels_123, final_labels_302, final_bps = quantile_labels(C_123, C_302)
+ari, nmi, label_acc, label_kappa = evaluate_labels(
+    final_labels_123, bank_labels, "分位数")
+final_acc, final_kappa, final_pred_302, final_proba_302, final_imp = train_and_evaluate_rf(
+    X_123, final_labels_123, X_302, "分位数")
 use_method = '分位数'
-final_labels_123 = l2_123
-final_labels_302 = l2_302
-final_bps = bp2
-final_imp = imp2
-final_acc = acc2_rf
-final_kappa = kap2_rf
-final_pred_302 = pred2_302
-final_proba_302 = proba2_302
-print(f"\n   → 最终选用: {use_method} (分布均衡, 符合信用评级惯例)")
+print("\n   采用分位数断点：避免长尾TOPSIS得分导致K-Means产生极小等级簇。")
 
-# ============ 5. 最终方案详细输出 ============
+# ============ 3. 最终方案详细输出 ============
 print("\n" + "=" * 60)
-print(f"5. 最终方案: {use_method} — 详细结果")
+print(f"3. 最终方案: {use_method} — 详细结果")
 print("=" * 60)
 
 print(f"\n   断点: A≥{final_bps[0]:.4f} > B≥{final_bps[1]:.4f} > C≥{final_bps[2]:.4f} > D")
@@ -271,8 +196,8 @@ df_val = pd.DataFrame({
 })
 df_val.to_csv(f'{DIR_RESULTS}\\topsis_label_comparison.csv', index=False, encoding='utf-8-sig')
 
-# ============ 6. 可视化 ============
-print("\n6. 生成可视化...")
+# ============ 4. 可视化 ============
+print("\n4. 生成可视化...")
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
@@ -289,11 +214,13 @@ for gid, gname in enumerate(LABEL_NAMES):
     mask = y_sorted == gid
     ax.scatter(np.arange(len(C_123))[mask], C_sorted[mask],
                c=GRADE_COLORS[gid], label=f'{gname}*', s=30, alpha=0.8)
-for bp in bp_vis:
-    ax.axhline(y=bp, color='gray', linestyle='--', linewidth=0.8, alpha=0.6)
+for label, bp, color in zip(['Q75', 'Q50', 'Q25'], bp_vis, GRADE_COLORS[:3]):
+    ax.axhline(y=bp, color=color, linestyle='--', linewidth=1.5, alpha=0.9)
+    ax.text(len(C_123) - 1, bp + 0.006, f'{label}={bp:.4f}',
+            color=color, ha='right', va='bottom', fontsize=9,
+            bbox={'facecolor': 'white', 'edgecolor': color, 'alpha': 0.85, 'pad': 2})
 ax.set_xlabel('企业排名(按TOPSIS得分升序)')
 ax.set_ylabel('TOPSIS综合得分')
-ax.set_title(f'TOPSIS得分 {use_method}划分结果')
 ax.legend()
 plt.tight_layout()
 plt.savefig(f'{DIR_FIGURES}\\fig11_topsis_clusters.png', dpi=150, bbox_inches='tight')
@@ -308,7 +235,6 @@ cm_final_df = pd.DataFrame(cm_final,
 fig, ax = plt.subplots(figsize=(6, 5))
 sns.heatmap(cm_final_df, annot=True, fmt='d', cmap='Purples', ax=ax,
             linewidths=0.5, cbar_kws={'label': '样本数'})
-ax.set_title(f'新标签 vs 银行标签 (ARI={ari2:.3f}, 吻合率={acc2:.2%})')
 ax.set_xlabel('TOPSIS新标签')
 ax.set_ylabel('银行原标签')
 plt.tight_layout()
@@ -330,7 +256,6 @@ cm_cv_df = pd.DataFrame(cm_cv,
 fig, ax = plt.subplots(figsize=(6, 5))
 sns.heatmap(cm_cv_df, annot=True, fmt='d', cmap='Blues', ax=ax,
             linewidths=0.5, cbar_kws={'label': '样本数'})
-ax.set_title(f'RF 5折CV混淆矩阵 ({use_method})\nAcc={final_acc:.2%}, Kappa={final_kappa:.3f}')
 ax.set_xlabel('预测评级')
 ax.set_ylabel('实际评级')
 plt.tight_layout()
@@ -343,7 +268,6 @@ fig, ax = plt.subplots(figsize=(8, 5))
 bars = ax.bar(LABEL_NAMES, cnt_302, color=GRADE_COLORS, edgecolor='black', linewidth=0.5)
 ax.set_xlabel('预测信用评级')
 ax.set_ylabel('企业数量')
-ax.set_title(f'302家无信贷记录企业预测评级分布 ({use_method})')
 for bar, val in zip(bars, cnt_302):
     pct = val/302*100
     ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 2,
@@ -358,9 +282,9 @@ fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 x_idx = np.arange(len(FEATURE_COLS))
 w_bar = 0.18
 
-for ax_i, (Xdata, labels, title) in enumerate([
-    (X_302, final_pred_302, '302家企业各等级特征画像'),
-    (X_123, y_vis, '123家企业新标签特征画像')
+for ax_i, (Xdata, labels) in enumerate([
+    (X_302, final_pred_302),
+    (X_123, y_vis)
 ]):
     ax = axes[ax_i]
     for idx, (name, color) in enumerate(zip(LABEL_NAMES, GRADE_COLORS)):
@@ -373,7 +297,6 @@ for ax_i, (Xdata, labels, title) in enumerate([
     ax.set_xticks(x_idx + 1.5 * w_bar)
     ax.set_xticklabels(FEATURE_COLS, fontsize=8)
     ax.set_ylabel('标准化特征均值')
-    ax.set_title(title)
     ax.legend()
     ax.axhline(y=0, color='black', linewidth=0.5)
 
@@ -387,7 +310,6 @@ fig, ax = plt.subplots(figsize=(7, 5))
 colors_imp = plt.cm.YlOrRd(np.linspace(0.3, 0.9, len(df_imp)))
 bars = ax.barh(df_imp['特征'], df_imp['重要性'], color=colors_imp, edgecolor='black', linewidth=0.5)
 ax.set_xlabel('特征重要性')
-ax.set_title(f'随机森林特征重要性排序 ({use_method})')
 ax.invert_yaxis()
 for bar, val in zip(bars, df_imp['重要性']):
     ax.text(bar.get_width() + 0.005, bar.get_y() + bar.get_height()/2,
@@ -397,13 +319,13 @@ plt.savefig(f'{DIR_FIGURES}\\fig16_rf_importance.png', dpi=150, bbox_inches='tig
 plt.close()
 print("   已保存 fig16_rf_importance.png")
 
-# ============ 7. 摘要 ============
+# ============ 5. 摘要 ============
 print("\n" + "=" * 60)
 print("问题二 建模完成！")
 print(f"\n--- 标签划分方案: {use_method} ---")
 print(f"  断点: {', '.join(f'{bp:.3f}' for bp in final_bps)}")
 print(f"  123家分布: A={(y_vis==0).sum()}, B={(y_vis==1).sum()}, C={(y_vis==2).sum()}, D={(y_vis==3).sum()}")
-print(f"  新标签 vs 银行: ARI={ari2:.3f}, NMI={nmi2:.3f}")
+print(f"  新标签 vs 银行: ARI={ari:.3f}, NMI={nmi:.3f}")
 
 print(f"\n--- 随机森林 ---")
 print(f"  5折CV: Acc={final_acc:.4f}, Kappa={final_kappa:.4f}")
