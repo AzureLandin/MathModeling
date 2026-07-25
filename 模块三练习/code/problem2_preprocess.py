@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-问题二 - 302家企业特征提取 + PCA投影 + 标准化
-关键: 使用问题一的标准化参数和PCA载荷矩阵进行投影, 保证因子空间一致
-输出: results/features_302_raw.csv (投影后未聚类标准化的8特征)
-      results/features_123_raw.csv (123家同口径特征, 用于事后验证)
+问题二 - 特征提取 + PCA投影 (修订版: 熵权TOPSIS + 随机森林方案)
+输出: results/features_123_raw.csv (8特征), results/features_302_raw.csv (8特征)
+      results/features_123_full.csv (23特征), results/features_302_full.csv (23特征)
 """
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
@@ -15,9 +14,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ============ 路径配置 ============
-FILE1 = r'D:\建模\MathModeling\模块三练习\2026C附件\附件1：123家有信贷记录企业的相关数据.xlsx'
-FILE2 = r'D:\建模\MathModeling\模块三练习\2026C附件\附件2：302家无信贷记录企业的相关数据.xlsx'
-DIR_RESULTS = r'D:\建模\MathModeling\模块三练习\results'
+FILE1 = r'E:\MathModeling\模块三练习\2026C附件\附件1：123家有信贷记录企业的相关数据.xlsx'
+FILE2 = r'E:\MathModeling\模块三练习\2026C附件\附件2：302家无信贷记录企业的相关数据.xlsx'
+DIR_RESULTS = r'E:\MathModeling\模块三练习\results'
 
 cols_19 = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8',
            'x9', 'x10', 'x11', 'x12', 'x13', 'x14', 'x15', 'x16',
@@ -27,7 +26,6 @@ EPSILON = 1.0
 
 def extract_invoice_features(df_in, df_out, enterprise_ids):
     """从进项/销项发票提取19个汇总变量 + 稳定度 + 增长率"""
-    # 进项侧
     dfi = df_in.copy()
     dfi['is_valid'] = (dfi['发票状态'] == '有效发票').astype(int)
     dfi['is_void'] = (dfi['发票状态'] == '作废发票').astype(int)
@@ -43,7 +41,6 @@ def extract_invoice_features(df_in, df_out, enterprise_ids):
     ).reset_index()
     g_in['x7'] = g_in['x7'].abs()
 
-    # 销项侧
     dfo = df_out.copy()
     dfo['is_valid'] = (dfo['发票状态'] == '有效发票').astype(int)
     dfo['is_void'] = (dfo['发票状态'] == '作废发票').astype(int)
@@ -64,13 +61,11 @@ def extract_invoice_features(df_in, df_out, enterprise_ids):
     df_feat = df_feat.merge(g_out, on='企业代号', how='left')
     df_feat = df_feat.fillna(0)
 
-    # 衍生变量
     df_feat['x17'] = df_feat['x16'] - df_feat['x8']
     total_inv = df_feat['x1'] + df_feat['x9']
     df_feat['x18'] = np.where(total_inv > 0, (df_feat['x3'] + df_feat['x11']) / total_inv, 0)
     df_feat['x19'] = np.where(total_inv > 0, (df_feat['x4'] + df_feat['x12']) / total_inv, 0)
 
-    # 稳定度
     F7, F8, F9 = [], [], []
     for eid in enterprise_ids:
         inp = df_in[df_in['企业代号'] == eid]
@@ -83,7 +78,6 @@ def extract_invoice_features(df_in, df_out, enterprise_ids):
     df_feat['F8'] = F8
     df_feat['F9'] = F9
 
-    # 平均营收增长率 (2017-2019)
     dfo_valid = df_out[df_out['发票状态'] == '有效发票'].copy()
     dfo_valid['开票日期'] = pd.to_datetime(dfo_valid['开票日期'])
     dfo_valid['年份'] = dfo_valid['开票日期'].dt.year
@@ -101,57 +95,44 @@ def extract_invoice_features(df_in, df_out, enterprise_ids):
     return df_feat
 
 
-# ============ 1. 读取问题一参数 ============
+def process_dataset(df_feat, scaler_dict, loadings_matrix, n_factors):
+    """Winsorize → 保存23维 → Z-score → PCA投影 → 返回8维"""
+    for col in cols_19 + ['F10']:
+        arr = winsorize(df_feat[col].values, limits=[0.01, 0.01])
+        df_feat[col] = np.array(arr)
+    df_feat['F10'] = np.clip(df_feat['F10'].values, -1.0, 5.0)
+
+    # 23维: Winsorized原始变量 + 稳定度 + 增长率 (方案B, 树模型用)
+    cols_23 = cols_19 + ['F7', 'F8', 'F9', 'F10']
+    df_full = df_feat[cols_23].copy()
+
+    # Z-score(问题一参数) + PCA投影
+    for col in cols_19:
+        mu, sigma = scaler_dict[col]
+        df_feat[col] = (df_feat[col] - mu) / sigma if sigma > 0 else 0
+    X = df_feat[cols_19].values
+    scores = X @ loadings_matrix
+    for i in range(n_factors):
+        df_feat[f'F{i+1}'] = scores[:, i]
+
+    pca_cols = [f'F{i+1}' for i in range(n_factors)]
+    feature_8 = pca_cols + ['F7', 'F8', 'F9', 'F10']
+    df_8 = df_feat[feature_8].copy()
+    return df_8, df_full
+
+
+# ============ 主流程 ============
 print("=" * 60)
-print("1. 读取问题一的标准化参数和PCA载荷矩阵...")
+print("1. 读取问题一参数...")
 df_scaler = pd.read_csv(f'{DIR_RESULTS}\\pca_scaler_params.csv')
 scaler_dict = dict(zip(df_scaler['变量'], zip(df_scaler['均值'], df_scaler['标准差'])))
 df_loadings = pd.read_csv(f'{DIR_RESULTS}\\pca_loadings.csv', index_col=0)
 loadings_matrix = df_loadings.values
 n_factors = loadings_matrix.shape[1]
-print(f"   PCA因子数: {n_factors}, 载荷矩阵形状: {loadings_matrix.shape}")
+print(f"   PCA因子数: {n_factors}")
 
-# ============ 2. 处理302家企业 ============
-print("\n2. 读取附件2 (302家企业)...")
-df_info2 = pd.read_excel(FILE2, sheet_name='企业信息')
-df_in2 = pd.read_excel(FILE2, sheet_name='进项发票信息')
-df_out2 = pd.read_excel(FILE2, sheet_name='销项发票信息')
-ids_302 = df_info2['企业代号'].tolist()
-print(f"   企业: {len(ids_302)} 家, 进项: {len(df_in2)} 条, 销项: {len(df_out2)} 条")
-
-print("\n3. 提取302家特征...")
-df_302 = extract_invoice_features(df_in2, df_out2, ids_302)
-print(f"   x4非零企业: {(df_302['x4']>0).sum()}, x12非零企业: {(df_302['x12']>0).sum()}")
-
-# ============ 4. Winsorize + 用问题一参数Z-score + PCA投影 ============
-print("\n4. Winsorize + 问题一参数标准化 + PCA投影...")
-for col in cols_19 + ['F10']:
-    arr = winsorize(df_302[col].values, limits=[0.01, 0.01])
-    df_302[col] = np.array(arr)
-df_302['F10'] = np.clip(df_302['F10'].values, -1.0, 5.0)
-
-# 用问题一的均值/标准差标准化19变量
-for col in cols_19:
-    mu, sigma = scaler_dict[col]
-    df_302[col] = (df_302[col] - mu) / sigma if sigma > 0 else 0
-
-# PCA投影: 因子得分 = X_std @ L
-X_302 = df_302[cols_19].values
-scores_302 = X_302 @ loadings_matrix
-for i in range(n_factors):
-    df_302[f'F{i+1}'] = scores_302[:, i]
-
-pca_cols = [f'F{i+1}' for i in range(n_factors)]
-feature_cols = pca_cols + ['F7', 'F8', 'F9', 'F10']
-print(f"   8个特征: {feature_cols}")
-
-# 保存投影后的原始特征(未做聚类标准化)
-df_302_out = df_302[['企业代号'] + feature_cols].copy()
-df_302_out.to_csv(f'{DIR_RESULTS}\\features_302_raw.csv', index=False, encoding='utf-8-sig')
-print("   已保存 features_302_raw.csv")
-
-# ============ 5. 同样处理123家(用于事后验证映射) ============
-print("\n5. 提取123家同口径特征(用于验证映射)...")
+# --- 123家 ---
+print("\n2. 处理123家企业...")
 df_info1 = pd.read_excel(FILE1, sheet_name='企业信息')
 df_in1 = pd.read_excel(FILE1, sheet_name='进项发票信息')
 df_out1 = pd.read_excel(FILE1, sheet_name='销项发票信息')
@@ -159,24 +140,36 @@ ids_123 = df_info1['企业代号'].tolist()
 
 df_123 = extract_invoice_features(df_in1, df_out1, ids_123)
 df_123['信誉评级'] = df_info1.set_index('企业代号').loc[ids_123, '信誉评级'].values
+df_123_8, df_123_full = process_dataset(df_123, scaler_dict, loadings_matrix, n_factors)
 
-for col in cols_19 + ['F10']:
-    arr = winsorize(df_123[col].values, limits=[0.01, 0.01])
-    df_123[col] = np.array(arr)
-df_123['F10'] = np.clip(df_123['F10'].values, -1.0, 5.0)
-for col in cols_19:
-    mu, sigma = scaler_dict[col]
-    df_123[col] = (df_123[col] - mu) / sigma if sigma > 0 else 0
-X_123 = df_123[cols_19].values
-scores_123 = X_123 @ loadings_matrix
-for i in range(n_factors):
-    df_123[f'F{i+1}'] = scores_123[:, i]
+out_123 = pd.concat([df_123[['企业代号', '信誉评级']].reset_index(drop=True),
+                     df_123_8.reset_index(drop=True)], axis=1)
+out_123.to_csv(f'{DIR_RESULTS}\\features_123_raw.csv', index=False, encoding='utf-8-sig')
 
-df_123_out = df_123[['企业代号', '信誉评级'] + feature_cols].copy()
-df_123_out.to_csv(f'{DIR_RESULTS}\\features_123_raw.csv', index=False, encoding='utf-8-sig')
-print("   已保存 features_123_raw.csv")
+out_123_full = pd.concat([df_123[['企业代号', '信誉评级']].reset_index(drop=True),
+                          df_123_full.reset_index(drop=True)], axis=1)
+out_123_full.to_csv(f'{DIR_RESULTS}\\features_123_full.csv', index=False, encoding='utf-8-sig')
+print("   已保存 features_123_raw.csv (8维), features_123_full.csv (23维)")
+
+# --- 302家 ---
+print("\n3. 处理302家企业...")
+df_info2 = pd.read_excel(FILE2, sheet_name='企业信息')
+df_in2 = pd.read_excel(FILE2, sheet_name='进项发票信息')
+df_out2 = pd.read_excel(FILE2, sheet_name='销项发票信息')
+ids_302 = df_info2['企业代号'].tolist()
+print(f"   企业: {len(ids_302)} 家, 进项: {len(df_in2)} 条, 销项: {len(df_out2)} 条")
+
+df_302 = extract_invoice_features(df_in2, df_out2, ids_302)
+df_302_8, df_302_full = process_dataset(df_302, scaler_dict, loadings_matrix, n_factors)
+
+out_302 = pd.concat([df_302[['企业代号']].reset_index(drop=True),
+                     df_302_8.reset_index(drop=True)], axis=1)
+out_302.to_csv(f'{DIR_RESULTS}\\features_302_raw.csv', index=False, encoding='utf-8-sig')
+
+out_302_full = pd.concat([df_302[['企业代号']].reset_index(drop=True),
+                          df_302_full.reset_index(drop=True)], axis=1)
+out_302_full.to_csv(f'{DIR_RESULTS}\\features_302_full.csv', index=False, encoding='utf-8-sig')
+print("   已保存 features_302_raw.csv (8维), features_302_full.csv (23维)")
 
 print("\n" + "=" * 60)
 print("问题二预处理完成！")
-print(f"302家特征均值概览:")
-print(df_302_out[feature_cols].mean().round(3).to_string())
