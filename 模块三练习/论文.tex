@@ -16,6 +16,7 @@
 \usepackage{multirow}
 \usepackage{longtable}
 \usepackage{xcolor}
+\usepackage[super]{cite}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -176,12 +177,12 @@ $C_i$ & 加权K-Means聚类所得企业标签 & 等级 \\
 
 原始数据中的发票状态仅包含有效与作废两类，不存在独立的负数发票状态标识。本文通过判断有效发票中价税合计小于零的条目识别负数发票，将全部进项与销项发票按状态分类汇总，提取19个基础变量：进项侧8个即发票数量$x_1$、有效数量$x_2$、作废数量$x_3$、负数数量$x_4$、有效金额$x_5$、有效税额$x_6$、无效额$x_7$、有效价税总和$x_8$；销项侧8个对称变量$x_9 \sim x_{16}$；衍生比率3个即有效收入$x_{17}=x_{16}-x_8$、作废发票率$x_{18}$、负数发票率$x_{19}$。
 
-原始数据存在极端值干扰和量纲差异，本文对所有连续变量执行1\%与99\%分位数的Winsorize缩尾处理，再对参与PCA的19个基础变量进行Z-score标准化：
+原始数据存在极端值干扰和量纲差异，本文对所有连续变量执行1\%与99\%分位数的Winsorize缩尾处理。为使各变量具有可比性并满足 PCA 对数据标准化的要求，再对参与PCA的19个基础变量进行Z-score标准化：
 \begin{equation}
 z_i = \frac{x_i - \bar{x}}{s}
 \label{eq:zscore}
 \end{equation}
-其中$\bar{x}$为样本均值，$s$为样本标准差。标准化后各变量均值为0、标准差为1，消除了量纲差异对PCA的影响。
+其中$\bar{x}$为样本均值，$s$为样本标准差。经标准化处理后，各变量均值为0、标准差为1，消除了量纲差异对 PCA 载荷矩阵计算的干扰，确保各变量在降维过程中具有同等权重。
 
 \subsubsection{创新特征构造}
 
@@ -546,18 +547,16 @@ problem2\_random\_forest.py   & 问题二随机森林对比代码 \\
 
 \section{相关代码}
 
-\lstinputlisting[language=Python, caption={问题一数据清洗与特征提取代码}]{code/problem1_preprocess.py}
+\lstinputlisting[language=Python, caption={问题一数据清洗与特征提取代码}, firstline=1, lastline=248]{code/problem1_preprocess.py}
+\newpage
+\lstinputlisting[language=Python, caption={问题一多元逻辑回归求解代码}, firstline=1, lastline=214]{code/problem1_logit.py}
 
-\lstinputlisting[language=Python, caption={问题一多元逻辑回归求解代码}]{code/problem1_logit.py}
+\lstinputlisting[language=Python, caption={问题一XGBoost辅助验证代码}, firstline=1, lastline=87]{code/problem1_xgboost.py}
 
-\lstinputlisting[language=Python, caption={问题一XGBoost辅助验证代码}]{code/problem1_xgboost.py}
+\lstinputlisting[language=Python, caption={问题二熵权法与加权聚类代码}, firstline=1, lastline=146]{code/problem2_entropy_cluster.py}
 
-\lstinputlisting[language=Python, caption={问题二数据预处理代码}]{code/problem2_preprocess.py}
+\lstinputlisting[language=Python, caption={问题二有监督分类与预测代码}, firstline=1, lastline=157]{code/problem2_classifier.py}
 
-\lstinputlisting[language=Python, caption={问题二熵权法与加权聚类代码}]{code/problem2_entropy_cluster.py}
-
-\lstinputlisting[language=Python, caption={问题二有监督分类与预测代码}]{code/problem2_classifier.py}
-
-\lstinputlisting[language=Python, caption={问题二随机森林对比代码}]{code/problem2_random_forest.py}
+\lstinputlisting[language=Python, caption={问题二随机森林对比代码}, firstline=1, lastline=198]{code/problem2_random_forest.py}
 
 \end{document}
