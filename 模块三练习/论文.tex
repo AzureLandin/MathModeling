@@ -83,7 +83,7 @@
 
 % ======================== 自定义命令 ========================
 \newenvironment{symboltable}
-  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
+  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} >{\centering\arraybackslash}p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
   \toprule
   \textbf{符号} & \textbf{含义} & \textbf{单位} \\
   \midrule}
@@ -124,21 +124,21 @@
 
 \subsection{问题背景}
 
-小微企业在国民经济中发挥着重要作用，但受制于资产规模较小且缺乏足额抵押物，金融机构在提供信贷支持时面临较高的信息不对称风险。为了有效管控信贷风险，银行通常需要对借款企业进行严格的信用等级划分。在实际业务场景中，企业的进销项发票等交易票据信息能够客观映射其真实的经营活跃度、资金流转规模以及潜在的交易违约风险，因而成为银行内部人员进行信用评定的核心数据支撑。然而，完全依赖人工经验或主观判断的评级过程不可避免地会引入认知偏差，导致最终的分类结果可能无法精准反映企业的真实信用资质。因此，如何充分挖掘海量票据数据背后的深层经营特征，利用量化模型对现有评级体系的科学性进行检验，并为缺乏信贷历史的新客户建立客观的分类标准，成为当前小微企业信贷风控领域亟待解决的关键问题。
+小微企业在国民经济中发挥着重要作用，但受制于资产规模较小且缺乏足额抵押物，金融机构在提供信贷支持时面临较高的信息不对称风险\cite{ref2}。为了有效管控信贷风险，银行通常需要对借款企业进行严格的信用等级划分。在实际业务场景中，企业的进销项发票等交易票据信息能够客观映射其真实的经营活跃度、资金流转规模以及潜在的交易违约风险，因而成为银行内部人员进行信用评定的核心数据支撑。然而，完全依赖人工经验或主观判断的评级过程不可避免地会引入认知偏差，导致最终的分类结果可能无法精准反映企业的真实信用资质。因此，如何充分挖掘海量票据数据背后的深层经营特征，利用量化模型对现有评级体系的科学性进行检验，并为缺乏信贷历史的新客户建立客观的分类标准，成为当前小微企业信贷风控领域亟待解决的关键问题。
 \subsection{问题提出}
 
-题目提供了123家有信贷记录企业的票据数据和302家无信贷记录企业的票据数据，要求解决以下两个问题：
+附件1与附件2分别提供了123家有信贷记录企业及302家无信贷记录企业的进销项发票流水数据，涵盖了交易频次、资金规模及票据状态等关键经营信息。为帮助银行优化小微企业信贷风险控制体系并提升评级科学性，现需结合实际情况与附件所给信息建立数学模型，分析以下问题：
 
-\textbf{问题一：}需要依托有信贷记录企业的多维票据信息构建数学模型，深入剖析交易规模、活跃度及供应链特征与既有信用评级之间的映射关系，从而定量评估银行现有分类结果的准确性与合理性。
+\textbf{问题一：}需要依托有信贷记录企业的多维票据信息构建数学模型，分析交易规模、活跃度及供应链特征与既有信用评级之间的对应关系，从而确定123 家企业的信用等级的分类结果是否准确。
 
-\textbf{问题二：}需要在厘清原有评级体系偏差程度的前提下，若证实原有标准存在主观错配，则必须摒弃原有标签，完全依靠数据驱动的客观准则重新构建信用评价维度，并将这一全新的分类逻辑泛化应用至无信贷记录的企业群体中，最终为金融机构的信贷审批提供具备高置信度的量化决策依据。
+\textbf{问题二：}基于问题一对银行评级准确性的验证结论，需对附件2中302家无信贷记录企业进行信用评级。若原评级体系被证实准确，则沿用现有标准进行分类；若原评级存在显著偏差，则需摒弃主观标签，依据交易票据数据构建客观分类准则，并将该准则迁移应用于无信贷记录企业群体，最终为金融机构信贷审批提供高置信度的量化决策依据。
 
 \section{问题分析}
 
+
 \subsection{问题一的分析}
 
-问题一的核心是验证银行现有信用评级的准确性。将银行评级作为基准标签，基于企业交易数据构造客观特征并建立分类模型，通过模型预测结果与原标签的一致性来评判评级质量。解题路线为：从原始发票流水中提取企业级汇总变量，进行异常值处理与标准化；考虑变量间存在多重共线性，采用主成分分析法降维，并独立构造供应链稳定度与平均营收增长率作为补充特征；构建多元逻辑回归模型进行主分类，引入极端梯度提升树进行辅助验证与特征重要性评估；最后通过混淆矩阵与一致性系数评价分类性能，并开展时效性稳健性检验以探究数据周期对评估结果的影响。
-
+问题一的核心难点在于如何将银行主观评级转化为可量化的客观验证过程。这要求我们不仅要构建能够准确反映企业真实经营状况的评价维度，还要建立具有统计显著性的分类模型来评估评级质量。特征工程的挑战在于原始发票数据存在多重共线性且量纲差异显著，直接入模会导致系数失真。为此，我们从原始流水中提取19个基础变量，并创新性地构造供应链稳定度与平均营收增长率作为复合指标，既保留了数据的经济学意义又避免了PCA降维对复合指标的干扰。在构建评级验证模型时，本文采用多元Logit回归模型进行多分类拟合，同时引入XGBoost模型开展5折分层交叉验证。最终，我们通过混淆矩阵揭示B/C中间等级的严重错配现象，利用Cohen's Kappa系数排除随机一致的影响，并通过时效性稳健性检验证实银行评级必须依赖长周期数据，从而全面证实了银行原始评级在极端信用水平判断上基本准确，但在中间等级存在显著错配。
 \subsection{问题二的分析}
 
 问题二需要在问题一证实银行评级存在偏差的前提下，建立独立于主观判断的客观分类标准并对无信贷记录企业进行预测。整体思路分三个阶段：先用熵权法对核心特征客观赋权，反映各维度对信用区分的信息贡献；再在多维特征空间中执行加权聚类重构标签，避免一维投影带来的信息损失与标签偏斜，生成具有清晰经济含义的新评级体系；最后以重构标签为目标训练有监督分类器，将聚类规则泛化至302家新企业，输出高置信度的预测结果。
@@ -255,7 +255,7 @@ P(y=j \mid \mathbf{x}) = \frac{e^{G_j}}{\sum_{m \in \{A,B,C,D\}}e^{G_m}}
 \end{equation}
 分类规则取预测概率最大的类别：$\hat{y} = \arg\max_{j} P(y=j \mid \mathbf{x})$。
 
-同时引入XGBoost作为辅助验证模型，采用5折分层交叉验证：其一，准确率可作为特征体系分类上限的参照；其二，特征重要性排序可佐证各因子的相对贡献。
+同时引入XGBoost作为辅助验证模型\cite{ref3}，采用5折分层交叉验证：其一，准确率可作为特征体系分类上限的参照；其二，特征重要性排序可佐证各因子的相对贡献。
 
 \subsubsection{模型求解}
 
@@ -500,15 +500,18 @@ XGBoost-B & 23维原始 & 89.4\% & 0.844 \\
 该模型框架可推广至供应链金融风控与税务信用评价体系中。通过接入更多维度的外部数据源，并结合深度学习技术捕捉更复杂的时序演化规律，能够构建动态化的企业信用监测平台。
 
 
-\newpage
 \begin{thebibliography}{99}
 \addcontentsline{toc}{section}{参考文献}
 
-\bibitem{ref1} 赵星然, 等. 基于小微企业发票数据的信用风险评价模型研究[J]. 统计与决策, 2022, 第38卷第12期.
+\bibitem{ref2} 李超杰. 基于机器学习的小微企业信贷供给智能决策系统研究——以"银税互动"政策的共享纳税数据为例[J]. 河海大学学报(哲学社会科学版), 2022, 24(4): 66-74.
 
-\bibitem{ref2} 姜明辉. 商业银行信用风险评估模型与实证分析[M]. 科学出版社, 2018.
+\bibitem{ref1} 赵星然, 等. 基于小微企业发票数据的信用风险评价模型研究[J]. 统计与决策, 2022, 38(12).
 
 \bibitem{ref3} Breiman L. Random Forests[J]. Machine Learning, 2001, 45(1): 5-32.
+
+\bibitem{ref4} DeepSeek. DeepSeek V4 Pro 大语言模型[CP/OL]. 2025.
+
+\bibitem{ref5} Alibaba Cloud. 通义千问(Qwen) 3.7 Max 大语言模型[CP/OL]. 2025.
 
 \end{thebibliography}
 
@@ -529,12 +532,16 @@ XGBoost-B & 23维原始 & 89.4\% & 0.844 \\
 \zihao{5}
 \begin{tabular}{lll}
 \toprule
-文件名 & 类型 & 说明 \\
+文件名 &  说明 \\
 \midrule
-problem1\_preprocess.py & Python & 问题一数据清洗与特征提取代码 \\
-problem1\_logit.py & Python & 问题一多元逻辑回归求解代码 \\
-problem2\_entropy\_cluster.py & Python & 问题二熵权法与加权聚类代码 \\
-problem2\_classifier.py & Python & 问题二有监督分类与预测代码 \\
+problem1\_preprocess.py   & 问题一数据清洗与特征提取代码 \\
+problem1\_logit.py   & 问题一多元逻辑回归求解代码 \\
+problem1\_xgboost.py   & 问题一XGBoost辅助验证代码 \\
+problem2\_preprocess.py   & 问题二数据预处理代码 \\
+problem2\_entropy\_cluster.py   & 问题二熵权法与加权聚类代码 \\
+problem2\_classifier.py   & 问题二有监督分类与预测代码 \\
+problem2\_extra\_plots.py   & 问题二附加可视化代码 \\
+problem2\_random\_forest.py   & 问题二随机森林对比代码 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -542,28 +549,20 @@ problem2\_classifier.py & Python & 问题二有监督分类与预测代码 \\
 
 \section{相关代码}
 
-\begin{lstlisting}[language=Python, caption={核心特征工程与熵权法计算代码片段}]
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import MinMaxScaler
+\lstinputlisting[language=Python, caption={问题一数据清洗与特征提取代码}]{code/problem1_preprocess.py}
 
-def calculate_entropy_weights(data, directions):
-    scaler = MinMaxScaler()
-    normalized_data = scaler.fit_transform(data)
-    
-    for i, direction in enumerate(directions):
-        if direction == 'negative':
-            normalized_data[:, i] = 1 - normalized_data[:, i]
-            
-    p = normalized_data / normalized_data.sum(axis=0)
-    p = np.where(p == 0, 1e-12, p)
-    
-    n = data.shape[0]
-    e = - (1 / np.log(n)) * np.sum(p * np.log(p), axis=0)
-    d = 1 - e
-    w = d / d.sum()
-    
-    return w
-\end{lstlisting}
+\lstinputlisting[language=Python, caption={问题一多元逻辑回归求解代码}]{code/problem1_logit.py}
+
+\lstinputlisting[language=Python, caption={问题一XGBoost辅助验证代码}]{code/problem1_xgboost.py}
+
+\lstinputlisting[language=Python, caption={问题二数据预处理代码}]{code/problem2_preprocess.py}
+
+\lstinputlisting[language=Python, caption={问题二熵权法与加权聚类代码}]{code/problem2_entropy_cluster.py}
+
+\lstinputlisting[language=Python, caption={问题二有监督分类与预测代码}]{code/problem2_classifier.py}
+
+\lstinputlisting[language=Python, caption={问题二附加可视化代码}]{code/problem2_extra_plots.py}
+
+\lstinputlisting[language=Python, caption={问题二随机森林对比代码}]{code/problem2_random_forest.py}
 
 \end{document}
