@@ -237,28 +237,18 @@ def compute_weekly_metrics(S_true, S_pred, u, capacity=28200):
 
 
 def plot_scatter(y_true_D, y_pred_D, y_true_E, y_pred_E, save_path):
-    """绘制预测值vs真实值散点图"""
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+    """绘制预测值vs真实值散点图（仅ARIMA）"""
+    fig, ax = plt.subplots(figsize=(8, 8))
     
-    # 方案D
-    ax1.scatter(y_true_D, y_pred_D, alpha=0.3, s=10, color='steelblue')
-    max_val = max(y_true_D.max(), y_pred_D.max())
-    ax1.plot([0, max_val], [0, max_val], 'r--', linewidth=2)
-    ax1.set_xlabel('真实供货量 (m³)', fontsize=12)
-    ax1.set_ylabel('预测供货量 (m³)', fontsize=12)
-    ax1.set_title('方案D（池化OLS）', fontsize=13)
-    ax1.grid(True, alpha=0.3)
-    
-    # 方案E
-    ax2.scatter(y_true_E, y_pred_E, alpha=0.3, s=10, color='coral')
+    ax.scatter(y_true_E, y_pred_E, alpha=0.4, s=15, color='steelblue')
     max_val = max(y_true_E.max(), y_pred_E.max())
-    ax2.plot([0, max_val], [0, max_val], 'r--', linewidth=2)
-    ax2.set_xlabel('真实供货量 (m³)', fontsize=12)
-    ax2.set_ylabel('预测供货量 (m³)', fontsize=12)
-    ax2.set_title('方案E（偏差ARIMA）', fontsize=13)
-    ax2.grid(True, alpha=0.3)
+    ax.plot([0, max_val], [0, max_val], 'r--', linewidth=2, label='完美预测线')
+    ax.set_xlabel('真实供货量 (m$^3$)', fontsize=14)
+    ax.set_ylabel('预测供货量 (m$^3$)', fontsize=14)
+    ax.set_title('回测期预测值 vs 真实值（偏差ARIMA）', fontsize=18, fontweight='bold')
+    ax.legend(fontsize=12)
+    ax.grid(True, alpha=0.3)
     
-    plt.suptitle('测试期预测值 vs 真实值', fontsize=14, y=1.02)
     plt.tight_layout()
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.close()
@@ -275,7 +265,7 @@ def plot_weekly_comparison(weeks, T_true, T_D, T_E, save_path, capacity=28200):
     ax.axhline(y=capacity, color='red', linestyle=':', linewidth=1.5, alpha=0.7, label='产能要求')
     
     ax.set_xlabel('周次', fontsize=12)
-    ax.set_ylabel('总供货量 (产品体积 m³)', fontsize=12)
+    ax.set_ylabel('总供货量 (产品体积 m$^3$)', fontsize=12)
     ax.set_title('测试期24周：真实总量 vs 预测总量', fontsize=14)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)

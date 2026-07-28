@@ -11,7 +11,6 @@ from critic_weight import critic_weight
 from topsis import topsis
 from problem1_visualization import plot_weight_bar_critic, plot_score_distribution
 
-# 路径配置
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = os.path.join(BASE_DIR, "2026D附件", "附件1 近5年402家供应商的相关数据.xlsx")
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
@@ -19,7 +18,6 @@ FIGURES_DIR = os.path.join(BASE_DIR, "figures")
 
 
 def save_critic_weights(w_critic, sigma, gamma, info):
-    """保存CRITIC权重及中间量"""
     df = pd.DataFrame({
         '指标': ['F1_周均供货量', 'F2_周均缺失量', 'F3_供货达标率', 'F4_供货偏差均方'],
         'CRITIC权重': w_critic,
@@ -33,7 +31,6 @@ def save_critic_weights(w_critic, sigma, gamma, info):
 
 
 def save_ranking(supplier_ids, material_types, F1, F2, F3, F4, N, weights, C):
-    """保存排名结果"""
     df = pd.DataFrame({
         '供应商ID': supplier_ids,
         '材料类别': material_types,
@@ -47,12 +44,10 @@ def save_ranking(supplier_ids, material_types, F1, F2, F3, F4, N, weights, C):
     df['排名'] = df['贴近度C'].rank(ascending=False).astype(int)
     df = df.sort_values('排名')
 
-    # 完整排名
     path_all = os.path.join(RESULTS_DIR, "problem1_supplier_ranking.csv")
     df.to_csv(path_all, index=False, encoding='utf-8-sig')
     print(f"  完整排名已保存: {path_all}")
 
-    # 前55家
     top55 = df.head(55)
     path_55 = os.path.join(RESULTS_DIR, "problem1_top55.csv")
     top55.to_csv(path_55, index=False, encoding='utf-8-sig')
@@ -66,19 +61,15 @@ def main():
     print("问题一：基于CRITIC-TOPSIS的供应商重要性评价")
     print("=" * 50)
 
-    # 1. 数据读取
     supplier_ids, material_types, order_data, supply_data = load_supplier_data(DATA_PATH)
 
-    # 2. 计算指标
     print("\n正在计算四维评价指标...")
     F1, F2, F3, F4, N = compute_indicators(order_data, supply_data)
     matrix, is_benefit = build_indicator_matrix(F1, F2, F3, F4)
 
-    # 3. 标准化
     print("正在进行Min-Max标准化...")
     Y = minmax_normalize(matrix, is_benefit)
 
-    # 4. CRITIC赋权（主模型）
     print("正在计算CRITIC权重...")
     w_critic, sigma, R, gamma = critic_weight(Y)
     info = sigma * gamma
@@ -88,11 +79,9 @@ def main():
     for name, w, s, g, i in zip(indicators, w_critic, sigma, gamma, info):
         print(f"  {name}: 权重={w:.4f}, σ={s:.4f}, γ={g:.4f}, I={i:.4f}")
 
-    # 5. TOPSIS排序
     print("\n正在进行TOPSIS排序...")
     C, _, _ = topsis(Y, w_critic)
 
-    # 6. 保存结果
     print("\n正在保存结果...")
     os.makedirs(RESULTS_DIR, exist_ok=True)
     os.makedirs(FIGURES_DIR, exist_ok=True)
@@ -100,13 +89,11 @@ def main():
     save_critic_weights(w_critic, sigma, gamma, info)
     ranking_df, top55_df = save_ranking(supplier_ids, material_types, F1, F2, F3, F4, N, w_critic, C)
 
-    # 7. 生成图表
     print("\n正在生成图表...")
     plot_weight_bar_critic(w_critic, os.path.join(FIGURES_DIR, "problem1_weight_comparison.png"))
     threshold = top55_df['贴近度C'].min()
     plot_score_distribution(C, threshold, os.path.join(FIGURES_DIR, "problem1_score_distribution.png"))
 
-    # 8. 打印前10名
     print("\n=== 前10名供应商 ===")
     print(ranking_df.head(10).to_string(index=False))
 

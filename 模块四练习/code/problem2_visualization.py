@@ -1,28 +1,24 @@
 """
-可视化模块：生成问题二相关图表
+问题二可视化模块
 """
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False
 
 
 def plot_weekly_volume(weekly_volume, save_path):
-    """
-    绘制24周订购量柱状图（标注25380底线）
-    """
     fig, ax = plt.subplots(figsize=(12, 5))
     weeks = np.arange(1, 25)
     
     colors = ['#4CAF50' if v >= 25380 else '#FF5722' for v in weekly_volume]
     bars = ax.bar(weeks, weekly_volume, color=colors, edgecolor='black', linewidth=0.5)
     
-    ax.axhline(y=25380, color='red', linestyle='--', linewidth=2, label='产能底线 (25380 m³)')
+    ax.axhline(y=25380, color='red', linestyle='--', linewidth=2, label='产能底线 (25380 m$^3$)')
     
     ax.set_xlabel('周次', fontsize=14)
-    ax.set_ylabel('订购量（产品体积 m³）', fontsize=14)
+    ax.set_ylabel('订购量（产品体积 m$^3$）', fontsize=14)
     ax.set_title('24周每周订购量', fontsize=18, fontweight='bold')
     ax.set_xticks(weeks)
     ax.legend(fontsize=12)
@@ -35,9 +31,6 @@ def plot_weekly_volume(weekly_volume, save_path):
 
 
 def plot_weekly_suppliers(weekly_count, weekly_A, weekly_B, weekly_C, save_path):
-    """
-    绘制每周选中供应商数量堆叠柱状图
-    """
     fig, ax = plt.subplots(figsize=(12, 5))
     weeks = np.arange(1, 25)
     
@@ -59,12 +52,8 @@ def plot_weekly_suppliers(weekly_count, weekly_A, weekly_B, weekly_C, save_path)
 
 
 def plot_supplier_heatmap(x, ids, types, save_path):
-    """
-    绘制供应商-周次热力图
-    """
     fig, ax = plt.subplots(figsize=(14, 10))
     
-    # 按材料类型排序
     type_order = {'A': 0, 'B': 1, 'C': 2}
     sorted_idx = sorted(range(len(types)), key=lambda i: (type_order[types[i]], ids[i]))
     x_sorted = x[sorted_idx, :]

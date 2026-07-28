@@ -1,23 +1,14 @@
 """
-可视化模块：生成问题一相关图表
+问题一可视化模块
 """
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
-# 设置中文字体
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False
 
 
 def plot_weight_bar_critic(weights, save_path):
-    """
-    绘制CRITIC指标权重柱状图（主模型）
-    
-    参数:
-        weights:   长度4的权重向量
-        save_path: 图片保存路径
-    """
     fig, ax = plt.subplots(figsize=(8, 5))
     indicators = ['F1\n周均供货量', 'F2\n周均缺失量', 'F3\n供货达标率', 'F4\n供货偏差均方']
     colors = ['#2196F3', '#FF5722', '#4CAF50', '#FF9800']
@@ -38,14 +29,6 @@ def plot_weight_bar_critic(weights, save_path):
 
 
 def plot_score_distribution(C, threshold, save_path):
-    """
-    绘制贴近度分布直方图（标注Top55分界线）
-    
-    参数:
-        C:         贴近度向量
-        threshold: Top55分界贴近度
-        save_path: 图片保存路径
-    """
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.hist(C, bins=30, color='#2196F3', edgecolor='black', alpha=0.7)
 
@@ -65,14 +48,6 @@ def plot_score_distribution(C, threshold, save_path):
 
 
 def plot_weight_comparison(w_critic, w_entropy, save_path):
-    """
-    绘制CRITIC vs 熵权法 权重对比柱状图
-    
-    参数:
-        w_critic:  CRITIC权重向量（主模型）
-        w_entropy: 熵权法权重向量（验证模型）
-        save_path: 图片保存路径
-    """
     fig, ax = plt.subplots(figsize=(8, 5))
     x = np.arange(4)
     width = 0.35
@@ -94,18 +69,8 @@ def plot_weight_comparison(w_critic, w_entropy, save_path):
 
 
 def plot_rank_scatter(rank_critic, rank_entropy, spearman_rho, save_path):
-    """
-    绘制两种方法排名散点图（CRITIC为主轴）
-    
-    参数:
-        rank_critic:  CRITIC排名数组（主模型，x轴）
-        rank_entropy: 熵权法排名数组（验证模型，y轴）
-        spearman_rho: Spearman相关系数
-        save_path:    图片保存路径
-    """
     fig, ax = plt.subplots(figsize=(8, 8))
 
-    # 分类标记
     both = (rank_critic <= 55) & (rank_entropy <= 55)
     only_crit = (rank_critic <= 55) & (rank_entropy > 55)
     only_ent = (rank_critic > 55) & (rank_entropy <= 55)
