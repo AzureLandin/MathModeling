@@ -6,10 +6,10 @@ import numpy as np
 import pandas as pd
 
 from data_loader import load_supplier_data
-from problem3E_predictor import (build_deviation_series, fit_all_suppliers, predict_supply,
+from problem3_predictor import (build_deviation_series, fit_all_suppliers, predict_supply,
                                   monte_carlo_simulation, compute_supply_plan, compute_capacity_stats,
                                   compute_confidence_intervals)
-from problem3E_visualization import (plot_model_distribution, plot_gap_distribution, 
+from problem3_visualization import (plot_model_distribution, plot_gap_distribution, 
                                       plot_fulfillment_rate, plot_acf_examples, plot_weekly_supply_comparison)
 
 # 路径配置
