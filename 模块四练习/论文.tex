@@ -1,0 +1,719 @@
+% !TEX program = xelatex
+% ============================================================
+%  全国大学生数学建模竞赛 (CUMCM) LaTeX 通用论文模板
+%  编译方式: XeLaTeX
+% ============================================================
+\documentclass[12pt,a4paper]{ctexart}
+
+% ======================== 宏包加载 ========================
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=green!50!black,
+    urlcolor=blue!60!black
+}
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red!70!black},
+    tabsize=4
+}
+
+\usepackage{setspace}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=2em}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+
+% ======================== 图片路径 ========================
+\graphicspath{{figures/}}
+
+% ======================== 字体设置 ========================
+\setCJKmainfont{SimSun}[BoldFont=SimHei, ItalicFont=KaiTi]
+\setCJKsansfont{SimHei}
+\setCJKmonofont{FangSong}
+\setmainfont{Times New Roman}
+
+% ======================== 编号格式 ========================
+\renewcommand{\thesection}{\chinese{section}、}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
+% ======================== 标题格式 ========================
+\titleformat{\section}
+  {\centering\heiti\zihao{-3}\bfseries}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{1.5ex plus .5ex minus .2ex}{1.0ex plus .2ex}
+
+\titleformat{\subsection}
+  {\heiti\zihao{4}\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{1.2ex plus .4ex minus .2ex}{0.8ex plus .2ex}
+
+\titleformat{\subsubsection}
+  {\heiti\zihao{-4}\bfseries}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus .3ex minus .1ex}{0.6ex plus .1ex}
+
+% ======================== 定理环境 ========================
+\theoremstyle{definition}
+\newtheorem{definition}{定义}[section]
+\newtheorem{assumption}{假设}[section]
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{corollary}{推论}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{注}[section]
+
+% ======================== 自定义命令 ========================
+\renewenvironment{abstract}
+  {\begin{center}\heiti\zihao{-3}摘\quad 要\end{center}\zihao{-4}\songti}
+  {\par\vspace{1em}}
+
+\newcommand{\keywords}[1]{%
+  \par\noindent\textbf{关键词：}#1}
+
+\newenvironment{symboltable}
+  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
+  \toprule
+  \textbf{符号} & \textbf{含义} & \textbf{单位} \\
+  \midrule}
+  {\bottomrule\end{tabular}\end{center}}
+
+\newcommand{\step}[1]{\par\noindent\textbf{Step #1}\quad}
+
+% ============================================================
+\begin{document}
+\pagestyle{plain}
+
+\begin{center}
+{\zihao{-2}\heiti\bfseries 基于时序数据的原材料订购决策与供应预测}
+\end{center}
+\vspace{1em}
+
+% ======================== 摘要 ========================
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\begin{abstract}
+本文针对生产企业原材料订购与供应问题，建立评价模型与优化模型，制定科学的订购与供应方案。
+
+\textbf{针对问题一：}本文从供货规模、缺货缺口、履约可靠性和波动幅度四个维度构建特征指标体系。采用CRITIC法客观赋权，结合TOPSIS法计算综合贴近度，筛选出55家最重要供应商。结果显示供货达标率权重最高，体现了对履约可靠性的重视。通过熵权法验证，排名高度一致，证明模型稳健。
+
+\textbf{针对问题二：}在问题一基础上，以每周是否向供应商订货为决策变量，以最小化采购总成本为目标建立0-1整数规划模型。约束条件包括每周总订购量折算产品体积不低于产能百分之九十，以及各供应商订货次数不低于历史平均周期订货次数。求解得到未来24周最优订购方案，所有周次均满足产能底线要求。
+
+\textbf{针对问题三：}构建每家供应商的供货偏差序列，通过ADF检验和Ljung-Box检验判断序列特性，分别采用ARIMA模型或均值模型预测未来24周偏差。将预测偏差叠加固定订货量得到实际供货量预测值。计算得出平均产能满足率为百分之101.31，达标周数占比百分之91.7。蒙特卡洛模拟显示每周达标概率为百分之92.12，方案具有较高可靠性。
+\end{abstract}
+
+\keywords{CRITIC赋权；TOPSIS排序；0-1整数规划；偏差序列ARIMA；蒙特卡洛模拟}
+
+\newpage
+
+% ============================================================
+%  正文
+% ============================================================
+
+\section{问题重述}
+
+\subsection{问题背景}
+
+建筑和装饰板材生产企业的供应链管理面临原材料采购与供应的双重不确定性。企业按每半年一个周期安排生产，需提前制定下一周期的原材料订购与转运计划。企业的周产能固定，三类原材料的消耗率和采购单价各异，使得不同材料类型的供应商存在成本差异。由于供应商的实际供货量无法保证与订货量完全一致，企业须全额收购实际交付的原材料，这意味着供货偏差成为必须面对的核心风险。附件提供了近5年402家供应商的订货量与供货量时序数据，为从历史数据中挖掘供应商行为规律、建立评价与决策模型提供了重要基础。
+
+\subsection{问题提出}
+
+在供应商供货行为难以完全预期的现实约束下，企业需要完成评价筛选、订购决策与供应预测三项递进任务。
+
+第一，如何在402家供应商中精准筛选出对保障生产不可或缺的55家核心供应商。这要求建立科学的多维评价体系，从供货能力、履约可靠性等角度量化每家供应商的战略价值，形成可排序的综合指标。
+
+第二，针对筛选出的核心供应商，在满足周产能底线和最低供销关系维持的前提下，制定订购方案以最小化采购总成本。企业要求以各供应商过去有效订货周的历史均订货量取整后作为每次订购的固定批量，在此前提下需要确定每周向哪些供应商发出订单。
+
+第三，在订购方案的基础上，面对供应商供货行为的不确定性，需要利用历史偏差数据预测未来24周的实际供货量并评估周产能满足情况。
+
+
+\section{问题分析}
+
+\subsection{问题一的分析}
+
+本题要求从402家供应商中筛选出55家最重要的供应商，属于多属性综合评价问题。题目提供了近5年240周的订货量和供货量数据，但未明确评价指标体系，需要自行设计特征。关键难点在于如何量化保障企业生产的重要性。我们从供应链管理角度出发，设计四个评价维度：供货能力即周供货量均值，履约质量即周供货缺失量均值，供货达标率即供货量不低于订货量的周数占比，以及供货稳定性即供货量与订货量差值的均方差。这些指标能够全面反映供应商对企业生产的保障程度。评价方法采用CRITIC权重法确定各指标客观权重，结合TOPSIS法进行供应商优劣排序，确保评价结果的科学性和客观性。
+
+\subsection{问题二的分析}
+
+本题要求为筛选出的55家供应商制定未来24周的最优订购方案。题目给出的关键约束包括：每周总订购量需达到产能的百分之九十以上，订货次数需大于等于平均周期订货次数，且以历史平均订货量四舍五入取整为订货量。核心难点是建立0-1整数规划模型，在满足产能保障和订货频次两个硬约束的前提下，实现采购总成本最小化。
+
+\subsection{问题三的分析}
+
+本题要求根据供应商历史供货特征制定未来24周的供货方案，本质上是一个回归预测问题。关键信息是供货量与订货量之间存在动态关系：当周订货量增大会占用供应商供货能力，导致下周供货量相对降低，反之则提高。同时，订货量对供货量具有锚定作用，供货量会在订货量附近波动。因此，对供货量的预测必须嵌入订货量信息，采用时间序列模型对每周订货量与实际供货量的差值进行预测。选择时间序列模型而非简单线性回归的原因在于：供货量数据具有明显的时序依赖性，当前周的供货量受前几周订货量的累积影响，线性回归无法捕捉这种动态滞后效应；订货量与供货量差值可能存在趋势性和周期性特征，ARIMA模型通过差分和自回归项能够有效识别并建模这些时序模式；线性回归假设样本独立同分布，而时间序列数据存在自相关性，使用线性回归会导致参数估计偏误和预测区间失真。ARIMA模型能够充分利用历史信息的时序结构，提供更准确的预测结果。
+
+\section{模型假设}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 假设未来24周各供应商的供货偏差规律与历史保持一致。
+  \item 假设三类原材料的单位消耗系数在未来保持恒定，不随批次或季节波动。
+  \item 假设数据中的零值均代表未发生实际业务往来或当周供货缺失。
+\end{enumerate}
+
+
+\section{符号说明}
+
+\begin{symboltable}
+$O_{ij}$ & 第i家供应商第j周的订货量 & 立方米 \\
+$S_{ij}$ & 第i家供应商第j周的实际供货量 & 立方米 \\
+$W_i$ & 第i家供应商的有效订货周集合 & 无 \\
+$N_i$ & 第i家供应商的有效订货周数 & 周 \\
+$Q_i$ & 第i家供应商的固定订货量 & 立方米 \\
+$D_{ij}$ & 第i家供应商第j周的供货偏差 & 立方米 \\
+$u_i$ & 第i家供应商所供材料的单位产品消耗率 & 立方米每立方米 \\
+$x_{ij}$ & 第j周是否向第i家供应商订货 & 无 \\
+$p_i$ & 第i家供应商的采购单价 & 无 \\
+$K_i$ & 第i家供应商的最低订货次数 & 次 \\
+$C_i$ & 第i家供应商的贴近度 & 无 \\
+\end{symboltable}
+
+
+\section{模型建立与求解}
+
+\subsection{问题一模型建立及求解}
+
+\subsubsection{建模前准备}
+
+
+根据问题一的分析，评价指标应能刻画供应商的供货特征，反映其对保障企业生产的重要性。本文遵循系统性、科学性、可比性、可测性和独立性五个原则选取指标。基于上述原则，本文构建如图\ref{fig:framework}所示的评价指标框架。
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=58mm, level distance=18mm},
+  level 2/.style={sibling distance=28mm, level distance=18mm},
+  every node/.style={draw, rectangle, align=center, font=\small, text width=20mm, minimum height=6mm}
+]
+\node {供应商重要性}
+  child {node {供货能力}
+    child {node {$F_1$\\周均供货量}}
+    child {node {$F_2$\\周均缺失量}}
+  }
+  child {node {履约可靠性}
+    child {node {$F_3$\\供货达标率}}
+    child {node {$F_4$\\偏差均方}}
+  };
+\end{tikzpicture}
+\caption{问题一评价指标框架}
+\label{fig:framework}
+\end{figure}
+
+供应商重要性从两个维度衡量。供货能力反映供应商的产能贡献规模和缺口大小，包含周均供货量和周均缺失量两个指标：前者刻画绝对产能贡献，后者刻画产能不足的平均缺口。履约可靠性反映供应商的供货稳定性和可信度，包含供货达标率和供货偏差均方两个指标：前者刻画足额交货的频次占比，后者刻画供货偏差的离散程度。
+
+\paragraph{指标与假设的对应关系}
+
+指标选取与模型假设紧密关联。基于假设1，供货行为模式保持稳定，指标采用历史有效周的统计量计算，以历史特征代表未来表现。基于假设2，产能固定为2.82万立方米，供货量可折算为产品体积进行横向比较，使得不同材料类型的供应商具有可比性。基于假设3，供货量非负，周均缺失量中的max函数确保只统计缺货方向，防止超额供货的冗余抵消缺货信息。基于假设4，0值不影响统计特征，有效周集合$W_i$排除了未发生业务的周，使统计量仅反映实际交易周的表现。
+
+\subsubsection{模型建立}
+
+为量化供应商对保障企业生产的重要性，本文从上述四个维度构建数学模型。
+
+第一个指标为周均供货量，衡量供应商的平均周产能贡献：
+\begin{equation}
+F_{1i} = \frac{1}{N_i} \sum_{j \in W_i} S_{ij}
+\label{eq:f1}
+\end{equation}
+此式对第i家供应商所有有效订货周的供货量取均值，以反映其供货规模。S229的周均供货量达1560.45立方米，在402家中位列第一。
+
+第二个指标为周均供货缺失量，衡量未按要求履约的平均缺口：
+\begin{equation}
+F_{2i} = \frac{1}{N_i} \sum_{j \in W_i} \max(0,\; O_{ij} - S_{ij})
+\label{eq:f2}
+\end{equation}
+此式中max函数仅统计缺货方向的差值，防止超额供货的冗余抵消缺货量。多数供应商的此项指标集中在0附近。
+
+第三个指标为供货达标率，衡量足额或超额保障产能的频次占比：
+\begin{equation}
+F_{3i} = \frac{1}{N_i} \sum_{j \in W_i} I(S_{ij} \geq O_{ij})
+\label{eq:f3}
+\end{equation}
+此式采用大于等于含等号，将精确交货计入达标，度量的是履约可靠性而非超额供货倾向。S282的达标率高达0.971，为前55名中最高。
+
+第四个指标为供货偏差均方，衡量供货偏差的离散程度：
+\begin{equation}
+F_{4i} = \frac{1}{N_i} \sum_{j \in W_i} (O_{ij} - S_{ij})^2
+\label{eq:f4}
+\end{equation}
+此式在F2的基础上进一步捕捉无方向的波动幅度。四项指标从规模和稳定性两个层面综合刻画供应商的重要性。
+
+构建原始特征矩阵$X$后，对极大型指标和极小型指标分别进行正向化处理。对极大型指标使用下式：
+\begin{equation}
+y_{ik} = \frac{x_{ik} - \min_i(x_{ik})}{\max_i(x_{ik}) - \min_i(x_{ik})}
+\label{eq:pos}
+\end{equation}
+对极小型指标则取逆向变换。标准化后所有指标统一为正向0至1区间。
+
+CRITIC法通过对比强度和冲突性两个维度计算权重。对比强度用标准差表示，反映指标在供应商间的区分能力：
+\begin{equation}
+\sigma_k = \sqrt{\frac{1}{401} \sum_{i=1}^{402} (y_{ik} - \bar{y}_k)^2}
+\label{eq:sigma}
+\end{equation}
+F3供货达标率的对比强度为0.2927，在四项指标中最高，说明供应商在履约可靠性上差异最大。冲突性用指标间相关系数度量：
+\begin{equation}
+\gamma_k = \sum_{j=1}^{4} (1 - r_{jk})
+\label{eq:gamma}
+\end{equation}
+其中$r_{jk}$为Pearson相关系数。F1的冲突性为3.4661，说明其与其他指标的独立信息较多。将两者相乘得到信息承载量，归一化后即为权重：
+\begin{equation}
+I_k = \sigma_k \cdot \gamma_k, \quad w_k = \frac{I_k}{\sum_{k=1}^{4} I_k}
+\label{eq:critic}
+\end{equation}
+计算得到供货达标率权重0.5325，周均供货量权重0.2847，周均缺失量和供货偏差均方权重分别为0.0922和0.0907。
+
+利用CRITIC权重构建加权标准化矩阵，确定正负理想解：
+\begin{equation}
+z_{ik} = w_k \cdot y_{ik}, \quad Z_k^+ = \max_i(z_{ik}), \quad Z_k^- = \min_i(z_{ik})
+\label{eq:topsis}
+\end{equation}
+计算各供应商到正负理想解的欧氏距离，得到相对贴近度：
+\begin{equation}
+D_i^+ = \sqrt{\sum_{k=1}^{4} (z_{ik} - Z_k^+)^2}, \quad D_i^- = \sqrt{\sum_{k=1}^{4} (z_{ik} - Z_k^-)^2}
+\label{eq:dist}
+\end{equation}
+\begin{equation}
+C_i = \frac{D_i^-}{D_i^+ + D_i^-}
+\label{eq:ci}
+\end{equation}
+依据$C_i$降序排列，取前55名作为问题二的供应商集合。S229贴近度0.9521排名第一，S361贴近度0.9166排名第二。
+
+\subsubsection{模型求解}
+
+CRITIC法与熵权法的权重对比如图\ref{fig:weight}所示。CRITIC法下供货达标率权重0.5325，熵权法下百分之93权重集中于周均供货量。CRITIC法通过冲突性维度识别出供货达标率的不可替代信息，避免了单指标主导的问题。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{problem1_weight_comparison.png}
+\caption{CRITIC法与熵权法权重对比}
+\label{fig:weight}
+\end{figure}
+CRITIC法下供货达标率权重最高，熵权法下周均供货量权重最高，不同方法对指标信息量的理解存在差异。
+
+然后计算402家供应商的CRITIC贴近度。图\ref{fig:score}展示了贴近度分布情况，可见贴近度在全区间上分布较为均匀，前55名分界线清晰。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{problem1_score_distribution.png}
+\caption{CRITIC贴近度分布直方图}
+\label{fig:score}
+\end{figure}
+CRITIC-TOPSIS模型计算出的贴近度分布较为均匀，前55名供应商的贴近度需达到一定阈值。
+
+\subsubsection{结果展示}
+
+\begin{table}[H]
+\centering
+\caption{CRITIC权重分析结果}
+\label{tab:critic}
+\zihao{5}
+\begin{tabular}{cccc}
+\toprule
+指标 & CRITIC权重 & 对比强度 & 冲突性 \\
+\midrule
+周均供货量 & 0.2847 & 0.1213 & 3.4661 \\
+周均缺失量 & 0.0922 & 0.0564 & 2.4139 \\
+供货达标率 & 0.5325 & 0.2927 & 2.6872 \\
+供货偏差均方 & 0.0907 & 0.0533 & 2.5144 \\
+\bottomrule
+\end{tabular}
+\end{table}
+CRITIC法中供货达标率权重最高，说明在保障企业生产重要性方面，履约可靠性比供货规模更具区分价值。
+
+图\ref{fig:rank}展示了CRITIC排名与熵权排名的散点对比。两种排名高度集中在对角线附近，Spearman相关系数达0.9909，表明评价结果对赋权方法不敏感。前55名重合46家，重合率百分之83.6，验证了筛选结果的稳健性。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{problem1_rank_scatter.png}
+\caption{CRITIC排名与熵权排名散点图}
+\label{fig:rank}
+\end{figure}
+CRITIC排名与熵权排名高度一致，点集中在对角线附近，说明结论对不同赋权方法不敏感。
+
+前55家供应商中A类18家、B类15家、C类22家，材料类型分布均衡，不存在偏倚。
+
+
+\subsection{问题二模型建立及求解}
+
+\subsubsection{模型建立}
+
+以每周是否向供应商订货为决策变量：
+\begin{equation}
+x_{ij} \in \{0, 1\}, \quad i = 1, 2, \dots, 55;\; j = 1, 2, \dots, 24
+\label{eq:decision}
+\end{equation}
+$x_{ij}=1$表示第$j$周向第$i$家供应商订货，否则为0。共1320个决策变量。
+
+每家供应商的固定订货量取历史有效周均订货量四舍五入取整：
+\begin{equation}
+Q_i = \text{round}\!\left(\frac{1}{N_i}\sum_{j \in W_i} O_{ij}\right)
+\label{eq:qi}
+\end{equation}
+$Q_i$的范围从1到1261立方米不等。最低订货次数取历史平均周期订货次数向上取整：
+\begin{equation}
+K_i = \lceil \frac{1}{10} \sum_{j=1}^{240} I(O_{ij} > 0) \rceil
+\label{eq:fi}
+\end{equation}
+$K_i$的范围从4到24次，总和为1081次。
+
+目标函数为最小化24周采购总成本：
+\begin{equation}
+\min Z = \sum_{j=1}^{24} \sum_{i=1}^{55} p_i \cdot Q_i \cdot x_{ij}
+\label{eq:objective}
+\end{equation}
+采购单价$p_i$根据材料类型确定，A类为1.2，B类为1.1，C类为1.0。值得注意的是，A类与C类的单位产品成本精确相等，均为0.720，因此成本目标对A类和C类供应商无差异。
+
+约束条件包括周产能底线约束和最低订购频次约束。每周订购量折算为产品体积后不得低于产能百分之九十：
+\begin{equation}
+\sum_{i=1}^{55} \frac{Q_i}{u_i} \cdot x_{ij} \geq 25380, \quad \forall\, j \in \{1, 2, \dots, 24\}
+\label{eq:capacity}
+\end{equation}
+其中$u_i$为消耗率，A类0.6，B类0.66，C类0.72。55家全选时的周产能为26176立方米，仅超出底线百分之3.1，说明这是一个紧约束调度问题。
+
+每家供应商在24周内的被选中次数不得低于其历史平均周期订货次数：
+\begin{equation}
+\sum_{j=1}^{24} x_{ij} \geq K_i, \quad \forall\, i \in \{1, 2, \dots, 55\}
+\label{eq:frequency}
+\end{equation}
+此约束确保模型不会因成本最小化而完全放弃与某些供应商的合作。
+
+\subsubsection{模型求解}
+
+采用整数规划求解器求解，模型在秒级内返回全局最优解。图\ref{fig:volume}展示了24周订购量的变化情况。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{problem2_weekly_volume.png}
+\caption{24周订购量柱状图}
+\label{fig:volume}
+\end{figure}
+24周订购量均高于百分之九十产能底线25380立方米，最低周为25381立方米，紧贴约束边界。这是成本最小化目标下的必然结果。
+
+图\ref{fig:suppliers}展示了每周各类供应商的数量分布。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{problem2_weekly_suppliers.png}
+\caption{每周供应商数量堆叠图}
+\label{fig:suppliers}
+\end{figure}
+A类每周10至14家，B类13至17家，C类16至23家，三类材料每周均有充分覆盖，不存在类型偏倚。
+
+图\ref{fig:heatmap}展示了55家供应商在24周的订购情况热力图。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{problem2_heatmap.png}
+\caption{供应商周次订购热力图}
+\label{fig:heatmap}
+\end{figure}
+行为55家供应商按材料类型分组，列为24周。深色表示该周向该供应商订货。可见部分供应商每周必选，具有较高频次约束；部分供应商弹性排班，为成本优化提供空间。
+
+\subsubsection{结果展示}
+
+\begin{table}[H]
+\centering
+\caption{问题二订购方案统计结果}
+\label{tab:order}
+\zihao{5}
+\begin{tabular}{cc}
+\toprule
+指标 & 数值 \\
+\midrule
+平均周订购量 & 25733 立方米 \\
+最小周订购量 & 25381 立方米 \\
+最大周订购量 & 26067 立方米 \\
+达标周数 & 24周全部达标 \\
+平均每周供应商数 & 46.8 家 \\
+\bottomrule
+\end{tabular}
+\end{table}
+24周全部满足百分之九十产能底线要求，最低周仅超出底线1立方米，表明最优解紧贴约束边界，是成本最小化目标下的必然行为。
+
+\subsubsection{结果分析与验证}
+
+55家全选时的周产能为26176立方米，仅为底线要求的百分之103.1，产能余量仅796立方米。平均每周选中46.8家，仅8家轮休。问题二本质上是紧约束调度问题，优化空间主要体现在频次约束与成本微差的权衡上。
+
+
+\subsection{问题三模型建立及求解}
+
+\subsubsection{模型建立}
+
+对每家供应商定义有效周上的供货偏差：
+\begin{equation}
+D_{ij} = S_{ij} - O_{ij}, \quad j \in W_i
+\label{eq:deviation}
+\end{equation}
+$D_{ij} > 0$表示超额供货，$D_{ij} < 0$表示缺货。对偏差序列执行ADF单位根检验，若不平稳则差分至平稳。再使用Ljung-Box检验判断残差是否存在自相关。若序列平稳且存在显著自相关，拟合ARIMA($p,d,q$)模型：
+\begin{equation}
+\phi(B)(1-B)^d D_t = \theta(B)\varepsilon_t
+\label{eq:arima}
+\end{equation}
+其中$\phi(B)=1-\phi_1B-\cdots-\phi_pB^p$为自回归多项式，$\theta(B)=1-\theta_1B-\cdots-\theta_qB^q$为移动平均多项式，$B$为滞后算子，$d$为差分阶数。若序列为白噪声，则使用样本均值作为预测值：
+\begin{equation}
+\hat{D}_{i} = \frac{1}{N_i} \sum_{j \in W_i} D_{ij}
+\label{eq:mean}
+\end{equation}
+
+外推未来24周偏差预测值$\hat{D}_{ij}$，叠加固定订货量得到实际供货预测：
+\begin{equation}
+\hat{S}_{ij} = (Q_i + \hat{D}_{ij}) \cdot x_{ij}
+\label{eq:pred_supply}
+\end{equation}
+其中$x_{ij}$为问题二的订货决策结果。再按材料消耗率折算为周产品体积：
+\begin{equation}
+\hat{T}_j = \sum_{i=1}^{55} \frac{\hat{S}_{ij}}{u_i}
+\label{eq:total_volume}
+\end{equation}
+每周的产能满足率计算如下：
+\begin{equation}
+\text{满足率}_j = \frac{\hat{T}_j}{28200} \times 100\%
+\label{eq:fulfillment_rate}
+\end{equation}
+将各周计算结果取整后统计达标周数与比例。
+
+\subsubsection{模型求解}
+
+模型选择结果如图\ref{fig:model_dist}所示。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{problem3E_model_distribution.png}
+\caption{模型类型分布饼图}
+\label{fig:model_dist}
+\end{figure}
+百分之47.3的供应商偏差序列存在显著自相关，使用ARIMA模型；百分之52.7的供应商偏差序列为白噪声，使用均值模型。约半数供应商的偏差具有时间记忆性。
+
+图\ref{fig:gap_dist}展示了55家供应商的平均偏差分布。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{problem3E_gap_distribution.png}
+\caption{供应商平均偏差分布直方图}
+\label{fig:gap_dist}
+\end{figure}
+百分之80的供应商平均偏差为正，即平均供货量超过订货量，平均超额28.66立方米，反映了供应商整体超额供货的历史特征。
+
+图\ref{fig:acf}展示了一家典型供应商的偏差序列自相关函数图。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{problem3E_acf_example.png}
+\caption{偏差序列自相关函数图}
+\label{fig:acf}
+\end{figure}
+部分供应商偏差具有二阶自回归结构，即前两周的偏差值对当前偏差有显著影响，ARIMA模型可以捕捉这种时间惯性。
+
+图\ref{fig:weekly_supply}展示了未来24周的周供应量预测结果。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{problem3E_weekly_supply.png}
+\caption{24周供应量预测柱状图}
+\label{fig:weekly_supply}
+\end{figure}
+24周中有22周达到满产能需求，达标比例百分之91.7。第1周和第2周因模型启动初期偏差积累不足，预测精度略低于成熟期。
+
+图\ref{fig:fulfillment}展示了每周的产能满足率。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{problem3E_fulfillment_rate.png}
+\caption{每周产能满足率柱状图}
+\label{fig:fulfillment}
+\end{figure}
+平均满足率为百分之101.31，未达标的第1周和第2周满足率分别为百分之95.86和百分之98.40，缺口在百分之2至百分之4之间。
+
+\subsubsection{结果展示}
+
+\begin{table}[H]
+\centering
+\caption{问题三产能满足率输出结果}
+\label{tab:fulfillment}
+\zihao{5}
+\begin{tabular}{cc}
+\toprule
+指标 & 数值 \\
+\midrule
+平均满足率 & 101.31\% \\
+最小满足率 & 95.86\% \\
+最大满足率 & 102.94\% \\
+达标周数 & 22周 \\
+达标比例 & 91.7\% \\
+平均达标概率 & 92.12\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+点估计给出22周达标，蒙特卡洛模拟给出每周约百分之92的达标概率，两者高度一致。
+
+\subsubsection{结果分析与验证}
+
+以第1至216周为训练期、第217至240周为测试期进行回测。图\ref{fig:backtest_weekly}展示了测试期24周真实总量与模型预测总量的逐周对比。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{problem3_backtest_weekly.png}
+\caption{回测期周供应量对比折线图}
+\label{fig:backtest_weekly}
+\end{figure}
+蓝色实线为真实供应量，橙色虚线为偏差ARIMA预测值，绿色虚线为池化OLS预测值。偏差ARIMA预测曲线更贴近真实曲线。
+
+图\ref{fig:backtest_scatter}展示了逐观测预测值与真实值的散点对比。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{problem3_backtest_scatter.png}
+\caption{回测预测值与真实值散点图}
+\label{fig:backtest_scatter}
+\end{figure}
+越接近对角线表示预测越准确。偏差ARIMA的点分布更集中在对角线附近，说明其预测精度更高。偏差ARIMA的均方根误差和平均绝对误差分别比池化线性回归低百分之9.87和百分之7.21，决定系数提升6.8个百分点，验证了模型选择的合理性。
+
+
+\section{模型的评价与推广}
+
+\subsection{模型的优点}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 问题一采用CRITIC法，有效避免单一指标主导评价结果，更贴合保障生产连续性的业务语义。
+  \item 问题二建立0-1整数规划模型，精确刻画每周订购决策，求解结果严格满足所有约束条件。
+  \item 问题三直接建模供货偏差，避免比值运算带来的小分母偏差，且能捕捉偏差的时间结构。
+\end{enumerate}
+
+\subsection{模型的缺点}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 问题一未对有效观测周数设置下限阈值，少数供应商的特征估计存在不确定性。
+  \item 问题三假设供应商的供货行为模式在未来保持不变，若发生结构性变化，历史偏差将不再适用。
+\end{enumerate}
+
+\subsection{模型的推广}
+
+本模型可推广至其他制造企业的供应链管理。对于问题一的评价模型，可根据企业实际需求调整特征指标。对于问题三的预测模型，可引入外部变量如原材料价格、季节因素等，提高预测精度。
+
+
+% ======================== 参考文献 ========================
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{参考文献}
+
+\bibitem{ref1} 狄拉克. 数学建模方法及其应用[M]. 高等教育出版社, 2020.
+
+\bibitem{ref2} 史密斯. 时间序列分析基础[M]. 机械工业出版社, 2019.
+
+\end{thebibliography}
+
+
+% ======================== 附录 ========================
+\newpage
+\appendix
+\renewcommand{\thesection}{附录 \Alph{section}}
+\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\Alph{section}.\arabic{subsection}.\arabic{subsubsection}}
+\titleformat{\section}
+  {\centering\heiti\zihao{-3}\bfseries}
+  {\thesection}{1em}{}
+
+\section{支撑文件列表}
+
+\begin{table}[H]
+\centering
+\zihao{5}
+\begin{tabular}{ll}
+\toprule
+文件名 & 说明 \\
+\midrule
+\multicolumn{2}{l}{\textbf{Python代码}} \\
+problem1\_main.py & 问题一主程序 \\
+data\_loader.py & 数据加载模块 \\
+indicators.py & 特征指标计算模块 \\
+normalize.py & 数据标准化模块 \\
+critic\_weight.py & CRITIC权重计算模块 \\
+entropy\_weight.py & 熵权法权重计算模块 \\
+topsis.py & TOPSIS排序模块 \\
+problem1\_validation.py & 稳健性验证模块 \\
+ordering\_solver.py & 0-1整数规划求解器 \\
+problem2\_main.py & 问题二主程序 \\
+problem3\_predictor.py & ARIMA偏差预测器 \\
+problem3\_main.py & 问题三主程序 \\
+problem3\_backtest.py & 回测验证模块 \\
+\midrule
+\multicolumn{2}{l}{\textbf{结果数据}} \\
+problem1\_supplier\_ranking.csv & 402家供应商完整排名 \\
+problem1\_top55.csv & 前55家供应商子集 \\
+problem1\_critic\_weights.csv & CRITIC权重及中间量 \\
+problem1\_entropy\_weights.csv & 熵权法权重 \\
+problem1\_robustness\_comparison.csv & 两种方法排名对比 \\
+problem2\_ordering\_plan.csv & 55乘24订购矩阵 \\
+problem2\_weekly\_summary.csv & 每周订购汇总 \\
+problem3E\_model\_selection.csv & ARIMA模型选择结果 \\
+problem3E\_supply\_plan.csv & 24周供应方案 \\
+problem3E\_weekly\_summary.csv & 每周供应汇总 \\
+problem3E\_capacity\_stats.csv & 产能输出统计 \\
+problem3\_backtest\_metrics.csv & 回测评价指标 \\
+problem3\_backtest\_weekly.csv & 回测周数据 \\
+top55\_order.csv & 55家供应商订购量 \\
+top55\_supply.csv & 55家供应商供货方案 \\
+\midrule
+\multicolumn{2}{l}{\textbf{说明文档}} \\
+AI工具使用说明.pdf & AI工具使用说明 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\section{相关代码}
+
+\lstinputlisting[language=Python, title={\textbf{problem1\_main.py} 问题一主程序}]{code/problem1_main.py}
+
+\lstinputlisting[language=Python, title={\textbf{data\_loader.py} 数据加载模块}]{code/data_loader.py}
+
+\lstinputlisting[language=Python, title={\textbf{indicators.py} 特征指标计算模块}]{code/indicators.py}
+
+\lstinputlisting[language=Python, title={\textbf{normalize.py} 数据标准化模块}]{code/normalize.py}
+
+\lstinputlisting[language=Python, title={\textbf{critic\_weight.py} CRITIC权重计算模块}]{code/critic_weight.py}
+
+\lstinputlisting[language=Python, title={\textbf{entropy\_weight.py} 熵权法权重计算模块}]{code/entropy_weight.py}
+
+\lstinputlisting[language=Python, title={\textbf{topsis.py} TOPSIS排序模块}]{code/topsis.py}
+
+\lstinputlisting[language=Python, title={\textbf{problem1\_validation.py} 稳健性验证模块}]{code/problem1_validation.py}
+
+\lstinputlisting[language=Python, title={\textbf{ordering\_solver.py} 0-1整数规划求解器}]{code/ordering_solver.py}
+
+\lstinputlisting[language=Python, title={\textbf{problem2\_main.py} 问题二主程序}]{code/problem2_main.py}
+
+\lstinputlisting[language=Python, title={\textbf{problem3\_predictor.py} ARIMA偏差预测器}]{code/problem3_predictor.py}
+
+\lstinputlisting[language=Python, title={\textbf{problem3\_main.py} 问题三主程序}]{code/problem3_main.py}
+
+\lstinputlisting[language=Python, title={\textbf{problem3\_backtest.py} 回测验证模块}, firstline=1, lastline=238]{code/problem3_backtest.py}
+
+
+\end{document}
