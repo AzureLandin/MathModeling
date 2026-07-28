@@ -1,0 +1,46 @@
+参考文献 DOI 核对说明
+====================
+
+生成时间：2026-07-28
+说明：本目录原计划按清单下载 4 篇论文，经权威数据库（Crossref / OpenAlex）核验，
+      清单中的 DOI 与题名无法对应到真实出版物，故未下载任何 PDF。
+      以下为逐项核对结果，供修正 DOI 或自行下载时参考。
+
+1) 综合评价与供应商选择
+   清单 DOI：10.1016/j.jclepro.2021.128452
+   清单题名：A Multi-Criteria Decision-Making Framework for Sustainable Supplier Selection
+   Crossref 真实结果：
+     · 该 DOI 实际对应论文《Optimal risk-constrained stochastic scheduling of
+       microgrids with hydrogen vehicles in real-time and day-ahead markets》
+       （Journal of Cleaner Production, 2021），与清单题名完全不符。
+   结论：DOI 有效，但指向错误论文；按题名检索亦无完全匹配的真实论文。
+
+2) 原材料订购与库存多目标规划优化
+   清单 DOI：10.1016/j.cie.2020.106890
+   清单题名：Multi-Objective Inventory Optimization for Raw Material Procurement
+             Under Demand and Supply Uncertainties
+   Crossref 真实结果：HTTP 404 —— 该 DOI 不存在。
+   结论：DOI 无效（不存在）。
+
+3) 供货不确定性下的确定性与随机规划模型
+   清单 DOI：10.1016/j.ejor.2022.03.015
+   清单题名：Robust Optimization for Raw Material Procurement and Transportation
+             Planning in Process Industry
+   Crossref 真实结果：
+     · 该 DOI 实际对应论文《A time-dependent vessel routing problem with
+       speed optimization》（European Journal of Operational Research, 2022），
+       与清单题名完全不符。
+   结论：DOI 有效，但指向错误论文；按题名检索亦无完全匹配的真实论文。
+
+4) 混合整数线性规划（MILP）在供应链优化中的应用
+   清单 DOI：10.1080/00207543.2021.1923841
+   清单题名：Integrated Raw Material Procurement and Production Scheduling
+             Model with Yield Uncertainty
+   Crossref 真实结果：HTTP 404 —— 该 DOI 不存在。
+   结论：DOI 无效（不存在）。
+
+建议：
+- 若这些文献出自题目材料，可能是其中的示例/虚构引用，请确认题名与 DOI 是否准确。
+- 如需真实可用文献，可按上述四个主题检索真实论文（如供应商选择 MCDM、
+  原材料采购多目标/鲁棒/随机优化、供应链 MILP 等），并优先选用开放获取(OA)版本。
+- 如您提供正确的 DOI 或 PDF 直链，可重新执行下载。
