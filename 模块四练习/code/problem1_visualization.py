@@ -27,8 +27,8 @@ def plot_weight_bar_critic(weights, save_path):
         ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.005,
                 f'{w:.4f}', ha='center', va='bottom', fontsize=11, fontweight='bold')
 
-    ax.set_ylabel('权重', fontsize=12)
-    ax.set_title('CRITIC法指标权重分布（主模型）', fontsize=14)
+    ax.set_ylabel('权重', fontsize=14)
+    ax.set_title('CRITIC法指标权重分布（主模型）', fontsize=18, fontweight='bold')
     ax.set_ylim(0, max(weights) * 1.2)
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
@@ -54,9 +54,9 @@ def plot_score_distribution(C, threshold, save_path):
             f'Top55分界线\nC={threshold:.4f}',
             color='red', fontsize=10, fontweight='bold')
 
-    ax.set_xlabel('贴近度 C', fontsize=12)
-    ax.set_ylabel('供应商数量', fontsize=12)
-    ax.set_title('供应商贴近度分布（CRITIC-TOPSIS）', fontsize=14)
+    ax.set_xlabel('贴近度 C', fontsize=14)
+    ax.set_ylabel('供应商数量', fontsize=14)
+    ax.set_title('供应商贴近度分布（CRITIC-TOPSIS）', fontsize=18, fontweight='bold')
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
     plt.savefig(save_path, dpi=150)
@@ -83,8 +83,8 @@ def plot_weight_comparison(w_critic, w_entropy, save_path):
 
     ax.set_xticks(x)
     ax.set_xticklabels(indicators)
-    ax.set_ylabel('权重', fontsize=12)
-    ax.set_title('CRITIC vs 熵权法 权重对比', fontsize=14)
+    ax.set_ylabel('权重', fontsize=14)
+    ax.set_title('CRITIC vs 熵权法 权重对比', fontsize=18, fontweight='bold')
     ax.legend()
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
@@ -120,9 +120,9 @@ def plot_rank_scatter(rank_critic, rank_entropy, spearman_rho, save_path):
     ax.axhline(y=55.5, color='blue', linestyle='--', alpha=0.5)
     ax.plot([0, 420], [0, 420], 'k-', alpha=0.1)
 
-    ax.set_xlabel('CRITIC-TOPSIS排名（主模型）', fontsize=12)
-    ax.set_ylabel('熵权-TOPSIS排名（验证）', fontsize=12)
-    ax.set_title(f'两种方法排名对比 (Spearman ρ={spearman_rho:.4f})', fontsize=14)
+    ax.set_xlabel('CRITIC-TOPSIS排名（主模型）', fontsize=14)
+    ax.set_ylabel('熵权-TOPSIS排名（验证）', fontsize=14)
+    ax.set_title(f'两种方法排名对比 (Spearman ρ={spearman_rho:.4f})', fontsize=18, fontweight='bold')
     ax.legend(loc='lower right', fontsize=10)
     ax.set_xlim(0, 420)
     ax.set_ylim(0, 420)

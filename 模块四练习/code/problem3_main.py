@@ -1,5 +1,5 @@
 """
-问题三方案E主程序：基于偏差序列ARIMA的供应方案预测
+问题三主程序：基于偏差序列ARIMA的供应方案预测
 """
 import os
 import numpy as np
@@ -118,7 +118,7 @@ def save_capacity_stats(weekly_total, fulfillment_rate, weeks_meet, avg_P, P_all
 
 def main():
     print("=" * 50)
-    print("问题三方案E：基于偏差序列ARIMA的供应方案")
+    print("问题三：基于偏差序列ARIMA的供应方案")
     print("=" * 50)
 
     # 1. 数据读取
@@ -216,7 +216,7 @@ def main():
         print(f"{plan_ids[i]:<12} {plan_types[i]:<6} {m['model_type']:<20} {m['params']['mean_D']:<10.2f} {m['params']['N']:<8}")
 
     print("\n" + "=" * 50)
-    print("问题三方案E求解完成！")
+    print("问题三求解完成！")
     print("=" * 50)
 
 
