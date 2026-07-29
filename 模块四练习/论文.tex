@@ -190,6 +190,34 @@ $C_i$ & 第i家供应商的贴近度 & 无 \\
 
 \section{模型建立与求解}
 
+\subsection{数据预处理}
+
+\subsubsection{原始数据说明}
+
+附件1包含两个工作表："企业的订货量"和"供应商的供货量"，每张表均为$409$行$\times 242$列结构。前两列为供应商ID（S001--S402）和材料分类（A/B/C），第3至242列为W001至W240共240周的订货量或供货量数据，单位为立方米。
+
+\subsubsection{缺失值与异常值处理}
+
+对原始数据进行如下预处理：
+
+（1）剔除表头行与可能的空行，保留402家供应商的有效记录。
+
+（2）对订货量表与供货量表按供应商ID对齐，确保同一供应商的订货数据与供货数据一一对应。
+
+（3）将缺失值统一填充为0。在本题语境下，订货量为0表示该周未向该供应商下单，供货量为0表示该周该供应商未供货，0值具有明确实际含义并非单纯的缺失。
+
+（4）检查是否存在240周内从未被订过货的供应商，若存在则其有效周数$N_i = 0$，无法计算统计特征，予以剔除。实际数据中402家供应商均有订货记录，无需剔除。
+
+\subsubsection{有效订货周界定}
+
+为规避企业和供应商未发生业务往来的周次（$O_{ij} = 0$）对均值、方差等统计量的稀释干扰，定义第$i$家供应商的有效订货周集合：
+
+\begin{equation}
+W_i = \{j \mid O_{ij} > 0\}, \quad i = 1, 2, \dots, 402
+\end{equation}
+
+其有效周数记为$N_i = |W_i|$。后续所有特征指标的计算均在$W_i$上进行。
+
 \subsection{问题一模型建立及求解}
 
 \subsubsection{建模前准备}
@@ -218,99 +246,157 @@ $C_i$ & 第i家供应商的贴近度 & 无 \\
 \label{fig:framework}
 \end{figure}
 
-\subsubsection{评估指标确定}
+\subsubsection{特征指标提取}
 
-为量化供应商对保障企业生产的重要性，本文从上述四个维度构建数学模型。
+针对第$i$家供应商，从供货规模、信用缺口、履约可靠性、供货波动四个维度提取评价指标。
 
-第一个指标为周均供货量，衡量供应商的平均周产能贡献：
-\begin{equation}
-F_{1i} = \frac{1}{N_i} \sum_{j \in W_i} S_{ij}
-\label{eq:f1}
-\end{equation}
-此式对第i家供应商所有有效订货周的供货量取均值，以反映其供货规模。S229的周均供货量达1560.45立方米，在402家中位列第一。
+\textbf{1. 周均供货量$F_{1i}$}
 
-第二个指标为周均供货缺失量，衡量未按要求履约的平均缺口：
-\begin{equation}
-F_{2i} = \frac{1}{N_i} \sum_{j \in W_i} \max(0,\; O_{ij} - S_{ij})
-\label{eq:f2}
-\end{equation}
-此式中max函数仅统计缺货方向的差值，防止超额供货的冗余抵消缺货量。多数供应商的此项指标集中在0附近。
+第$i$家供应商的周均供货量定义为该供应商在有效订货周上供货量的算术平均：
 
-第三个指标为供货达标率，衡量足额或超额保障产能的频次占比：
 \begin{equation}
-F_{3i} = \frac{1}{N_i} \sum_{j \in W_i} I(S_{ij} \geq O_{ij})
-\label{eq:f3}
+F_{1i} = \frac{1}{N_i} \sum_{j \in W_i} S_{ij}, \quad i = 1, 2, \dots, 402
 \end{equation}
-该式采用大于等于判定准则，度量供应商是否按标准供货而非具有超额供货倾向。实证结果显示，S282以0.971的达标率位居前55名之首，充分验证了该指标对高精度履约行为的有效识别。
 
-第四个指标为供货偏差均方，衡量供货偏差的离散程度：
-\begin{equation}
-F_{4i} = \frac{1}{N_i} \sum_{j \in W_i} (O_{ij} - S_{ij})^2
-\label{eq:f4}
-\end{equation}
-此式在F2的基础上进一步捕捉无方向的波动幅度。四项指标从规模和稳定性两个层面综合刻画供应商的重要性。
+其中$S_{ij}$为第$i$家供应商第$j$周的实际供货量。$F_{1i}$为极大型指标，其值越大，表明该供应商的平均周产能贡献越高，在保障企业连续生产方面的规模优势越显著。
 
-构建原始特征矩阵$X$后，对极大型指标和极小型指标分别进行正向化处理。对极大型指标使用下式：
-\begin{equation}
-y_{ik} = \frac{x_{ik} - \min_i(x_{ik})}{\max_i(x_{ik}) - \min_i(x_{ik})}
-\label{eq:pos}
-\end{equation}
-对极小型指标则取逆向变换。标准化后所有指标统一为正向0至1区间。
+\textbf{2. 周均供货缺失量$F_{2i}$}
 
-CRITIC法通过对比强度和冲突性两个维度计算权重。对比强度用标准差表示，反映指标在供应商间的区分能力：
-\begin{equation}
-\sigma_k = \sqrt{\frac{1}{401} \sum_{i=1}^{402} (y_{ik} - \bar{y}_k)^2}
-\label{eq:sigma}
-\end{equation}
-F3供货达标率的对比强度为0.2927，在四项指标中最高，说明供应商在履约可靠性上差异最大。冲突性用指标间相关系数度量：
-\begin{equation}
-\gamma_k = \sum_{j=1}^{4} (1 - r_{jk})
-\label{eq:gamma}
-\end{equation}
-其中$r_{jk}$为Pearson相关系数。F1的冲突性为3.4661，说明其与其他指标的独立信息较多。将两者相乘得到信息承载量，归一化后即为权重：
-\begin{equation}
-I_k = \sigma_k \cdot \gamma_k, \quad w_k = \frac{I_k}{\sum_{k=1}^{4} I_k}
-\label{eq:critic}
-\end{equation}
-计算得到供货达标率权重0.5325，周均供货量权重0.2847，周均缺失量和供货偏差均方权重分别为0.0922和0.0907。
+第$i$家供应商的周均供货缺失量定义为该供应商在有效订货周上订货量超出供货量部分（即缺货缺口）的算术平均：
 
-利用CRITIC权重构建加权标准化矩阵，确定正负理想解：
 \begin{equation}
-z_{ik} = w_k \cdot y_{ik}, \quad Z_k^+ = \max_i(z_{ik}), \quad Z_k^- = \min_i(z_{ik})
-\label{eq:topsis}
+F_{2i} = \frac{1}{N_i} \sum_{j \in W_i} \max(0,\; O_{ij} - S_{ij}), \quad i = 1, 2, \dots, 402
 \end{equation}
-计算各供应商到正负理想解的欧氏距离，得到相对贴近度：
+
+其中$O_{ij}$为第$i$家供应商第$j$周的订货量。$F_{2i}$为极小型指标，引入截断函数$\max(\cdot, 0)$仅统计缺货方向的差值，防止超额供货的冗余量抵消缺货量。其值越小，表明该供应商的履约信用越好，订货缺口越可控。
+
+\textbf{3. 供货达标率$F_{3i}$}
+
+第$i$家供应商的供货达标率定义为该供应商在有效订货周上供货量不低于订货量的周次占比：
+
 \begin{equation}
-D_i^+ = \sqrt{\sum_{k=1}^{4} (z_{ik} - Z_k^+)^2}, \quad D_i^- = \sqrt{\sum_{k=1}^{4} (z_{ik} - Z_k^-)^2}
-\label{eq:dist}
+F_{3i} = \frac{1}{N_i} \sum_{j \in W_i} I(S_{ij} \geq O_{ij}), \quad i = 1, 2, \dots, 402
 \end{equation}
+
+其中$I(\cdot)$为指示函数，条件成立取1，否则取0。$F_{3i}$为极大型指标，采用$\geq$（含等号）使精确交货（$S_{ij} = O_{ij}$）计入达标，度量的是"履约可靠性"而非"超额供货倾向"。其值越接近1，表明该供应商连续稳定供货的能力越强。
+
+\textbf{4. 供货均方偏差$F_{4i}$}
+
+第$i$家供应商的供货偏差均方定义为该供应商在有效订货周上订货量与供货量偏差平方的算术平均：
+
 \begin{equation}
-C_i = \frac{D_i^-}{D_i^+ + D_i^-}
-\label{eq:ci}
+F_{4i} = \frac{1}{N_i} \sum_{j \in W_i} (O_{ij} - S_{ij})^2, \quad i = 1, 2, \dots, 402
 \end{equation}
-依据$C_i$降序排列，取前55名作为问题二的供应商集合。S229贴近度0.9521排名第一，S361贴近度0.9166排名第二。
+
+$F_{4i}$为极小型指标，反映供货偏差的离散程度。其值越小，表明该供应商供货波动越平缓，可靠性越高；其值越大，表明供货量围绕订货量剧烈震荡，企业难以据此安排稳定生产。
+
+上述四项指标从规模、信用、可靠性、稳定性四个互补维度刻画供应商的综合特征，构成后续CRITIC赋权与TOPSIS排序的原始特征矩阵$X = (x_{ik})_{402 \times 4}$，其中$k = 1, 2, 3, 4$分别对应$F_1$、$F_2$、$F_3$、$F_4$。
 
 \subsubsection{模型求解}
 
-CRITIC法与熵权法的权重对比如图\ref{fig:weight}所示。CRITIC法下供货达标率权重0.5325，熵权法下百分之93权重集中于周均供货量。CRITIC法通过冲突性维度识别出供货达标率的不可替代信息，避免了单指标主导的问题。
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth]{problem1_weight_comparison.png}
-\caption{CRITIC法与熵权法权重对比}
-\label{fig:weight}
-\end{figure}
-CRITIC法下供货达标率权重最高，熵权法下周均供货量权重最高，不同方法对指标信息量的理解存在差异。
+\subsubsection{CRITIC客观赋权}
 
-然后计算402家供应商的CRITIC贴近度。图\ref{fig:score}展示了贴近度分布情况，可见贴近度在全区间上分布较为均匀，前55名分界线清晰。
+\textbf{Step 1：数据正向化与标准化}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth]{problem1_score_distribution.png}
-\caption{CRITIC贴近度分布直方图}
-\label{fig:score}
-\end{figure}
-CRITIC-TOPSIS模型计算出的贴近度分布较为均匀，前55名供应商的贴近度需达到一定阈值。
+为消除指标量纲与方向差异，对极大型指标（$F_1$、$F_3$）和极小型指标（$F_2$、$F_4$）分别进行min-max标准化。
+
+\begin{equation}
+y_{ik} = 
+\begin{cases}
+\dfrac{x_{ik} - \min_i(x_{ik})}{\max_i(x_{ik}) - \min_i(x_{ik})}, & \text{极大型指标} \\[10pt]
+\dfrac{\max_i(x_{ik}) - x_{ik}}{\max_i(x_{ik}) - \min_i(x_{ik})}, & \text{极小型指标}
+\end{cases}
+\end{equation}
+
+标准化后所有指标取值落于$[0, 1]$区间，且方向统一为"越大越优"，得到标准化矩阵$Y = (y_{ik})_{402 \times 4}$。
+
+\textbf{Step 2：计算对比强度}
+
+对标准化矩阵$Y$，计算第$k$项指标的样本标准差作为对比强度：
+
+\begin{equation}
+\sigma_k = \sqrt{\frac{1}{402-1} \sum_{i=1}^{402} (y_{ik} - \bar{y}_k)^2}, \quad k = 1, 2, 3, 4
+\end{equation}
+
+其中$\bar{y}_k$为第$k$项指标的样本均值。$\sigma_k$越大，说明该指标在402家供应商间的离散程度越高，区分能力越强。
+
+\textbf{Step 3：计算指标冲突性}
+
+计算指标间的Pearson相关系数矩阵$R = (r_{jk})_{4 \times 4}$：
+
+\begin{equation}
+r_{jk} = \frac{\sum_{i=1}^{402}(y_{ij} - \bar{y}_j)(y_{ik} - \bar{y}_k)}{\sqrt{\sum_{i=1}^{402}(y_{ij} - \bar{y}_j)^2 \sum_{i=1}^{402}(y_{ik} - \bar{y}_k)^2}}
+\end{equation}
+
+第$k$项指标的冲突性定义为：
+
+\begin{equation}
+\gamma_k = \sum_{j=1}^{4} (1 - r_{jk}), \quad k = 1, 2, 3, 4
+\end{equation}
+
+$r_{jk}$越接近1，两指标信息越冗余，冲突性越小；$r_{jk}$越接近0或为负，独立信息越多，冲突性越大。
+
+\textbf{Step 4：计算综合权重}
+
+第$k$项指标的信息承载量为对比强度与冲突性的乘积：
+
+\begin{equation}
+I_k = \sigma_k \cdot \gamma_k
+\end{equation}
+
+归一化得最终权重：
+
+\begin{equation}
+w_k = \frac{I_k}{\sum_{k=1}^{4} I_k}, \quad k = 1, 2, 3, 4
+\end{equation}
+
+\subsubsection{TOPSIS综合排序}
+
+\textbf{Step 1：构建加权标准化矩阵}
+
+利用CRITIC权重$w_k$对标准化矩阵$Y$逐列加权，得到加权标准化矩阵$Z = (z_{ik})_{402 \times 4}$：
+
+\begin{equation}
+z_{ik} = w_k \cdot y_{ik}, \quad i = 1, 2, \dots, 402;\; k = 1, 2, 3, 4
+\end{equation}
+
+加权后的矩阵既保留了各指标的标准化得分，又体现了CRITIC赋予的相对重要性。
+
+\textbf{Step 2：确定正理想解与负理想解}
+
+正理想解$Z^+$取各列最大值，负理想解$Z^-$取各列最小值：
+
+\begin{equation}
+Z_k^+ = \max_i(z_{ik}), \quad Z_k^- = \min_i(z_{ik}), \quad k = 1, 2, 3, 4
+\end{equation}
+
+正理想解代表所有供应商在各指标上的最优表现组合，负理想解代表最差表现组合。
+
+\textbf{Step 3：计算欧氏距离}
+
+各供应商到正、负理想解的欧氏距离分别为：
+
+\begin{equation}
+\begin{cases}
+D_i^+ = \sqrt{\sum_{k=1}^{4} (z_{ik} - Z_k^+)^2} \\[10pt]
+D_i^- = \sqrt{\sum_{k=1}^{4} (z_{ik} - Z_k^-)^2}
+\end{cases}
+\quad i = 1, 2, \dots, 402
+\end{equation}
+
+$D_i^+$越小，表明该供应商越接近最优表现；$D_i^-$越大，表明该供应商越远离最差表现。
+
+\textbf{Step 4：计算相对贴近度}
+
+第$i$家供应商的相对贴近度定义为：
+
+\begin{equation}
+C_i = \frac{D_i^-}{D_i^+ + D_i^-}, \quad i = 1, 2, \dots, 402
+\end{equation}
+
+$C_i \in [0, 1]$，越接近1表示该供应商越接近正理想解、远离负理想解，综合表现越优。
+
 
 \subsubsection{结果展示}
 
