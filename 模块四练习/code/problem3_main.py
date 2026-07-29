@@ -5,7 +5,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from data_loader import load_supplier_data
+from problem_data_loader import load_supplier_data
 from problem3_predictor import (build_deviation_series, fit_all_suppliers, predict_supply,
                                   monte_carlo_simulation, compute_supply_plan, compute_capacity_stats,
                                   compute_confidence_intervals)

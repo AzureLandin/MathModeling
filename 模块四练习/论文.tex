@@ -23,18 +23,8 @@
     citecolor=green!50!black,
     urlcolor=blue!60!black
 }
-\usepackage{listings}
-\lstset{
-    basicstyle=\small\ttfamily,
-    breaklines=true,
-    frame=single,
-    numbers=left,
-    numberstyle=\tiny\color{gray},
-    keywordstyle=\color{blue},
-    commentstyle=\color{green!60!black},
-    stringstyle=\color{red!70!black},
-    tabsize=4
-}
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{CodeBlock}{Verbatim}{breaklines=true,fontsize=\small}
 
 \usepackage{setspace}
 \usepackage{indentfirst}
@@ -347,18 +337,38 @@ CRITIC-TOPSIS模型计算出的贴近度分布较为均匀，前55名供应商�
 \end{table}
 CRITIC法中供货达标率权重最高，说明在保障企业生产重要性方面，履约可靠性比供货规模更具区分价值。
 
-图\ref{fig:rank}展示了CRITIC排名与熵权排名的散点对比。两种排名高度集中在对角线附近，Spearman相关系数达0.9909，表明评价结果对赋权方法不敏感。前55名重合46家，重合率百分之83.6，验证了筛选结果的稳健性。
+最终通过CRITIC赋权并借助TOPSIS法计算综合得分并排名，得出的最重要的55家供应商汇成表格如下。
 
-\begin{figure}[H]
+\begin{table}[H]
 \centering
-\includegraphics[width=0.6\textwidth]{problem1_rank_scatter.png}
-\caption{CRITIC排名与熵权排名散点图}
-\label{fig:rank}
-\end{figure}
-CRITIC排名与熵权排名高度一致，点集中在对角线附近，说明结论对不同赋权方法不敏感。
-
-前55家供应商中A类18家、B类15家、C类22家，材料类型分布均衡，不存在偏倚。
-
+\caption{最重要的55家供应商及其贴近度}
+\label{tab:top55}
+\begin{tabular}{ccccccccc}
+\toprule
+供应商ID & 贴近度 & 供应商ID & 贴近度 & 供应商ID & 贴近度 \\
+\midrule
+S229 & 0.9521 & S352 & 0.7044 & S239 & 0.6537 \\
+S361 & 0.9166 & S348 & 0.7014 & S342 & 0.6531 \\
+S108 & 0.8477 & S143 & 0.6937 & S379 & 0.6527 \\
+S140 & 0.8404 & S037 & 0.6911 & S055 & 0.6523 \\
+S282 & 0.7968 & S374 & 0.6877 & S294 & 0.6520 \\
+S340 & 0.7812 & S247 & 0.6860 & S175 & 0.6518 \\
+S151 & 0.7775 & S284 & 0.6851 & S221 & 0.6510 \\
+S275 & 0.7701 & S126 & 0.6836 & S080 & 0.6508 \\
+S329 & 0.7672 & S365 & 0.6735 & S237 & 0.6506 \\
+S395 & 0.7664 & S031 & 0.6701 & S367 & 0.6504 \\
+S139 & 0.7587 & S338 & 0.6662 & S213 & 0.6480 \\
+S356 & 0.7494 & S364 & 0.6605 & S114 & 0.6479 \\
+S131 & 0.7459 & S178 & 0.6586 & S005 & 0.6472 \\
+S268 & 0.7441 & S053 & 0.6584 & S244 & 0.6471 \\
+S330 & 0.7438 & S218 & 0.6578 & S346 & 0.6470 \\
+S308 & 0.7403 & S067 & 0.6569 & S169 & 0.6465 \\
+S306 & 0.7400 & S174 & 0.6567 & S076 & 0.6460 \\
+S194 & 0.7210 & S040 & 0.6552 &  &  &  \\
+S307 & 0.7091 & S362 & 0.6550 &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{问题二模型建立及求解}
 
@@ -702,31 +712,44 @@ AI工具使用说明.pdf & AI工具使用说明 \\
 
 \section{相关代码}
 
-\lstinputlisting[language=Python, title={\textbf{problem1\_main.py} 问题一主程序}]{code/problem1_main.py}
+\noindent\textbf{problem1\_main.py} 问题一主程序
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem1_main.py}
 
-\lstinputlisting[language=Python, title={\textbf{data\_loader.py} 数据加载模块}]{code/data_loader.py}
+\noindent\textbf{data\_loader.py} 数据加载模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_data_loader.py}
 
-\lstinputlisting[language=Python, title={\textbf{indicators.py} 特征指标计算模块}]{code/indicators.py}
+\noindent\textbf{indicators.py} 特征指标计算模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_indicators.py}
 
-\lstinputlisting[language=Python, title={\textbf{normalize.py} 数据标准化模块}]{code/normalize.py}
+\noindent\textbf{normalize.py} 数据标准化模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_normalize.py}
 
-\lstinputlisting[language=Python, title={\textbf{critic\_weight.py} CRITIC权重计算模块}]{code/critic_weight.py}
+\noindent\textbf{critic\_weight.py} CRITIC权重计算模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_critic_weight.py}
 
-\lstinputlisting[language=Python, title={\textbf{entropy\_weight.py} 熵权法权重计算模块}]{code/entropy_weight.py}
+\noindent\textbf{entropy\_weight.py} 熵权法权重计算模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_entropy_weight.py}
 
-\lstinputlisting[language=Python, title={\textbf{topsis.py} TOPSIS排序模块}]{code/topsis.py}
+\noindent\textbf{topsis.py} TOPSIS排序模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_topsis.py}
 
-\lstinputlisting[language=Python, title={\textbf{problem1\_validation.py} 稳健性验证模块}]{code/problem1_validation.py}
+\noindent\textbf{problem1\_validation.py} 稳健性验证模块
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem1_validation.py}
 
-\lstinputlisting[language=Python, title={\textbf{ordering\_solver.py} 0-1整数规划求解器}]{code/ordering_solver.py}
+\noindent\textbf{ordering\_solver.py} 0-1整数规划求解器
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_ordering_solver.py}
 
-\lstinputlisting[language=Python, title={\textbf{problem2\_main.py} 问题二主程序}]{code/problem2_main.py}
+\noindent\textbf{problem2\_main.py} 问题二主程序
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem2_main.py}
 
-\lstinputlisting[language=Python, title={\textbf{problem3\_predictor.py} ARIMA偏差预测器}]{code/problem3_predictor.py}
+\noindent\textbf{problem3\_predictor.py} ARIMA偏差预测器
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem3_predictor.py}
 
-\lstinputlisting[language=Python, title={\textbf{problem3\_main.py} 问题三主程序}]{code/problem3_main.py}
+\noindent\textbf{problem3\_main.py} 问题三主程序
+\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem3_main.py}
 
-\lstinputlisting[language=Python, title={\textbf{problem3\_backtest.py} 回测验证模块}, firstline=1, lastline=238]{code/problem3_backtest.py}
+\noindent\textbf{problem3\_backtest.py} 回测验证模块
+\VerbatimInput[breaklines=true,fontsize=\small, firstline=1, lastline=238]{./code/problem3_backtest.py}
 
 
 \end{document}

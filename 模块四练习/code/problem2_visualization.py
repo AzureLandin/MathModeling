@@ -19,8 +19,8 @@ def plot_weekly_volume(weekly_volume, save_path):
     
     ax.set_xlabel('周次', fontsize=14)
     ax.set_ylabel('订购量（产品体积 m$^3$）', fontsize=14)
-    ax.set_title('24周每周订购量', fontsize=18, fontweight='bold')
     ax.set_xticks(weeks)
+    ax.tick_params(axis='both', labelsize=12)
     ax.legend(fontsize=12)
     ax.grid(axis='y', alpha=0.3)
     
@@ -40,8 +40,8 @@ def plot_weekly_suppliers(weekly_count, weekly_A, weekly_B, weekly_C, save_path)
     
     ax.set_xlabel('周次', fontsize=14)
     ax.set_ylabel('供应商数量', fontsize=14)
-    ax.set_title('每周选中供应商数量（按材料类型）', fontsize=18, fontweight='bold')
     ax.set_xticks(weeks)
+    ax.tick_params(axis='both', labelsize=12)
     ax.legend(fontsize=12)
     ax.grid(axis='y', alpha=0.3)
     
@@ -64,14 +64,13 @@ def plot_supplier_heatmap(x, ids, types, save_path):
     
     ax.set_xlabel('周次', fontsize=14)
     ax.set_ylabel('供应商', fontsize=14)
-    ax.set_title('供应商订购计划热力图', fontsize=18, fontweight='bold')
     ax.set_xticks(np.arange(24))
-    ax.set_xticklabels(np.arange(1, 25), fontsize=11)
+    ax.set_xticklabels(np.arange(1, 25), fontsize=12)
     ax.set_yticks(np.arange(len(ids)))
-    ax.set_yticklabels([f"{ids_sorted[i]}({types_sorted[i]})" for i in range(len(ids))], fontsize=7)
+    ax.set_yticklabels([f"{ids_sorted[i]}({types_sorted[i]})" for i in range(len(ids))], fontsize=8)
     
     cbar = plt.colorbar(im, ax=ax, label='是否订购 (0/1)')
-    cbar.ax.tick_params(labelsize=11)
+    cbar.ax.tick_params(labelsize=12)
     cbar.set_label('是否订购 (0/1)', fontsize=13)
     
     plt.tight_layout()

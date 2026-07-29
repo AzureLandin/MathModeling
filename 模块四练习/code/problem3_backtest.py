@@ -25,9 +25,8 @@ FIGURES_DIR = os.path.join(BASE_DIR, "figures")
 
 
 def load_data():
-    """加载数据"""
-    from data_loader import load_supplier_data
-    from indicators import compute_indicators
+    from problem_data_loader import load_supplier_data
+    from problem_indicators import compute_indicators
     
     supplier_ids, material_types, order_data, supply_data = load_supplier_data(DATA_PATH)
     F1, F2, F3, F4, N = compute_indicators(order_data, supply_data)
@@ -245,7 +244,7 @@ def plot_scatter(y_true_D, y_pred_D, y_true_E, y_pred_E, save_path):
     ax.plot([0, max_val], [0, max_val], 'r--', linewidth=2, label='完美预测线')
     ax.set_xlabel('真实供货量 (m$^3$)', fontsize=14)
     ax.set_ylabel('预测供货量 (m$^3$)', fontsize=14)
-    ax.set_title('回测期预测值 vs 真实值（偏差ARIMA）', fontsize=18, fontweight='bold')
+    ax.tick_params(axis='both', labelsize=12)
     ax.legend(fontsize=12)
     ax.grid(True, alpha=0.3)
     
@@ -264,10 +263,10 @@ def plot_weekly_comparison(weeks, T_true, T_D, T_E, save_path, capacity=28200):
     ax.plot(weeks, T_D, '^--', color='coral', linewidth=1.5, markersize=5, label='方案E (ARIMA)')
     ax.axhline(y=capacity, color='red', linestyle=':', linewidth=1.5, alpha=0.7, label='产能要求')
     
-    ax.set_xlabel('周次', fontsize=12)
-    ax.set_ylabel('总供货量 (产品体积 m$^3$)', fontsize=12)
-    ax.set_title('测试期24周：真实总量 vs 预测总量', fontsize=14)
-    ax.legend(fontsize=10)
+    ax.set_xlabel('周次', fontsize=14)
+    ax.set_ylabel('总供货量 (产品体积 m$^3$)', fontsize=14)
+    ax.tick_params(axis='both', labelsize=12)
+    ax.legend(fontsize=12)
     ax.grid(True, alpha=0.3)
     
     plt.tight_layout()

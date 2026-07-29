@@ -19,8 +19,8 @@ def plot_weight_bar_critic(weights, save_path):
                 f'{w:.4f}', ha='center', va='bottom', fontsize=11, fontweight='bold')
 
     ax.set_ylabel('权重', fontsize=14)
-    ax.set_title('CRITIC法指标权重分布（主模型）', fontsize=18, fontweight='bold')
     ax.set_ylim(0, max(weights) * 1.2)
+    ax.tick_params(axis='both', labelsize=12)
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
     plt.savefig(save_path, dpi=150)
@@ -39,7 +39,7 @@ def plot_score_distribution(C, threshold, save_path):
 
     ax.set_xlabel('贴近度 C', fontsize=14)
     ax.set_ylabel('供应商数量', fontsize=14)
-    ax.set_title('供应商贴近度分布（CRITIC-TOPSIS）', fontsize=18, fontweight='bold')
+    ax.tick_params(axis='both', labelsize=12)
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
     plt.savefig(save_path, dpi=150)
@@ -59,7 +59,7 @@ def plot_weight_comparison(w_critic, w_entropy, save_path):
     ax.set_xticks(x)
     ax.set_xticklabels(indicators)
     ax.set_ylabel('权重', fontsize=14)
-    ax.set_title('CRITIC vs 熵权法 权重对比', fontsize=18, fontweight='bold')
+    ax.tick_params(axis='both', labelsize=12)
     ax.legend()
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
@@ -87,7 +87,7 @@ def plot_rank_scatter(rank_critic, rank_entropy, spearman_rho, save_path):
 
     ax.set_xlabel('CRITIC-TOPSIS排名（主模型）', fontsize=14)
     ax.set_ylabel('熵权-TOPSIS排名（验证）', fontsize=14)
-    ax.set_title(f'两种方法排名对比 (Spearman ρ={spearman_rho:.4f})', fontsize=18, fontweight='bold')
+    ax.tick_params(axis='both', labelsize=12)
     ax.legend(loc='lower right', fontsize=10)
     ax.set_xlim(0, 420)
     ax.set_ylim(0, 420)

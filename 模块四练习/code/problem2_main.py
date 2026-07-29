@@ -6,8 +6,8 @@ import math
 import numpy as np
 import pandas as pd
 
-from data_loader import load_supplier_data
-from ordering_solver import load_top55_params, check_feasibility, solve_ordering_problem, compute_weekly_summary
+from problem_data_loader import load_supplier_data
+from problem_ordering_solver import load_top55_params, check_feasibility, solve_ordering_problem, compute_weekly_summary
 from problem2_visualization import plot_weekly_volume, plot_weekly_suppliers, plot_supplier_heatmap
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

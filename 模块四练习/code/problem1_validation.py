@@ -6,12 +6,12 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from data_loader import load_supplier_data
-from indicators import compute_indicators, build_indicator_matrix
-from normalize import minmax_normalize
-from entropy_weight import entropy_weight
-from critic_weight import critic_weight
-from topsis import topsis
+from problem_data_loader import load_supplier_data
+from problem_indicators import compute_indicators, build_indicator_matrix
+from problem_normalize import minmax_normalize
+from problem_entropy_weight import entropy_weight
+from problem_critic_weight import critic_weight
+from problem_topsis import topsis
 from problem1_visualization import plot_rank_scatter
 
 # 路径配置
