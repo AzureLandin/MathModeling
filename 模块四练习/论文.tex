@@ -125,14 +125,14 @@
   
 为保障生产企业持续稳定发展，针对生产企业原材料订购与供应问题，本文建立了CRITIC及TOPSIS综合评价模型帮助企业筛选高质量合作供应商，并根据企业生产需求建立0-1整数规划模型和并利用偏差序列ARIMA模型对供应商未来供货情况进行预测，以此制定企业未来24周的订购计划及供货商的供货计划。
 
-\textbf{针对问题一：}本文从供货规模、缺货缺口、履约可靠性和波动幅度四个维度构建特征指标体系。采用CRITIC法客观赋权，结合TOPSIS法计算综合贴近度，筛选出55家最重要供应商。结果显示供货达标率权重最高，体现了对履约可靠性的重视。通过熵权法验证，排名高度一致，证明模型较为稳健。
+{\heiti 针对问题一：}本文首先对402家供应商近5年共240周的订货量与供货量历史数据进行量化分析。通过研究数据分布特性，识别出供货规模、缺货缺口、履约可靠性和波动幅度四个关键评价维度，并据此构建特征指标体系。在此基础上，采用 \textbf{CRITIC-TOPSIS} 法客观赋权与综合评价，最终筛选出55家最重要供应商。结果显示供货达标率权重最高，体现了模型对履约可靠性的重视。经熵权法交叉验证，两种方法排名高度一致，证明评价结果具有稳健性。
 
-\textbf{针对问题二：}在问题一基础上，以每周是否向供应商订货为决策变量，以最小化采购总成本为目标建立0-1整数规划模型。约束条件包括每周总订购量折算产品体积不低于产能百分之九十，以及各供应商订货次数不低于历史平均周期订货次数。求解得到未来24周最优订购方案，所有周次均满足产能底线要求。
+{\heiti 针对问题二：}在问题一基础上，以每周是否向供应商订货为决策变量，以最小化采购总成本为目标建立\textbf{0-1整数规划模型}。约束条件包括每周总订购量折算产品体积不低于产能百分之九十，以及各供应商订货次数不低于历史平均周期订货次数。求解得到未来24周最优订购方案，所有周次均满足产能底线要求。
 
-\textbf{针对问题三：}构建每家供应商的供货偏差序列，通过ADF检验和Ljung-Box检验判断序列特性，分别采用ARIMA模型或均值模型预测未来24周偏差。将预测偏差叠加固定订货量得到实际供货量预测值。计算得出平均产能满足率为百分之101.31，达标周数占比百分之91.7。蒙特卡洛模拟显示每周达标概率为百分之92.12，方案具有较高可靠性。
+{\heiti 针对问题三：}构建每家供应商的供货偏差序列，通过ADF检验和Ljung-Box检验判断序列特性，分别采用\textbf{ARIMA模型}或均值模型预测未来24周偏差。将预测偏差叠加固定订货量得到实际供货量预测值。计算得出平均产能满足率为101.31\%，达标周数占比\textbf{91.7\%}。蒙特卡洛模拟显示每周达标概率为92.12\%，方案具有较高可靠性。
 \end{abstract}
 
-\keywords{CRITIC赋权；TOPSIS排序；0-1整数规划；偏差序列ARIMA；蒙特卡洛模拟}
+\keywords{CRITIC赋权；TOPSIS排序；0-1整数规划；偏差序列ARIMA}
 
 \newpage
 
@@ -205,7 +205,7 @@ $C_i$ & 第i家供应商的贴近度 & 无 \\
 \subsubsection{建模前准备}
 
 
-根据问题一的分析，评价指标应能刻画供应商的供货特征，反映其对保障企业生产的重要性。本文遵循系统性、科学性、可比性、可测性和独立性五个原则选取指标。基于上述原则，本文构建如图\ref{fig:framework}所示的评价指标框架。
+根据问题一的分析，评价指标应能刻画供应商的供货特征，反映其对保障企业生产的重要性。本文遵循系统性、科学性、可比性和可测性四个原则选取指标。基于上述原则，本文构建如图\ref{fig:framework}所示的评价指标框架。
 
 \begin{figure}[H]
 \centering
@@ -230,7 +230,6 @@ $C_i$ & 第i家供应商的贴近度 & 无 \\
 
 供应商重要性从两个维度衡量。供货能力反映供应商的产能贡献规模和缺口大小，包含周均供货量和周均缺失量两个指标：前者刻画绝对产能贡献，后者刻画产能不足的平均缺口。履约可靠性反映供应商的供货稳定性和可信度，包含供货达标率和供货偏差均方两个指标：前者刻画足额交货的频次占比，后者刻画供货偏差的离散程度。
 
-\paragraph{指标与假设的对应关系}
 
 指标选取与模型假设紧密关联。基于假设1，供货行为模式保持稳定，指标采用历史有效周的统计量计算，以历史特征代表未来表现。基于假设2，产能固定为2.82万立方米，供货量可折算为产品体积进行横向比较，使得不同材料类型的供应商具有可比性。基于假设3，供货量非负，周均缺失量中的max函数确保只统计缺货方向，防止超额供货的冗余抵消缺货信息。基于假设4，0值不影响统计特征，有效周集合$W_i$排除了未发生业务的周，使统计量仅反映实际交易周的表现。
 
@@ -257,7 +256,7 @@ F_{2i} = \frac{1}{N_i} \sum_{j \in W_i} \max(0,\; O_{ij} - S_{ij})
 F_{3i} = \frac{1}{N_i} \sum_{j \in W_i} I(S_{ij} \geq O_{ij})
 \label{eq:f3}
 \end{equation}
-此式采用大于等于含等号，将精确交货计入达标，度量的是履约可靠性而非超额供货倾向。S282的达标率高达0.971，为前55名中最高。
+该式采用大于等于判定准则，度量供应商是否按标准供货而非具有超额供货倾向。实证结果显示，S282以0.971的达标率位居前55名之首，充分验证了该指标对高精度履约行为的有效识别。
 
 第四个指标为供货偏差均方，衡量供货偏差的离散程度：
 \begin{equation}
@@ -352,7 +351,7 @@ CRITIC法中供货达标率权重最高，说明在保障企业生产重要性�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth]{problem1_rank_scatter.png}
+\includegraphics[width=0.6\textwidth]{problem1_rank_scatter.png}
 \caption{CRITIC排名与熵权排名散点图}
 \label{fig:rank}
 \end{figure}
@@ -580,7 +579,7 @@ $D_{ij} > 0$表示超额供货，$D_{ij} < 0$表示缺货。对偏差序列执�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{problem3_backtest_weekly.png}
+\includegraphics[width=0.5\textwidth]{problem3_backtest_weekly.png}
 \caption{回测期周供应量对比折线图}
 \label{fig:backtest_weekly}
 \end{figure}
@@ -602,9 +601,9 @@ $D_{ij} > 0$表示超额供货，$D_{ij} < 0$表示缺货。对偏差序列执�
 \subsection{模型的优点}
 
 \begin{enumerate}[label=\arabic*.]
-  \item 问题一采用CRITIC法，有效避免单一指标主导评价结果，更贴合保障生产连续性的业务语义。
-  \item 问题二建立0-1整数规划模型，精确刻画每周订购决策，求解结果严格满足所有约束条件。
-  \item 问题三直接建模供货偏差，避免比值运算带来的小分母偏差，且能捕捉偏差的时间结构。
+  \item CRITIC法赋予供货达标率最高权重0.5325，成功剔除量大但履约差的伪优质供应商，避免熵权法因值域跨度大导致的权重分配失衡。
+  \item 0-1整数规划模型在55家供应商全选产能余量仅3.1\%的约束下秒级求得全局最优解，所有周次订购量贴近25380立方米且最小超量仅1立方米，验证了模型处理高维离散组合优化问题的精确性。
+  \item 直接对“供货-订货”偏差建立ARIMA模型，有效规避了小订单场景下供货率比值失真的系统性误差。
 \end{enumerate}
 
 \subsection{模型的缺点}
@@ -623,9 +622,21 @@ $D_{ij} > 0$表示超额供货，$D_{ij} < 0$表示缺货。对偏差序列执�
 \begin{thebibliography}{99}
 \addcontentsline{toc}{section}{参考文献}
 
-\bibitem{ref1} 狄拉克. 数学建模方法及其应用[M]. 高等教育出版社, 2020.
+\bibitem{ref1} Diakoulaki D, Mavrotas G, Papayannakis L. Determining objective weights in multiple criteria problems: The CRITIC method[J]. Computers \& Operations Research, 1995, 22(7): 763-770.
 
-\bibitem{ref2} 史密斯. 时间序列分析基础[M]. 机械工业出版社, 2019.
+\bibitem{ref2} Hwang C L, Yoon K. Multiple Attribute Decision Making: Methods and Applications[M]. New York: Springer-Verlag, 1981.
+
+\bibitem{ref3} Box G E P, Jenkins G M. Time Series Analysis: Forecasting and Control[M]. Revised ed. San Francisco: Holden-Day, 1976.
+
+\bibitem{ref4} Xie Z, Tian G, Tao Y. A Multi-Criteria Decision-Making Framework for Sustainable Supplier Selection in the Circular Economy and Industry 4.0 Era[J]. Sustainability, 2022, 14(24): 16809.
+
+\bibitem{ref5} Luo J, Wang Y, Liu C, et al. Data-driven optimization strategy of raw material procurement under uncertainties of price fluctuations and production demand[J]. Computers \& Industrial Engineering, 2025, 208: 111425.
+
+\bibitem{ref6} 高洁, 文琼瑶, 明思扬, 等. 基于评价体系与最优化的原材料订购和运输问题研究[J]. 运筹与模糊学, 2023, 13(1): 129-138.
+
+\bibitem{ref7} DeepSeek. DeepSeek V4 Pro 大语言模型[EB/OL]. 2026.
+
+\bibitem{ref8} 阿里巴巴云计算. 通义千问 Qwen 3.7 Max 大语言模型[EB/OL]. 2026.
 
 \end{thebibliography}
 
