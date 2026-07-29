@@ -295,7 +295,7 @@ $F_{4i}$为极小型指标，反映供货偏差的离散程度。其值越小，
 \subsubsection{模型求解}
 
 
-\subsubsection{CRITIC客观赋权}
+（1）CRITIC客观赋权流程如下：
 
 \textbf{Step 1：数据正向化与标准化}
 
@@ -351,7 +351,7 @@ I_k = \sigma_k \cdot \gamma_k
 w_k = \frac{I_k}{\sum_{k=1}^{4} I_k}, \quad k = 1, 2, 3, 4
 \end{equation}
 
-\subsubsection{TOPSIS综合排序}
+（2）TOPSIS综合排序流程如下：
 
 \textbf{Step 1：构建加权标准化矩阵}
 
@@ -453,79 +453,75 @@ S307 & 0.7091 & S362 & 0.6550 &  &  &  \\
 
 \subsection{问题二模型建立及求解}
 
-\subsubsection{模型建立}
+\subsubsection{目标函数确定}
+
+在问题一筛选出的55家核心供应商基础上，企业需要制定未来24周的原材料订购方案。每次向某家供应商发出订单时，订购量固定为该供应商的历史周均订货量并取整，企业只需决定每周是否向该供应商下单。这是一个典型的0-1选择问题。
+
+三种材料类型的采购单价存在差异：A类为C类的1.2倍，B类为1.1倍。但将单价与消耗率结合后，A类与C类的单位产品成本精确相等（均为0.720），B类仅高出0.83\%。因此，成本目标对A类和C类供应商完全无差异，模型在两者之间的选择将由产能约束和频次约束而非成本驱动。
 
 以每周是否向供应商订货为决策变量：
 \begin{equation}
 x_{ij} \in \{0, 1\}, \quad i = 1, 2, \dots, 55;\; j = 1, 2, \dots, 24
-\label{eq:decision}
+\label{eq:decision2}
 \end{equation}
-$x_{ij}=1$表示第$j$周向第$i$家供应商订货，否则为0。共1320个决策变量。
-
-每家供应商的固定订货量取历史有效周均订货量四舍五入取整：
+$x_{ij}=1$表示第$j$周向第$i$家供应商订货。每家供应商的固定订货量$Q_i$取历史有效周均订货量并取整：
 \begin{equation}
 Q_i = \text{round}\!\left(\frac{1}{N_i}\sum_{j \in W_i} O_{ij}\right)
-\label{eq:qi}
+\label{eq:qi2}
 \end{equation}
-$Q_i$的范围从1到1261立方米不等。最低订货次数取历史平均周期订货次数向上取整：
-\begin{equation}
-K_i = \lceil \frac{1}{10} \sum_{j=1}^{240} I(O_{ij} > 0) \rceil
-\label{eq:fi}
-\end{equation}
-$K_i$的范围从4到24次，总和为1081次。
-
-目标函数为最小化24周采购总成本：
+$Q_i$的范围从1到1261立方米不等。以最小化24周采购总成本为目标：
 \begin{equation}
 \min Z = \sum_{j=1}^{24} \sum_{i=1}^{55} p_i \cdot Q_i \cdot x_{ij}
-\label{eq:objective}
+\label{eq:objective2}
 \end{equation}
-采购单价$p_i$根据材料类型确定，A类为1.2，B类为1.1，C类为1.0。值得注意的是，A类与C类的单位产品成本精确相等，均为0.720，因此成本目标对A类和C类供应商无差异。
 
-约束条件包括周产能底线约束和最低订购频次约束。每周订购量折算为产品体积后不得低于产能百分之九十：
+\subsubsection{约束条件}
+
+\textbf{Step 1：周产能底线约束}
+
+企业周产能为28200立方米，为保障生产连续性，每周订购量折算为产品体积后不得低于产能的百分之九十。$Q_i$为原材料体积，需按消耗率$u_i$折算，A类0.6，B类0.66，C类0.72。
 \begin{equation}
 \sum_{i=1}^{55} \frac{Q_i}{u_i} \cdot x_{ij} \geq 25380, \quad \forall\, j \in \{1, 2, \dots, 24\}
-\label{eq:capacity}
+\label{eq:capacity2}
 \end{equation}
-其中$u_i$为消耗率，A类0.6，B类0.66，C类0.72。55家全选时的周产能为26176立方米，仅超出底线百分之3.1，说明这是一个紧约束调度问题。
+55家全选时的周产能为26176立方米，仅超出底线百分之3.1，说明这是一个产能余量极薄的紧约束问题。
 
-每家供应商在24周内的被选中次数不得低于其历史平均周期订货次数：
+\textbf{Step 2：最低订购频次约束}
+
+维持稳定的供销关系需要每家供应商的订货次数不低于其历史平均周期订货次数。$K_i$取过去240周中该供应商有订货记录的周数除以10后向上取整：
+\begin{equation}
+K_i = \lceil \frac{1}{10} \sum_{j=1}^{240} I(O_{ij} > 0) \rceil
+\label{eq:fi2}
+\end{equation}
+$K_i$范围从4到24次，总和为1081次。此约束确保模型不会因成本最小化而完全放弃与某些供应商的合作。
 \begin{equation}
 \sum_{j=1}^{24} x_{ij} \geq K_i, \quad \forall\, i \in \{1, 2, \dots, 55\}
-\label{eq:frequency}
+\label{eq:frequency2}
 \end{equation}
-此约束确保模型不会因成本最小化而完全放弃与某些供应商的合作。
+
+\subsubsection{模型汇总}
+
+综合目标函数与约束条件，问题二的0-1整数线性规划模型归纳如下：
+\begin{align*}
+&\min \; Z = \sum_{j=1}^{24} \sum_{i=1}^{55} p_i \cdot Q_i \cdot x_{ij} \\
+\text{s.t.} \quad
+&\sum_{i=1}^{55} \frac{Q_i}{u_i} \cdot x_{ij} \geq 25380, \quad j = 1, \dots, 24 \\
+&\sum_{j=1}^{24} x_{ij} \geq K_i, \quad i = 1, \dots, 55 \\
+&x_{ij} \in \{0, 1\}, \quad \forall\, i, j
+\end{align*}
+目标为在产能保障和供销关系维持的双重约束下实现采购总成本最小化。
 
 \subsubsection{模型求解}
 
-采用整数规划求解器求解，模型在秒级内返回全局最优解。图\ref{fig:volume}展示了24周订购量的变化情况。
+采用\textbf{分支定界法}求解上述0-1整数线性规划，求解器选用PuLP调用CBC求解器，适合该中小规模整数规划问题。
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{problem2_weekly_volume.png}
-\caption{24周订购量柱状图}
-\label{fig:volume}
-\end{figure}
-24周订购量均高于百分之九十产能底线25380立方米，最低周为25381立方米，紧贴约束边界。这是成本最小化目标下的必然结果。
+\textbf{模型规模：}共1320个0-1决策变量，24个产能约束与55个频次约束，合计79个线性约束。
 
-图\ref{fig:suppliers}展示了每周各类供应商的数量分布。
+\textbf{求解状态：}Optimal（全局最优解）。
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{problem2_weekly_suppliers.png}
-\caption{每周供应商数量堆叠图}
-\label{fig:suppliers}
-\end{figure}
-A类每周10至14家，B类13至17家，C类16至23家，三类材料每周均有充分覆盖，不存在类型偏倚。
+\textbf{求解效率：}求解时间为秒级，表明模型规模适中、约束结构良好。
 
-图\ref{fig:heatmap}展示了55家供应商在24周的订购情况热力图。
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{problem2_heatmap.png}
-\caption{供应商周次订购热力图}
-\label{fig:heatmap}
-\end{figure}
-行为55家供应商按材料类型分组，列为24周。深色表示该周向该供应商订货。可见部分供应商每周必选，具有较高频次约束；部分供应商弹性排班，为成本优化提供空间。
+\textbf{最优目标值：}24周总采购成本为445935.30。
 
 \subsubsection{结果展示}
 
@@ -538,6 +534,8 @@ A类每周10至14家，B类13至17家，C类16至23家，三类材料每周均�
 \toprule
 指标 & 数值 \\
 \midrule
+求解状态 & Optimal（全局最优） \\
+24周总成本 & 445935.30 \\
 平均周订购量 & 25733 立方米 \\
 最小周订购量 & 25381 立方米 \\
 最大周订购量 & 26067 立方米 \\
@@ -546,12 +544,41 @@ A类每周10至14家，B类13至17家，C类16至23家，三类材料每周均�
 \bottomrule
 \end{tabular}
 \end{table}
-24周全部满足百分之九十产能底线要求，最低周仅超出底线1立方米，表明最优解紧贴约束边界，是成本最小化目标下的必然行为。
+
+图\ref{fig:volume}展示了24周订购量的变化情况。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{problem2_weekly_volume.png}
+\caption{24周订购量柱状图}
+\label{fig:volume}
+\end{figure}
+24周订购量均高于百分之九十产能底线25380立方米，最低周为25381立方米，紧贴约束边界。
+
+图\ref{fig:suppliers}展示了每周各类供应商的数量分布。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{problem2_weekly_suppliers.png}
+\caption{每周供应商数量堆叠图}
+\label{fig:suppliers}
+\end{figure}
+A类每周10至14家，B类13至17家，C类16至23家，三类材料每周均有充分覆盖。
+
+图\ref{fig:heatmap}展示了55家供应商在24周的订购情况。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{problem2_heatmap.png}
+\caption{供应商周次订购热力图}
+\label{fig:heatmap}
+\end{figure}
+行为55家供应商按材料类型分组，列为24周。深色表示该周向该供应商订货。部分供应商$K_i=24$每周必选，属于高频次约束的必选供应商；部分供应商$K_i$较小，调度弹性较强，模型通过调节这些供应商的排班实现成本微优化。
 
 \subsubsection{结果分析与验证}
 
-55家全选时的周产能为26176立方米，仅为底线要求的百分之103.1，产能余量仅796立方米。平均每周选中46.8家，仅8家轮休。问题二本质上是紧约束调度问题，优化空间主要体现在频次约束与成本微差的权衡上。
+\textbf{紧约束特征：}最低周仅超出产能底线1立方米，55家全选时的周产能为26176立方米，仅为底线要求的百分之103.1，产能余量仅796立方米。平均每周选中46.8家，仅8家轮休。说明问题二本质上不是从55家中宽裕地挑选子集，而是每周仅能少用少数几家的极限调度问题。
 
+\textbf{成本结构：}A类与C类单位产品成本均为0.720，模型在两类间无偏好，最优解在A/C排班上存在等价替换空间。B类单位成本为0.726，高出0.83%，模型有极微弱的惩罚倾向，但在紧约束下该偏好几乎不影响实际排班。
+
+\textbf{频次分布：}频次约束总和为1081次，上限为1320次，平均每家供应商需订货约19.6次。部分供应商$K_i=24$为必选，其订购量固定；真正具有调度弹性的为$K_i$较小的供应商，优化空间主要体现在这些供应商的排班选择上。
 
 \subsection{问题三模型建立及求解}
 
