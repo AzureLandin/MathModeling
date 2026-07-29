@@ -26,6 +26,38 @@
 \usepackage{fvextra}
 \DefineVerbatimEnvironment{CodeBlock}{Verbatim}{breaklines=true,fontsize=\small}
 
+% ======================== 代码美化（附录用） ========================
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+
+\lstdefinestyle{pystyle}{
+  language=Python,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!50!black}\itshape,
+  stringstyle=\color{red!60!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=6pt,
+  backgroundcolor=\color{gray!5},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4,
+  showstringspaces=false,
+  captionpos=b,
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+}
+
+% 用法: \codefile{文件名}{说明}{相对路径}
+\newcommand{\codefile}[3]{%
+  \par\vspace{1.2em}\noindent
+  \textbf{\texttt{#1}}\quad \textbf{#2}\par
+  \vspace{0.4em}
+  \lstinputlisting[style=pystyle]{#3}
+  \vspace{0.5em}
+}
+
 \usepackage{setspace}
 \usepackage{indentfirst}
 \setlength{\parindent}{2em}
@@ -780,14 +812,12 @@ $D_{ij} > 0$表示超额供货，$D_{ij} < 0$表示缺货。对偏差序列执�
 \midrule
 \multicolumn{2}{l}{\textbf{Python代码}} \\
 problem1\_main.py & 问题一主程序 \\
-data\_loader.py & 数据加载模块 \\
-indicators.py & 特征指标计算模块 \\
-normalize.py & 数据标准化模块 \\
-critic\_weight.py & CRITIC权重计算模块 \\
-entropy\_weight.py & 熵权法权重计算模块 \\
-topsis.py & TOPSIS排序模块 \\
-problem1\_validation.py & 稳健性验证模块 \\
-ordering\_solver.py & 0-1整数规划求解器 \\
+problem\_data\_loader.py & 数据加载模块 \\
+problem\_indicators.py & 特征指标计算模块 \\
+problem\_normalize.py & 数据标准化模块 \\
+problem\_critic\_weight.py & CRITIC权重计算模块 \\
+problem\_topsis.py & TOPSIS排序模块 \\
+problem\_ordering\_solver.py & 0-1整数规划求解器 \\
 problem2\_main.py & 问题二主程序 \\
 problem3\_predictor.py & ARIMA偏差预测器 \\
 problem3\_main.py & 问题三主程序 \\
@@ -796,19 +826,9 @@ problem3\_backtest.py & 回测验证模块 \\
 \multicolumn{2}{l}{\textbf{结果数据}} \\
 problem1\_supplier\_ranking.csv & 402家供应商完整排名 \\
 problem1\_top55.csv & 前55家供应商子集 \\
-problem1\_critic\_weights.csv & CRITIC权重及中间量 \\
-problem1\_entropy\_weights.csv & 熵权法权重 \\
-problem1\_robustness\_comparison.csv & 两种方法排名对比 \\
-problem2\_ordering\_plan.csv & 55乘24订购矩阵 \\
-problem2\_weekly\_summary.csv & 每周订购汇总 \\
-problem3E\_model\_selection.csv & ARIMA模型选择结果 \\
-problem3E\_supply\_plan.csv & 24周供应方案 \\
-problem3E\_weekly\_summary.csv & 每周供应汇总 \\
-problem3E\_capacity\_stats.csv & 产能输出统计 \\
-problem3\_backtest\_metrics.csv & 回测评价指标 \\
-problem3\_backtest\_weekly.csv & 回测周数据 \\
-top55\_order.csv & 55家供应商订购量 \\
-top55\_supply.csv & 55家供应商供货方案 \\
+problem3\_weekly\_summary.csv & 每周供应汇总 \\
+problem3\_capacity\_stats.csv & 产能输出统计 \\
+附件A 订购方案数据结果+队号.xlsx & 问题二订购方案与问题三供应方案 \\
 \midrule
 \multicolumn{2}{l}{\textbf{说明文档}} \\
 AI工具使用说明.pdf & AI工具使用说明 \\
@@ -820,44 +840,27 @@ AI工具使用说明.pdf & AI工具使用说明 \\
 
 \section{相关代码}
 
-\noindent\textbf{problem1\_main.py} 问题一主程序
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem1_main.py}
+\codefile{problem1\_main.py}{问题一主程序}{./code/problem1_main.py}
 
-\noindent\textbf{data\_loader.py} 数据加载模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_data_loader.py}
+\codefile{problem\_data\_loader.py}{数据加载模块}{./code/problem_data_loader.py}
 
-\noindent\textbf{indicators.py} 特征指标计算模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_indicators.py}
+\codefile{problem\_indicators.py}{特征指标计算模块}{./code/problem_indicators.py}
 
-\noindent\textbf{normalize.py} 数据标准化模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_normalize.py}
+\codefile{problem\_normalize.py}{数据标准化模块}{./code/problem_normalize.py}
 
-\noindent\textbf{critic\_weight.py} CRITIC权重计算模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_critic_weight.py}
+\codefile{problem\_critic\_weight.py}{CRITIC权重计算模块}{./code/problem_critic_weight.py}
 
-\noindent\textbf{entropy\_weight.py} 熵权法权重计算模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_entropy_weight.py}
+\codefile{problem\_topsis.py}{TOPSIS排序模块}{./code/problem_topsis.py}
 
-\noindent\textbf{topsis.py} TOPSIS排序模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_topsis.py}
+\codefile{problem\_ordering\_solver.py}{0-1整数规划求解器}{./code/problem_ordering_solver.py}
 
-\noindent\textbf{problem1\_validation.py} 稳健性验证模块
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem1_validation.py}
+\codefile{problem2\_main.py}{问题二主程序}{./code/problem2_main.py}
 
-\noindent\textbf{ordering\_solver.py} 0-1整数规划求解器
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem_ordering_solver.py}
+\codefile{problem3\_predictor.py}{ARIMA偏差预测器}{./code/problem3_predictor.py}
 
-\noindent\textbf{problem2\_main.py} 问题二主程序
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem2_main.py}
+\codefile{problem3\_main.py}{问题三主程序}{./code/problem3_main.py}
 
-\noindent\textbf{problem3\_predictor.py} ARIMA偏差预测器
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem3_predictor.py}
-
-\noindent\textbf{problem3\_main.py} 问题三主程序
-\VerbatimInput[breaklines=true,fontsize=\small]{./code/problem3_main.py}
-
-\noindent\textbf{problem3\_backtest.py} 回测验证模块
-\VerbatimInput[breaklines=true,fontsize=\small, firstline=1, lastline=238]{./code/problem3_backtest.py}
+\codefile{problem3\_backtest.py}{回测验证模块}{./code/problem3_backtest.py}
 
 
 \end{document}
