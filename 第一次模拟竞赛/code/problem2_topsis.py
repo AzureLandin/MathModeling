@@ -1,142 +1,192 @@
 # -*- coding: utf-8 -*-
 """
-熵权 TOPSIS：在去重后的 Pareto 解集上选取折中方案。
-
-F1、F3 为成本型，F2 为效益型。极差为 0 的指标熵权置零后对其余权重再归一化。
+问题二熵权-TOPSIS 及稳健性检查。
 """
 
 from __future__ import annotations
 
 import numpy as np
-import pandas as pd
-
-EPS = 1e-12
 
 
-def minmax_benefit(col: np.ndarray, cost_type: bool) -> np.ndarray:
-    lo, hi = float(np.min(col)), float(np.max(col))
-    if hi - lo <= EPS:
-        return np.full_like(col, 0.0, dtype=float)
-    if cost_type:
-        return (hi - col) / (hi - lo)
-    return (col - lo) / (hi - lo)
-
-
-def entropy_weights(Z: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def _normalize_matrix(X: np.ndarray, cost_cols: list[int], benefit_cols: list[int]) -> np.ndarray:
     """
-    输入已同向化的效益型矩阵 Z (m, n)。
-    返回 (w, e, d)。
+    无量纲化：成本型用 min/x，效益型用 x/max。
+    返回归一化矩阵（非负，每列至少有一个正元素）。
     """
-    m, n = Z.shape
-    if m <= 1:
-        w = np.ones(n) / n
-        return w, np.zeros(n), np.zeros(n)
-    P = (Z + EPS)
-    P = P / P.sum(axis=0, keepdims=True)
-    e = -(P * np.log(P)).sum(axis=0) / np.log(m)
+    n, m = X.shape
+    Xn = np.zeros_like(X, dtype=float)
+    eps = 1e-12
+
+    for j in range(m):
+        col = X[:, j]
+        if j in cost_cols:
+            cmin = np.min(col)
+            if cmin < eps:
+                cmin = eps
+            Xn[:, j] = cmin / np.maximum(col, eps)
+        elif j in benefit_cols:
+            cmax = np.max(col)
+            if cmax < eps:
+                cmax = eps
+            Xn[:, j] = col / cmax
+        else:
+            # 默认按效益型处理
+            cmax = np.max(col)
+            if cmax < eps:
+                cmax = eps
+            Xn[:, j] = col / cmax
+
+    return Xn
+
+
+def entropy_weight(Xn: np.ndarray) -> np.ndarray:
+    """
+    熵权法计算权重。
+    Xn: 归一化后的非负矩阵 (K, m)，K 为方案数，m 为指标数。
+    """
+    K, m = Xn.shape
+    eps = 1e-12
+
+    # 列求和
+    col_sum = np.sum(Xn, axis=0)
+    col_sum = np.maximum(col_sum, eps)
+
+    # 概率矩阵
+    P = Xn / col_sum  # (K, m)
+
+    # 信息熵
+    lnP = np.log(np.maximum(P, eps))
+    e = -np.sum(P * lnP, axis=0) / np.log(K)  # (m,)
+
+    # 差异系数
     d = 1.0 - e
-    if float(d.sum()) <= EPS:
-        w = np.ones(n) / n
+    d = np.maximum(d, eps)
+
+    # 归一化权重
+    w = d / np.sum(d)
+    return w
+
+
+def topsis(
+    X: np.ndarray,
+    cost_cols: list[int],
+    benefit_cols: list[int],
+    weights: np.ndarray | None = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    熵权-TOPSIS。
+    X: 原始指标矩阵 (K, m)，每行一个方案。
+    cost_cols: 成本型指标列索引（越小越好）。
+    benefit_cols: 效益型指标列索引（越大越好）。
+    weights: 外部权重（None 则用熵权）。
+    返回：(贴近度 Gamma, 权重 w)
+    """
+    Xn = _normalize_matrix(X, cost_cols, benefit_cols)
+
+    if weights is None:
+        w = entropy_weight(Xn)
     else:
-        w = d / d.sum()
-    return w, e, d
+        w = weights.copy()
+        w = w / np.sum(w)
+
+    # 加权规范化
+    V = Xn * w  # (K, m)
+
+    # 正负理想解
+    v_plus = np.max(V, axis=0)
+    v_minus = np.min(V, axis=0)
+
+    # 距离
+    S_plus = np.sqrt(np.sum((V - v_plus) ** 2, axis=1))
+    S_minus = np.sqrt(np.sum((V - v_minus) ** 2, axis=1))
+
+    # 贴近度
+    Gamma = S_minus / np.maximum(S_plus + S_minus, 1e-12)
+
+    return Gamma, w
 
 
-def topsis_rank(F1: np.ndarray, F2: np.ndarray, F3: np.ndarray) -> pd.DataFrame:
+def select_best_solution(
+    solutions: list[dict],
+    model: str,
+    weights: np.ndarray | None = None,
+) -> tuple[int, np.ndarray, float]:
     """
-    对 Pareto 目标做熵权 TOPSIS。
-    返回含标准化值、权重、距离和贴近度的表，按 C_k 降序。
+    从 Pareto 候选集中选择最优方案。
+    返回：(最优方案索引, 权重, 贴近度)
     """
-    F1 = np.asarray(F1, dtype=float)
-    F2 = np.asarray(F2, dtype=float)
-    F3 = np.asarray(F3, dtype=float)
-    m = len(F1)
-    if m == 0:
-        raise ValueError("Pareto 解集为空，不能进行熵权 TOPSIS")
+    if not solutions:
+        return -1, np.array([]), 0.0
 
-    A = np.column_stack([F1, F2, F3])
-    cost_flags = [True, False, True]
-    Z = np.column_stack([minmax_benefit(A[:, j], cost_flags[j]) for j in range(3)])
+    K = len(solutions)
+    # 构造指标矩阵: [f1, C_city, f3]
+    X = np.zeros((K, 3))
+    for k, s in enumerate(solutions):
+        X[k, 0] = s["f1"]
+        X[k, 1] = s["C_city"]
+        X[k, 2] = s["f3"]
 
-    # 无区分度的列置零后再归一化权重
-    ranges = A.max(axis=0) - A.min(axis=0)
-    w, e, d = entropy_weights(Z)
-    w = np.where(ranges <= EPS, 0.0, w)
-    if float(w.sum()) <= EPS:
-        w = np.ones(3) / 3.0
-    else:
-        w = w / w.sum()
+    # 指标类型：f1=成本型, C_city=效益型, f3=成本型
+    cost_cols = [0, 2]
+    benefit_cols = [1]
 
-    V = Z * w
-    v_pos = V.max(axis=0)
-    v_neg = V.min(axis=0)
-    d_pos = np.sqrt(((V - v_pos) ** 2).sum(axis=1))
-    d_neg = np.sqrt(((V - v_neg) ** 2).sum(axis=1))
-    C = d_neg / (d_pos + d_neg + EPS)
-
-    df = pd.DataFrame({
-        "方案编号": np.arange(1, m + 1),
-        "F1_投资成本": F1,
-        "F2_需求加权覆盖率": F2,
-        "F3_电网目标": F3,
-        "标准化_F1": Z[:, 0],
-        "标准化_F2": Z[:, 1],
-        "标准化_F3": Z[:, 2],
-        "加权_F1": V[:, 0],
-        "加权_F2": V[:, 1],
-        "加权_F3": V[:, 2],
-        "D_plus": d_pos,
-        "D_minus": d_neg,
-        "贴近度_C": C,
-    })
-    df["熵权_w1"] = w[0]
-    df["熵权_w2"] = w[1]
-    df["熵权_w3"] = w[2]
-    df["信息熵_e1"] = e[0]
-    df["信息熵_e2"] = e[1]
-    df["信息熵_e3"] = e[2]
-    df = df.sort_values("贴近度_C", ascending=False).reset_index(drop=True)
-    df["TOPSIS排名"] = np.arange(1, m + 1)
-    df.attrs["weights"] = w
-    df.attrs["entropy"] = e
-    return df
+    Gamma, w = topsis(X, cost_cols, benefit_cols, weights)
+    best_idx = int(np.argmax(Gamma))
+    return best_idx, w, float(Gamma[best_idx])
 
 
-def equal_weight_topsis(F1: np.ndarray, F2: np.ndarray, F3: np.ndarray) -> pd.DataFrame:
-    """等权 TOPSIS 对照，用于熵权极端化检查。"""
-    F1 = np.asarray(F1, dtype=float)
-    F2 = np.asarray(F2, dtype=float)
-    F3 = np.asarray(F3, dtype=float)
-    A = np.column_stack([F1, F2, F3])
-    cost_flags = [True, False, True]
-    Z = np.column_stack([minmax_benefit(A[:, j], cost_flags[j]) for j in range(3)])
-    w = np.ones(3) / 3.0
-    V = Z * w
-    v_pos, v_neg = V.max(axis=0), V.min(axis=0)
-    d_pos = np.sqrt(((V - v_pos) ** 2).sum(axis=1))
-    d_neg = np.sqrt(((V - v_neg) ** 2).sum(axis=1))
-    C = d_neg / (d_pos + d_neg + EPS)
-    df = pd.DataFrame({
-        "方案编号": np.arange(1, len(F1) + 1),
-        "等权贴近度": C,
-    })
-    df = df.sort_values("等权贴近度", ascending=False).reset_index(drop=True)
-    df["等权排名"] = np.arange(1, len(F1) + 1)
-    return df
-
-
-def pick_representatives(front_df: pd.DataFrame, topsis_df: pd.DataFrame) -> dict[str, int]:
+def robustness_check(solutions: list[dict], model: str) -> dict:
     """
-    返回 front_df 中的行号（0-based）：
-      TOPSIS 推荐、最低成本、最高覆盖、最低电网压力。
+    稳健性检查：三种权重方案下推荐解是否一致。
+    返回字典包含 entropy, equal, cost_bias 的推荐索引和贴近度。
     """
-    rec_id = int(topsis_df.iloc[0]["方案编号"]) - 1
-    cost_id = int(front_df["F1_投资成本"].idxmin())
-    cover_id = int(front_df["F2_需求加权覆盖率"].idxmax())
-    grid_id = int(front_df["F3_电网目标"].idxmin())
+    if len(solutions) <= 1:
+        return {
+            "entropy_idx": 0, "entropy_gamma": 1.0,
+            "equal_idx": 0, "equal_gamma": 1.0,
+            "cost_bias_idx": 0, "cost_bias_gamma": 1.0,
+            "consistent": True,
+            "weights_entropy": np.array([1/3, 1/3, 1/3]),
+        }
+
+    K = len(solutions)
+    X = np.zeros((K, 3))
+    for k, s in enumerate(solutions):
+        X[k, 0] = s["f1"]
+        X[k, 1] = s["C_city"]
+        X[k, 2] = s["f3"]
+
+    cost_cols = [0, 2]
+    benefit_cols = [1]
+
+    # 熵权
+    Gamma_e, w_e = topsis(X, cost_cols, benefit_cols, None)
+    idx_e = int(np.argmax(Gamma_e))
+
+    # 等权
+    w_eq = np.array([1/3, 1/3, 1/3])
+    Gamma_eq, _ = topsis(X, cost_cols, benefit_cols, w_eq)
+    idx_eq = int(np.argmax(Gamma_eq))
+
+    # 偏成本
+    w_cb = np.array([0.50, 0.25, 0.25])
+    Gamma_cb, _ = topsis(X, cost_cols, benefit_cols, w_cb)
+    idx_cb = int(np.argmax(Gamma_cb))
+
+    consistent = (idx_e == idx_eq == idx_cb) or (
+        abs(solutions[idx_e]["f1"] - solutions[idx_eq]["f1"]) / max(solutions[idx_e]["f1"], 1) < 0.05
+        and abs(solutions[idx_e]["f1"] - solutions[idx_cb]["f1"]) / max(solutions[idx_e]["f1"], 1) < 0.05
+        and abs(solutions[idx_e]["C_city"] - solutions[idx_eq]["C_city"]) < 0.01
+        and abs(solutions[idx_e]["C_city"] - solutions[idx_cb]["C_city"]) < 0.01
+    )
+
     return {
-        "topsis": rec_id,
-        "min_cost": cost_id,
-        "max_cover": cover_id,
-        "min_grid": grid_id,
+        "entropy_idx": idx_e,
+        "entropy_gamma": float(Gamma_e[idx_e]),
+        "equal_idx": idx_eq,
+        "equal_gamma": float(Gamma_eq[idx_eq]),
+        "cost_bias_idx": idx_cb,
+        "cost_bias_gamma": float(Gamma_cb[idx_cb]),
+        "consistent": consistent,
+        "weights_entropy": w_e,
     }
