@@ -13,6 +13,34 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!70!black,citecolor=green!50!black,urlcolor=blue!60!black}
 \usepackage{listings}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\zihao{-5}\selectfont,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red!60!black},
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  tabsize=4,
+  extendedchars=true,
+  inputpath=code/}
+\lstdefinestyle{csvstyle}{
+  language={},
+  basicstyle=\ttfamily\zihao{-5}\selectfont,
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  inputpath=results/}
 \usepackage{setspace}
 \onehalfspacing
 \usepackage{enumitem}
@@ -130,8 +158,7 @@ $\Delta G_{i,k}^{\mathrm{min}}$ & 第$k$年最小技术容量缺口 & kW \\
 \step{1} 读取工作日与周末分时充电量矩阵，按5比2权重计算综合日均需求与综合典型日曲线。
 \step{2} 计算\colorbox{yellow!50}{归一化极差}、峰谷时段与\colorbox{yellow!50}{差异比}，完成三维分布刻画。
 \step{3} 在训练折内完成标准化，于正则化参数网格上进行留一交叉验证，拟合三因素岭回归并选定参数为10。
-\step{4} 以低复杂度LightGBM作为非线性对照，验证其未优于岭回归。
-\step{5} 以2025年真实需求为基准，按三种增长率生成2026年情景预测。
+\step{4} 以2025年真实需求为基准，按三种增长率生成2026年情景预测。
 \subsubsection{结果展示}
 \begin{table}[H]\centering\caption{各区域综合日均充电需求}\zihao{5}
 \begin{tabular}{ccccc}\toprule
@@ -184,8 +211,7 @@ $\Delta G_{i,k}^{\mathrm{min}}$ & 第$k$年最小技术容量缺口 & kW \\
 均值基准 & 4336.10 & 3833.67 & 34.17\% & $-0.2346$\\
 四特征岭回归 & 3401.18 & 2967.11 & 25.97\% & 0.2404\\
 三因素岭回归 & 3426.49 & 3057.64 & 26.76\% & 0.2291\\
-对数三因素岭回归 & 3738.13 & 3286.49 & 28.52\% & 0.0825\\
-低复杂度LightGBM & 4336.10 & 3833.67 & 34.17\% & $-0.2346$\\\bottomrule
+对数三因素岭回归 & 3738.13 & 3286.49 & 28.52\% & 0.0825\\\bottomrule
 \end{tabular}\end{table}
 
 \begin{table}[H]\centering\caption{2026年三种情景日均充电需求预测}\zihao{5}
@@ -232,7 +258,7 @@ $\Delta G_{i,k}^{\mathrm{min}}$ & 第$k$年最小技术容量缺口 & kW \\
 \subsubsection{结果分析与验证}
 区域需求排序为4大于1大于6大于2大于5大于9大于3大于10大于8大于7，最高与最低区域比值为2.570，表明需求存在明显区域分层，后续配置不能平均分配。全市综合典型日峰值出现在17时至18时，峰时充电量为12511.57千瓦时，谷值出现在3时至4时，谷时充电量为174.86千瓦时，区域1、2、3、4、6、8呈晚高峰特征，区域7、9、10呈午间高峰特征。区域5与9为周末主导型，其中区域9周末需求接近工作日两倍，后续规划不能只按工作日需求配置。
 
-在模型验证方面，四特征模型的均方根误差仅比三因素模型低25.31千瓦时每日，相对差异约0.74\%，考虑到总桩数存在内生性且会在问题二中作为既有供给条件使用，最终选择三因素岭回归。低复杂度LightGBM在每折仅9个训练样本的约束下退化为训练折均值，未显示出非线性增益，验证了小样本下线性正则化模型的合理性。在基准情景下2026年全市日均需求为158708.05千瓦时每日，较2025年增加20701.05千瓦时每日，该基准情景作为问题二的默认需求输入。
+在模型验证方面，四特征模型的均方根误差仅比三因素模型低25.31千瓦时每日，相对差异约0.74\%，考虑到总桩数存在内生性且会在问题二中作为既有供给条件使用，最终选择三因素岭回归。在基准情景下2026年全市日均需求为158708.05千瓦时每日，较2025年增加20701.05千瓦时每日，该基准情景作为问题二的默认需求输入。
 
 \subsection{问题二模型建立及求解}
 \subsubsection{模型建立}
@@ -582,7 +608,6 @@ S1滚动 & 1220\% & 1060\% & 920\%\\\bottomrule
 \section{模型的评价与推广}
 \subsection{模型的优点}
 \begin{enumerate}[label=\arabic*.]
-\item 以5比2权重融合工作日与周末，符合一周日类型结构，并通过综合典型日曲线、归一化极差、峰谷时刻与差异比完整描述三维规律。
 \item 岭回归缓解人口密度、车流量与商业POI的共线性问题，留一交叉验证适应仅有10个区域的小样本特点，并以真实2025年需求作为预测基准，避免用拟合误差覆盖已知观测值。
 \item 问题二同时考虑成本、覆盖质量与接入压力，覆盖率、服务能力与快慢充结构均按区域设置硬约束，并通过结构修复、邻域支配扫描与多权重TOPSIS对照验证方案稳健性。
 \item 问题三采用字典序两阶段模型，先保证峰谷差最小再最小化方差，避免低谷分配过度集中，且显式约束电量守恒与逐时容量安全。
@@ -590,7 +615,7 @@ S1滚动 & 1220\% & 1060\% & 920\%\\\bottomrule
 \end{enumerate}
 \subsection{模型的缺点}
 \begin{enumerate}[label=\arabic*.]
-\item 样本仅有10个区域，预测误差仍较大，岭回归系数不能作因果解释。
+\item 样本量较小，预测误差仍较大，岭回归系数不能作因果解释。
 \item 覆盖模型以既有网络平均有效覆盖效率近似，未考虑站点坐标、道路网络与土地可用性。
 \item 问题三采用小时级数据，无法刻画15分钟及更短尺度的瞬时功率波动，且将百分之二十转移比例视为固定。
 \item 问题四假设日内负荷形态稳定，未建模跨区域配电拓扑与共享变电站关系。
@@ -598,7 +623,10 @@ S1滚动 & 1220\% & 1060\% & 920\%\\\bottomrule
 \subsection{模型的推广}
 本文所建立的需求预测、多目标配置、分时调度与滚动评估框架可推广至其他城市的公共充电网络规划，也可扩展至换电站与加氢站等替代燃料设施布局。若未来获得站点坐标、配电拓扑与用户价格弹性数据，可将覆盖模型升级为空间并集模型，将调度模型升级为弹性化需求响应模型，进一步提高规划与运行的精细化水平。
 
-\newpage
+\section*{AI 工具使用声明}
+\addcontentsline{toc}{section}{AI 工具使用声明}
+\noindent 本参赛队在竞赛过程中使用了 AI 工具，主要用于语言润色、代码调试、文献检索与模型推导辅助，详细使用情况见支撑材料。
+
 \begin{thebibliography}{99}
 \addcontentsline{toc}{section}{参考文献}
 \bibitem{ref1} 刘岩, 邓彬, 王瑾, 等. 基于多目标优化模型的电动汽车充电调度策略. 沈阳工业大学学报, 2022, 44卷2期.
@@ -613,32 +641,98 @@ S1滚动 & 1220\% & 1060\% & 920\%\\\bottomrule
 \renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
 \titleformat{\section}{\centering\heiti\zihao{-3}\bfseries}{\thesection}{1em}{}
 \section{支撑文件列表}
+
 \begin{table}[H]\centering\zihao{5}
-\begin{tabular}{lll}\toprule
-文件名 & 类型 & 说明\\\midrule
-p1\_ridge.py & Python & 问题一岭回归与留一交叉验证代码\\
-p2\_nsga2.py & Python & 问题二多目标优化与修复择优代码\\
-p3\_tou.py & Python & 问题三两阶段负荷转移求解代码\\
-p4\_risk.py & Python & 问题四风险评估与滚动补桩代码\\\bottomrule
+\begin{tabular}{p{6.5cm}p{8cm}}\toprule
+\multicolumn{2}{l}{\textbf{Python 代码}}\\\midrule
+problem1\_main.py & 问题一主程序 \\
+problem1\_utils.py & 问题一公共工具与数据载入 \\
+problem1\_step1\_distribution.py & 问题一空间时段工作日周末三维度分布刻画 \\
+problem1\_step2\_prediction.py & 问题一岭回归需求预测与留一交叉验证 \\
+problem1\_step2\_scenario.py & 问题一保有量增长情景预测 \\
+problem1-plsr.py & 问题一偏最小二乘回归辅助验证 \\
+problem1-spatial-temporal.py & 问题一空间时段耦合特征提取 \\
+problem2\_main.py & 问题二多目标整数规划主程序 \\
+problem2\_data.py & 问题二区域基础数据与单桩覆盖反推 \\
+problem2\_utils.py & 问题二公共工具函数 \\
+problem2\_nsga2.py & 问题二NSGA-II求解与结构修复 \\
+problem2\_supplement.py & 问题二邻域支配扫描与补充修复 \\
+problem2\_topsis.py & 问题二熵权TOPSIS择优 \\
+problem3\_data\_preprocess.py & 问题三原始数据清洗与时段划分 \\
+problem3\_metrics\_tables.py & 问题三指标计算与结果汇总表生成 \\
+problem3\_solvers\_lp\_qp.py & 问题三两阶段线性规划与二次规划求解器 \\
+problem3\_supplement.py & 问题三补算与极端时段诊断 \\
+problem4\_main.py & 问题四静态与滚动风险评估主入口 \\
+\midrule
+\multicolumn{2}{l}{\textbf{结果数据}}\\\midrule
+problem1\_summary.csv & 问题一十区域综合日均需求与三类情景预测 \\
+problem2\_summary.csv & 问题二区域面积覆盖率与新增快慢充规划结果 \\
+problem3\_summary.csv & 问题三各区域调度前后峰谷差与负荷率 \\
+problem4\_summary.csv & 问题四三年滚动风险评估与建议 \\
+\midrule
+\multicolumn{2}{l}{\textbf{说明文档}}\\\midrule
+AI工具使用详情.pdf & AI 工具使用说明 \\\bottomrule
 \end{tabular}\end{table}
-\section{AI使用说明}
-本文在写作过程中使用人工智能工具辅助整理公式排版与核对表格数据，所有模型思路、数值结果与结论均由作者团队独立给出并逐条核验。
+
+\newpage
 \section{相关代码}
-\begin{lstlisting}[language=Python,caption={问题一两阶段预测核心代码示例}]
-import numpy as np
-from sklearn.linear_model import Ridge
-from sklearn.model_selection import LeaveOneOut
-X = np.column_stack([PD, TF, POI])
-y = D0
-loo = LeaveOneOut()
-for lam in [0.01, 0.1, 1, 10, 100]:
-    errs = []
-    for tr, te in loo.split(X):
-        mu, sd = X[tr].mean(0), X[tr].std(0)
-        Ztr = (X[tr]-mu)/sd
-        Zte = (X[te]-mu)/sd
-        m = Ridge(alpha=lam, fit_intercept=True).fit(Ztr, y[tr])
-        errs.append((m.predict(Zte)-y[te])**2)
-    print(lam, np.sqrt(np.mean(errs)))
-\end{lstlisting}
+
+\subsection{问题一代码}
+\noindent\textbf{problem1\_main.py} 问题一主程序
+\lstinputlisting[caption={}]{problem1_main.py}
+
+\noindent\textbf{problem1\_utils.py} 问题一公共工具与数据载入
+\lstinputlisting[caption={}]{problem1_utils.py}
+
+\noindent\textbf{problem1\_step1\_distribution.py} 问题一空间时段工作日周末三维度分布刻画
+\lstinputlisting[caption={}]{problem1_step1_distribution.py}
+
+\noindent\textbf{problem1\_step2\_prediction.py} 问题一岭回归需求预测与留一交叉验证
+\lstinputlisting[caption={}]{problem1_step2_prediction.py}
+
+\noindent\textbf{problem1\_step2\_scenario.py} 问题一保有量增长情景预测
+\lstinputlisting[caption={}]{problem1_step2_scenario.py}
+
+\noindent\textbf{problem1-plsr.py} 问题一偏最小二乘回归辅助验证
+\lstinputlisting[caption={}]{problem1-plsr.py}
+
+\noindent\textbf{problem1-spatial-temporal.py} 问题一空间时段耦合特征提取
+\lstinputlisting[caption={}]{problem1-spatial-temporal.py}
+
+\subsection{问题二代码}
+\noindent\textbf{problem2\_main.py} 问题二多目标整数规划主程序
+\lstinputlisting[caption={}]{problem2_main.py}
+
+\noindent\textbf{problem2\_data.py} 问题二区域基础数据与单桩覆盖反推
+\lstinputlisting[caption={}]{problem2_data.py}
+
+\noindent\textbf{problem2\_utils.py} 问题二公共工具函数
+\lstinputlisting[caption={}]{problem2_utils.py}
+
+\noindent\textbf{problem2\_nsga2.py} 问题二NSGA-II求解与结构修复
+\lstinputlisting[caption={}]{problem2_nsga2.py}
+
+\noindent\textbf{problem2\_supplement.py} 问题二邻域支配扫描与补充修复
+\lstinputlisting[caption={}]{problem2_supplement.py}
+
+\noindent\textbf{problem2\_topsis.py} 问题二熵权TOPSIS择优
+\lstinputlisting[caption={}]{problem2_topsis.py}
+
+\subsection{问题三代码}
+\noindent\textbf{problem3\_data\_preprocess.py} 问题三原始数据清洗与时段划分
+\lstinputlisting[caption={}]{problem3_data_preprocess.py}
+
+\noindent\textbf{problem3\_metrics\_tables.py} 问题三指标计算与结果汇总表生成
+\lstinputlisting[caption={}]{problem3_metrics_tables.py}
+
+\noindent\textbf{problem3\_solvers\_lp\_qp.py} 问题三两阶段线性规划与二次规划求解器
+\lstinputlisting[caption={}]{problem3_solvers_lp_qp.py}
+
+\noindent\textbf{problem3\_supplement.py} 问题三补算与极端时段诊断
+\lstinputlisting[caption={}]{problem3_supplement.py}
+
+\subsection{问题四代码}
+\noindent\textbf{problem4\_main.py} 问题四静态与滚动风险评估主入口
+\lstinputlisting[caption={}]{problem4_main.py}
+
 \end{document}
