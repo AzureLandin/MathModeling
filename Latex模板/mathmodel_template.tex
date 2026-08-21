@@ -50,6 +50,12 @@
 \setCJKsansfont{SimHei}
 \setCJKmonofont{FangSong}
 \setmainfont{Times New Roman}
+% 显式把 ctex 的 \songti/\heiti/\kaishu/\fangsong 族都配上粗体，避免
+% 在摘要等使用 \songti 的环境里 \textbf{中文} 无法加粗（显示不出黑体）。
+\setCJKfamilyfont{zhsong}{SimSun}[BoldFont=SimHei]
+\setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
+\setCJKfamilyfont{zhkai}{KaiTi}[BoldFont=SimHei]
+\setCJKfamilyfont{zhfang}{FangSong}[BoldFont=SimHei]
 
 % ======================== 编号格式 ========================
 \renewcommand{\thesection}{\chinese{section}、}
