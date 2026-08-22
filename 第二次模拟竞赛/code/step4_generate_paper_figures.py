@@ -266,7 +266,7 @@ def fig_F02_four_indicators_map():
 
 # ---------------------------------------------------------------------------
 def fig_F03_moran_scatter():
-    """P1-F03 显著指标 Moran 散点 1x2，强度与人均"""
+    """[已废止] P1-F03 显著指标 Moran 散点 — 按2026-08-22修订版不再作为正文核心图，仅保留为可选诊断图。"""
     df = pd.read_csv(PROJECT_ROOT / "results/problem1_preprocessed/problem1_province_features_2022.csv", encoding="utf-8-sig")
     W = pd.read_csv(PROJECT_ROOT / "results/problem1_spatial_validation/spatial_weight_matrix_row_standardized.csv", index_col=0, encoding="utf-8-sig")
     global_df = pd.read_csv(PROJECT_ROOT / "results/problem1_spatial_validation/global_moran_results.csv", encoding="utf-8-sig")
@@ -334,7 +334,7 @@ def fig_F03_moran_scatter():
 
 # ---------------------------------------------------------------------------
 def fig_F04_topsis_rank():
-    """P1-F04 TOPSIS 排序 13x16 cm 横向条形，条色=等级，圆点=类别"""
+    """P1-F03 TOPSIS 排序 13x16 cm 横向条形，条色=等级，圆点=类别 — 修订后编号为 F03"""
     df = pd.read_csv(PROJECT_ROOT / "results/problem1_cross_analysis/named_assignments_4d_primary.csv", encoding="utf-8-sig")
     df = df.sort_values("topsis_score_4d", ascending=True)  # 横向条形从下到上为升序，顶部为最高
 
@@ -388,15 +388,17 @@ def fig_F04_topsis_rank():
 
     fig.tight_layout()
     # 审计输出
-    df.to_csv(DATA_OUT / "P1_F04_data.csv", index=False, encoding="utf-8-sig")
+    df.to_csv(DATA_OUT / "P1_F03_data.csv", index=False, encoding="utf-8-sig")
+    # 修订后编号：P1-F03（旧F04）。同时保留旧文件名做兼容
     for ext in ["png", "pdf"]:
+        fig.savefig(FIG_OUT / f"P1_F03_TOPSIS综合压力得分排序.{ext}", dpi=300, bbox_inches="tight")
         fig.savefig(FIG_OUT / f"P1_F04_TOPSIS综合压力得分排序.{ext}", dpi=300, bbox_inches="tight")
     plt.close(fig)
-    print("[F04] done")
+    print("[F04->F03] done (双文件名兼容)")
 
 # ---------------------------------------------------------------------------
 def fig_F05_cluster_heatmap():
-    """P1-F05 三类中心热力图 3x4，0-1 固定色标"""
+    """P1-F04 三类中心热力图 3x4，0-1 固定色标 — 修订后编号为 F04"""
     # 读取中心并按正式类别重排
     centers = pd.read_csv(PROJECT_ROOT / "results/problem1_evaluation_clustering/cluster_centers.csv", encoding="utf-8-sig")
     sel = centers[(centers["representation"] == "4d_direct") & (centers["method"] == "Kmeans") & (centers["k"] == 3)].copy()
@@ -427,15 +429,17 @@ def fig_F05_cluster_heatmap():
     plt.setp(ax.get_yticklabels(), fontsize=9)
     fig.tight_layout()
     # 审计
-    sel.to_csv(DATA_OUT / "P1_F05_data.csv", index=False, encoding="utf-8-sig")
+    sel.to_csv(DATA_OUT / "P1_F04_data.csv", index=False, encoding="utf-8-sig")
+    # 修订后编号：P1-F04（旧F05），保留旧文件名兼容
     for ext in ["png", "pdf"]:
+        fig.savefig(FIG_OUT / f"P1_F04_Kmeans三类聚类中心热力图.{ext}", dpi=300, bbox_inches="tight")
         fig.savefig(FIG_OUT / f"P1_F05_Kmeans三类聚类中心热力图.{ext}", dpi=300, bbox_inches="tight")
     plt.close(fig)
-    print("[F05] done")
+    print("[F05->F04] done (双文件名兼容)")
 
 # ---------------------------------------------------------------------------
 def fig_F06_classification_map():
-    """P1-F06 1x2 分类与分级地图"""
+    """P1-F05/P1-F06 1x2 分类与分级地图 — 修订后正文核心终图（表F06，图序F05/F06双别名）"""
     df = pd.read_csv(PROJECT_ROOT / "results/problem1_cross_analysis/named_assignments_4d_primary.csv", encoding="utf-8-sig")
     gdf = _load_geo()
     if gdf is None:
@@ -484,22 +488,25 @@ def fig_F06_classification_map():
 
     # 审计
     df.to_csv(DATA_OUT / "P1_F06_data.csv", index=False, encoding="utf-8-sig")
+    df.to_csv(DATA_OUT / "P1_F05_data_final.csv", index=False, encoding="utf-8-sig")
     for ext in ["png", "pdf"]:
         fig.savefig(FIG_OUT / f"P1_F06_省域分类与压力分级空间分布.{ext}", dpi=300, bbox_inches="tight")
+        fig.savefig(FIG_OUT / f"P1_F05_省域分类与压力分级空间分布.{ext}", dpi=300, bbox_inches="tight")
     plt.close(fig)
-    print("[F06] done")
+    print("[F06] done (F05/F06双文件名兼容)")
 
 # ---------------------------------------------------------------------------
 def main():
     print(f"输出目录: {FIG_OUT}")
     print(f"中间数据: {DATA_OUT}")
+    print("修订版：Moran散点图不再作为正文核心图（仅可选诊断），按新编号 F01/F02/F03/F04/F06 生成")
     fig_F01_flowchart()
     fig_F02_four_indicators_map()
-    fig_F03_moran_scatter()
-    fig_F04_topsis_rank()
-    fig_F05_cluster_heatmap()
-    fig_F06_classification_map()
-    print("All figures done. Check PNG+PDF pairs.")
+    # fig_F03_moran_scatter()  # 已按修订版移除正文核心，不生成；如需诊断可手动取消注释
+    fig_F04_topsis_rank()       # -> P1-F03
+    fig_F05_cluster_heatmap()   # -> P1-F04
+    fig_F06_classification_map()  # -> P1-F05/F06
+    print("All figures done. Check PNG+PDF pairs. (F03 Moran 已跳过)")
 
 if __name__ == "__main__":
     main()
