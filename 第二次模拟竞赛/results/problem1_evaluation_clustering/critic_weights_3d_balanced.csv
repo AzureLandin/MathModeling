@@ -1,0 +1,4 @@
+﻿feature,feature_cn,critic_weight,weight_note
+scale_score,规模维度,0.3333333333333333,维度间等权；效率维度由强度和人均排放均值构成
+efficiency_score,效率维度,0.3333333333333333,维度间等权；效率维度由强度和人均排放均值构成
+industrial_structure_score,工业结构维度,0.3333333333333333,维度间等权；效率维度由强度和人均排放均值构成

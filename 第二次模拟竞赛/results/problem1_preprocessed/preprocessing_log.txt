@@ -1,0 +1,68 @@
+[2026-08-22 15:16:45] === 问题1 数据预处理开始 ===
+[2026-08-22 15:16:45] 输入文件: E:\MathModeling\第二次模拟竞赛\附件\附件2-2022年30个省份排放清单.xlsx
+[2026-08-22 15:16:45] 输入文件: E:\MathModeling\第二次模拟竞赛\附件\人口与GDP数据.csv (实际为 XLSX，双表)
+[2026-08-22 15:16:45] 项目根目录: E:\MathModeling\第二次模拟竞赛
+[2026-08-22 15:16:45] 步骤1: 读取人口与GDP双表 ...
+[2026-08-22 15:16:45]   外部数据: 30 省，列 ['province', 'population_2022_10k', 'gdp_2022_100m_yuan']
+[2026-08-22 15:16:45]   人口范围 595—12657 万人，GDP范围 3610.1—129118.6 亿元
+[2026-08-22 15:16:45] 步骤2: 解析附件2排放清单 ...
+[2026-08-22 15:16:46]   省份工作表数: 30 (排除 NOTE)
+[2026-08-22 15:16:46]   总排放合计 11408.47 Mt，工业合计 9866.91 Mt
+[2026-08-22 15:16:46]   工业行映射: 每省 38 行，全部命中
+[2026-08-22 15:16:46]   未预期行: 0
+[2026-08-22 15:16:46] 步骤3: 构造四特征 ...
+[2026-08-22 15:16:46]   四特征表 30 行，列 ['province', 'source_sheet', 'emission_total_mtco2', 'industrial_emission_mtco2', 'industrial_emission_share', 'industrial_emission_share_pct', 'gdp_2022_100m_yuan', 'population_2022_10k', 'carbon_intensity_tco2_per_10k_yuan', 'per_capita_emission_tco2_per_person']
+[2026-08-22 15:16:46]   强度范围 0.172—4.881 t/万元
+[2026-08-22 15:16:46]   人均范围 3.28—36.60 t/人
+[2026-08-22 15:16:46]   工业占比范围 0.487—0.974
+[2026-08-22 15:16:46] 步骤4: ln + Min-Max 标准化 ...
+[2026-08-22 15:16:46]   emission_total_mtco2: raw [44.692, 920.905] -> log [3.800, 6.825]
+[2026-08-22 15:16:46]   carbon_intensity_tco2_per_10k_yuan: raw [0.172, 4.881] -> log [-1.760, 1.585]
+[2026-08-22 15:16:46]   per_capita_emission_tco2_per_person: raw [3.276, 36.600] -> log [1.187, 3.600]
+[2026-08-22 15:16:46]   industrial_emission_share: raw [0.487, 0.974] -> log [-0.719, -0.027]
+[2026-08-22 15:16:46] 步骤5: 描述统计与相关系数 ...
+[2026-08-22 15:16:46]   Pearson:
+                                     emission_total_mtco2  carbon_intensity_tco2_per_10k_yuan  per_capita_emission_tco2_per_person  industrial_emission_share
+emission_total_mtco2                                1.000                               0.278                                0.381                      0.568
+carbon_intensity_tco2_per_10k_yuan                  0.278                               1.000                                0.932                      0.598
+per_capita_emission_tco2_per_person                 0.381                               0.932                                1.000                      0.567
+industrial_emission_share                           0.568                               0.598                                0.567                      1.000
+[2026-08-22 15:16:46]   Spearman:
+                                     emission_total_mtco2  carbon_intensity_tco2_per_10k_yuan  per_capita_emission_tco2_per_person  industrial_emission_share
+emission_total_mtco2                                1.000                               0.267                                0.375                      0.578
+carbon_intensity_tco2_per_10k_yuan                  0.267                               1.000                                0.788                      0.674
+per_capita_emission_tco2_per_person                 0.375                               0.788                                1.000                      0.745
+industrial_emission_share                           0.578                               0.674                                0.745                      1.000
+[2026-08-22 15:16:46] 步骤6: 质量验收 12 项 ...
+[2026-08-22 15:16:46]   [PASS] 1. 省份数量30 n=30
+[2026-08-22 15:16:46]   [PASS] 2. 无重复省份 
+[2026-08-22 15:16:46]   [PASS] 3. 每省一条 
+[2026-08-22 15:16:46]   [PASS] 4. 均有总量/GDP/人口 
+[2026-08-22 15:16:46]   [PASS] 5. 总量/GDP/人口>0 
+[2026-08-22 15:16:46]   [PASS] 6. 工业≤总量 max ind/total=0.9735
+[2026-08-22 15:16:46]   [PASS] 7. 0≤Q≤1 Q in [0.4871, 0.9735]
+[2026-08-22 15:16:46]   [PASS] 8. 强度/人均>0 
+[2026-08-22 15:16:46]   [PASS] 9. 工业无重复计入 mapped counts [38]
+[2026-08-22 15:16:46]   [PASS] 10. 审计表可解释 total-sum diff mean 0.00
+[2026-08-22 15:16:46]   [PASS] 11. 外部一一合并 
+[2026-08-22 15:16:46]   [PASS] 12. 无NaN/Inf/异常字符串 
+[2026-08-22 15:16:46] 验收结果: 全部通过
+[2026-08-22 15:16:46] 步骤7: 写入输出文件 ...
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\problem1_province_features_2022.csv  (30 行)
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\problem1_features_standardized_2022.csv
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\industrial_sector_mapping_audit.csv
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\external_province_data_2022_cleaned.csv
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\descriptive_stats.csv
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\correlation_pearson.csv / E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\correlation_spearman.csv
+[2026-08-22 15:16:46]   -> E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed\problem1_data_dictionary.md
+[2026-08-22 15:16:46] 步骤8: 生成 figures ...
+[2026-08-22 15:16:48]   -> figures/problem1_emission_total_rank.png
+[2026-08-22 15:16:48]   -> figures/problem1_four_features_boxplot.png
+[2026-08-22 15:16:48]   -> figures/problem1_four_features_hist.png
+[2026-08-22 15:16:48]   -> figures/problem1_correlation_heatmap.png
+[2026-08-22 15:16:48]   -> figures/problem1_industrial_share_vs_intensity.png
+[2026-08-22 15:16:48]   -> figures/problem1_percapita_vs_total.png
+[2026-08-22 15:16:48] 完成，耗时 2.9s，全部通过=True
+[2026-08-22 15:16:48] 输入: 附件2-2022年30个省份排放清单.xlsx, 人口与GDP数据.csv
+[2026-08-22 15:16:48] 输出目录: E:\MathModeling\第二次模拟竞赛\results\problem1_preprocessed
+[2026-08-22 15:16:48] 图表目录: E:\MathModeling\第二次模拟竞赛\figures

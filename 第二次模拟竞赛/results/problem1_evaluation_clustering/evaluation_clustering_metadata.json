@@ -1,0 +1,25 @@
+{
+  "input_standardized": "E:\\MathModeling\\第二次模拟竞赛\\results\\problem1_preprocessed\\problem1_features_standardized_2022.csv",
+  "input_raw": "E:\\MathModeling\\第二次模拟竞赛\\results\\problem1_preprocessed\\problem1_province_features_2022.csv",
+  "seed": 20260822,
+  "k_values": [
+    3,
+    4,
+    5
+  ],
+  "n_init_main": 200,
+  "n_stability": 100,
+  "representation_4d": [
+    "z_emission_total",
+    "z_carbon_intensity",
+    "z_per_capita_emission",
+    "z_industrial_emission_share"
+  ],
+  "representation_3d": [
+    "scale_score",
+    "efficiency_score",
+    "industrial_structure_score"
+  ],
+  "image_generation": false,
+  "grading": "provisional quartile rank levels; not final until representation and cluster model are selected"
+}

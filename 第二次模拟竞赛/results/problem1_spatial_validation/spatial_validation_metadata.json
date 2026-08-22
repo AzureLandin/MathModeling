@@ -1,0 +1,14 @@
+{
+  "input": "E:\\MathModeling\\第二次模拟竞赛\\results\\problem1_preprocessed\\problem1_province_features_2022.csv",
+  "n_provinces": 30,
+  "seed": 20260822,
+  "n_permutations": 9999,
+  "matrix": "symmetric binary province adjacency, row-standardized; Hainan connected to Guangdong as island-neighbor fallback",
+  "features": {
+    "emission_total_mtco2": "碳排放总量",
+    "carbon_intensity_tco2_per_10k_yuan": "碳排放强度",
+    "per_capita_emission_tco2_per_person": "人均碳排放",
+    "industrial_emission_share": "工业碳排放占比"
+  },
+  "image_generation": false
+}

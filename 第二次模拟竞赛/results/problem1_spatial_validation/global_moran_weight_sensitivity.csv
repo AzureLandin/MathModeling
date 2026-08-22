@@ -1,0 +1,13 @@
+﻿matrix,feature,feature_cn,moran_I,p_two_sided,significant_05
+primary_row_standardized,emission_total_mtco2,碳排放总量,0.11942170553594623,0.2156,False
+primary_row_standardized,carbon_intensity_tco2_per_10k_yuan,碳排放强度,0.41965404736100687,0.001,True
+primary_row_standardized,per_capita_emission_tco2_per_person,人均碳排放,0.28984716251205844,0.0123,True
+primary_row_standardized,industrial_emission_share,工业碳排放占比,0.0880324697988282,0.308,False
+no_hainan_row_standardized,emission_total_mtco2,碳排放总量,0.17576007650124115,0.0868,False
+no_hainan_row_standardized,carbon_intensity_tco2_per_10k_yuan,碳排放强度,0.416629938976995,0.0008,True
+no_hainan_row_standardized,per_capita_emission_tco2_per_person,人均碳排放,0.28400139175528194,0.0119,True
+no_hainan_row_standardized,industrial_emission_share,工业碳排放占比,0.09020772411757137,0.2897,False
+primary_binary,emission_total_mtco2,碳排放总量,0.20520067044853785,0.0373,True
+primary_binary,carbon_intensity_tco2_per_10k_yuan,碳排放强度,0.4207342802072963,0.0004,True
+primary_binary,per_capita_emission_tco2_per_person,人均碳排放,0.317586458820537,0.0027,True
+primary_binary,industrial_emission_share,工业碳排放占比,0.15416131977393646,0.0814,False

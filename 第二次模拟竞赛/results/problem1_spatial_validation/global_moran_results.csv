@@ -1,0 +1,5 @@
+﻿feature,feature_cn,n,weight_type,moran_I,expected_I,perm_mean,perm_std,p_two_sided,p_upper,p_lower,n_permutations,significant_05,direction
+emission_total_mtco2,碳排放总量,30,manual province adjacency + Hainan-Guangdong island fallback,0.11942170553594623,-0.034482758620689655,-0.03348680768612711,0.12519316013952844,0.2156,0.115,0.8851,9999,False,正空间自相关
+carbon_intensity_tco2_per_10k_yuan,碳排放强度,30,manual province adjacency + Hainan-Guangdong island fallback,0.41965404736100687,-0.034482758620689655,-0.0351124423659097,0.11493134527578114,0.001,0.001,0.9991,9999,True,正空间自相关
+per_capita_emission_tco2_per_person,人均碳排放,30,manual province adjacency + Hainan-Guangdong island fallback,0.28984716251205844,-0.034482758620689655,-0.03542025989307181,0.10834653987277046,0.0121,0.0121,0.988,9999,True,正空间自相关
+industrial_emission_share,工业碳排放占比,30,manual province adjacency + Hainan-Guangdong island fallback,0.0880324697988282,-0.034482758620689655,-0.03515647218459509,0.11744563698306269,0.2955,0.1495,0.8506,9999,False,正空间自相关

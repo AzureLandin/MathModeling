@@ -1,0 +1,18 @@
+{
+  "primary": "4d_direct TOPSIS + 4d_direct Kmeans K=3",
+  "robustness": "3d_balanced TOPSIS + 3d_balanced Kmeans K=3",
+  "cluster_names": [
+    "III类：中高规模—工业主导型",
+    "II类：高规模—高强度工业型",
+    "I类：低综合压力型"
+  ],
+  "level_order": [
+    "I-高压力",
+    "II-较高压力",
+    "III-中压力",
+    "IV-低压力"
+  ],
+  "permutation_seed": 20260822,
+  "permutations": 9999,
+  "image_generation": false
+}
