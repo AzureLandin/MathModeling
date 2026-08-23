@@ -843,7 +843,7 @@ J_{s,T}=\frac{I_T^{GDP,(s)}}{I_{2025}^{GDP,(s)}}\times100.
 本文在文字组织、LaTeX排版和语言润色阶段使用了AI辅助工具。数据读取、指标计算、模型求解和图表生成均由项目代码完成，正文数值以实际计算结果为依据。
 
 \section{相关代码}
-关键实现保存于项目LaTeX目录的\texttt{code/carbon\_model.py}。其中带符号约束的拟合接口如下，完整代码见项目文件：
+关键实现保存于项目LaTeX目录的\texttt{code/All\_model\_runner.py}。其中带符号约束的拟合接口如下，完整代码见项目文件：
 \begin{lstlisting}[language=Python, caption={带符号约束岭回归接口}, label={lst:ridge}]
 class SignConstrainedRidge:
     def fit(self, X, y):
