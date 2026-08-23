@@ -1,4 +1,4 @@
-k,silhouette,selected,selection_rule
+﻿k,silhouette,selected,selection_rule
 2,0.3128919543196335,False,max silhouette; ties choose smaller k
 3,0.33933534111517727,True,max silhouette; ties choose smaller k
 4,0.2572410830261734,False,max silhouette; ties choose smaller k

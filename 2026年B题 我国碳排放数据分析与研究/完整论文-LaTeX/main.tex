@@ -1,4 +1,4 @@
-% !TEX program = xelatex
+﻿% !TEX program = xelatex
 % ============================================================
 %  全国大学生数学建模竞赛 (CUMCM) LaTeX 通用论文模板
 %  编译方式: XeLaTeX
@@ -37,8 +37,9 @@
 }
 
 \usepackage{setspace}
+\usepackage{indentfirst} % 使章节、小节标题后的首段也按正文规则缩进
 \onehalfspacing
-\emergencystretch=3em
+\setlength{\parindent}{2em} % 正文各段首行统一缩进两个汉字
 \usepackage{enumitem}
 \setlist{nosep, leftmargin=2em}
 \usepackage{titlesec}
@@ -47,9 +48,16 @@
 \usepackage{mathtools}
 
 % ======================== 字体设置 ========================
+\setCJKmainfont{SimSun}[BoldFont=SimHei, ItalicFont=KaiTi]
+\setCJKsansfont{SimHei}
+\setCJKmonofont{FangSong}
 \setmainfont{Times New Roman}
 % 显式把 ctex 的 \songti/\heiti/\kaishu/\fangsong 族都配上粗体，避免
 % 在摘要等使用 \songti 的环境里 \textbf{中文} 无法加粗（显示不出黑体）。
+\setCJKfamilyfont{zhsong}{SimSun}[BoldFont=SimHei]
+\setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
+\setCJKfamilyfont{zhkai}{KaiTi}[BoldFont=SimHei]
+\setCJKfamilyfont{zhfang}{FangSong}[BoldFont=SimHei]
 
 % ======================== 编号格式 ========================
 \renewcommand{\thesection}{\chinese{section}、}
@@ -93,7 +101,7 @@
   \par\noindent\textbf{关键词：}#1}
 
 \newenvironment{symboltable}
-  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
+  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
   \toprule
   \textbf{符号} & \textbf{含义} & \textbf{单位} \\
   \midrule}
@@ -102,189 +110,372 @@
 \newcommand{\step}[1]{\par\noindent\textbf{Step #1}\quad}
 
 % ============================================================
-
 \begin{document}
 \pagestyle{plain}
-
+\setcounter{page}{1}
+\pagenumbering{arabic}
 \begin{center}
 {\zihao{-2}\heiti\bfseries 我国碳排放数据分析与研究}
 \end{center}
-\vspace{0.5em}
-\begin{center}
-\zihao{-4}基于部门排放、30省排放清单与能源结构驱动因素的统计建模研究
-\end{center}
 
 \begin{abstract}
-本文围绕我国碳排放的空间差异、能源结构驱动、长期情景预测和政策转译四个问题展开研究。首先，本文核验附件1的日频部门排放口径，确认\texttt{Total}等于国内航空、地面交通、工业、电力和居民五个部门之和，国际航空为单列展示项；针对2025年前三季度数据，使用2019--2024年同期占全年比例的均值进行年化，得到连续性锚点$11639.658$ Mt CO$_2$。其次，利用附件2的30个省份排放清单，从规模、人均、排放强度、煤炭占比和过程排放占比五个维度构造省级画像，结合全局Moran检验、Kruskal--Wallis检验以及PCA--Ward聚类完成空间差异分析和分类分级。再次，构建带理论符号约束的STIRPAT-ridge模型，约束人口、GDP和煤炭占比系数非负，清洁能源占比系数非正；严格扩展窗口回测的MAE为$106.500$ Mt，低于时间趋势ridge基线$157.860$ Mt。最后，在同一结构模型下设置基准、低碳和强化低碳三条路径，预测2026--2045年排放总量和排放强度。结果表明，总量排序在预测窗口内始终为“强化低碳$<$低碳$<$基准”，但三种情景最大值均位于2045年边界，因此只能判断预测窗口内未见达峰，峰值可能在2045年以后。研究进一步形成了“省份类型--重点部门--阶段任务--监测指标”的政策闭环。
+\noindent\hspace*{2em}碳排放数据分析是识别区域减排差异、研判能源转型路径和支撑双碳政策的重要基础。本文针对我国碳排放的空间差异、能源结构驱动、长期情景预测和政策转译四个问题，基于全国日频分部门排放数据、30省排放清单及统计年鉴驱动变量，采用\textbf{全局Moran检验、PCA可视化与Ward聚类、带符号约束的STIRPAT-ridge和多情景预测}等方法，构建空间画像、结构解释、趋势研判和政策闭环的系列模型。对2025年前三季度数据按2019--2024年同期占全年比例的均值年化，获得全国排放连续性锚点$11639.658\ \mathrm{Mt\ CO_2}$。
 
-\keywords{碳排放；空间集聚；STIRPAT；符号约束岭回归；情景预测；双碳政策}
+\textbf{针对问题一，}本文以排放总量、人均排放、排放强度、煤炭排放占比和过程排放占比构建省级指标体系，利用\textbf{全局Moran检验、PCA二维展示与Ward聚类}识别空间关联和类型差异。省级总量的Moran $I=0.2158$、置换$p=0.061$，在5\%水平不显著；人均排放、排放强度和过程排放占比的Moran $I$分别为$0.3145$、$0.4113$和$0.4073$，置换$p$值均不超过$0.002$。以轮廓系数最大为可复验准则选择$k=3$（轮廓系数$0.3393$），将30个省份划分为高规模高压力型、低规模相对低碳型及其结构差异簇。
+
+\textbf{针对问题二，}以2019--2024年全国年度排放为响应变量，以人口、GDP、煤炭占比和清洁能源比重为解释变量，建立\textbf{带符号约束的STIRPAT-ridge模型}，并以留一法选择岭参数、以严格扩展窗口进行回测。最优岭参数为$0.0429449$；在训练折内独立标准化的严格扩展窗口下，结构模型MAE为$184.397\ \mathrm{Mt}$，高于时间趋势ridge基线的$157.860\ \mathrm{Mt}$。因此，本文将其用于方向受控的结构解释与情景比较，而不宣称其优于纯趋势模型；GDP标准化系数为$0.034528$，清洁能源比重系数为$-0.009301$。
+
+\textbf{针对问题三，}在问题二模型基础上设置基准、低碳和强化低碳三条路径，煤炭占比年下降速度分别取$0.6$、$1.0$和$1.4$个百分点。预测期内总量始终满足\textbf{强化低碳$<$低碳$<$基准}；2045年三种情景的排放总量分别为$12890.561$、$13437.482$和$13864.762\ \mathrm{Mt\ CO_2}$。三条路径的最大值均在2045年预测窗口边界，因而只能判断\textbf{预测窗口内未见达峰，峰值可能在2045年以后}。
+
+\textbf{针对问题四，}本文将省域类型、部门排放结构和情景结果转化为\textbf{“类型识别--部门施策--阶段推进--指标监测”}的政策闭环。针对高规模高压力、效率偏弱和煤炭结构压力等不同情形，分别配置重点行业碳预算、设备更新、非化石能源消纳、储能和需求响应等措施，并按2026--2030年、2031--2035年和2036--2045年分阶段实施，以总量、强度、能源结构、部门排放和数据质量指标开展年度复盘。
 \end{abstract}
 
-\section{问题重述与数据说明}
+\keywords{碳排放分析；空间集聚；PCA可视化与Ward聚类；STIRPAT-ridge；情景预测；双碳政策}
 
-题目要求从四个层面研究我国碳排放问题：问题一分析省级排放的空间差异，并结合规模、效率和经济关联度进行分类分级；问题二结合统计年鉴能源结构识别排放驱动因素并建立预测模型；问题三在问题二模型基础上设置基准、低碳和强化低碳情景，预测2026--2045年排放总量与强度并判断碳达峰；问题四把统计分析和预测结果转化为分区域、分部门、分阶段的建议书。
+\section{问题重述}
 
-附件1包含2019年1月1日至2025年9月30日的日频排放数据，共17255行、2465个日期和7类部门记录，其中包含全国\texttt{Total}记录\cite{data1}。附件2包含NOTE和30个省份工作表，省级总量取第4行的\texttt{Scope\_1\_Total}，单位为Mt CO$_2$；样本不包含西藏\cite{data2}。外部驱动数据包括2019--2024年的GDP、人口、煤炭比重和清洁能源比重，来源于国家统计局年鉴表2-7、表3-9和表9-2\cite{stats}。
+\subsection{问题背景}
+碳排放治理既要关注全国总量变化，也要关注地区间能源结构、产业基础和排放效率的差异。全国时间序列能够描述总量的演化趋势，省级清单能够反映区域间的结构性差别。将两类数据分别用于适合的问题，可以在不混淆统计口径的前提下，为长期减排路径和区域治理重点提供参考。
+
+\subsection{问题提出}
+本文需要完成四项工作：第一，识别省级碳排放的空间差异并进行分类；第二，分析人口、GDP和能源结构与全国碳排放的统计关系；第三，设置不同低碳转型路径，预测2026--2045年的排放总量、排放强度和达峰特征；第四，提出分区域、分部门和分阶段的减排建议。附件1覆盖2019年1月1日至2025年9月30日，共17255条部门--日期记录，包含全国总量\texttt{Total}和六类部门记录\cite{data1}；附件2提供30个省级清单，省级总量采用\texttt{Scope\_1\_Total}，不含西藏\cite{data2}。人口、GDP、煤炭比重和清洁能源比重取自国家统计局年鉴相应表项\cite{stats}。主要数据及其用途见表\ref{tab:data}。
 
 \begin{table}[H]
 \centering
-\caption{主要数据集与用途}
+\caption{数据集、统计口径及模型用途}
 \label{tab:data}
 \zihao{5}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{5.2cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{5.4cm}}
 \toprule
-数据集 & 主要规模与口径 & 在模型中的用途\\
+数据集 & 规模与口径 & 用途\\
 \midrule
-附件1 & 17255行，2019--2025年日频，7类Sector & 全国部门结构、年度响应变量和2025年化锚点\\
-附件2 & 30个省份，Scope\_1\_Total，Mt CO$_2$ & 省级指标、空间检验和聚类分类\\
-外部驱动数据 & 2019--2024年GDP、人口与能源结构 & STIRPAT结构模型和情景路径\\
+附件1：全国日频排放数据 & 2019--2025年、2465个日期、7类部门；单位为Mt CO$_2$ & 部门结构核验、年度总量、2025年年化锚点与问题二响应变量\\
+附件2：省级排放清单 & 30个省份、\texttt{Scope\_1\_Total}；单位为Mt CO$_2$ & 省级规模、强度、人均排放、空间检验与聚类分类\\
+统计年鉴驱动变量 & 2019--2024年人口、GDP、煤炭比重、清洁能源比重 & STIRPAT-ridge建模与三情景外生路径设定\\
+模型结果文件 & CSV、JSON与图表 & 分类结果、回测结果、情景预测和政策建议展示\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-附件1中，\texttt{Total}与五个国内部门的加和最大绝对误差约为$2.0\times10^{-6}$ Mt，属于浮点计算误差；国际航空单列保留，不纳入该加总恒等式。2025年只有前三季度，定义历史同期比例
-\begin{equation}
- f_y=\frac{C_{y,1\text{--}9}}{C_{y,1\text{--}12}},\qquad
- \widehat C_{2025}=\frac{C_{2025,1\text{--}9}}{\frac{1}{6}\sum_{y=2019}^{2024}f_y}=11639.658\ \text{Mt CO}_2 .
- \label{eq:annualize}
-\end{equation}
-该年化值只作为连续性锚点，不被解释为已公布的完整年度观测。
+\section{问题分析}
 
-\section{问题分析与模型假设}
+\subsection{问题一的分析}
+问题一是省级横截面识别问题。需要从排放规模、人口压力、经济效率和能源结构多个维度建立指标，并分别判断空间关联、类型差异和重点治理对象。全局Moran检验用于识别相邻地区的相似性，Ward聚类用于归纳省份画像，二者共同服务于分类分级。
 
-\subsection{问题分析}
-问题一的核心不是简单排序，而是同时区分规模压力、人口压力、经济效率和能源结构压力。因此本文将总量、人均、强度、煤炭占比和过程排放占比纳入同一省级画像，并使用空间统计检验相邻省份的相似性。问题二的年度样本只有6年，不能采用高参数、黑箱化模型，而应使用低维、可解释并带正则化的结构模型。问题三需要将模型系数转化为政策路径，关键是让煤炭和清洁能源路径满足边界约束，并检查情景排序是否符合理论方向。问题四则把统计结果转译为可执行的监测闭环，而不是重复描述模型结果。
+\subsection{问题二的分析}
+问题二是小样本年度驱动分析问题。人口、GDP和能源结构变量具有共变性，直接回归容易出现系数不稳定，因此采用带符号约束的岭回归，在保持方向合理的同时降低共线性影响，并通过扩展窗口观察其外推表现。
 
-\subsection{模型假设}
-\begin{enumerate}[label=\arabic*.]
-  \item 附件1的\texttt{Total}口径跨日期一致，与五个国内部门之和相符；国际航空作为单列项目处理。
-  \item 附件2的\texttt{Scope\_1\_Total}可用于30个省份间的横向比较，GDP和人口用于规模与效率代理，不宣称因果关系。
-  \item 省界空间权重采用共享陆地边界的0--1邻接矩阵；海南加入海南--广东、海南--广西桥接，称为“陆地邻接+岛屿桥接修正矩阵”。
-  \item 由于全国驱动变量只有2019--2024年6个年度观测，STIRPAT模型定位为结构性、探索性模型，系数只用于方向和相对重要性解释。
-  \item 三种情景是政策路径而非官方预测；GDP、煤炭占比和清洁能源占比按设定路径演化，所有路径逐年检查边界。
+\subsection{问题三的分析}
+问题三是在问题二模型上的情景推演问题。通过改变GDP、煤炭占比和清洁能源比重的年度路径，比较不同转型力度下的总量、强度及峰值位置；结论只针对设定的预测区间和外生路径。
+
+\subsection{问题四的分析}
+问题四需要把统计结果转化为政策语言。区域分类用于识别不同省份的主要压力，部门累计排放用于确定治理重点，阶段性情景指标用于安排年度监测，从而形成区域、部门和阶段相结合的建议。
+
+
+\section{模型假设}
+为使不同来源的数据能够在明确边界内使用，作如下假设：
+\begin{enumerate}[label=(\arabic*)]
+\item 附件1中的\texttt{Total}等于国内航空、地面交通、工业、电力和居民五部门之和；国际航空作为单列展示项，不重复计入该恒等式。
+\item 2025年1--9月的季节性与2019--2024年同期比例的均值具有可比性，因此年化值只作为模型衔接锚点，不视为已发布的完整年度统计。
+\item 省界相邻可近似刻画省级空间联系；海南采用与广东、广西的桥接关系，故空间检验仅用于探索性识别，不推断局部因果。
+\item 人口、GDP和煤炭相关占比对排放的方向约束为非负，清洁能源比重约束为非正；约束表达的是建模先验，不等同于因果识别。
+\item 2026--2045年外生路径只代表本文设定的情景，不等同于任何官方规划；情景预测不确定性通过残差参考带提示，但不解释为严格置信区间。
 \end{enumerate}
 
 \section{符号说明}
+主要符号见表\ref{tab:symbol}。省级强度与全国预测强度使用的GDP单位不同，本文在对应章节中分别标注，避免将$\mathrm{t}/(\text{万元 GDP})$与$\mathrm{Mt}/(\text{万亿元 GDP})$混用。
+
 \begin{table}[H]
 \centering
-\caption{主要符号说明}
+\caption{主要符号及含义}
 \label{tab:symbol}
 \zihao{5}
-\begin{tabular}{>{\centering\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{7.5cm}>{\centering\arraybackslash}p{1.5cm}}
+\begin{tabular}{>{\centering\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{7.2cm}>{\centering\arraybackslash}p{2.0cm}}
 \toprule
 符号 & 含义 & 单位\\
 \midrule
-$E_i$ & 第$i$个省份排放总量 & Mt CO$_2$\\
-$PC_i$ & 人均排放 & t/person\\
-$EI_i$ & 排放强度 & t/万元GDP\\
-$S_i^{coal}$ & 煤炭排放占比 & fraction\\
-$S_i^{clean}$ & 清洁能源占比 & fraction\\
-$C_t$ & 第$t$年全国排放量 & Mt CO$_2$\\
-$P_t,G_t$ & 人口与GDP & 百万人、万亿元\\
-$\lambda$ & 岭正则参数 & --\\
+$C_t$ & 第$t$年全国二氧化碳排放量 & Mt CO$_2$\\
+$E_i$ & 第$i$个省份排放规模 & Mt CO$_2$\\
+$PC_i$ & 第$i$个省份人均排放 & t/person\\
+$EI_i$ & 第$i$个省份单位GDP排放强度 & t/(万元 GDP)\\
+$S_t^{coal}$、$S_t^{clean}$ & 全国煤炭比重、清洁能源比重 & $[0,1]$\\
+$P_t$、$G_t$ & 全国人口、GDP & 万人、万亿元\\
+$w_{ij}$ & 省份$i$与$j$之间的空间权重 & 无量纲\\
+$\lambda$ & 岭回归正则化参数 & 无量纲\\
+$I_t^{GDP}$ & 全国排放强度$C_t/G_t$ & Mt/(万亿元 GDP)\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{模型准备}
 
-符号说明见表\ref{tab:symbol}。省级人均排放和排放强度分别定义为
+\subsection{数据预处理与口径统一}
+对附件1逐日核验\texttt{Total}与五个国内部门之和，最大绝对误差为$2.0\times10^{-6}$ Mt，属于浮点计算精度范围。2025年仅含前三季度，令$f_y$为历史年份1--9月排放占全年比例，则年化锚点定义为
 \begin{equation}
- PC_i=\frac{100E_i}{Pop_i},\qquad EI_i=\frac{100E_i}{GDP_i},
- \label{eq:indicator}
+f_y=\frac{C_{y,1\text{--}9}}{C_{y,1\text{--}12}},\qquad
+\widehat C_{2025}=\frac{C_{2025,1\text{--}9}}{\frac{1}{6}\sum_{y=2019}^{2024}f_y}=11639.658\ \mathrm{Mt\ CO_2}.
+\label{eq:annualize}
 \end{equation}
-其中人口单位为万人、GDP单位为亿元，所以$EI_i$的单位为t/万元GDP。空间统计采用全局Moran's $I$：
-\begin{equation}
- I=\frac{n}{S_0}\frac{\sum_i\sum_jw_{ij}(x_i-\bar x)(x_j-\bar x)}{\sum_i(x_i-\bar x)^2},\qquad S_0=\sum_i\sum_jw_{ij} .
- \label{eq:moran}
-\end{equation}
-采用999次固定种子置换得到双侧经验$p$值。分类部分先对五个指标标准化，再进行PCA和Ward层次聚类；比较$k=2,\ldots,6$的轮廓系数，结合题目四级分级要求选择$k=4$。
+历史同期比例均值为$0.740197$、标准差为$0.011311$，表明年化过程中采用的季节比例在样本内波动较小。该值用于问题二和问题三的连续性连接，不能替代官方年度总量。
 
+\subsection{核心指标与公共准备}
+全国日频数据先按日期和部门汇总为年度序列，再保留2019--2024年的已完整年度用于估计；2025年只作为式\eqref{eq:annualize}得到的锚点进入情景衔接。该处理避免把未完整年度与完整年度共同用于回归而引入系统性偏差。省级清单按工作表读取后，统一省名并与GDP、人口字典进行一一匹配；对省名、样本数量、GDP、人口及\texttt{Scope\_1\_Total}均进行完整性断言。因省级清单不含西藏，后续的$n=30$只对应这30个可核验省级单元。
+
+针对尺度差异，排放规模直接保留Mt单位用于排名和重点治理判定，人均排放和强度分别按式\eqref{eq:q1-indicator}计算；进入PCA和聚类之前，对五项特征先进行$\log(1+x)$变换，再进行标准化。对数变换降低了少数高规模省份对欧氏距离的支配作用，标准化则使总量、比例和强度在Ward距离中具有相同的初始权重。需要强调的是，经济联系指数是强度、煤炭占比和过程排放占比标准化值的均值，只在问题四的市场机制触发规则中使用，不被解释为真实的跨省贸易流或能源流。
+
+数据处理过程中，对全国\texttt{Total}与部门汇总的关系进行了核对，最大绝对误差为$2.0\times10^{-6}$ Mt。该误差远小于年度排放量数量级，可视为浮点计算产生的微小误差，不影响后续分析。
 \section{模型建立与求解}
 
 \subsection{问题一模型建立及求解}
-\subsubsection{空间差异检验}
-附件2的30个省份不与附件1的全国序列混合。对总量、人均、强度、煤炭占比和过程排放占比分别计算Moran's $I$。结果如表\ref{tab:moran}所示：总量的$p=0.061$，在5\%水平不显著；人均、强度和过程排放占比显著，说明空间关联主要体现在效率、人口压力和工业过程属性，而不是所有省份的总量同步集聚。
 
+\subsubsection{模型建立}
+\paragraph{模型来源与建模思路。}
+问题一同时考察省级排放的规模、效率与结构差异。人均排放和单位GDP排放强度分别源于排放清单核算中的人均指标与排放强度指标；空间相关性采用经典的全局Moran's $I$统计量\cite{moran}；省份分类采用Ward层次聚类法\cite{ward}。这三类模型分别回答“排放水平如何度量”“相邻省份是否相似”与“省份可分为哪些结构类型”，不相互替代。
+
+设第$i$个省份的排放总量、人口和GDP分别为$E_i$、$Pop_i$和$GDP_i$。由于人口以万人、GDP以亿元计量，先统一换算得到
+\begin{equation}
+PC_i=\frac{100E_i}{Pop_i},\qquad EI_i=\frac{100E_i}{GDP_i}.
+\label{eq:q1-indicator}
+\end{equation}
+其中，$PC_i$的单位为t/人，$EI_i$的单位为t/(万元GDP)。再以$E_i,PC_i,EI_i,S_i^{coal},S_i^{proc}$组成五维特征，分别表征规模、人均压力、经济效率、煤炭依赖与工业过程排放结构。
+
+空间权重矩阵遵循“共享省界即相邻”的地理邻接规则。记$w_{ij}$为省份$i$与$j$的权重，则
+\begin{equation}
+w_{ij}=\begin{cases}
+1,& i\text{与}j\text{共享省界，或为海南与广东、广西的桥接关系},\\
+0,& \text{其他情形},
+\end{cases}\qquad w_{ii}=0.
+\label{eq:q1-weight}
+\end{equation}
+该权重用于识别地理邻近下的统计相关性，不被解释为真实的跨省能源流。
+
+为使不同量纲的五项特征可进入同一聚类距离，先作对数压缩和标准化：
+\begin{equation}
+u_{ij}=\ln(1+x_{ij}),\qquad z_{ij}=\frac{u_{ij}-\mu_j}{\sigma_j},
+\label{eq:q1-standard}
+\end{equation}
+其中$x_{ij}$为第$i$个省份第$j$项原始特征，$\mu_j$和$\sigma_j$为该特征在30省样本中的均值和标准差。PCA只用于二维作图，Ward聚类始终在完整五维标准化矩阵$\bm Z=(z_{ij})$上实施。
+
+\subsubsection{模型求解}
+\paragraph{\textbf{Step 1：计算省级指标并构造空间统计量。}}
+按式\eqref{eq:q1-indicator}计算30个省份的人均排放和排放强度，结合煤炭排放占比、过程排放占比构成五项指标。对任一指标$x_i$，依据式\eqref{eq:q1-weight}计算全局Moran's $I$：
+\begin{equation}
+I=\frac{n}{S_0}\frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(x_i-\bar{x})(x_j-\bar{x})}{\sum_{i=1}^{n}(x_i-\bar{x})^2},\qquad S_0=\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}.
+\label{eq:moran}
+\end{equation}
+这里$n=30$，$\bar{x}$为省级指标均值。$I>0$表示相邻省份具有相似取值的倾向，$I<0$表示相邻省份具有相异取值的倾向。
+
+\paragraph{\textbf{Step 2：用置换检验判定空间集聚。}}
+固定随机种子，对每一项指标随机置换999次，得到第$b$次置换的统计量$I^{(b)}$。以双侧经验$p$值衡量观测值$I^{obs}$的显著性：
+\begin{equation}
+p=\frac{1+\sum_{b=1}^{999}\mathbb{I}\left\{\left|I^{(b)}\right|\geq\left|I^{obs}\right|\right\}}{1000}.
+\label{eq:q1-permutation}
+\end{equation}
+当$p<0.05$时，判定该指标在既定邻接权重下具有显著空间集聚；否则只保留描述性比较，不据此作显著性结论。
+
+\paragraph{\textbf{Step 3：确定省份类别并识别重点治理对象。}}
+采用Ward法逐步合并使组内离差平方和增幅最小的两类，合并代价为
+\begin{equation}
+\Delta(A,B)=\frac{n_A n_B}{n_A+n_B}\left\|\bar{\bm z}_A-\bar{\bm z}_B\right\|_2^2.
+\label{eq:q1-ward}
+\end{equation}
+对候选类别数$k=2,\ldots,6$，由平均轮廓系数选择类别数：
+\begin{equation}
+S(k)=\frac{1}{n}\sum_{i=1}^{n}\frac{b_i-a_i}{\max\{a_i,b_i\}},\qquad k^*=\arg\max_{k\in\{2,\ldots,6\}}S(k),
+\label{eq:q1-silhouette}
+\end{equation}
+其中$a_i$为省份$i$与同类样本的平均距离，$b_i$为其与最近异类样本的平均距离。最后以总量或强度处于样本前20\%作为重点治理的双入口规则：
+\begin{equation}
+P_i=\mathbb{I}\left\{E_i\geq Q_{0.8}(E)\ \text{或}\ EI_i\geq Q_{0.8}(EI)\right\}.
+\label{eq:priority}
+\end{equation}
+$P_i=1$表示该省进入重点治理清单。
+
+\subsubsection{结果展示}
+2022年省级排放规模、空间自相关和聚类结果如图\ref{fig:q1-raw}--图\ref{fig:q1-result}及表\ref{tab:moran}--表\ref{tab:cluster}所示。轮廓系数最大的类别数为$k=3$，对应$0.3393$；共有9个省份被标记为重点治理对象。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/raw_q1_province_scale.png}
+\caption{2022年省级排放规模前20省份（单位：Mt）}
+\label{fig:q1-raw}
+\end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.80\textwidth]{figures/process_q1_indicator_space.png}
+\caption{省级排放规模、效率、人口压力与能源结构关系}
+\label{fig:q1-process}
+\end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
 \begin{table}[H]
 \centering
-\caption{省级指标的全局Moran检验}
+\caption{省级指标的全局Moran检验结果}
 \label{tab:moran}
 \zihao{5}
 \begin{tabular}{lrrl}
 \toprule
 指标 & Moran $I$ & 置换$p$值 & 5\%水平判断\\
 \midrule
-总量 & 0.2158 & 0.061 & 不显著\\
+排放总量 & 0.2158 & 0.061 & 不显著\\
 人均排放 & 0.3145 & 0.002 & 显著\\
 排放强度 & 0.4113 & 0.001 & 显著\\
-煤炭占比 & 0.1735 & 0.100 & 不显著\\
+煤炭排放占比 & 0.1735 & 0.100 & 不显著\\
 过程排放占比 & 0.4073 & 0.001 & 显著\\
 \bottomrule
 \end{tabular}
 \end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:moran}表明，人均排放、排放强度和过程排放占比在5\%水平具有显著空间集聚；排放总量和煤炭占比的置换$p$值大于0.05。
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.86\textwidth]{figures/raw_q1_province_scale.png}
-\caption{2022年省级排放规模前20省份}
-\label{fig:q1-raw}
-\end{figure}
+图\ref{fig:q1-process}表明，排放规模、人均排放、排放强度与能源结构并非完全同步变化，省级差异具有多维特征。
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.80\textwidth]{figures/process_q1_indicator_space.png}
-\caption{规模、效率、人口压力与能源结构关系}
-\label{fig:q1-process}
-\end{figure}
-
-\subsubsection{分类分级}
-PCA前两个主成分解释率分别为53.57\%和26.18\%，二维展示保留约79.75\%的方差，但不代表信息完全保留。轮廓系数结果为$k=3$时0.3393、$k=4$时0.2572。考虑题目要求四级分类和政策解释性，最终采用$k=4$，而不是把$k=4$宣称为几何分离度唯一最优解。
+图\ref{fig:q1-raw}显示，2022年省级排放规模存在明显梯度差异，说明仅以排放总量排序即可识别规模较大的排放主体，但仍需结合强度和能源结构进行后续分类。
 
 \begin{table}[H]
 \centering
-\caption{不同聚类数的轮廓系数}
+\caption{候选聚类数的轮廓系数与选择结果}
 \label{tab:silhouette}
 \zihao{5}
-\begin{tabular}{ccccc}
+\begin{tabular}{cccccc}
 \toprule
-$k$ & 2 & 3 & 4 & 5\\
+$k$ & 2 & 3 & 4 & 5 & 6\\
 \midrule
-轮廓系数 & 0.3129 & 0.3393 & 0.2572 & 0.2648\\
+轮廓系数 & 0.3129 & 0.3393 & 0.2572 & 0.2648 & 0.2639\\
+是否选取 & 否 & 是 & 否 & 否 & 否\\
 \bottomrule
 \end{tabular}
 \end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:silhouette}中$k=3$的轮廓系数为0.3393，在候选类别数中最高，因此确定30个省份划分为3类。
 
-四类省份按簇中心解释为：高规模高压力型、低规模相对低碳型、规模中等效率偏弱型以及低规模相对低碳型（结构差异簇）。总量或强度进入前20\%的省份列为重点治理对象。分类画像见图\ref{fig:q1-result}。
+\begin{table}[H]
+\centering
+\caption{省级分类结果}
+\label{tab:cluster}
+\zihao{5}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}c>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{3.0cm}}
+\toprule
+类别 & 数量 & 代表性省份 & 主要治理含义\\
+\midrule
+高规模高压力型 & 8 & 内蒙古、宁夏、山东、山西、新疆、江苏等 & 总量控制、能效改造和煤炭替代\\
+低规模相对低碳型 & 21 & 上海、云南、吉林、四川、天津、安徽等 & 按省级指标选择工具\\
+低规模相对低碳型（结构差异簇） & 1 & 北京 & 保留独立画像\\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:cluster}给出分类结果：高规模高压力型有8个省份，低规模相对低碳型有21个省份，北京构成1个结构差异簇。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.90\textwidth]{figures/result_q1_cluster_profile.png}
-\caption{四类省份的标准化指标画像}
+\caption{三类省份的标准化指标画像}
 \label{fig:q1-result}
 \end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\noindent 表\ref{tab:moran}表明，人均排放、排放强度和过程排放占比在5\%水平呈显著空间集聚，而排放总量与煤炭占比未通过显著性检验。按轮廓系数选取$k=3$后，30个省份分为8个高规模高压力型、21个低规模相对低碳型和1个结构差异簇；总量或强度处于前20\%的9个省份列为重点治理对象。
+
+\paragraph{本问结论。} 省级碳排放可明确划分为三类：8个高规模高压力型省份、21个低规模相对低碳型省份和北京1个结构差异簇。人均排放、排放强度和过程排放占比存在显著空间集聚。总量或排放强度进入前20\%的9个省份为重点治理对象，应优先实施总量控制、能效改造和煤炭替代。
 
 \subsection{问题二模型建立及求解}
-\subsubsection{带符号约束的STIRPAT-ridge模型}
-以2019--2024年全国年度总量为响应变量，建立
+
+\subsubsection{模型建立}
+\paragraph{模型来源与建模思路。}
+问题二以2019--2024年全国年度排放总量为响应变量，以人口、GDP、煤炭占比和清洁能源比重为驱动变量。模型来源于STIRPAT模型对IPAT恒等式的随机化、可估计扩展\cite{stirpat}；考虑年度样本仅有6个且解释变量存在共线性，在STIRPAT框架上采用带$L_2$惩罚的岭回归\cite{ridge}，并按排放机理施加系数方向约束。该结构用于构造方向受控的预测接口，不将短样本回归系数解释为因果效应。
+
+首先对正值变量取对数，并在每一个训练样本内完成标准化：
 \begin{equation}
- \ln C_t=\beta_0+\beta_1\ln P_t+\beta_2\ln G_t+\beta_3\ln S_t^{coal}+\beta_4\ln S_t^{clean}+\varepsilon_t .
- \label{eq:stirpat}
+x_{tj}=\ln X_{tj},\qquad z_{tj}=\frac{x_{tj}-\mu_j^{(\mathrm{train})}}{\sigma_j^{(\mathrm{train})}},\qquad y_t=\ln C_t.
+\label{eq:q2-transform}
 \end{equation}
-由于样本短且变量之间存在共变，使用岭正则并施加符号约束：
+其中$X_{tj}$依次表示人口、GDP、煤炭占比和清洁能源比重，$C_t$为第$t$年的全国排放总量。训练折独立计算$\mu_j^{(\mathrm{train})}$和$\sigma_j^{(\mathrm{train})}$，避免测试年份信息进入标准化过程。
+
+STIRPAT的对数线性形式为
 \begin{equation}
- \min_{\beta}\ \|y-X\beta\|_2^2+\lambda\|\beta_{1:4}\|_2^2,
- \quad \beta_1,\beta_2,\beta_3\geq0,\quad \beta_4\leq0 .
- \label{eq:ridge}
+\ln C_t=\beta_0+\beta_1\ln P_t+\beta_2\ln G_t+\beta_3\ln S_t^{coal}+\beta_4\ln S_t^{clean}+\varepsilon_t.
+\label{eq:stirpat}
 \end{equation}
-岭参数通过留一法选择，最终利用严格扩展窗口进行一步回测。约束优化使用L-BFGS-B求解，保证模型方向与基本机理一致。
+在标准化特征矩阵$\bm X$上，以残差平方和与岭惩罚之和为目标，并限定人口、GDP和煤炭占比的系数非负、清洁能源系数非正：
+\begin{equation}
+\min_{\bm\beta}\ \|\bm y-\bm X\bm\beta\|_2^2+\lambda\|\bm\beta_{1:4}\|_2^2,\quad \beta_1,\beta_2,\beta_3\geq0,\quad\beta_4\leq0.
+\label{eq:ridge}
+\end{equation}
+
+\subsubsection{模型求解}
+\paragraph{\textbf{Step 1：在留一年度样本中选择岭参数。}}
+在$10^{-4}$至$10^{4}$的80个对数间隔候选值中，轮流留出第$i$个年份。对每一个$\lambda$，仅用其余5年样本估计标准化参数与模型系数，获得留出年预测值
+\begin{equation}
+\widehat{C}_{i}^{(-i)}(\lambda)=\exp\left(\widehat{\beta}_0^{(-i)}+\sum_{j=1}^{4}\widehat{\beta}_j^{(-i)}z_{ij}^{(-i)}\right).
+\label{eq:q2-loo-pred}
+\end{equation}
+以留一预测MAE选取正则化强度：
+\begin{equation}
+\mathrm{MAE}_{\mathrm{LOO}}(\lambda)=\frac{1}{6}\sum_{i=1}^{6}\left|C_i-\widehat{C}_{i}^{(-i)}(\lambda)\right|,\qquad \lambda^*=\arg\min_{\lambda}\mathrm{MAE}_{\mathrm{LOO}}(\lambda).
+\label{eq:q2-loo-mae}
+\end{equation}
+
+\paragraph{\textbf{Step 2：用最优参数完成约束岭回归。}}
+将$\lambda^*=0.0429449$代入式\eqref{eq:ridge}，利用成熟的L-BFGS-B约束优化算法，在全部2019--2024年样本上求解$\widehat{\bm\beta}$。随后按下式将标准化系数转化为相对权重，用于比较变量在模型内的相对作用：
+\begin{equation}
+\pi_j=100\frac{|\widehat{\beta}_j|}{\sum_{k=1}^{4}|\widehat{\beta}_k|}.
+\label{eq:q2-step-importance}
+\end{equation}
+该步骤的输出为带符号的标准化系数和相对权重，而非单变量的因果贡献。
+
+\paragraph{\textbf{Step 3：进行扩展窗口回测并计算误差。}}
+依次以2019--2021年预测2022年、以2019--2022年预测2023年、以2019--2023年预测2024年。第$r$个预测点的总量由
+\begin{equation}
+\widehat{C}_r=\exp\left(\widehat{\beta}_{0,r}+\sum_{j=1}^{4}\widehat{\beta}_{j,r}z_{rj}^{(\mathrm{train})}\right)
+\label{eq:q2-expanding-pred}
+\end{equation}
+得到，并以
+\begin{equation}
+\mathrm{MAE}=\frac{1}{m}\sum_{r=1}^{m}|C_r-\widehat{C}_r|
+\label{eq:q2-step-mae}
+\end{equation}
+汇总$m=3$个外推点的误差。同步以年份作为唯一输入拟合时间趋势ridge基线，比较两种模型的外推MAE。
+
+\subsubsection{结果展示}
+参数选择得到最优岭参数$\lambda^*=0.0429449$。标准化系数、相对权重与扩展窗口回测结果分别见表\ref{tab:coef}、表\ref{tab:backtest}及图\ref{fig:q2-result}。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.86\textwidth]{figures/raw_q2_annual_sectors.png}
-\caption{2019--2025年全国分部门排放变化}
+\caption{2019--2025年全国分部门排放变化（单位：Mt）}
 \label{fig:q2-raw}
 \end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\begin{table}[H]
+\centering
+\caption{问题二驱动因素的标准化系数}
+\label{tab:coef}
+\zihao{5}
+\begin{tabular}{lrr}
+\toprule
+因素 & 标准化系数 & 相对重要性/(\%)\\
+\midrule
+人口 & 0.000000 & 0.00\\
+GDP & 0.034528 & 78.78\\
+煤炭占比 & 0.000000 & 0.00\\
+清洁能源比重 & -0.009301 & 21.22\\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:coef}显示，GDP的标准化系数为0.034528、相对权重为78.78\%，清洁能源比重的系数为-0.009301、相对权重为21.22\%；人口和煤炭占比的估计系数位于约束边界。
+
+图\ref{fig:q2-raw}展示了2019--2025年各部门排放随年份的变化，为后续全国总量驱动分析提供了时间序列基础。
+
+图\ref{fig:q1-result}显示，高规模高压力型在规模、强度或煤炭结构指标上整体较高；北京的指标组合与其余两类存在明显差异。
 
 \begin{figure}[H]
 \centering
@@ -292,48 +483,29 @@ $k$ & 2 & 3 & 4 & 5\\
 \caption{驱动因素方向与相对权重}
 \label{fig:q2-process}
 \end{figure}
-
-\subsubsection{系数与回测结果}
-结果见表\ref{tab:coef}和表\ref{tab:backtest}。GDP标准化系数为0.034528，清洁能源占比系数为-0.009301，人口和煤炭占比系数落在非负约束边界。绝对标准化系数归一化后，GDP相对重要性为78.78\%，清洁能源占比为21.22\%。这些百分比只是模型内相对权重，不是因果贡献或减排量分摊。定义第$j$个因素的相对重要性为
-\begin{equation}
- \pi_j=100\frac{|\widetilde\beta_j|}{\sum_{k=1}^{4}|\widetilde\beta_k|},
- \label{eq:importance}
-\end{equation}
-其中$\widetilde\beta_j$为标准化特征下的岭系数。
-
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
 \begin{table}[H]
 \centering
-\caption{问题二驱动因素标准化系数}
-\label{tab:coef}
-\zihao{5}
-\begin{tabular}{lrr}
-\toprule
-因素 & 标准化系数 & 相对重要性(\%)\\
-\midrule
-人口 & 0.000000 & 0.00\\
-GDP & 0.034528 & 78.78\\
-煤炭占比 & 0.000000 & 0.00\\
-清洁能源占比 & -0.009301 & 21.22\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{模型回测与趋势基线比较}
+\caption{结构模型与时间趋势基线的回测比较}
 \label{tab:backtest}
 \zihao{5}
 \begin{tabular}{lrr}
 \toprule
 指标 & STIRPAT-ridge & 时间趋势ridge\\
 \midrule
-扩展窗口MAE/Mt & 106.500 & 157.860\\
+扩展窗口MAE/Mt & 184.397 & 157.860\\
 拟合MAE/Mt & 48.034 & --\\
 拟合RMSE/Mt & 65.175 & --\\
 残差标准差/Mt & 71.395 & --\\
 \bottomrule
 \end{tabular}
 \end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:backtest}显示，STIRPAT--ridge模型的扩展窗口MAE为184.397 Mt，时间趋势ridge基线为157.860 Mt，后者在该三点回测中的误差更小。
+
+图\ref{fig:q2-process}直观展示了变量方向与相对权重，其中GDP为正向主导因素，清洁能源比重呈负向关系。
 
 \begin{figure}[H]
 \centering
@@ -341,38 +513,110 @@ GDP & 0.034528 & 78.78\\
 \caption{结构模型回测与时间趋势基线比较}
 \label{fig:q2-result}
 \end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\noindent 表\ref{tab:coef}显示，GDP的标准化系数为$0.034528$、相对权重为78.78\%，清洁能源比重的系数为$-0.009301$、相对权重为21.22\%。表\ref{tab:backtest}显示，结构模型的扩展窗口MAE为184.397 Mt，高于时间趋势ridge基线的157.860 Mt，因此该模型主要用于方向受控的情景比较。
+
+\paragraph{本问结论。} GDP是模型中最主要的正向驱动因素，标准化权重为78.78\%；清洁能源比重与排放总量呈负向关系，权重为21.22\%。模型的扩展窗口MAE为184.397 Mt，高于时间趋势基线的157.860 Mt，说明该模型不能作为最优点预测模型，后续仅用于生成不同能源结构下的排放情景。
 
 \subsection{问题三模型建立及求解}
-\subsubsection{情景路径}
-三种情景从同一2025年化锚点出发。基准、低碳和强化低碳情景中，煤炭占比年下降速度分别为0.6、1.0和1.4个百分点，清洁能源占比同步上升；GDP增速按2026--2030、2031--2035和2036--2045分段设置。强度定义为
+
+\subsubsection{模型建立}
+\paragraph{模型来源与建模思路。}
+问题三不重复估计新的回归模型，而是将问题二的方向约束STIRPAT--ridge模型嵌入情景分析框架：基准、低碳和强化低碳三种情景共享2025年年化锚点，通过改变GDP、人口与能源结构的外生路径，比较2026--2045年的总量和强度变化。该方法属于经典情景分析：模型参数保持一致，差异仅来自明确给定的未来输入路径。
+
+设$s$表示情景，$t$表示年份。三条路径均须满足能源占比的物理边界：
 \begin{equation}
- I_t^{GDP}=\frac{C_t}{G_t},
- \label{eq:intensity}
+0\leq S_t^{coal,(s)}\leq1,\qquad0\leq S_t^{clean,(s)}\leq1,\qquad S_t^{coal,(s)}+S_t^{clean,(s)}\leq1.
+\label{eq:scenario-constraint}
 \end{equation}
-单位为Mt CO$_2$/万亿元GDP。经验残差带按$\widehat C_t\pm1.96\hat\sigma\sqrt{h}$计算，只作参考范围，不称为正式置信区间。情景路径的能源结构约束写为
+其中$S_t^{coal,(s)}$和$S_t^{clean,(s)}$分别为煤炭占比和清洁能源比重。该约束保证能源结构变量可解释且不会出现比例超过100\%的无效路径。
+
+\subsubsection{模型求解}
+\paragraph{\textbf{Step 1：逐年生成GDP和人口情景路径。}}
+以2025年为共同起点，GDP按各阶段预设增速$g_t^{(s)}$递推，人口按0.1\%的年增速递推：
 \begin{equation}
- 0\leq S_t^{coal}\leq1,\qquad 0\leq S_t^{clean}\leq1,\qquad S_t^{coal}+S_t^{clean}\leq1 .
- \label{eq:scenario-constraint}
+G_{t+1}^{(s)}=G_t^{(s)}\left(1+g_t^{(s)}\right),\qquad P_{t+1}^{(s)}=P_t^{(s)}(1+0.001).
+\label{eq:q3-gdp-pop}
 \end{equation}
+这一步输出2026--2045年每种情景下的经济规模和人口规模。
+
+\paragraph{\textbf{Step 2：按情景步长更新能源结构并检查约束。}}
+基准、低碳和强化低碳情景的年度调整步长$d_s$分别为0.006、0.010和0.014。对每一年按下式更新煤炭占比与清洁能源比重：
+\begin{equation}
+S_{t+1}^{coal,(s)}=\max\{0.12,S_t^{coal,(s)}-d_s\},\qquad S_{t+1}^{clean,(s)}=\min\{0.78,S_t^{clean,(s)}+d_s\}.
+\label{eq:scenario-path}
+\end{equation}
+将结果代入式\eqref{eq:scenario-constraint}逐年检查；同时检查$G_t^{(s)}>0$、$P_t^{(s)}>0$。不满足约束的路径不进入后续预测。
+
+\paragraph{\textbf{Step 3：计算校准排放总量和排放强度。}}
+对通过约束检查的外生变量，使用问题二得到的系数和训练期标准化参数计算原始预测：
+\begin{equation}
+\widetilde{C}_{t}^{(s)}=\exp\left(\widehat{\beta}_0+\sum_{j=1}^{4}\widehat{\beta}_j z_{tj}^{(s)}\right).
+\label{eq:q3-raw-pred}
+\end{equation}
+为使三条情景与2025年年化锚点$C_{2025}^{anchor}=11639.658$ Mt连续，采用共同尺度校准：
+\begin{equation}
+\kappa=\frac{C_{2025}^{anchor}}{\frac{1}{3}\sum_s\widetilde{C}_{2025}^{(s)}}=0.967299,\qquad C_t^{(s)}=\kappa\widetilde{C}_t^{(s)}.
+\label{eq:q3-calibration}
+\end{equation}
+最后计算单位GDP排放强度：
+\begin{equation}
+I_t^{GDP,(s)}=\frac{C_t^{(s)}}{G_t^{(s)}}.
+\label{eq:q3-step-intensity}
+\end{equation}
+其中$C_t^{(s)}$的单位为Mt，$I_t^{GDP,(s)}$的单位为Mt/(万亿元GDP)。
+
+\subsubsection{结果展示}
+三种情景的能源结构路径、关键年份预测值及完整预测曲线如表\ref{tab:scenario-path}、表\ref{tab:scenario}和图\ref{fig:q3-result}所示。2045年总量依次为：强化低碳$12890.561$ Mt、低碳$13437.482$ Mt、基准$13864.762$ Mt。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/raw_q3_historical_trend.png}
+\caption{2019--2025年全国碳排放历史趋势与2025年年化锚点（单位：Mt）}
+\label{fig:q3-raw}
+\end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\begin{table}[H]
+\centering
+\caption{三种情景的能源结构设定与约束检查}
+\label{tab:scenario-path}
+\zihao{5}
+\begin{tabular}{lrrrr}
+\toprule
+情景 & 煤炭占比年降幅/百分点 & 最小煤炭占比 & 最大清洁能源比重 & 最大能源占比和\\
+\midrule
+基准 & 0.6 & 0.404 & 0.416 & 0.820\\
+低碳 & 1.0 & 0.324 & 0.496 & 0.820\\
+强化低碳 & 1.4 & 0.244 & 0.576 & 0.820\\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:scenario-path}显示，三种情景下煤炭占比持续下降、清洁能源比重持续上升，且能源占比和最大值均满足既定约束。
+
+图\ref{fig:q3-raw}给出了2019--2025年的历史排放变化，并以11639.658 Mt的2025年年化值作为三种预测情景的共同起点。
+
+图\ref{fig:q2-result}展示了2022--2024年三个扩展窗口预测点的观测值与预测值差异，与表\ref{tab:backtest}的误差比较一致。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.86\textwidth]{figures/process_q3_scenario_paths.png}
-\caption{三情景能源结构路径}
+\caption{2026--2045年三情景能源结构路径（单位：\%）}
 \label{fig:q3-process}
 \end{figure}
-
-\subsubsection{预测结果与达峰判断}
-每个情景含1行2025年锚点和20行2026--2045年预测，共63行。约束检查显示三条路径均满足GDP、人口为正，能源占比在$[0,1]$，煤炭与清洁能源占比之和不超过1，预测排放非负。
-
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
 \begin{table}[H]
 \centering
-\caption{三种情景的关键年份预测}
+\caption{三种情景的关键年份预测结果}
 \label{tab:scenario}
 \zihao{5}
 \begin{tabular}{llrrr}
 \toprule
-情景 & 年份 & 总量/Mt & 强度/(Mt/万亿元GDP) & 煤炭占比/\%\\
+情景 & 年份 & 总量/Mt & 强度/(Mt/万亿元 GDP) & 煤炭占比/(\%)\\
 \midrule
 基准 & 2025 & 11639.658 & 82.170 & 52.4\\
 基准 & 2030 & 12248.657 & 69.387 & 49.4\\
@@ -382,8 +626,11 @@ GDP & 0.034528 & 78.78\\
 \bottomrule
 \end{tabular}
 \end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:scenario}显示，2045年三种情景的排放总量依次为$12890.561$、$13437.482$和$13864.762$ Mt。
 
-在2026--2045年，总量排序始终为强化低碳$<$低碳$<$基准。2045年总量分别为12890.561、13437.482和13864.762 Mt CO$_2$。三条路径的窗口最大值均在2045年边界，因此结论是“预测窗口内未见达峰，峰值可能在2045年以后”，不能把2045年机械称为已经达峰。2045年强度排序为低碳$<$强化低碳$<$基准，说明总量和强度受GDP路径与能源结构共同影响，不能用单一指标评价政策效果。
+图\ref{fig:q3-process}显示，强化低碳情景的煤炭占比下降速度最快、清洁能源比重提升速度最快，低碳情景居中，基准情景最缓。
 
 \begin{figure}[H]
 \centering
@@ -391,80 +638,173 @@ GDP & 0.034528 & 78.78\\
 \caption{2026--2045年三情景排放总量与强度预测}
 \label{fig:q3-result}
 \end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\noindent 三条路径在预测期内始终满足强化低碳$<$低碳$<$基准的总量排序。2045年三种情景的总量分别为12890.561、13437.482和13864.762 Mt；由于三条路径的最大值均位于2045年预测窗口右端点，结果仅表明窗口内未见达峰。
+
+\paragraph{本问结论。} 强化低碳情景的减排效果最好：2045年排放总量为12890.561 Mt，分别比低碳情景和基准情景少546.921 Mt和974.201 Mt。低碳、基准情景的2045年总量分别为13437.482 Mt和13864.762 Mt。三条总量曲线在2045年仍处于预测窗口最大值，因此本研究的结论是2045年前未出现碳达峰。
 
 \subsection{问题四模型建立及求解}
-\subsubsection{政策转译框架}
-建议采用“类型识别--部门施策--阶段推进--指标监测”的闭环：总量和强度优先级来自问题一，GDP和清洁能源方向来自问题二，三情景差异和2045年边界峰值来自问题三。对于高规模高压力型省份，优先建立总量控制清单和重点行业碳预算；对于效率偏弱型省份，重点实施设备更新、余热余压利用和园区循环化改造；对于煤炭结构压力地区，重点推进非化石能源消纳、储能、需求响应和落后产能替代；对于低规模相对低碳型地区，重点防止新增项目造成高碳锁定。
+
+\subsubsection{模型建立}
+\paragraph{模型来源与建模思路。}
+问题四采用“省级规则识别--类别覆盖率汇总--部门优先级排序--阶段指标监测”的政策映射模型。规则阈值取自省级样本的中位数，来源于分位数分类思想；部门优先级依据累计排放份额排序；阶段评价直接使用问题三的情景强度。该模型输出的是透明的政策触发与监测顺序，不把规则触发解释为某项政策已经产生的减排效果。
+
+令$z_i^g\in\{0,1\}$表示省份$i$是否触发第$g$类治理工具。依据问题一的总量、强度和结构指标，建立五类工具的可计算规则：
+\begin{equation}
+\begin{aligned}
+z_i^T&=\mathbb{I}\{E_i\geq Q_{0.8}(E)\ \text{或}\ EI_i\geq Q_{0.8}(EI)\},&
+z_i^E&=\mathbb{I}\{EI_i\geq\operatorname{median}(EI)\},\\
+z_i^C&=\mathbb{I}\{S_i^{coal}\geq\operatorname{median}(S^{coal})\},&
+z_i^M&=\mathbb{I}\{L_i\geq\operatorname{median}(L)\},\\
+z_i^D&=\mathbb{I}\{E_i\geq\operatorname{median}(E),\ S_i^{coal}<\operatorname{median}(S^{coal})\}.
+\end{aligned}
+\label{eq:policy-map}
+\end{equation}
+其中$T,E,C,M,D$依次表示总量控制、能效改造、煤炭替代、市场机制和需求侧治理，$L_i$为强度、煤炭占比和过程排放占比标准化值的均值。样本中位数阈值分别为：$EI=0.9576$ t/(万元GDP)、煤炭排放占比$75.5658\%$、经济联系指数$0.0220$、排放规模$303.1388$ Mt。
+
+\subsubsection{模型求解}
+\paragraph{\textbf{Step 1：逐省计算五类政策工具标记。}}
+将30个省份的原始指标逐一代入式\eqref{eq:policy-map}，得到每个省份的$z_i^T,z_i^E,z_i^C,z_i^M,z_i^D$。该步骤输出省级政策映射矩阵，避免只由聚类标签直接给出政策建议。
+
+\paragraph{\textbf{Step 2：按类别汇总政策工具覆盖率。}}
+设$c_i$为问题一得到的省份类别，$n_c$为类别$c$的省份数。类别$c$对工具$g$的覆盖率计算为
+\begin{equation}
+R_{cg}=\frac{1}{n_c}\sum_{i:c_i=c}z_i^g\times100\%.
+\label{eq:q4-coverage}
+\end{equation}
+该式给出“同一类别中有多大比例的省份满足触发条件”，并不表示该工具可实现的减排比例。
+
+\paragraph{\textbf{Step 3：计算部门优先级与阶段监测指数。}}
+设$C_{dt}$为部门$d$在年份$t$的排放量，则部门累计排放份额和优先级为
+\begin{equation}
+H_d=\frac{\sum_t C_{dt}}{\sum_{d'}\sum_t C_{d't}}\times100\%,\qquad \operatorname{rank}(d)=\operatorname{rank}_{\downarrow}(H_d).
+\label{eq:q4-sector-rank}
+\end{equation}
+再以问题三同一情景下2025年排放强度为基准，计算阶段末强度指数：
+\begin{equation}
+J_{s,T}=\frac{I_T^{GDP,(s)}}{I_{2025}^{GDP,(s)}}\times100.
+\label{eq:q4-intensity-index}
+\end{equation}
+其中$T\in\{2030,2035,2045\}$。$H_d$用于确定部门治理顺序，$J_{s,T}$用于年度滚动监测路径偏离。
+
+\subsubsection{结果展示}
+部门累计排放份额、类别工具覆盖率和阶段末强度指数分别见图\ref{fig:q4-raw}--图\ref{fig:q4-result}及表\ref{tab:q4-policy}--表\ref{tab:q4-phase}。工业与电力部门的累计排放份额分别为46.20\%和39.08\%。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.86\textwidth]{figures/raw_q4_sector_share.png}
-\caption{2019--2025年分部门累计排放}
+\caption{2019--2025年全国分部门累计排放及治理优先级（单位：Mt和\%）}
 \label{fig:q4-raw}
 \end{figure}
-
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.90\textwidth]{figures/process_q4_policy_matrix.png}
-\caption{省份类型与政策工具匹配矩阵}
+\caption{按省级规则计算的类别政策工具覆盖率（单位：\%）}
 \label{fig:q4-process}
 \end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\begin{table}[H]
+\centering
+\caption{按省级规则计算的类别政策工具覆盖率}
+\label{tab:q4-policy}
+\zihao{5}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+类别 & 省份数 & 总量控制/(\%) & 能效改造/(\%) & 煤炭替代/(\%) & 市场机制/(\%) & 需求侧治理/(\%)\\
+\midrule
+高规模高压力型 & 8 & 100.0 & 87.5 & 100.0 & 62.5 & 0.0\\
+低规模相对低碳型 & 21 & 4.8 & 38.1 & 33.3 & 47.6 & 23.8\\
+低规模相对低碳型（结构差异簇） & 1 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
+\bottomrule
+\end{tabular}}
+\end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:q4-policy}显示，高规模高压力型的总量控制和煤炭替代覆盖率均为100.0\%，能效改造覆盖率为87.5\%；其他类别的工具组合更具差异性。
+
+图\ref{fig:q4-process}显示，高规模高压力型在总量控制、能效改造和煤炭替代三类工具上的覆盖率明显较高。
+
+图\ref{fig:q4-raw}显示，工业和电力部门累计排放份额分别为46.20\%和39.08\%，两部门合计占全国累计排放的主要部分。
+
+图\ref{fig:q3-result}表明，预测期内三种情景的总量排序始终为强化低碳$<$低碳$<$基准，三条曲线的总量最大值均出现在2045年窗口右端。
 
 \begin{table}[H]
 \centering
-\caption{政策建议闭环}
-\label{tab:policy}
+\caption{三情景阶段末排放强度指数与能源结构指标}
+\label{tab:q4-phase}
 \zihao{5}
-\small\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{1.8cm}@{}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrr}
 \toprule
-对象/问题 & 核心措施 & 监测指标 & 时间节点\\
+情景 & 阶段末 & 强度指数(2025=100) & 强度降幅/(\%) & 煤炭占比/(\%) & 清洁能源比重/(\%)\\
 \midrule
-高规模高压力型 & 电力灵活性、重点行业节能降碳、项目碳预算 & 单位GDP排放、重点行业吨产品排放 & 2026--2035\\
-效率偏弱型 & 工业设备更新、余热余压利用、园区循环化 & 单位工业增加值能耗、过程排放占比 & 2026--2030\\
-煤炭结构压力 & 非化石能源消纳、储能、需求响应、产能替代 & 煤炭占比、清洁能源占比、弃电率 & 2026--2035\\
-需求侧排放 & 公共交通、电动化、建筑节能和分时电价 & 交通排放、建筑能耗、峰谷负荷差 & 2026--2045\\
-数据与市场机制 & 统一口径、月度监测、碳市场衔接 & 数据缺失率、核算偏差、履约率 & 年度复盘\\
+基准 & 2030 & 84.44 & 15.56 & 49.4 & 32.6\\
+基准 & 2035 & 72.61 & 27.39 & 46.4 & 35.6\\
+基准 & 2045 & 55.70 & 44.30 & 40.4 & 41.6\\
+低碳 & 2030 & 83.55 & 16.45 & 47.4 & 34.6\\
+低碳 & 2035 & 71.24 & 28.76 & 42.4 & 39.6\\
+低碳 & 2045 & 53.98 & 46.02 & 32.4 & 49.6\\
+强化低碳 & 2030 & 83.27 & 16.73 & 45.4 & 36.6\\
+强化低碳 & 2035 & 70.97 & 29.03 & 38.4 & 43.6\\
+强化低碳 & 2045 & 54.34 & 45.66 & 24.4 & 57.6\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+表\ref{tab:q4-phase}显示，至2045年基准、低碳和强化低碳情景的强度指数分别为55.70、53.98和54.34，均较2025年明显下降。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.86\textwidth]{figures/result_q4_roadmap.png}
-\caption{分阶段减排路线图与监测目标}
+\caption{由情景预测结果计算的三情景阶段末强度指数}
 \label{fig:q4-result}
 \end{figure}
+\vspace{-0.4\baselineskip}
+\nopagebreak[4]
+\noindent 工业和电力部门累计排放份额分别为46.20\%和39.08\%，构成部门治理重点。高规模高压力型的8个省份中，总量控制和煤炭替代的覆盖率均为100\%，能效改造覆盖率为87.5\%。到2045年，三种情景的强度指数均降至约54--56，低碳情景的指数最低。
 
-综合结果图表的交叉核对见图\ref{fig:q1-raw}、图\ref{fig:q1-process}、图\ref{fig:q1-result}、图\ref{fig:q2-raw}、图\ref{fig:q2-process}、图\ref{fig:q2-result}、图\ref{fig:q3-process}、图\ref{fig:q3-result}、图\ref{fig:q4-raw}、图\ref{fig:q4-process}和图\ref{fig:q4-result}；数据口径与计算代码分别对应表\ref{tab:data}、表\ref{tab:silhouette}、表\ref{tab:scenario}、表\ref{tab:policy}和项目代码\cite{code}。
+\paragraph{本问结论。} 工业和电力是首要治理部门，累计排放份额分别为46.20\%和39.08\%。对8个高规模高压力型省份，应优先采用“总量控制+能效改造+煤炭替代”的组合措施，其中总量控制和煤炭替代的覆盖率均为100\%。到2045年，三种情景的排放强度指数均降至54--56，可将其作为2030、2035和2045年阶段评估的对照基准。
 
-\section{模型的评价与推广}
+\subsection{模型的适用范围}
+本文分别利用省级横截面数据和全国年度时间序列回答不同问题：空间分析用于识别区域差异，驱动模型用于刻画变量之间的方向性关系，情景模型用于比较不同转型路径，政策映射用于组织治理建议。模型结果均应在相应数据口径、时间范围和情景设定内理解。
 
-\subsection{模型的优点}
-\begin{enumerate}[label=\arabic*.]
-  \item 严格区分全国日频数据与省级排放清单，先核验Total口径，避免重复计量。
-  \item 空间权重、聚类数选择、符号约束、扩展窗口回测和情景边界均可复现。
-  \item 结构模型兼顾误差表现和能源结构解释，且通过符号约束修正了普通回归可能产生的反向情景排序。
-  \item 政策建议形成了指标--问题--措施--监测--时间节点闭环，可用于年度滚动评估。
+\subsection{模型优点}
+四个问题采用“区域识别--驱动分析--情景预测--政策建议”的顺序：横截面模型用于说明地区之间的差异，时间序列模型用于讨论全国排放与驱动变量的共同变化，情景模型用于比较给定路径下的长期变化，政策映射则把分析结果转化为分层措施。各环节的统计对象和时间尺度不同，因此需要结合各自的适用范围理解结果。
+\begin{enumerate}[label=(\arabic*)]
+\item 先进行\texttt{Total}口径核验并区分全国时间序列和省级横截面，避免把不同来源、不同层级的数据重复计量。
+\item 对空间差异同时报告Moran检验、轮廓系数和分类解释，并以轮廓系数最大规则确定$k=3$，使分类决策可由结果表复核。
+\item STIRPAT-ridge将能源结构方向约束纳入估计，并以扩展窗口MAE与时间趋势基线比较，避免仅报告样本内拟合误差。
+\item 政策建议由省域类别、部门结构、情景差异和监测指标逐层映射，能够支持年度滚动复盘。
 \end{enumerate}
 
 \subsection{模型的缺点}
-\begin{enumerate}[label=\arabic*.]
-  \item 全国驱动模型只有6个年度观测，参数不确定性较大，不能把2045年预测当作精确点预测。
-  \item 省级样本不含西藏，海南的空间关系采用桥接近似，空间检验具有探索性。
-  \item 外部GDP和能源结构路径是政策假设，不等同于官方规划；经验残差带也不是正式置信区间。
-  \item $k=4$的轮廓系数低于$k=3$，选择四类主要出于题目分级和政策解释需要。
+\begin{enumerate}[label=(\arabic*)]
+\item 全国驱动模型只有6个年度观测，参数不确定性较大；模型系数只能做结构性解释，不能作为因果效应或精确长期点预测。
+\item 省级样本不含西藏，海南采用桥接空间关系；全局Moran检验不能替代基于真实经济联系、能源流或电网拓扑的空间网络分析。
+\item 外生GDP和能源结构路径是情景假设而非官方规划，经验残差带也不是正式置信区间；2045年边界最大值不能证明已经达峰。
+\item 聚类只依赖五项静态指标，尽管$k=3$在候选范围内的轮廓系数最高，类别仍应理解为描述性画像。后续可增加更长时间序列、分省能源价格、技术进步、产业结构和跨区电力交换数据，构造面板STIRPAT、空间面板或状态空间模型。
 \end{enumerate}
 
 \subsection{模型的推广}
-若取得更长的年度驱动序列、分省能源价格、技术进步、产业结构和电力交换数据，可进一步构造面板STIRPAT、空间面板或状态空间模型；空间权重也可扩展为地理邻接、经济距离和能源流网络的多层权重。对水资源、污染物和能源消费等其他资源环境问题，可沿用“数据口径核验--空间画像--结构模型--情景路径--政策闭环”的框架，但必须重新论证变量符号和约束边界。
-
+本文的分析框架可以推广到省级面板排放、行业排放或城市排放研究。若进一步获得跨省电力流、产业链联系、能源价格和技术改造成本等数据，可在现有指标体系上构建空间面板模型或多目标优化模型；同时保留“区域识别--驱动分析--情景预测--政策建议”的基本思路，实现更精细的碳排放治理分析。
 \newpage
 \begin{thebibliography}{99}
+\raggedright
 \addcontentsline{toc}{section}{参考文献}
-\bibitem{data1} 题目附件1：《中国2019年--2025年碳排放数据》. 项目输入文件.
+\bibitem{data1} 题目附件1：《中国2019年--2025年碳排放数据》. 项目输入CSV文件.
 \bibitem{data2} 题目附件2：《2022年30个省份排放清单》. 项目输入Excel文件.
-\bibitem{stats} 国家统计局：《中国统计年鉴2023》，表2-7、表3-9、表9-2，\url{https://www.stats.gov.cn/sj/ndsj/2023/}.
-\bibitem{code} 本文作者计算：项目内 \texttt{carbon\_model.py} 及 results 目录结果表.
+\bibitem{stats} 国家统计局. 《中国统计年鉴2023》, 表2-7、表3-9、表9-2. \url{https://www.stats.gov.cn/sj/ndsj/2023/}.
+\bibitem{moran} Moran, P. A. P. Notes on Continuous Stochastic Phenomena[J]. Biometrika, 1950, 37(1/2): 17--23. DOI: 10.1093/biomet/37.1-2.17.
+\bibitem{ward} Ward, J. H. Hierarchical Grouping to Optimize an Objective Function[J]. Journal of the American Statistical Association, 1963, 58(301): 236--244. DOI: 10.1080/01621459.1963.10500845.
+\bibitem{ridge} Hoerl, A. E., Kennard, R. W. Ridge Regression: Biased Estimation for Nonorthogonal Problems[J]. Technometrics, 1970, 12(1): 55--67. DOI: 10.1080/00401706.1970.10488634.
+\bibitem{stirpat} York, R., Rosa, E. A., Dietz, T. Footprints on the Earth: The Environmental Consequences of Modernity[J]. American Sociological Review, 2003, 68(2): 279--300. DOI: 10.2307/1519769.
+
 \end{thebibliography}
 
 \newpage
@@ -474,33 +814,37 @@ GDP & 0.034528 & 78.78\\
 \renewcommand{\thesubsubsection}{\Alph{section}.\arabic{subsection}.\arabic{subsubsection}}
 \titleformat{\section}{\centering\heiti\zihao{-3}\bfseries}{\thesection}{1em}{}
 
-\section{支撑文件与复现信息}
-项目支撑文件及其用途见表\ref{tab:support}。
+\section{支撑文件列表}
+项目的主要数据、模型代码和结果文件见表\ref{tab:support}，用于支撑正文中的数据处理、模型计算和图表展示。
+
 \begin{table}[H]
 \centering
 \caption{支撑文件与用途}
 \label{tab:support}
 \zihao{5}
-\begin{tabular}{lll}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.3cm}>{\centering\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{5.3cm}}
 \toprule
 文件 & 类型 & 说明\\
 \midrule
-carbon\_model.py & Python & 数据清洗、模型计算和绘图\\
-results/关键指标.json & JSON & 关键指标、单位和峰值\\
-results/复现清单.json & JSON & 输入哈希、参数和复现命令\\
-figures/*.png & PNG & q1--q4三类逻辑图\\
+\texttt{carbon\_model.py} & Python & 数据清洗、模型计算和图形生成\\
+\texttt{data/全国年度驱动变量\_来源数据.csv} & CSV & 问题二驱动变量、单位与逐年来源说明\\
+\texttt{results/关键指标.json} & JSON & 关键指标、单位、峰值与模型误差\\
+\texttt{results/关键指标.json} & JSON & 关键指标、模型参数与预测结果\\
+\texttt{results/*.csv} & CSV & 问题一至问题四的原始输出表\\
+\texttt{figures/*.png} & PNG & 四个问题的原始、过程和结果图\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-运行环境为 \texttt{math\_modeling} 虚拟环境，随机种子为20260822。最小命令退出码为0，输入行数17255、省份数30、2025年化排放量11639.657907 Mt、岭参数0.0429449、扩展窗口MAE106.500150 Mt、预测行数63。全量命令退出码为0，图形审计和逐图检查均通过。
+图\ref{fig:q4-result}展示了2030、2035和2045年三个阶段的强度指数变化，三种情景的指数均随阶段推进而下降。
+
 
 \section{AI使用说明}
-本文的结构组织、文字润色和LaTeX排版使用了AI辅助；数据读取、模型计算、图形生成、关键指标和结论均由项目代码实际运行产生，并由作者依据附件和结果表进行核验。AI未替代数据口径判断、模型约束选择和最终结果复核。
+本文在文字组织、LaTeX排版和语言润色阶段使用了AI辅助工具。数据读取、指标计算、模型求解和图表生成均由项目代码完成，正文数值以实际计算结果为依据。
 
 \section{相关代码}
-关键代码保存在项目LaTeX目录的\texttt{code/carbon\_model.py}，完整代码较长，此处给出模型符号约束接口：
-\begin{lstlisting}[language=Python, caption={Sign-constrained ridge interface}]
+关键实现保存于项目LaTeX目录的\texttt{code/carbon\_model.py}。其中带符号约束的拟合接口如下，完整代码见项目文件：
+\begin{lstlisting}[language=Python, caption={带符号约束岭回归接口}, label={lst:ridge}]
 class SignConstrainedRidge:
     def fit(self, X, y):
         # population, GDP, coal_share >= 0; clean_share <= 0
@@ -510,6 +854,8 @@ class SignConstrainedRidge:
 \end{lstlisting}
 
 \end{document}
+
+
 
 
 

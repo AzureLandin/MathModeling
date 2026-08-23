@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "created_at": "2026-08-23T05:37:30.959878+00:00",
+  "created_at": "2026-08-23T07:46:26.737986+00:00",
   "passed": true,
   "main_tex": "main.tex",
   "project_root": "E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX",
-  "source_sha256": "9b48b5da99dacc45e7e79e8d0c136d11c356aff930f21d44f1124bdc4e959f6a",
-  "compiled_source_sha256": "9b48b5da99dacc45e7e79e8d0c136d11c356aff930f21d44f1124bdc4e959f6a",
-  "post_build_source_sha256": "9b48b5da99dacc45e7e79e8d0c136d11c356aff930f21d44f1124bdc4e959f6a",
-  "pdf_sha256": "849ef192b08df514b870bf65bdd005eb3046029216a7587d39e611671e94b8c5",
-  "project_manifest_sha256": "c248e096c6102fce0a5b53ba716d55bda343811166520c4d7cbd581f9b1b379c",
+  "source_sha256": "8845845d8aeedae74b3d3e20522f80c892c9004837bd0c72461e6272eaa9eb5c",
+  "compiled_source_sha256": "8845845d8aeedae74b3d3e20522f80c892c9004837bd0c72461e6272eaa9eb5c",
+  "post_build_source_sha256": "8845845d8aeedae74b3d3e20522f80c892c9004837bd0c72461e6272eaa9eb5c",
+  "pdf_sha256": "0e72992016fa59d35b94ddaad5d38b65b533b32f78c95f9dcd2935acf889ce2e",
+  "project_manifest_sha256": "50c8e8d0332137812d66b55888ad18a68fd06cd0c86764f2a9109b4ea3b2a763",
   "engine": "xelatex",
   "tools": {
     "latexmk": {
@@ -37,25 +37,31 @@
       ],
       "cwd": "E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX",
       "returncode": 0,
-      "duration_seconds": 6.913
+      "duration_seconds": 8.503
     }
   ],
   "warnings": [
-    "LaTeX Font Warning: Font shape `TU/SimHei(0)/b/n' undefined",
-    "LaTeX Font Warning: Font shape `TU/SimSun(1)/b/n' undefined",
-    "LaTeX Font Warning: Some font shapes were not available, defaults substituted."
+    "Package xeCJK Warning: Redefining CJKfamily `\\CJKrmdefault' (SimSun(0)).",
+    "Package xeCJK Warning: Redefining CJKfamily `\\CJKsfdefault' (Microsoft YaHei).",
+    "Package xeCJK Warning: Redefining CJKfamily `\\CJKttdefault' (FangSong).",
+    "Package xeCJK Warning: Redefining CJKfamily `zhsong' (SimSun).",
+    "Package xeCJK Warning: Redefining CJKfamily `zhhei' (SimHei).",
+    "Package xeCJK Warning: Redefining CJKfamily `zhkai' (KaiTi)."
   ],
   "allowed_warnings": [
-    "LaTeX Font Warning: Font shape `TU/SimHei(0)/b/n' undefined",
-    "LaTeX Font Warning: Font shape `TU/SimSun(1)/b/n' undefined",
-    "LaTeX Font Warning: Some font shapes were not available, defaults substituted."
+    "Package xeCJK Warning: Redefining CJKfamily `\\CJKrmdefault' (SimSun(0)).",
+    "Package xeCJK Warning: Redefining CJKfamily `\\CJKsfdefault' (Microsoft YaHei).",
+    "Package xeCJK Warning: Redefining CJKfamily `\\CJKttdefault' (FangSong).",
+    "Package xeCJK Warning: Redefining CJKfamily `zhsong' (SimSun).",
+    "Package xeCJK Warning: Redefining CJKfamily `zhhei' (SimHei).",
+    "Package xeCJK Warning: Redefining CJKfamily `zhkai' (KaiTi)."
   ],
   "warning_override": {
     "patterns": [
-      "LaTeX Font Warning:.*"
+      "(Package xeCJK Warning: Redefining CJKfamily.*|LaTeX Font Warning:.*)"
     ],
-    "reason": "用户指定模板固定使用SimSun/SimHei字体；TeX Live在Windows系统上对中文粗体采用字体回退，已核对正文、公式、图表和PDF页面结构，该预警不影响内容。"
+    "reason": "用户指定模板同时由ctex和显式CJK字体设置定义中文字体族，XeLaTeX对这些模板内定义给出重复定义提示。该提示已在实际编译PDF中核对，不涉及缺失引用、公式、图表、页面或字体嵌入。"
   },
   "issues": [],
-  "reproduce": "E:\\Anaconda\\envs\\math_modeling\\python.exe C:\\Users\\Azure\\Downloads\\math_modeling_test\\math-modeling-skill-v1.2.0\\tools\\latex\\scripts\\latex_paper.py build \"E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX\\main.tex\" --engine xelatex --timeout 180 --publish \"E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文.pdf\" --allow-warning \"LaTeX Font Warning:.*\" --override-reason \"用户指定模板固定使用SimSun/SimHei字体；TeX Live在Windows系统上对中文粗体采用字体回退，已核对正文、公式、图表和PDF页面结构，该预警不影响内容。\" --overwrite"
+  "reproduce": "E:\\Anaconda\\envs\\math_modeling\\python.exe C:\\Users\\Azure\\Downloads\\math_modeling_test\\math-modeling-skill-v1.2.0\\tools\\latex\\scripts\\latex_paper.py build \"E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX\\main.tex\" --engine xelatex --timeout 180 --publish \"E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文.pdf\" --allow-warning \"(Package xeCJK Warning: Redefining CJKfamily.*|LaTeX Font Warning:.*)\" --override-reason 用户指定模板同时由ctex和显式CJK字体设置定义中文字体族，XeLaTeX对这些模板内定义给出重复定义提示。该提示已在实际编译PDF中核对，不涉及缺失引用、公式、图表、页面或字体嵌入。 --overwrite"
 }

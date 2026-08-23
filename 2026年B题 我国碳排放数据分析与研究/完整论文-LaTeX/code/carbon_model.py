@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 import argparse, hashlib, json, math, os, sys, warnings
 from pathlib import Path
 from datetime import datetime
@@ -29,16 +29,7 @@ RNG = np.random.default_rng(SEED)
 PROVINCES = ['Beijing','Tianjin','Hebei','Shanxi','Inner Mongolia','Liaoning','Jilin','Heilongjiang','Shanghai','Jiangsu','Zhejiang','Anhui','Fujian','Jiangxi','Shandong','Henan','Hubei','Hunan','Guangdong','Guangxi','Hainan','Chongqing','Sichuan','Guizhou','Yunnan','Shaanxi','Gansu','Qinghai','Ningxia','Xinjiang']
 GDP_2022 = dict(zip(PROVINCES,[41610.9,16311.3,42370.4,25642.6,23158.6,28975.1,13070.2,15901.0,44652.8,122875.6,77715.4,45045.0,53109.9,32074.7,87435.1,61345.1,53734.9,48670.4,129118.6,26300.9,6818.2,29129.0,56749.8,20164.6,28954.2,32772.7,11201.6,3610.1,5069.6,17741.3]))
 POP_2022 = dict(zip(PROVINCES,[2184,1363,7420,3481,2401,4197,2348,3099,2475,8515,6577,6127,4188,4528,10163,9872,5844,6604,12657,5047,4027,3213,8374,3856,4693,3956,2492,595,728,2587]))
-# National annual driver table: GDP in trillion yuan, population in million persons,
-# shares in proportion. Values are the official-statistics working series used by this model.
-DRIVER_ROWS = [
-    (2019,99.0865,1400.05,0.577,0.243,'NBS 2019 bulletin / Yearbook 2023 table 9-2'),
-    (2020,101.3567,1411.78,0.568,0.248,'NBS 2020 bulletin / Yearbook 2023 table 9-2'),
-    (2021,114.9237,1412.60,0.560,0.255,'NBS 2021 bulletin / Yearbook 2023 table 9-2'),
-    (2022,121.0207,1411.75,0.562,0.259,'NBS 2022 bulletin / Yearbook 2023 table 9-2'),
-    (2023,126.0582,1409.67,0.553,0.264,'NBS 2023 bulletin'),
-    (2024,134.9084,1408.28,0.532,0.286,'NBS 2024 bulletin'),
-]
+# 国家年度驱动变量由项目 data/全国年度驱动变量_来源数据.csv 提供；该文件记录单位、年份和来源。
 ADJ = {
 'Beijing':['Tianjin','Hebei'], 'Tianjin':['Beijing','Hebei'], 'Hebei':['Beijing','Tianjin','Shanxi','Inner Mongolia','Liaoning','Shandong','Henan'],
 'Shanxi':['Hebei','Inner Mongolia','Shaanxi','Henan'], 'Inner Mongolia':['Hebei','Shanxi','Liaoning','Jilin','Heilongjiang','Ningxia','Shaanxi'],
@@ -150,58 +141,77 @@ def classify(prov):
     features=['total_mt','per_capita_t','intensity_t_per_10k_yuan','coal_share_pct','process_share_pct']
     X=np.log1p(prov[features].to_numpy()); Z=StandardScaler().fit_transform(X)
     pca=PCA(n_components=2,random_state=SEED); X2=pca.fit_transform(Z)
-    Zlink=linkage(Z,method='ward'); labels=fcluster(Zlink,t=4,criterion='maxclust')
+    Zlink=linkage(Z,method='ward')
     silhouette_rows=[]
     for k in range(2,7):
         lab=fcluster(Zlink,t=k,criterion='maxclust')
         silhouette_rows.append({'k':k,'silhouette':float(silhouette_score(Z,lab))})
     stability=pd.DataFrame(silhouette_rows)
-    # Make cluster IDs deterministic from descending total centroid
+    # Deterministic selection rule: maximize silhouette; break ties with smaller k.
+    selected_k=int(stability.sort_values(['silhouette','k'],ascending=[False,True]).iloc[0].k)
+    stability['selected']=stability.k.eq(selected_k)
+    stability['selection_rule']='max silhouette; ties choose smaller k'
+    labels=fcluster(Zlink,t=selected_k,criterion='maxclust')
     cent=pd.DataFrame(Z,columns=features).assign(cluster=labels).groupby('cluster')[features].mean()
     order=cent['total_mt'].sort_values(ascending=False).index.tolist(); remap={old:i+1 for i,old in enumerate(order)}
     prov['cluster']=pd.Series(labels,index=prov.index).map(remap).astype(int)
-    cent2=prov.groupby('cluster')[features].mean().sort_index()
-    med=prov[features].median()
-    names={}
+    cent2=prov.groupby('cluster')[features].mean().sort_index(); med=prov[features].median(); names={}
     for k,row in cent2.iterrows():
         high_total=row.total_mt>=med.total_mt; high_int=row.intensity_t_per_10k_yuan>=med.intensity_t_per_10k_yuan; high_coal=row.coal_share_pct>=med.coal_share_pct
-        names[k]=('高规模高压力型' if high_total and high_int else '工业煤炭锁定型' if high_coal else '规模中等效率偏弱型' if high_int else '低规模相对低碳型')
-        if list(names.values()).count(names[k])>1: names[k]=names[k]+'（结构差异簇）'
+        if high_total and (high_int or high_coal): base='高规模高压力型'
+        elif high_coal: base='煤炭结构压力型'
+        elif high_int: base='效率偏弱型'
+        else: base='低规模相对低碳型'
+        names[k]=base
+        if list(names.values()).count(base)>1: names[k]=base+'（结构差异簇）'
     prov['class_name']=prov.cluster.map(names)
     prov['priority']=((prov.total_mt>=prov.total_mt.quantile(.8)) | (prov.intensity_t_per_10k_yuan>=prov.intensity_t_per_10k_yuan.quantile(.8))).map({True:'重点治理',False:'常规提升'})
-    return prov,pca,X2,Zlink,names,features,stability
-
-def drivers_and_model(annual, outdir):
-    dr=pd.DataFrame(DRIVER_ROWS,columns=['year','gdp_trillion','population_million','coal_share','clean_share','source'])
+    decision={'selected_k':selected_k,'rule':'max silhouette; ties choose smaller k','best_silhouette':float(stability.loc[stability.selected,'silhouette'].iloc[0])}
+    return prov,pca,X2,Zlink,names,features,stability,decision
+def drivers_and_model(annual, driver_path):
+    """Fit the national model with fold-specific scaling for every validation split."""
+    required=['year','gdp_trillion','population_million','coal_share','clean_share','source']
+    dr=pd.read_csv(driver_path)
+    if sorted(dr.columns.tolist()) != sorted(required):
+        raise ValueError(f'驱动变量文件字段应为 {required}，实际为 {dr.columns.tolist()}')
+    dr=dr[required].sort_values('year').reset_index(drop=True)
+    if dr.year.duplicated().any() or dr[required[:-1]].isna().any().any():
+        raise ValueError('驱动变量文件存在重复年份或缺失值')
     y=annual[(annual.year<=2024)&(annual.sector=='Total')][['year','total_mt']].copy()
-    m=y.merge(dr,on='year'); feats=['population_million','gdp_trillion','coal_share','clean_share']
-    X=np.log(m[feats]); yy=np.log(m.total_mt); scaler=StandardScaler(); Xz=scaler.fit_transform(X)
+    m=y.merge(dr,on='year',validate='one_to_one').sort_values('year').reset_index(drop=True)
+    feats=['population_million','gdp_trillion','coal_share','clean_share']
+    X=np.log(m[feats]); yy=np.log(m.total_mt)
     alphas=np.logspace(-4,4,80); best=None
-    # lambda selection uses leave-one-year-out only for model selection; final validation is expanding-window.
+    # 留一年法：每一折仅以训练年份拟合标准化器，杜绝测试年份特征泄漏。
     for a in alphas:
         errs=[]
         for i in range(len(m)):
-            tr=np.arange(len(m))!=i
-            mdl_i=SignConstrainedRidge(alpha=a).fit(Xz[tr],yy.iloc[tr]); errs.append(float(np.exp(mdl_i.predict(Xz[i:i+1])[0])))
+            train=np.arange(len(m))!=i
+            fold_scaler=StandardScaler().fit(X.iloc[train])
+            mdl_i=SignConstrainedRidge(alpha=a).fit(fold_scaler.transform(X.iloc[train]),yy.iloc[train])
+            errs.append(float(np.exp(mdl_i.predict(fold_scaler.transform(X.iloc[[i]]))[0])))
         mae=mean_absolute_error(m.total_mt,errs)
         if best is None or mae<best[0]: best=(mae,a)
-    ridge_lambda=float(best[1]); mdl=SignConstrainedRidge(alpha=ridge_lambda).fit(Xz,yy); fitted=np.exp(mdl.predict(Xz))
+    ridge_lambda=float(best[1])
+    # 最终模型使用全样本标准化器；该对象仅服务于未来情景预测，不参与回测评分。
+    scaler=StandardScaler().fit(X); Xz=scaler.transform(X)
+    mdl=SignConstrainedRidge(alpha=ridge_lambda).fit(Xz,yy); fitted=np.exp(mdl.predict(Xz))
     coef=pd.DataFrame({'factor':['population','GDP','coal_share','clean_share'],'standardized_coefficient':mdl.coef_,'abs_importance':np.abs(mdl.coef_)})
     coef['importance_pct']=100*coef.abs_importance/coef.abs_importance.sum()
-    # Strict expanding-window one-step validation.
+    # 严格扩展窗口一步回测：每个预测年份只能使用此前样本拟合标准化器和模型。
     rolling=[]; baseline=[]
     for i in range(3,len(m)):
         train=np.arange(i)
-        mdl_i=SignConstrainedRidge(alpha=ridge_lambda).fit(Xz[train],yy.iloc[train])
-        rolling.append(float(np.exp(mdl_i.predict(Xz[i:i+1])[0])))
+        fold_scaler=StandardScaler().fit(X.iloc[train])
+        mdl_i=SignConstrainedRidge(alpha=ridge_lambda).fit(fold_scaler.transform(X.iloc[train]),yy.iloc[train])
+        rolling.append(float(np.exp(mdl_i.predict(fold_scaler.transform(X.iloc[[i]]))[0])))
         trend_i=Ridge(alpha=ridge_lambda).fit(m.year.iloc[train].to_numpy().reshape(-1,1),yy.iloc[train])
         baseline.append(float(np.exp(trend_i.predict([[m.year.iloc[i]]])[0])))
     bt=m[['year','total_mt']].copy(); bt['pred_mt']=fitted; bt['residual_mt']=bt.total_mt-bt.pred_mt; bt['ape_pct']=100*np.abs(bt.residual_mt)/bt.total_mt
     bt['expanding_pred_mt']=np.nan; bt.loc[3:,'expanding_pred_mt']=rolling; bt['trend_baseline_mt']=np.nan; bt.loc[3:,'trend_baseline_mt']=baseline
     valid=bt.dropna(subset=['expanding_pred_mt'])
-    pred_metrics={'ridge_lambda':ridge_lambda,'n_years':int(len(m)),'n_parameters_including_intercept':5,'fitted_MAE_Mt':float(mean_absolute_error(bt.total_mt,bt.pred_mt)),'fitted_RMSE_Mt':float(mean_squared_error(bt.total_mt,bt.pred_mt)**0.5),'fitted_MAPE_pct':float(bt.ape_pct.mean()),'expanding_MAE_Mt':float(mean_absolute_error(valid.total_mt,valid.expanding_pred_mt)),'trend_baseline_MAE_Mt':float(mean_absolute_error(valid.total_mt,valid.trend_baseline_mt)),'residual_sd_Mt':float(bt.residual_mt.std(ddof=1))}
+    pred_metrics={'ridge_lambda':ridge_lambda,'n_years':int(len(m)),'n_parameters_including_intercept':5,'fitted_MAE_Mt':float(mean_absolute_error(bt.total_mt,bt.pred_mt)),'fitted_RMSE_Mt':float(mean_squared_error(bt.total_mt,bt.pred_mt)**0.5),'fitted_MAPE_pct':float(bt.ape_pct.mean()),'expanding_MAE_Mt':float(mean_absolute_error(valid.total_mt,valid.expanding_pred_mt)),'trend_baseline_MAE_Mt':float(mean_absolute_error(valid.total_mt,valid.trend_baseline_mt)),'residual_sd_Mt':float(bt.residual_mt.std(ddof=1)),'validation_preprocessing':'StandardScaler fitted on each training fold only'}
     return dr,m,mdl,scaler,coef,bt,pred_metrics
-
 def forecast_scenarios(mdl,scaler,anchor_2025,annual,residual_sd,outdir):
     y25=anchor_2025; gdp25=134.9084*1.05; pop25=140.8; coal25=.524; clean25=.296
     scen_defs={'基准':(0.6,0.6,[.045,.040,.035]),'低碳':(1.0,1.0,[.045,.040,.035]),'强化低碳':(1.4,1.4,[.043,.038,.032])}
@@ -220,7 +230,31 @@ def forecast_scenarios(mdl,scaler,anchor_2025,annual,residual_sd,outdir):
     f['path_valid']=(f.gdp_trillion>0)&(f.population_million>0)&(f.coal_share.between(0,1))&(f.clean_share.between(0,1))&((f.coal_share+f.clean_share)<=1)&(f.pred_mt>=0)
     return f,scale
 
-def make_figures(annual,prov,spatial,coef,bt,forecast,outdir):
+def build_q4_outputs(prov, annual, forecast):
+    """Build reproducible policy flags and phase indicators from q1--q3 outputs."""
+    thresholds={'intensity_median':float(prov.intensity_t_per_10k_yuan.median()),'coal_share_median':float(prov.coal_share_pct.median()),'linkage_median':float(prov.economic_linkage_index.median()),'total_median':float(prov.total_mt.median())}
+    policy=prov[['province','class_name','priority','total_mt','intensity_t_per_10k_yuan','coal_share_pct','economic_linkage_index','process_share_pct']].copy()
+    policy['总量控制']=policy.priority.eq('重点治理')
+    policy['能效改造']=policy.intensity_t_per_10k_yuan.ge(thresholds['intensity_median'])
+    policy['煤炭替代']=policy.coal_share_pct.ge(thresholds['coal_share_median'])
+    policy['市场机制']=policy.economic_linkage_index.ge(thresholds['linkage_median'])
+    policy['需求侧治理']=policy.total_mt.ge(thresholds['total_median']) & policy.coal_share_pct.lt(thresholds['coal_share_median'])
+    policy_cols=['总量控制','能效改造','煤炭替代','市场机制','需求侧治理']
+    policy['政策工具数']=policy[policy_cols].sum(axis=1).astype(int)
+    policy['政策规则']='总量:重点治理；能效:强度≥中位数；煤炭:煤炭占比≥中位数；市场:经济联系≥中位数；需求侧:总量≥中位数且煤炭占比<中位数'
+    class_policy=policy.groupby('class_name')[policy_cols].mean().mul(100).reset_index()
+    class_policy[policy_cols]=class_policy[policy_cols].round(1)
+    class_policy['省份数量']=policy.groupby('class_name').size().reindex(class_policy.class_name).to_numpy()
+    sector_priority=annual[annual.sector!='Total'].groupby('sector',as_index=False).total_mt.sum().sort_values('total_mt',ascending=False)
+    sector_priority['share_pct']=100*sector_priority.total_mt/sector_priority.total_mt.sum(); sector_priority['rank']=np.arange(1,len(sector_priority)+1)
+    phase_rows=[]; phase_defs=[('2026--2030',2030),('2031--2035',2035),('2036--2045',2045)]
+    for scenario,g in forecast.groupby('scenario'):
+        base=float(g.loc[g.year==2025,'intensity_mt_per_trillion_yuan'].iloc[0])
+        for phase,end_year in phase_defs:
+            row=g.loc[g.year==end_year].iloc[0]
+            phase_rows.append({'scenario':scenario,'phase':phase,'end_year':end_year,'total_mt':float(row.pred_mt),'intensity_mt_per_trillion_yuan':float(row.intensity_mt_per_trillion_yuan),'intensity_index_2025':float(100*row.intensity_mt_per_trillion_yuan/base),'intensity_reduction_pct':float(row.intensity_reduction_pct),'coal_share_pct':float(100*row.coal_share),'clean_share_pct':float(100*row.clean_share)})
+    return policy,class_policy,pd.DataFrame(phase_rows),sector_priority,thresholds
+def make_figures(annual,prov,spatial,coef,bt,forecast,q4_class_policy,q4_phase_targets,q4_sector_priority,outdir):
     outdir.mkdir(exist_ok=True,parents=True)
     # raw q1
     p=prov.sort_values('total_mt',ascending=False).head(20); fig,ax=plt.subplots(); ax.barh(p.province.iloc[::-1],p.total_mt.iloc[::-1],color=COLORS['blue']); ax.set_xlabel('2022 排放总量 (Mt CO2)'); ax.set_ylabel('省份'); ax.set_title('省级排放规模（前20）'); savefig(fig,outdir/'raw_q1_province_scale')
@@ -234,7 +268,7 @@ def make_figures(annual,prov,spatial,coef,bt,forecast,outdir):
     for r in range(nrows):
         for c in range(ncols):
             ax.add_patch(Rectangle((c-.5,r-.5),1,1,facecolor=cmap(norm(Z[r,c])),edgecolor='white',lw=.6)); ax.text(c,r,f'{Z[r,c]:.1f}',ha='center',va='center',fontsize=7)
-    ax.set_xlim(-.5,ncols-.5); ax.set_ylim(nrows-.5,-.5); ax.set_yticks(range(nrows)); ax.set_yticklabels([f'{i} {n}' for i,n in cp.index]); ax.set_xticks(range(ncols)); ax.set_xticklabels(['总量','人均','强度','煤炭','过程'],rotation=25,ha='right'); ax.set_title('四类省份指标画像'); savefig(fig,outdir/'result_q1_cluster_profile',size=(6.5,3.5))
+    ax.set_xlim(-.5,ncols-.5); ax.set_ylim(nrows-.5,-.5); ax.set_yticks(range(nrows)); ax.set_yticklabels([f'{i} {n}' for i,n in cp.index]); ax.set_xticks(range(ncols)); ax.set_xticklabels(['总量','人均','强度','煤炭','过程'],rotation=25,ha='right'); ax.set_title('三类省份指标画像'); savefig(fig,outdir/'result_q1_cluster_profile',size=(6.5,3.5))
     # raw q2
     sec=annual[annual.sector!='Total'].pivot(index='year',columns='sector',values='total_mt'); fig,ax=plt.subplots(); ax.stackplot(sec.index,sec.T.values,labels=sec.columns,alpha=.88); ax.set_ylabel('年度排放 (Mt CO2)'); ax.set_xlabel('年份'); ax.set_title('全国分部门排放变化'); ax.legend(ncol=3,frameon=False,loc='upper left'); savefig(fig,outdir/'raw_q2_annual_sectors')
     # process q2
@@ -251,17 +285,19 @@ def make_figures(annual,prov,spatial,coef,bt,forecast,outdir):
     fig,ax=plt.subplots(1,2,figsize=(6.5,3.0));
     for s,g in path.groupby('scenario'): ax[0].plot(g.year,g.pred_mt,label=s,lw=2); ax[1].plot(g.year,g.intensity_mt_per_trillion_yuan,label=s,lw=2)
     ax[0].set_title('总量预测'); ax[0].set_ylabel('Mt CO2'); ax[1].set_title('强度预测'); ax[1].set_ylabel('Mt/万亿元 GDP'); [a.set_xlabel('年份') for a in ax]; ax[0].legend(frameon=False,fontsize=6); savefig(fig,outdir/'result_q3_forecast',size=(6.5,3.0))
-    # raw q4
-    sectors=annual[annual.sector!='Total'].groupby('sector').total_mt.sum().sort_values(); fig,ax=plt.subplots(); ax.barh(sectors.index,sectors.values,color=COLORS['purple']); ax.set_xlabel('2019—2025累计排放 (Mt CO2)'); ax.set_title('部门治理优先级原始证据'); savefig(fig,outdir/'raw_q4_sector_share')
-    # process q4
-    mat=pd.DataFrame({'高规模高压力型':[1,0,1,1,0],'工业煤炭锁定型':[1,1,0,1,1],'规模中等效率偏弱型':[0,1,1,1,0],'低规模相对低碳型':[0,0,0,1,0]},index=['总量控制','能源效率','煤炭替代','市场机制','需求侧']).T; fig,ax=plt.subplots(figsize=(6.5,3.0)); cmap=matplotlib.colormaps['Blues']; nrows,ncols=mat.shape
+    # raw q4: measured cumulative sector emissions
+    sectors=q4_sector_priority.sort_values('total_mt'); fig,ax=plt.subplots(); ax.barh(sectors.sector,sectors.total_mt,color=COLORS['purple']); ax.set_xlabel('2019—2025累计排放 (Mt CO2)'); ax.set_title('部门治理优先级原始证据'); savefig(fig,outdir/'raw_q4_sector_share')
+    # process q4: policy coverage computed from province-level indicators
+    policy_cols=['总量控制','能效改造','煤炭替代','市场机制','需求侧治理']; mat=q4_class_policy.set_index('class_name')[policy_cols]/100.0; fig,ax=plt.subplots(figsize=(6.5,3.0)); cmap=matplotlib.colormaps['Blues']; nrows,ncols=mat.shape
     for r in range(nrows):
         for c in range(ncols):
-            ax.add_patch(Rectangle((c-.5,r-.5),1,1,facecolor=cmap(.25+.65*mat.iloc[r,c]),edgecolor='white')); ax.text(c,r,'●' if mat.iloc[r,c] else '—',ha='center',va='center',fontsize=10)
-    ax.set_xlim(-.5,ncols-.5); ax.set_ylim(nrows-.5,-.5); ax.set_xticks(range(ncols)); ax.set_xticklabels(mat.columns,rotation=25,ha='right'); ax.set_yticks(range(nrows)); ax.set_yticklabels(mat.index); ax.set_title('省域类型—政策工具匹配'); savefig(fig,outdir/'process_q4_policy_matrix',size=(6.5,3.0))
-    # result q4
-    fig,ax=plt.subplots(figsize=(6.5,3.0)); phases=['2026—2030','2031—2035','2036—2045']; vals=[100,70,45]; ax.plot(phases,vals,'o-',lw=2,color=COLORS['red']); ax.fill_between(range(3),vals,alpha=.12,color=COLORS['red']); ax.set_ylim(0,110); ax.set_ylabel('剩余排放强度目标（2025=100）'); ax.set_title('分阶段减排路线图（目标指数）'); savefig(fig,outdir/'result_q4_roadmap',size=(6.5,3.0))
-
+            value=float(mat.iloc[r,c]); ax.add_patch(Rectangle((c-.5,r-.5),1,1,facecolor=cmap(.15+.8*value),edgecolor='white')); ax.text(c,r,f'{value:.0%}',ha='center',va='center',fontsize=8)
+    ax.set_xlim(-.5,ncols-.5); ax.set_ylim(nrows-.5,-.5); ax.set_xticks(range(ncols)); ax.set_xticklabels(mat.columns,rotation=25,ha='right'); ax.set_yticks(range(nrows)); ax.set_yticklabels(mat.index); ax.set_title('省域类别的政策工具覆盖率'); savefig(fig,outdir/'process_q4_policy_matrix',size=(6.5,3.0))
+    # result q4: calculated phase-end intensity indices under each scenario
+    fig,ax=plt.subplots(figsize=(6.5,3.0)); order=['2026--2030','2031--2035','2036--2045']
+    for scenario,g in q4_phase_targets.groupby('scenario'):
+        g=g.set_index('phase').loc[order].reset_index(); ax.plot(g.phase,g.intensity_index_2025,'o-',lw=2,label=scenario)
+    ax.set_ylim(0,110); ax.set_ylabel('排放强度指数（2025=100）'); ax.set_title('三情景阶段末排放强度指数'); ax.legend(frameon=False); savefig(fig,outdir/'result_q4_roadmap',size=(6.5,3.0))
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--project-root',required=True); ap.add_argument('--input-root',required=True); ap.add_argument('--seed',type=int,default=SEED); ap.add_argument('--minimal',action='store_true'); args=ap.parse_args()
     global RNG; RNG=np.random.default_rng(args.seed)
@@ -269,20 +305,25 @@ def main():
     d,prov,max_err=load_inputs(input_root); y25,frac,frac_sd=annualize_2025(d)
     annual=d.groupby(['year','Sector'],as_index=False)['CO2 (Mt)'].sum().rename(columns={'Sector':'sector','CO2 (Mt)':'total_mt'}); annual=annual[annual.year<=2024].copy()
     ann25=pd.DataFrame([{'year':2025,'sector':'Total','total_mt':y25}]); annual=pd.concat([annual,ann25],ignore_index=True)
-    spatial,kw,W=spatial_tests(prov); prov,pc,X2,Zlink,names,features,stability=classify(prov)
-    dr,m,mdl,scaler,coef,bt,pred_metrics=drivers_and_model(annual,results); forecast,cal=forecast_scenarios(mdl,scaler,y25,annual,pred_metrics['residual_sd_Mt'],results)
+    spatial,kw,W=spatial_tests(prov); prov,pc,X2,Zlink,names,features,stability,cluster_decision=classify(prov)
+    dr,m,mdl,scaler,coef,bt,pred_metrics=drivers_and_model(annual,project/'data'/'全国年度驱动变量_来源数据.csv'); forecast,cal=forecast_scenarios(mdl,scaler,y25,annual,pred_metrics['residual_sd_Mt'],results)
+    q4_province,q4_class,q4_phase,q4_sector,q4_thresholds=build_q4_outputs(prov,annual,forecast)
     if args.minimal:
         print(json.dumps({'rows_input':len(d),'provinces':len(prov),'annualized_2025_mt':y25,'ridge_lambda':pred_metrics['ridge_lambda'],'expanding_backtest_mae_mt':pred_metrics['expanding_MAE_Mt'],'forecast_rows':len(forecast)},ensure_ascii=False)); return
     results.mkdir(parents=True,exist_ok=True); figures.mkdir(parents=True,exist_ok=True); data_dir.mkdir(parents=True,exist_ok=True); [p.unlink() for p in figures.glob('*_grayscale.png')]
+    q4_province.to_csv(results/'问题4_省级政策映射.csv',index=False,encoding='utf-8-sig'); q4_class.to_csv(results/'问题4_类别政策覆盖率.csv',index=False,encoding='utf-8-sig'); q4_phase.to_csv(results/'问题4_阶段情景指标.csv',index=False,encoding='utf-8-sig'); q4_sector.to_csv(results/'问题4_部门优先级.csv',index=False,encoding='utf-8-sig'); stability.to_csv(results/'问题1_聚类决策.csv',index=False,encoding='utf-8-sig')
     # Save tables
     d.to_csv(data_dir/'附件1_清洗后.csv',index=False,encoding='utf-8-sig'); prov.to_csv(results/'问题1_省级指标与分类.csv',index=False,encoding='utf-8-sig'); spatial.to_csv(results/'问题1_Moran检验.csv',index=False,encoding='utf-8-sig'); kw.to_csv(results/'问题1_分组差异检验.csv',index=False,encoding='utf-8-sig'); pd.DataFrame({'component':['PC1','PC2'],'explained_variance_ratio':pc.explained_variance_ratio_}).to_csv(results/'问题1_PCA.csv',index=False); stability.to_csv(results/'问题1_聚类稳定性.csv',index=False); coef.to_csv(results/'问题2_驱动因素系数.csv',index=False,encoding='utf-8-sig'); bt.to_csv(results/'问题2_回测.csv',index=False,encoding='utf-8-sig'); dr.to_csv(data_dir/'external_driver_data.csv',index=False,encoding='utf-8-sig'); forecast.to_csv(results/'问题3_2026_2045_三情景预测.csv',index=False,encoding='utf-8-sig'); forecast.groupby('scenario').agg(path_valid=('path_valid','all'),min_coal=('coal_share','min'),max_clean=('clean_share','max'),max_energy_sum=('coal_share',lambda x: float((x+forecast.loc[x.index,'clean_share']).max()))).reset_index().to_csv(results/'问题3_情景约束检查.csv',index=False,encoding='utf-8-sig');
-    metrics={'input_rows':len(d),'unique_dates':int(d.Date.nunique()),'units':{'emissions':'Mt CO2','gdp':'trillion yuan','forecast_intensity':'Mt CO2 per trillion yuan GDP','q1_intensity':'t CO2 per 10,000 yuan GDP','energy_shares':'fraction in [0,1]'},'total_consistency_max_abs_error':max_err,'annualized_2025_mt':y25,'jan_sep_fraction_mean':frac,'jan_sep_fraction_sd':frac_sd ,'spatial_weight_type':'land-border plus island bridge (Hainan-Guangdong/Guangxi)','spatial_moran':spatial.to_dict('records'),'kruskal':kw.to_dict('records'),'pca_explained':pc.explained_variance_ratio_.tolist(),'cluster_silhouette':stability.to_dict('records'),'cluster_names':names,'model_selection':'STIRPAT-ridge retained as the energy-structure model; trend ridge is a pure-error baseline and is not used for q3','model_metrics':pred_metrics,'calibration_factor_2025':cal,'peak_by_scenario':{s:{'peak_year':int(g.loc[g.pred_mt.idxmax(),'year']),'peak_mt':float(g.pred_mt.max()),'intensity_2045':float(g.loc[g.year==2045,'intensity_mt_per_trillion_yuan'].iloc[0])} for s,g in forecast.groupby('scenario')}}
+    metrics={'input_rows':len(d),'unique_dates':int(d.Date.nunique()),'units':{'emissions':'Mt CO2','gdp':'trillion yuan','forecast_intensity':'Mt CO2 per trillion yuan GDP','q1_intensity':'t CO2 per 10,000 yuan GDP','energy_shares':'fraction in [0,1]'},'total_consistency_max_abs_error':max_err,'annualized_2025_mt':y25,'jan_sep_fraction_mean':frac,'jan_sep_fraction_sd':frac_sd ,'spatial_weight_type':'land-border plus island bridge (Hainan-Guangdong/Guangxi)','spatial_moran':spatial.to_dict('records'),'kruskal':kw.to_dict('records'),'pca_explained':pc.explained_variance_ratio_.tolist(),'cluster_silhouette':stability.to_dict('records'),'cluster_decision':cluster_decision,'cluster_names':names,'q4_policy_model':{'thresholds':q4_thresholds,'province_policy_rows':int(len(q4_province)),'class_policy_rows':int(len(q4_class)),'phase_rows':int(len(q4_phase)),'sector_rows':int(len(q4_sector))},'model_selection':'STIRPAT-ridge retained as the energy-structure model; trend ridge is a pure-error baseline and is not used for q3','model_metrics':pred_metrics,'calibration_factor_2025':cal,'peak_by_scenario':{s:{'peak_year':int(g.loc[g.pred_mt.idxmax(),'year']),'peak_mt':float(g.pred_mt.max()),'intensity_2045':float(g.loc[g.year==2045,'intensity_mt_per_trillion_yuan'].iloc[0])} for s,g in forecast.groupby('scenario')}}
     (results/'关键指标.json').write_text(json.dumps(metrics,ensure_ascii=False,indent=2),encoding='utf-8')
-    make_figures(annual,prov,spatial,coef,bt,forecast,figures)
-    manifest={'seed':args.seed,'created_at':datetime.now().isoformat(),'python':sys.version,'input_files':{str(p):sha256(p) for p in [input_root/'附件1-中国2019年-2025年碳排放数据.csv',input_root/'附件2-2022年30个省份排放清单.xlsx']},'parameters':{'moran_permutations':999,'cluster_k':4,'scenario_defs':'see carbon_model.py','annualization':'mean 2019-2024 Jan-Sep share'},'command':f'cd /d "{project}" && "E:\\Anaconda\\envs\\math_modeling\\python.exe" carbon_model.py --project-root "{project}" --input-root "{input_root}" --seed {args.seed}'}
+    make_figures(annual,prov,spatial,coef,bt,forecast,q4_class,q4_phase,q4_sector,figures)
+    manifest={'seed':args.seed,'created_at':datetime.now().isoformat(),'python':sys.version,'input_files':{str(p):sha256(p) for p in [input_root/'附件1-中国2019年-2025年碳排放数据.csv',input_root/'附件2-2022年30个省份排放清单.xlsx',project/'data'/'全国年度驱动变量_来源数据.csv']},'parameters':{'moran_permutations':999,'cluster_k':cluster_decision['selected_k'],'cluster_selection_rule':cluster_decision['rule'],'scenario_defs':'see carbon_model.py','annualization':'mean 2019-2024 Jan-Sep share'},'command':f'cd /d "{project}" && "E:\\Anaconda\\envs\\math_modeling\\python.exe" carbon_model.py --project-root "{project}" --input-root "{input_root}" --seed {args.seed}'}
     (results/'复现清单.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps({'status':'ok','input_rows':len(d),'provinces':len(prov),'annualized_2025_mt':y25,'backtest':pred_metrics,'peaks':metrics['peak_by_scenario']},ensure_ascii=False,indent=2))
 if __name__=='__main__': main()
+
+
+
 
 
 

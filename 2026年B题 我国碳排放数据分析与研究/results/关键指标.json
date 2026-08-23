@@ -79,30 +79,56 @@
   "cluster_silhouette": [
     {
       "k": 2,
-      "silhouette": 0.3128919543196335
+      "silhouette": 0.3128919543196335,
+      "selected": false,
+      "selection_rule": "max silhouette; ties choose smaller k"
     },
     {
       "k": 3,
-      "silhouette": 0.33933534111517727
+      "silhouette": 0.33933534111517727,
+      "selected": true,
+      "selection_rule": "max silhouette; ties choose smaller k"
     },
     {
       "k": 4,
-      "silhouette": 0.2572410830261734
+      "silhouette": 0.2572410830261734,
+      "selected": false,
+      "selection_rule": "max silhouette; ties choose smaller k"
     },
     {
       "k": 5,
-      "silhouette": 0.264839075157369
+      "silhouette": 0.264839075157369,
+      "selected": false,
+      "selection_rule": "max silhouette; ties choose smaller k"
     },
     {
       "k": 6,
-      "silhouette": 0.26385991539911463
+      "silhouette": 0.26385991539911463,
+      "selected": false,
+      "selection_rule": "max silhouette; ties choose smaller k"
     }
   ],
+  "cluster_decision": {
+    "selected_k": 3,
+    "rule": "max silhouette; ties choose smaller k",
+    "best_silhouette": 0.33933534111517727
+  },
   "cluster_names": {
     "1": "高规模高压力型",
     "2": "低规模相对低碳型",
-    "3": "规模中等效率偏弱型",
-    "4": "低规模相对低碳型（结构差异簇）"
+    "3": "低规模相对低碳型（结构差异簇）"
+  },
+  "q4_policy_model": {
+    "thresholds": {
+      "intensity_median": 0.9576107207295221,
+      "coal_share_median": 75.56577822088738,
+      "linkage_median": 0.02204066798338757,
+      "total_median": 303.1387752123485
+    },
+    "province_policy_rows": 30,
+    "class_policy_rows": 3,
+    "phase_rows": 9,
+    "sector_rows": 6
   },
   "model_selection": "STIRPAT-ridge retained as the energy-structure model; trend ridge is a pure-error baseline and is not used for q3",
   "model_metrics": {
@@ -112,9 +138,10 @@
     "fitted_MAE_Mt": 48.03364793502078,
     "fitted_RMSE_Mt": 65.17466566572534,
     "fitted_MAPE_pct": 0.40879510167623617,
-    "expanding_MAE_Mt": 106.5001503963158,
+    "expanding_MAE_Mt": 184.39670737643792,
     "trend_baseline_MAE_Mt": 157.85968437439988,
-    "residual_sd_Mt": 71.39457993675195
+    "residual_sd_Mt": 71.39457993675195,
+    "validation_preprocessing": "StandardScaler fitted on each training fold only"
   },
   "calibration_factor_2025": 0.967298519136356,
   "peak_by_scenario": {
