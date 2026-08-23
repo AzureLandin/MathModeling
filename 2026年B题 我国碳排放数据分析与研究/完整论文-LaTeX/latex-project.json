@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "contest": "cumcm",
+  "main_tex": "main.tex",
+  "template": {
+    "path": "E:\\MathModeling\\Latex模板\\mathmodel_template.tex",
+    "source": "用户指定模板：E:\\MathModeling\\Latex模板\\mathmodel_template.tex",
+    "version": "user-provided-2026-08-23",
+    "sha256": "c62bae0e74366874f8658d67832998ffde16383aafc95ff0540c4bf4a81abd5e"
+  },
+  "template_files": {
+    "main.tex": "06d94674f01f6ed1aa93c9a9a0ccfc40fffd1a3ed6b080d134c75051bcc676f3"
+  },
+  "resource_bindings": [
+    {
+      "source": "carbon_model.py",
+      "destination": "code/carbon_model.py",
+      "sha256": "71e22f46cc544e7359516b2096f227ec575a109d0a7eabdcadbffed32a5499fb",
+      "hash_mode": "content",
+      "bound_at": "2026-08-23T05:37:00.426009+00:00"
+    },
+    {
+      "source": "figures",
+      "destination": "figures",
+      "sha256": "f8ed04fc9b01bd7a10d80c39a16b27c0db62ced8d5068f8cbc25cb1fe6b120a7",
+      "hash_mode": "tree",
+      "bound_at": "2026-08-23T05:37:00.545812+00:00"
+    }
+  ],
+  "created_at": "2026-08-23T04:24:44.300926+00:00"
+}

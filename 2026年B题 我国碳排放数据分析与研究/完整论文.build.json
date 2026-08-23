@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-23T05:37:30.959878+00:00",
+  "passed": true,
+  "main_tex": "main.tex",
+  "project_root": "E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX",
+  "source_sha256": "9b48b5da99dacc45e7e79e8d0c136d11c356aff930f21d44f1124bdc4e959f6a",
+  "compiled_source_sha256": "9b48b5da99dacc45e7e79e8d0c136d11c356aff930f21d44f1124bdc4e959f6a",
+  "post_build_source_sha256": "9b48b5da99dacc45e7e79e8d0c136d11c356aff930f21d44f1124bdc4e959f6a",
+  "pdf_sha256": "849ef192b08df514b870bf65bdd005eb3046029216a7587d39e611671e94b8c5",
+  "project_manifest_sha256": "c248e096c6102fce0a5b53ba716d55bda343811166520c4d7cbd581f9b1b379c",
+  "engine": "xelatex",
+  "tools": {
+    "latexmk": {
+      "path": "E:\\Texlive\\2026\\bin\\windows\\latexmk.EXE",
+      "version": "perl: warning: Setting locale failed."
+    },
+    "xelatex": {
+      "path": "E:\\Texlive\\2026\\bin\\windows\\xelatex.EXE",
+      "version": "XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026)"
+    }
+  },
+  "commands": [
+    {
+      "command": [
+        "E:\\Texlive\\2026\\bin\\windows\\latexmk.EXE",
+        "-norc",
+        "-gg",
+        "-xelatex",
+        "-e",
+        "$xelatex = 'xelatex -no-shell-escape %O %S'",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-file-line-error",
+        "-outdir=build",
+        "main.tex"
+      ],
+      "cwd": "E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX",
+      "returncode": 0,
+      "duration_seconds": 6.913
+    }
+  ],
+  "warnings": [
+    "LaTeX Font Warning: Font shape `TU/SimHei(0)/b/n' undefined",
+    "LaTeX Font Warning: Font shape `TU/SimSun(1)/b/n' undefined",
+    "LaTeX Font Warning: Some font shapes were not available, defaults substituted."
+  ],
+  "allowed_warnings": [
+    "LaTeX Font Warning: Font shape `TU/SimHei(0)/b/n' undefined",
+    "LaTeX Font Warning: Font shape `TU/SimSun(1)/b/n' undefined",
+    "LaTeX Font Warning: Some font shapes were not available, defaults substituted."
+  ],
+  "warning_override": {
+    "patterns": [
+      "LaTeX Font Warning:.*"
+    ],
+    "reason": "用户指定模板固定使用SimSun/SimHei字体；TeX Live在Windows系统上对中文粗体采用字体回退，已核对正文、公式、图表和PDF页面结构，该预警不影响内容。"
+  },
+  "issues": [],
+  "reproduce": "E:\\Anaconda\\envs\\math_modeling\\python.exe C:\\Users\\Azure\\Downloads\\math_modeling_test\\math-modeling-skill-v1.2.0\\tools\\latex\\scripts\\latex_paper.py build \"E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文-LaTeX\\main.tex\" --engine xelatex --timeout 180 --publish \"E:\\MathModeling\\2026年B题 我国碳排放数据分析与研究\\完整论文.pdf\" --allow-warning \"LaTeX Font Warning:.*\" --override-reason \"用户指定模板固定使用SimSun/SimHei字体；TeX Live在Windows系统上对中文粗体采用字体回退，已核对正文、公式、图表和PDF页面结构，该预警不影响内容。\" --overwrite"
+}

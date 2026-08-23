@@ -1,0 +1,137 @@
+{
+  "input_rows": 17255,
+  "unique_dates": 2465,
+  "units": {
+    "emissions": "Mt CO2",
+    "gdp": "trillion yuan",
+    "forecast_intensity": "Mt CO2 per trillion yuan GDP",
+    "q1_intensity": "t CO2 per 10,000 yuan GDP",
+    "energy_shares": "fraction in [0,1]"
+  },
+  "total_consistency_max_abs_error": 2.0000000020559128e-06,
+  "annualized_2025_mt": 11639.657907215447,
+  "jan_sep_fraction_mean": 0.7401967784344546,
+  "jan_sep_fraction_sd": 0.011311381570036668,
+  "spatial_weight_type": "land-border plus island bridge (Hainan-Guangdong/Guangxi)",
+  "spatial_moran": [
+    {
+      "indicator": "total_mt",
+      "moran_I": 0.21576642764874046,
+      "perm_p": 0.061,
+      "null_mean": -0.030376977593514612,
+      "null_sd": 0.112108431989782
+    },
+    {
+      "indicator": "per_capita_t",
+      "moran_I": 0.31447329137683383,
+      "perm_p": 0.002,
+      "null_mean": -0.032767317077796294,
+      "null_sd": 0.09775153273976116
+    },
+    {
+      "indicator": "intensity_t_per_10k_yuan",
+      "moran_I": 0.41130111229329347,
+      "perm_p": 0.001,
+      "null_mean": -0.030849650767776914,
+      "null_sd": 0.09837039842036267
+    },
+    {
+      "indicator": "coal_share_pct",
+      "moran_I": 0.1734894307218825,
+      "perm_p": 0.1,
+      "null_mean": -0.036627412314540954,
+      "null_sd": 0.09969701576496842
+    },
+    {
+      "indicator": "process_share_pct",
+      "moran_I": 0.4073284384537422,
+      "perm_p": 0.001,
+      "null_mean": -0.03380563582702651,
+      "null_sd": 0.1074471781046333
+    }
+  ],
+  "kruskal": [
+    {
+      "indicator": "per_capita_t",
+      "kruskal_H": 3.882027649769583,
+      "kruskal_p": 0.2744880268883072
+    },
+    {
+      "indicator": "intensity_t_per_10k_yuan",
+      "kruskal_H": 2.9626728110599174,
+      "kruskal_p": 0.39741617184883415
+    },
+    {
+      "indicator": "coal_share_pct",
+      "kruskal_H": 7.7168202764977,
+      "kruskal_p": 0.05224147565188541
+    },
+    {
+      "indicator": "process_share_pct",
+      "kruskal_H": 4.992165898617515,
+      "kruskal_p": 0.1723716953178973
+    }
+  ],
+  "pca_explained": [
+    0.5357317049050456,
+    0.2617770762943832
+  ],
+  "cluster_silhouette": [
+    {
+      "k": 2,
+      "silhouette": 0.3128919543196335
+    },
+    {
+      "k": 3,
+      "silhouette": 0.33933534111517727
+    },
+    {
+      "k": 4,
+      "silhouette": 0.2572410830261734
+    },
+    {
+      "k": 5,
+      "silhouette": 0.264839075157369
+    },
+    {
+      "k": 6,
+      "silhouette": 0.26385991539911463
+    }
+  ],
+  "cluster_names": {
+    "1": "高规模高压力型",
+    "2": "低规模相对低碳型",
+    "3": "规模中等效率偏弱型",
+    "4": "低规模相对低碳型（结构差异簇）"
+  },
+  "model_selection": "STIRPAT-ridge retained as the energy-structure model; trend ridge is a pure-error baseline and is not used for q3",
+  "model_metrics": {
+    "ridge_lambda": 0.04294487988789272,
+    "n_years": 6,
+    "n_parameters_including_intercept": 5,
+    "fitted_MAE_Mt": 48.03364793502078,
+    "fitted_RMSE_Mt": 65.17466566572534,
+    "fitted_MAPE_pct": 0.40879510167623617,
+    "expanding_MAE_Mt": 106.5001503963158,
+    "trend_baseline_MAE_Mt": 157.85968437439988,
+    "residual_sd_Mt": 71.39457993675195
+  },
+  "calibration_factor_2025": 0.967298519136356,
+  "peak_by_scenario": {
+    "低碳": {
+      "peak_year": 2045,
+      "peak_mt": 13437.482269245033,
+      "intensity_2045": 44.354528490381426
+    },
+    "基准": {
+      "peak_year": 2045,
+      "peak_mt": 13864.761839388162,
+      "intensity_2045": 45.76489566241091
+    },
+    "强化低碳": {
+      "peak_year": 2045,
+      "peak_mt": 12890.560690585904,
+      "intensity_2045": 44.651724307965665
+    }
+  }
+}
