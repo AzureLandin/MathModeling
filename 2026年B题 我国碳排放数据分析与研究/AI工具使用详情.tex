@@ -1,0 +1,112 @@
+% AI 工具使用详情（可独立编译，输出 AI工具使用详情.pdf）
+% 依《全国大学生数学建模竞赛人工智能工具使用规定（2026年试行）》第4条编制
+
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\lhead{} \chead{} \rhead{}
+\cfoot{\thepage}
+
+\setCJKmainfont{SimSun}[BoldFont=SimHei]
+\setCJKsansfont{SimHei}[AutoFakeBold=3]
+
+\renewcommand{\thesection}{\chinese{section}、}
+\newcommand{\bluesectitle}[1]{%
+  \colorbox{blue!40!gray!40}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\raggedright\heiti\zihao{-3}\thesection#1}}}
+\titleformat{\section}[block]
+  {}
+  {}
+  {0pt}
+  {\bluesectitle}
+
+\begin{document}
+
+\begin{center}
+{\zihao{-2}\heiti AI 工具使用详情}
+\end{center}
+
+\section{AI 工具名称和版本}
+
+DeepSeek-V4-Pro、通义千问 Qwen3.8-Max
+
+\section{具体使用目的与环节}
+
+\noindent\textbf{\textbullet~DeepSeek-V4-Pro}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 文献搜集与框架搭建环节：围绕我国碳排放空间分析与中长期预测课题，生成空间集聚检验、省份聚类、驱动因素分析、多情景预测等方向的中英文检索关键词，梳理各方法在区域差异识别、省份分类分级、驱动机理分析与趋势预测中的适用范围，搭建问题一至问题四的递进求解框架。
+  \item 模型推导环节：整理带方向约束的岭回归目标函数与求解思路、小样本下用交叉验证选择正则化参数的依据、逐年外推回测的验证方案、多情景递推模型中能源占比取值边界的约束设计，并对比各方法的优劣。
+  \item 代码编写环节：生成数据清洗与口径核验、空间检验、聚类分析、带约束岭回归、三情景递推预测等模块的 Python 代码骨架，排查约束优化求解器与聚类函数的参数报错，精简冗余代码。
+\end{enumerate}
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{\textbullet~通义千问 Qwen3.8-Max}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 参考文献排版环节：按 GB/T 7714 规范将文献信息转换成 LaTeX 参考文献代码，区分期刊与专著类型，统一外文作者缩写与标点，核对各引文的年份、卷期与页码。
+  \item 正文润色环节：优化摘要与问题分析等章节的口语化表述，统一全文专业术语，结合模型输出数据产出图表描述与结果分析初稿。
+  \item 格式规整环节：提供竞赛论文排版规范，输出 AI 使用说明与代码附录的写作模板，规范摘要与结论的行文结构，调整附录表格与图片占位格式。
+\end{enumerate}
+
+\section{主要提示方式与使用过程}
+
+\noindent\textbf{\textbullet~DeepSeek-V4-Pro}
+
+\textbf{Query1：}帮我们梳理我国碳排放数据分析问题的分析思路，中英文检索词都给一下，再说下四个问题的递进框架怎么写。
+
+\textbf{Output：}给出空间自相关、层次聚类、岭回归、多情景预测等方向的中英文关键词；分析框架按区域识别、驱动分析、情景预测、政策建议四个层次递进展开。
+
+\textbf{Query2：}推导带方向约束的岭回归目标函数、交叉验证参数选择、逐年外推回测验证、多情景递推模型的能源占比约束设计，并对比各方法优劣。
+
+\textbf{Output：}给出岭回归惩罚项与系数方向约束的求解流程、六年小样本下交叉验证的参数搜索策略、逐年扩展训练窗口的外推验证方案、能源占比取值边界与总和不超过一的约束设计，并以表格对比各方法的优劣与局限。
+
+\textbf{Query3：}写 Python 代码框架，覆盖日频数据清洗与口径核验、空间检验、聚类分析、带约束岭回归、三情景递推预测，按模块拆分并加注释。
+
+\textbf{Output：}给出分模块代码骨架：主程序读取附件 1 日频数据，完成总量与五个部门加总一致的核验并汇总为年度数据；空间检验模块完成 999 次随机置换与显著性计算；聚类模块按轮廓系数确定最优类别数；带约束岭回归类封装约束优化与相对权重计算；情景递推模块逐年更新 GDP、人口与能源结构并做统一校准；同时列举求解器配置与收敛问题的排查方案。
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{\textbullet~通义千问 Qwen3.8-Max}
+
+\textbf{Query1：}帮我按 GB/T 7714 规范把文献信息转成 LaTeX 参考文献代码，不确定的信息标出来，不要编造。
+
+\textbf{Output：}逐条输出标准化参考文献代码，区分期刊与专著类型；存疑信息单独标注，提示人工核验。
+
+\textbf{Query2：}润色论文各章节文字，统一专业术语，结合模型输出数据写图表分析段落。
+
+\textbf{Output：}改写口语化表述，统一专业词汇；结合模型输出数值撰写图表描述，删减模板套话。
+
+\textbf{Query3：}给出竞赛论文排版规范，生成 AI 使用说明和代码附录的写作模板，调整附录表格格式。
+
+\textbf{Output：}给出论文标题层级与排版要求、AI 使用说明写作模板、代码附录展示模板与附录三线表模板代码。
+
+\section{AI 输出的采纳、人工修改与核验情况}
+
+\noindent\textbf{\textbullet~DeepSeek-V4-Pro}
+
+\textbf{Query1：}采纳检索关键词与综述写作框架；人工筛选贴合碳排放课题的内容，剔除无关解读，自主搭建四个问题的递进逻辑；所有文献由团队手动核对原始出版信息，修正 AI 错误的年份与页码。
+
+\textbf{Query2：}采纳岭回归推导步骤与方法对比框架；人工补充碳排放机理的方向先验，即人口、GDP 与煤炭占比为正向驱动，清洁能源比重为负向抑制；代入 2019 至 2024 全部六年数据验算公式，自主确定交叉验证的参数搜索策略，最终选定最优岭参数 0.042945；回测方案与基线模型对比由团队独立设计并执行。
+
+\textbf{Query3：}采纳分模块代码框架；人工适配附件 1 日频数据与附件 2 省级清单改写代码，逐行调试并修复约束优化求解器的边界配置报错，调整置换检验随机种子与聚类距离计算等参数，新增 2025 年年化估算值与情景校准系数的自定义函数，独立运行主程序代码导出全部配图与数值结果。
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{\textbullet~通义千问 Qwen3.8-Max}
+
+\textbf{Query1：}采纳参考文献格式模板；人工对照原始出版物逐条核验文献信息，确认各引文的期刊名、年份、卷期与页码准确无误。
+
+\textbf{Query2：}采纳附录排版基础模板与表格代码；人工对照官方模板调整行距与编号，核对附录代码片段完整性，调整章节层级以适配全文结构；支撑文件列表由团队按实际项目文件手动编制。
+
+\vspace{1em}
+\noindent 语言润色类输出依规定不予逐条列示；核心建模、数据计算与结果分析由团队独立完成，正文全部数值均以代码实际运行结果为依据。
+
+\end{document}
