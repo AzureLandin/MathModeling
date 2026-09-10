@@ -1,0 +1,13 @@
+{
+  "target": "E:\\MathModeling\\2026国赛\\C题\\附件\\附件5\\result1.xlsx",
+  "backup": "E:\\MathModeling\\2026国赛\\C题\\results\\template_backups\\result1_original.xlsx",
+  "original_sha256": "28360e0974e7d6065394a8aba4e14a86773ae0036cc7d3ea1b211b515b03d688",
+  "filled_sha256": "1da12cbebefb70416b5fbbf5120de59cde088a402fbeaf913ca084d203812d69",
+  "plan_values": 144,
+  "charge_discharge_values": 12,
+  "state_values": 2,
+  "grid_kWh": 59482.69899835391,
+  "cost_yuan": 35126.948589289634,
+  "all_checks_passed": true,
+  "time_labels": "00:00-00:10 through 23:50-24:00; original labels in comments"
+}
