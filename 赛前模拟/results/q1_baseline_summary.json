@@ -1,0 +1,75 @@
+{
+  "primary_window": {
+    "weeks": [
+      11,
+      25
+    ],
+    "rows": 1069,
+    "mothers": 267
+  },
+  "sensitivity_window": {
+    "weeks": [
+      11,
+      29
+    ],
+    "rows": 1082,
+    "mothers": 267
+  },
+  "mixed_model": {
+    "formula": "y_pct ~ week_c + bmi_c + age_c",
+    "centering_references": {
+      "gestational_week": 16.0,
+      "BMI": 32.0,
+      "age": 29.0
+    },
+    "random_effect": "pregnant woman random intercept",
+    "primary_aic": 4852.274456740235,
+    "primary_bic": 4882.121330206385,
+    "random_intercept_variance": 8.103147832056447,
+    "residual_variance": 2.9303531632876605,
+    "converged": true
+  },
+  "interaction_test": {
+    "candidate_formula": "y_pct ~ week_c * bmi_c + age_c",
+    "likelihood_ratio": 1.956827698788402,
+    "degrees_of_freedom": 1,
+    "pvalue": 0.1618529970861428,
+    "baseline_aic": 4852.274456740235,
+    "interaction_aic": 4852.317629041447
+  },
+  "sensitivity_fixed_effects": {
+    "Intercept": {
+      "primary": 7.550905866402286,
+      "full": 7.556782852482564
+    },
+    "week_c": {
+      "primary": 0.3043966563019353,
+      "full": 0.3123036956975696
+    },
+    "bmi_c": {
+      "primary": -0.13149446245419508,
+      "full": -0.13872719168625888
+    },
+    "age_c": {
+      "primary": -0.09719308357347305,
+      "full": -0.09345089388926878
+    }
+  },
+  "clustered_ols_r_squared": 0.05951837872254595,
+  "within_mother_model": {
+    "formula": "y_pct ~ week_c + bmi_c + pregnant-woman fixed effects",
+    "identification_note": "Age is constant within each pregnant woman and is therefore not identifiable in this model.",
+    "coefficients": {
+      "week_c": {
+        "estimate": 0.3049449394901931,
+        "standard_error": 0.031541724110011556,
+        "pvalue": 4.124149711324465e-22
+      },
+      "bmi_c": {
+        "estimate": 0.059977414126368506,
+        "standard_error": 0.12358469468846471,
+        "pvalue": 0.6274534446514037
+      }
+    }
+  }
+}

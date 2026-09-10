@@ -1,0 +1,43 @@
+{
+  "sample": {
+    "rows": 1082,
+    "mothers": 267,
+    "analysis_window": "11--29 weeks; all rows with complete selected features"
+  },
+  "features": {
+    "numeric": [
+      "gestational_week",
+      "孕妇BMI",
+      "年龄",
+      "身高"
+    ],
+    "categorical": [
+      "IVF妊娠",
+      "怀孕次数",
+      "生产次数"
+    ]
+  },
+  "model_parameters": {
+    "n_estimators": 500,
+    "learning_rate": 0.03,
+    "max_depth": 2,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 5.0,
+    "objective": "reg:squarederror",
+    "importance_type": "gain",
+    "n_jobs": 1,
+    "random_state": 20250908
+  },
+  "validation": {
+    "method": "5-fold GroupKFold by pregnant-woman code",
+    "mean_r_squared": -0.017972327212842497,
+    "mean_rmse": 3.3640601803695156,
+    "mean_mae": 2.694812440251357,
+    "pooled_oof_r_squared": -0.011144646473034037,
+    "pooled_oof_rmse": 3.3689089597117787,
+    "pooled_oof_mae": 2.6946533282034655
+  },
+  "importance_interpretation": "Permutation importance is the held-out RMSE increase after shuffling one original feature. Gain share is calculated after refitting on all records and is secondary because correlated predictors can split gain."
+}

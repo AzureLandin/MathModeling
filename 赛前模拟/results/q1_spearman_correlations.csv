@@ -1,0 +1,5 @@
+﻿outcome,variable,spearman_rho,nominal_pvalue,rows
+Y_chromosome_concentration,gestational_week,0.08428675276902133,0.0055330486404856286,1082
+Y_chromosome_concentration,BMI,-0.15495941516592615,3.018672242238758e-07,1082
+Y_chromosome_concentration,age,-0.11720094019880417,0.00011152318585615474,1082
+Y_chromosome_concentration,height,-0.10112886401612817,0.0008647006231826148,1082

@@ -1,0 +1,96 @@
+{
+  "sample": {
+    "rows": 1082,
+    "mothers_ignored_in_nominal_tests": 267,
+    "window": "11--29 weeks"
+  },
+  "spearman_note": "Nominal two-sided p-values treat all records as independent and are descriptive in this repeated-measurement dataset.",
+  "model": {
+    "name": "Gaussian additive natural-cubic-spline regression (GAM-style OLS)",
+    "spline_df_per_predictor": 4,
+    "formula": "y_pct ~ cr(gestational_week, df=4) + cr(Q('孕妇BMI'), df=4)",
+    "metrics": {
+      "r_squared": 0.09114108893288031,
+      "adjusted_r_squared": 0.08606838803390093,
+      "aic": 5597.559871918339,
+      "bic": 5632.465837134184,
+      "rmse": 3.2043523472197317,
+      "f_statistic": 17.966974743419172,
+      "f_pvalue": 6.158976667261468e-20
+    },
+    "residual_diagnostics": {
+      "breusch_pagan_lm_statistic": 43.41191779739594,
+      "breusch_pagan_lm_pvalue": 7.346554021411859e-07,
+      "jarque_bera_statistic": 120.09051256392985,
+      "jarque_bera_pvalue": 8.369057125512461e-27,
+      "residual_skewness": 0.6430136688950904,
+      "residual_kurtosis": 4.0049273018280305
+    }
+  },
+  "model_comparison": {
+    "linear": {
+      "r_squared": 0.045676812673766776,
+      "adjusted_r_squared": 0.04390790963887092,
+      "aic": 5642.375014314193,
+      "bic": 5657.334713692412,
+      "rmse": 3.277428889630539,
+      "f_statistic": 25.822112220221207,
+      "f_pvalue": 1.1109879276368942e-11
+    },
+    "week_spline_only": {
+      "r_squared": 0.07544259674537646,
+      "adjusted_r_squared": 0.07200877166365072,
+      "aic": 5612.089415412796,
+      "bic": 5637.022247709829,
+      "rmse": 3.228905616916894,
+      "f_statistic": 21.97042509441507,
+      "f_pvalue": 1.8825982045299716e-17
+    },
+    "bmi_spline_only": {
+      "r_squared": 0.06192734536271083,
+      "adjusted_r_squared": 0.05844332436127231,
+      "aic": 5627.791683914995,
+      "bic": 5652.724516212027,
+      "rmse": 3.2524201898224434,
+      "f_statistic": 17.77467625400182,
+      "f_pvalue": 3.84806429019025e-14
+    },
+    "gam_additive_splines": {
+      "r_squared": 0.09114108893288031,
+      "adjusted_r_squared": 0.08606838803390093,
+      "aic": 5597.559871918339,
+      "bic": 5632.465837134184,
+      "rmse": 3.2043523472197317,
+      "f_statistic": 17.966974743419172,
+      "f_pvalue": 6.158976667261468e-20
+    },
+    "linear_to_week_spline": {
+      "f_statistic": 17.336808581205485,
+      "pvalue": 3.8849083986022394e-08,
+      "additional_degrees_of_freedom": 2,
+      "additional_sum_squares": 361.50128943987875
+    },
+    "linear_to_bmi_spline": {
+      "f_statistic": 9.328607767998447,
+      "pvalue": 9.623400841983785e-05,
+      "additional_degrees_of_freedom": 2,
+      "additional_sum_squares": 197.3604494007359
+    },
+    "linear_to_full_gam": {
+      "f_statistic": 13.443807499549752,
+      "pvalue": 1.0728148025571679e-10,
+      "additional_degrees_of_freedom": 4,
+      "additional_sum_squares": 552.1572840675253
+    }
+  },
+  "group_cv": {
+    "method": "5-fold GroupKFold by pregnant-woman code",
+    "mean_r_squared": 0.04718771888444291,
+    "mean_rmse": 3.255489299592093,
+    "mean_mae": 2.617225188293598,
+    "pooled_oof_r_squared": 0.053828511462828965,
+    "pooled_oof_rmse": 3.2588739299985843,
+    "pooled_oof_mae": 2.6170903316156475
+  },
+  "inference_limit": "Individual spline-basis t-tests are algebraic basis tests, not separate clinical effects. Interpret smooth shapes and block F tests instead."
+}

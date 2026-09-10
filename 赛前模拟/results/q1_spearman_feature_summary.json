@@ -1,0 +1,21 @@
+{
+  "outcome": "Y chromosome concentration",
+  "rows": 1082,
+  "mothers": 267,
+  "method": "Spearman rank correlation with two-sided nominal p values and Benjamini-Hochberg FDR adjustment",
+  "excluded_nonordinal_fields": [
+    "sample serial number",
+    "mother code",
+    "last menstrual period",
+    "test date",
+    "IVF conception type",
+    "aneuploidy label",
+    "fetal health"
+  ],
+  "interpretation_limits": [
+    "Repeated observations are retained, so p values do not account for within-mother dependence.",
+    "Correlation is unadjusted and cannot establish an independent or causal effect.",
+    "Same-assay chromosome Z scores and X concentration are analytical correlates and should not be interpreted as maternal determinants.",
+    "Gravidity and parity bins are used only as ordinal ranks; >=3 is not treated as an exact count."
+  ]
+}

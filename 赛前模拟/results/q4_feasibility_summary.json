@@ -1,0 +1,29 @@
+{
+  "label_definition": "AB non-empty = 1; AB blank = 0",
+  "rows": 604,
+  "abnormal_rows": 67,
+  "abnormal_mothers": 44,
+  "mothers_with_mixed_row_labels": 43,
+  "cross_validation": {
+    "method": "5-fold StratifiedGroupKFold by pregnant-woman code",
+    "models": {
+      "autosomal_z": {
+        "mean_roc_auc": 0.5022365620468959,
+        "mean_average_precision": 0.14126600775936143,
+        "mean_brier_score": 0.09959152712996176
+      },
+      "extended": {
+        "mean_roc_auc": 0.8083246271457176,
+        "mean_average_precision": 0.5360198271769134,
+        "mean_brier_score": 0.07438242799489472
+      }
+    }
+  },
+  "threshold_note": "Threshold performance is calculated from out-of-fold probabilities, but selecting a threshold on the same attachment remains exploratory.",
+  "best_grid_youden_threshold": 0.15000000000000002,
+  "standard_z_rule_max_abs_z_ge_3": {
+    "true_positive_rate": 0.05970149253731343,
+    "false_positive_rate": 0.07635009310986965
+  },
+  "interpretation_limit": "Performance assesses consistency with AB labels in this attachment, not clinical diagnostic sensitivity or specificity."
+}

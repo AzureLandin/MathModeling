@@ -1,0 +1,40 @@
+{
+  "input": "E:\\MathModeling\\赛前模拟\\附件.xlsx",
+  "rules": [
+    "孕周按 week + day/7 转换为连续周数。",
+    "身高按 cm、体重按 kg 重算 BMI，仅用于核验，不替换原 BMI。",
+    "男胎 4% 达标变量定义为 Y染色体浓度 >= 0.04。",
+    "保留每条原始检测记录；不对缺失值插补。"
+  ],
+  "datasets": {
+    "male": {
+      "rows": 1082,
+      "mothers": 267,
+      "invalid_gestational_week_rows": 0,
+      "gestational_week_range": [
+        11.0,
+        29.0
+      ],
+      "bmi_missing_rows": 0,
+      "bmi_recomputation_abs_difference": {
+        "median": 3.6363658750815375e-09,
+        "max": 0.002209545749401798
+      },
+      "y_pass_4pct_rate": 0.865988909426987
+    },
+    "female": {
+      "rows": 605,
+      "mothers": 147,
+      "invalid_gestational_week_rows": 0,
+      "gestational_week_range": [
+        11.0,
+        28.428571428571427
+      ],
+      "bmi_missing_rows": 1,
+      "bmi_recomputation_abs_difference": {
+        "median": 1.981071307000093e-09,
+        "max": 4.997723124233744e-09
+      }
+    }
+  }
+}

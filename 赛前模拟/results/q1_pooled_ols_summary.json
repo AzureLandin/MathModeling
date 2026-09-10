@@ -1,0 +1,47 @@
+{
+  "model": {
+    "formula": "y_pct ~ gestational_week + Q('孕妇BMI')",
+    "outcome_unit": "Y chromosome concentration in percentage points",
+    "rows": 1082,
+    "mothers_ignored_in_estimation": 267,
+    "assumption": "All records are treated as independent, as a first-pass pooled OLS baseline."
+  },
+  "fit": {
+    "r_squared": 0.045676812673766776,
+    "adjusted_r_squared": 0.04390790963887092,
+    "rmse": 3.277428889630539,
+    "f_statistic": 25.822112220221207,
+    "f_pvalue": 1.1109879276368942e-11
+  },
+  "coefficients": {
+    "Intercept": {
+      "estimate": 11.946111098123225,
+      "standard_error": 1.116328705533333,
+      "pvalue": 1.8058890106580886e-25
+    },
+    "gestational_week": {
+      "estimate": 0.12553908514599088,
+      "standard_error": 0.024733737822562368,
+      "pvalue": 4.546038133956972e-07
+    },
+    "Q('孕妇BMI')": {
+      "estimate": -0.19642115317515277,
+      "standard_error": 0.033919098218258475,
+      "pvalue": 9.17622869662267e-09
+    }
+  },
+  "diagnostics": {
+    "vif": {
+      "gestational_week": 1.0229904810000692,
+      "Q('孕妇BMI')": 1.022990481000069
+    },
+    "durbin_watson": 0.8178991873288018,
+    "jarque_bera_statistic": 103.28345896911887,
+    "jarque_bera_pvalue": 3.734924687169156e-23,
+    "breusch_pagan_lm_statistic": 29.545293996775058,
+    "breusch_pagan_lm_pvalue": 3.839908939208953e-07,
+    "breusch_pagan_f_statistic": 15.145246650843827,
+    "breusch_pagan_f_pvalue": 3.2593790817194705e-07
+  },
+  "scope_limit": "Nominal OLS standard errors and p-values can be anti-conservative because repeated records from the same pregnant woman are not independent; this is intentionally not corrected in this baseline."
+}

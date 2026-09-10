@@ -1,0 +1,78 @@
+{
+  "analysis_window_weeks": [
+    11.0,
+    25.0
+  ],
+  "model": {
+    "formula": "y_pass_4pct ~ week_c + bmi_c",
+    "method": "GEE binomial-logit with exchangeable working correlation and pregnant-woman clusters",
+    "parameters": {
+      "Intercept": 1.8397800979925114,
+      "week_c": 0.13683580611614876,
+      "bmi_c": -0.08213809613537712
+    },
+    "robust_standard_errors": {
+      "Intercept": 0.14540848867301956,
+      "week_c": 0.030767750882102454,
+      "bmi_c": 0.0547417028642841
+    },
+    "pvalues": {
+      "Intercept": 1.0837828279399487e-36,
+      "week_c": 8.692495927689486e-06,
+      "bmi_c": 0.13349358203341744
+    }
+  },
+  "decision_rule": {
+    "primary_q": 0.9,
+    "sensitivity_q": [
+      0.8,
+      0.85,
+      0.9,
+      0.95
+    ],
+    "rule": "At each group's maximum observed BMI, choose the earliest time with model pass probability at least q, rounded upward to a full week.",
+    "caveat": "q is an analyst-defined reliability target because the problem provides no numeric loss function or required pass probability."
+  },
+  "bootstrap": {
+    "replicates_requested": 300,
+    "replicates_retained": 300,
+    "seed": 20250908,
+    "summaries_at_primary_q": [
+      {
+        "bmi_group": "20-<28",
+        "bootstrap_n": 300,
+        "ci_lower": 11.744869869355274,
+        "ci_upper": 21.146305527479566,
+        "within_window_rate": 1.0
+      },
+      {
+        "bmi_group": "28-<32",
+        "bootstrap_n": 300,
+        "ci_lower": 16.30330161184656,
+        "ci_upper": 21.342128686191117,
+        "within_window_rate": 1.0
+      },
+      {
+        "bmi_group": "32-<36",
+        "bootstrap_n": 300,
+        "ci_lower": 16.926290962367887,
+        "ci_upper": 24.965883234313612,
+        "within_window_rate": 0.9766666666666667
+      },
+      {
+        "bmi_group": "36-<40",
+        "bootstrap_n": 300,
+        "ci_lower": 16.431537424709735,
+        "ci_upper": 30.42753696291473,
+        "within_window_rate": 0.72
+      },
+      {
+        "bmi_group": "40+",
+        "bootstrap_n": 300,
+        "ci_lower": 13.286403925011683,
+        "ci_upper": 40.19933914386999,
+        "within_window_rate": 0.32666666666666666
+      }
+    ]
+  }
+}

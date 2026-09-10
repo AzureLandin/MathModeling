@@ -1,0 +1,74 @@
+{
+  "sample": {
+    "rows": 1082,
+    "mothers_ignored_in_estimation": 267,
+    "gestational_week_mean_for_centering": 16.8456561922366,
+    "bmi_mean_for_centering": 32.28879078882743
+  },
+  "formulas": {
+    "linear": "y_pct ~ week_c + bmi_c",
+    "quadratic": "y_pct ~ week_c + bmi_c + I(week_c ** 2) + I(bmi_c ** 2) + week_c:bmi_c"
+  },
+  "metrics": {
+    "linear": {
+      "r_squared": 0.045676812673766776,
+      "adjusted_r_squared": 0.04390790963887092,
+      "aic": 5642.375014314193,
+      "bic": 5657.334713692412,
+      "rmse": 3.277428889630539
+    },
+    "quadratic": {
+      "r_squared": 0.0564636778659805,
+      "adjusted_r_squared": 0.05207921540253235,
+      "aic": 5636.075353816143,
+      "bic": 5665.994752572582,
+      "rmse": 3.2633934526576063
+    }
+  },
+  "nested_f_test": {
+    "additional_sum_squares": 131.00497089605233,
+    "f_statistic": 4.100413403824906,
+    "pvalue": 0.006613458681730755,
+    "additional_degrees_of_freedom": 3
+  },
+  "quadratic_coefficients": {
+    "Intercept": {
+      "estimate": 7.642365922010934,
+      "pvalue": 2.7122084147474476e-278
+    },
+    "week_c": {
+      "estimate": 0.09723980852322857,
+      "pvalue": 0.001002547926769101
+    },
+    "bmi_c": {
+      "estimate": -0.1653205844044309,
+      "pvalue": 8.699381877850093e-06
+    },
+    "I(week_c ** 2)": {
+      "estimate": 0.011883057588876759,
+      "pvalue": 0.071780823550201
+    },
+    "I(bmi_c ** 2)": {
+      "estimate": -0.015915814119458527,
+      "pvalue": 0.005956173080319631
+    },
+    "week_c:bmi_c": {
+      "estimate": 0.010775324462192664,
+      "pvalue": 0.17964169457046347
+    }
+  },
+  "quadratic_diagnostics": {
+    "vif": {
+      "week_c": 1.465471865576876,
+      "bmi_c": 1.227408058941784,
+      "I(week_c ** 2)": 1.4671106410508328,
+      "I(bmi_c ** 2)": 1.2230803645491741,
+      "week_c:bmi_c": 1.0911376408216773
+    },
+    "breusch_pagan_lm_statistic": 46.39357278417853,
+    "breusch_pagan_lm_pvalue": 7.551591631644703e-09,
+    "breusch_pagan_f_statistic": 9.640628525255924,
+    "breusch_pagan_f_pvalue": 5.123721891704844e-09
+  },
+  "scope_limit": "All detection records are treated as independent by design; nominal p-values do not correct for repeated observations from the same pregnant woman."
+}

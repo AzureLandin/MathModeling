@@ -1,0 +1,17 @@
+{
+  "pair_definition": "same mother, test date, and draw count; exactly two records",
+  "n_pair_events": 19,
+  "difference_scale": "proportion (multiply by 100 for percentage points)",
+  "mean_difference": -0.002853255631578949,
+  "sd_difference": 0.006185596576115661,
+  "estimated_single_measurement_sigma": 0.004373877284655674,
+  "estimated_single_measurement_sigma_percentage_points": 0.4373877284655674,
+  "mean_absolute_difference": 0.005492568894736841,
+  "threshold_discordant_events": 4,
+  "threshold_discordant_rate": 0.21052631578947367,
+  "mean_difference_ttest_pvalue": 0.059587703055849595,
+  "limitations": [
+    "Pairs are inferred from metadata and may not perfectly represent independent technical replicates.",
+    "The sample of pair events is small; this is a scenario parameter, not a clinical calibration constant."
+  ]
+}

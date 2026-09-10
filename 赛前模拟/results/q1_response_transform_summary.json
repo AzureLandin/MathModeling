@@ -1,0 +1,84 @@
+{
+  "sample": {
+    "rows": 1082,
+    "mothers": 267,
+    "window": "11--29 weeks"
+  },
+  "formula_template": "{response} ~ gestational_week + Q('孕妇BMI')",
+  "transformation_notes": {
+    "raw": "Y concentration expressed in percentage points",
+    "log": "natural logarithm of proportion; predictions are back-transformed with a Duan smearing factor",
+    "logit": "logit of proportion; predictions are back-transformed with inverse logit"
+  },
+  "full_sample_diagnostics": {
+    "raw": {
+      "r_squared_on_transformed_scale": 0.045676812673766776,
+      "adjusted_r_squared_on_transformed_scale": 0.04390790963887092,
+      "aic": 5642.375014314193,
+      "bic": 5657.334713692412,
+      "jarque_bera_statistic": 103.28345896911887,
+      "jarque_bera_pvalue": 3.734924687169156e-23,
+      "residual_skewness": 0.6174780766910958,
+      "residual_kurtosis": 3.8751164406381964,
+      "breusch_pagan_lm_statistic": 29.545293996775058,
+      "breusch_pagan_lm_pvalue": 3.839908939208953e-07,
+      "breusch_pagan_f_statistic": 15.145246650843827,
+      "breusch_pagan_f_pvalue": 3.2593790817194705e-07
+    },
+    "log": {
+      "r_squared_on_transformed_scale": 0.04387652733493219,
+      "adjusted_r_squared_on_transformed_scale": 0.04210428734852789,
+      "aic": 1400.7335287321716,
+      "bic": 1415.693228110391,
+      "jarque_bera_statistic": 58.7844083927181,
+      "jarque_bera_pvalue": 1.7184144126784275e-13,
+      "residual_skewness": -0.565678341757653,
+      "residual_kurtosis": 3.1547178117379397,
+      "breusch_pagan_lm_statistic": 1.7606880669426614,
+      "breusch_pagan_lm_pvalue": 0.4146402370204636,
+      "breusch_pagan_f_statistic": 0.8793340527626037,
+      "breusch_pagan_f_pvalue": 0.41535644874973243
+    },
+    "logit": {
+      "r_squared_on_transformed_scale": 0.044241259021002954,
+      "adjusted_r_squared_on_transformed_scale": 0.04246969508962384,
+      "aic": 1555.4510118663047,
+      "bic": 1570.410711244524,
+      "jarque_bera_statistic": 41.48667529705746,
+      "jarque_bera_pvalue": 9.80128286216374e-10,
+      "residual_skewness": -0.47853968516933487,
+      "residual_kurtosis": 3.0649698527345763,
+      "breusch_pagan_lm_statistic": 2.7478688045620325,
+      "breusch_pagan_lm_pvalue": 0.25310916470179773,
+      "breusch_pagan_f_statistic": 1.373613428420243,
+      "breusch_pagan_f_pvalue": 0.2536328013453746
+    }
+  },
+  "group_cv_raw_scale": {
+    "log": {
+      "mean_r_squared": -0.0026422767429875593,
+      "mean_rmse": 3.3395838880741815,
+      "mean_mae": 2.694132164190023,
+      "pooled_oof_r_squared": 0.0032693064599816912,
+      "pooled_oof_rmse": 3.3448107289971705,
+      "pooled_oof_mae": 2.693932112033609
+    },
+    "logit": {
+      "mean_r_squared": -0.03290135615462168,
+      "mean_rmse": 3.392267590650442,
+      "mean_mae": 2.699840068906563,
+      "pooled_oof_r_squared": -0.029486584577253172,
+      "pooled_oof_rmse": 3.3993272625061146,
+      "pooled_oof_mae": 2.6996075137321416
+    },
+    "raw": {
+      "mean_r_squared": 0.010189489099021643,
+      "mean_rmse": 3.3191873494025534,
+      "mean_mae": 2.6832731115300357,
+      "pooled_oof_r_squared": 0.016029251108470755,
+      "pooled_oof_rmse": 3.323331970832228,
+      "pooled_oof_mae": 2.683070522550752
+    }
+  },
+  "scope_limit": "Cross-validation is grouped by pregnant woman, but the fitted regressions themselves retain the requested two predictors and do not include random effects."
+}

@@ -1,0 +1,78 @@
+{
+  "sample": {
+    "rows": 1082,
+    "mothers_ignored_in_estimation": 267,
+    "week_mean_for_centering": 16.8456561922366,
+    "bmi_mean_for_centering": 32.28879078882743
+  },
+  "formulas": {
+    "linear": "y_pct ~ week_c + bmi_c",
+    "reduced": "y_pct ~ week_c + bmi_c + I(bmi_c ** 2)",
+    "full_quadratic": "y_pct ~ week_c + bmi_c + I(week_c ** 2) + I(bmi_c ** 2) + week_c:bmi_c"
+  },
+  "metrics": {
+    "linear": {
+      "r_squared": 0.045676812673766776,
+      "adjusted_r_squared": 0.04390790963887092,
+      "aic": 5642.375014314193,
+      "bic": 5657.334713692412,
+      "rmse": 3.277428889630539
+    },
+    "reduced": {
+      "r_squared": 0.0513697579766651,
+      "adjusted_r_squared": 0.0487297851324443,
+      "aic": 5637.901093198475,
+      "bic": 5657.847359036101,
+      "rmse": 3.2691538866579126
+    },
+    "full_quadratic": {
+      "r_squared": 0.0564636778659805,
+      "adjusted_r_squared": 0.05207921540253235,
+      "aic": 5636.075353816143,
+      "bic": 5665.994752572582,
+      "rmse": 3.2633934526576063
+    }
+  },
+  "nested_tests": {
+    "linear_to_reduced": {
+      "f_statistic": 6.469322571284227,
+      "pvalue": 0.011113994822781421,
+      "additional_degrees_of_freedom": 1
+    },
+    "reduced_to_full": {
+      "f_statistic": 2.90452930763001,
+      "pvalue": 0.05520415845688998,
+      "additional_degrees_of_freedom": 2
+    }
+  },
+  "coefficients": {
+    "Intercept": {
+      "estimate": 7.847047019293019,
+      "pvalue": 0.0
+    },
+    "week_c": {
+      "estimate": 0.12830283446633994,
+      "pvalue": 2.441021283658685e-07
+    },
+    "bmi_c": {
+      "estimate": -0.15970298124973495,
+      "pvalue": 1.5478109912577063e-05
+    },
+    "I(bmi_c ** 2)": {
+      "estimate": -0.014540213754088562,
+      "pvalue": 0.011113994822780552
+    }
+  },
+  "diagnostics": {
+    "vif": {
+      "week_c": 1.0249748681426263,
+      "bmi_c": 1.209234407816482,
+      "I(bmi_c ** 2)": 1.1939922942917076
+    },
+    "breusch_pagan_lm_statistic": 38.31794239902766,
+    "breusch_pagan_lm_pvalue": 2.420616548533686e-08,
+    "breusch_pagan_f_statistic": 13.192632630254035,
+    "breusch_pagan_f_pvalue": 1.8343431040997453e-08
+  },
+  "scope_limit": "As requested for this model-development stage, all records are treated as independent; repeat-measurement dependence is not corrected."
+}
