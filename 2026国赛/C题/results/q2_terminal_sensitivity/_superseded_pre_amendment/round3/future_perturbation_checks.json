@@ -1,0 +1,68 @@
+[
+  {
+    "target_kWh": 4800.0,
+    "day_index": 31,
+    "day": "2025-02-01",
+    "initial_state_kWh": 8801.462273333342,
+    "forecast_error_kWh": 0.0,
+    "correction_error_kWh": 0.0,
+    "plan_error_kWh": 0.0,
+    "solver_fallback": false,
+    "passed": true
+  },
+  {
+    "target_kWh": 4800.0,
+    "day_index": 200,
+    "day": "2025-07-20",
+    "initial_state_kWh": 8252.61652074074,
+    "forecast_error_kWh": 0.0,
+    "correction_error_kWh": 0.0,
+    "plan_error_kWh": 0.0,
+    "solver_fallback": false,
+    "passed": true
+  },
+  {
+    "target_kWh": 6000.0,
+    "day_index": 31,
+    "day": "2025-02-01",
+    "initial_state_kWh": 8801.462273333342,
+    "forecast_error_kWh": 0.0,
+    "correction_error_kWh": 0.0,
+    "plan_error_kWh": 0.0,
+    "solver_fallback": false,
+    "passed": true
+  },
+  {
+    "target_kWh": 6000.0,
+    "day_index": 200,
+    "day": "2025-07-20",
+    "initial_state_kWh": 8252.61652074074,
+    "forecast_error_kWh": 0.0,
+    "correction_error_kWh": 0.0,
+    "plan_error_kWh": 0.0,
+    "solver_fallback": false,
+    "passed": true
+  },
+  {
+    "target_kWh": 7200.0,
+    "day_index": 31,
+    "day": "2025-02-01",
+    "initial_state_kWh": 8801.462273333342,
+    "forecast_error_kWh": 0.0,
+    "correction_error_kWh": 0.0,
+    "plan_error_kWh": 0.0,
+    "solver_fallback": false,
+    "passed": true
+  },
+  {
+    "target_kWh": 7200.0,
+    "day_index": 200,
+    "day": "2025-07-20",
+    "initial_state_kWh": 8252.61652074074,
+    "forecast_error_kWh": 0.0,
+    "correction_error_kWh": 0.0,
+    "plan_error_kWh": 0.0,
+    "solver_fallback": false,
+    "passed": true
+  }
+]

@@ -1,0 +1,7 @@
+﻿case,day_index,load_chosen_unchanged,load_n_train_unchanged,pv_chosen_unchanged,pv_n_train_unchanged,max_difference,R0_naive_q80_diff_kWh,R0_naive_protected_diff_kWh,R1_load_ridge_q80_diff_kWh,R1_load_ridge_protected_diff_kWh,R2_pv_ridge_q80_diff_kWh,R2_pv_ridge_protected_diff_kWh,R3_both_ridge_q80_diff_kWh,R3_both_ridge_protected_diff_kWh,passed
+2025-02-01:load_x1.2,31,True,True,True,True,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,True
+2025-02-01:pv_x0.7,31,True,True,True,True,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,True
+2025-06-21:load_x1.2,171,True,True,True,True,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,True
+2025-06-21:pv_x0.7,171,True,True,True,True,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,True
+2025-12-21:load_x1.2,354,True,True,True,True,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,True
+2025-12-21:pv_x0.7,354,True,True,True,True,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,True

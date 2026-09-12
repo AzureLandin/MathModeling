@@ -1,0 +1,53 @@
+{
+  "A_base": {
+    "max_differences": {
+      "planned_kWh": 0.0,
+      "charge_kWh": 0.0,
+      "discharge_kWh": 0.0,
+      "emergency_kWh": 0.0,
+      "unused_kWh": 0.0,
+      "state_start_kWh": 0.0,
+      "state_end_kWh": 0.0,
+      "nominal_state_end_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "planned_cost_yuan": 0.0,
+      "emergency_cost_yuan": 0.0
+    },
+    "theta_matches": true,
+    "all_within_1e_6": true
+  },
+  "B_fixed_q80": {
+    "max_differences": {
+      "planned_kWh": 0.0,
+      "charge_kWh": 0.0,
+      "discharge_kWh": 0.0,
+      "emergency_kWh": 0.0,
+      "unused_kWh": 0.0,
+      "state_start_kWh": 0.0,
+      "state_end_kWh": 0.0,
+      "nominal_state_end_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "planned_cost_yuan": 0.0,
+      "emergency_cost_yuan": 0.0
+    },
+    "theta_matches": true,
+    "all_within_1e_6": true
+  },
+  "B_adaptive": {
+    "max_differences": {
+      "planned_kWh": 0.0,
+      "charge_kWh": 0.0,
+      "discharge_kWh": 0.0,
+      "emergency_kWh": 0.0,
+      "unused_kWh": 0.0,
+      "state_start_kWh": 0.0,
+      "state_end_kWh": 0.0,
+      "nominal_state_end_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "planned_cost_yuan": 0.0,
+      "emergency_cost_yuan": 0.0
+    },
+    "theta_matches": true,
+    "all_within_1e_6": true
+  }
+}

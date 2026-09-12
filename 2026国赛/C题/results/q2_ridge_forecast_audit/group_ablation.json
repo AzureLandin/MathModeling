@@ -1,0 +1,16 @@
+{
+  "naive_load_identical_R0_R2": 0.0,
+  "naive_pv_identical_R0_R1": 0.0,
+  "ridge_load_identical_R1_R3": 0.0,
+  "ridge_pv_identical_R2_R3": 0.0,
+  "load_treatment_max_diff": 1056.0951145685717,
+  "pv_treatment_max_diff": 2033.108545023235,
+  "adjustment_max_diff_pairs": {
+    "R0_naive__R1_load_ridge": 166.18368731978507,
+    "R0_naive__R2_pv_ridge": 128.30192602792917,
+    "R1_load_ridge__R3_both_ridge": 149.72685608098374,
+    "R2_pv_ridge__R3_both_ridge": 102.7699432672291
+  },
+  "q80_shared_between_groups": false,
+  "passed": true
+}

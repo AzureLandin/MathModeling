@@ -1,0 +1,7 @@
+﻿case,day_index,forecast_error_load_kW,forecast_error_pv_kW,lambda_load_unchanged,lambda_pv_unchanged,correction_error_kWh,protected_error_kWh,plan_error_kWh
+2025-02-01:load_x1.2,31,0.0,0.0,True,True,0.0,0.0,0.0
+2025-02-01:pv_x0.7,31,0.0,0.0,True,True,0.0,0.0,0.0
+2025-06-21:load_x1.2,171,0.0,0.0,True,True,0.0,0.0,0.0
+2025-06-21:pv_x0.7,171,0.0,0.0,True,True,0.0,0.0,0.0
+2025-12-21:load_x1.2,354,0.0,0.0,True,True,0.0,0.0,0.0
+2025-12-21:pv_x0.7,354,0.0,0.0,True,True,0.0,0.0,0.0

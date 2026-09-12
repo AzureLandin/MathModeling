@@ -1,0 +1,3 @@
+﻿predictor_id,minimum_total_cost_yuan,alpha_at_minimum,strategy_id,tied_within_tolerance,tied_alphas,at_grid_boundary,q80_total_cost_yuan,note
+ridge,13698678.694855342,0.75,R_q75,1,0.75,False,13717382.360776227,"in-year backtest minimum over the measured five-point grid only; 2025 was used for design, so this is not a blind out-of-sample gain and not a proven global optimum"
+lightgbm,13627389.058274437,0.75,L_q75,1,0.75,False,13673080.670412183,"in-year backtest minimum over the measured five-point grid only; 2025 was used for design, so this is not a blind out-of-sample gain and not a proven global optimum"

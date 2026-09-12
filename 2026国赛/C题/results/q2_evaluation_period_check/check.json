@@ -1,0 +1,155 @@
+{
+  "scope": "Read-only template and saved dispatch date/cost check, no forecasting or optimisation.",
+  "template": [
+    {
+      "sheet": "计划购电量",
+      "dated_rows": 334,
+      "first": "2025-02-01 00:00:00",
+      "last": "2025-12-31 00:00:00"
+    },
+    {
+      "sheet": "充放电量",
+      "dated_rows": 3,
+      "first": "2025-02-01 00:00:00",
+      "last": "2025-12-31 00:00:00"
+    },
+    {
+      "sheet": "紧急购电量",
+      "dated_rows": 3,
+      "first": "2025-02-01 00:00:00",
+      "last": "2025-12-31 00:00:00"
+    }
+  ],
+  "dispatch_checks": [
+    {
+      "group": "G0_naive_gate",
+      "source": "results\\q2_lightgbm_residual\\G0_naive_gate\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 14158360.533742813
+    },
+    {
+      "group": "G1_ridge_gate",
+      "source": "results\\q2_lightgbm_residual\\G1_ridge_gate\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13724593.278482819
+    },
+    {
+      "group": "G2_lightgbm_gate",
+      "source": "results\\q2_lightgbm_residual\\G2_lightgbm_gate\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13680001.420637706
+    },
+    {
+      "group": "G3_ridge_fixed",
+      "source": "results\\q2_lightgbm_residual\\G3_ridge_fixed\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13717382.360776227
+    },
+    {
+      "group": "G4_lightgbm_fixed",
+      "source": "results\\q2_lightgbm_residual\\G4_lightgbm_fixed\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13673080.670412183
+    },
+    {
+      "group": "P0_q75",
+      "source": "results\\q2_pv_support_features\\P0_q75\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13627389.058274437
+    },
+    {
+      "group": "P0_q80",
+      "source": "results\\q2_pv_support_features\\P0_q80\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13673080.670412183
+    },
+    {
+      "group": "P1_q75",
+      "source": "results\\q2_pv_support_features\\P1_q75\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13612529.40751174
+    },
+    {
+      "group": "P1_q80",
+      "source": "results\\q2_pv_support_features\\P1_q80\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13658867.749535972
+    },
+    {
+      "group": "F00_original",
+      "source": "results\\q2_load_pv_shape\\F00_original\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13673080.670412183
+    },
+    {
+      "group": "F01_pv_support",
+      "source": "results\\q2_load_pv_shape\\F01_pv_support\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13658867.749535972
+    },
+    {
+      "group": "F10_load_shape",
+      "source": "results\\q2_load_pv_shape\\F10_load_shape\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13688377.275799511
+    },
+    {
+      "group": "F11_joint",
+      "source": "results\\q2_load_pv_shape\\F11_joint\\dispatch.csv",
+      "first": "2025-02-01",
+      "last": "2025-12-31",
+      "days": 334,
+      "slots": 48096,
+      "january_rows": 0,
+      "total_yuan": 13679531.07429285
+    }
+  ]
+}

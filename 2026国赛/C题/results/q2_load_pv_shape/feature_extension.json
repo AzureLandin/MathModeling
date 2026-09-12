@@ -1,0 +1,7 @@
+{
+  "load_max_difference_kW": 0.0,
+  "pv_max_difference_kW": 0.0,
+  "load_columns": 19,
+  "pv_columns": 12,
+  "all_passed": true
+}

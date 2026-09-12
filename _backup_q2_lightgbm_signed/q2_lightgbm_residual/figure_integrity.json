@@ -1,0 +1,42 @@
+[
+  {
+    "file": "q2_lightgbm_monthly_cost_difference.png",
+    "width": 1760,
+    "height": 800,
+    "distinct_colours": 263,
+    "non_white_fraction": 0.08170525568181818,
+    "readable": true
+  },
+  {
+    "file": "q2_lightgbm_forecast_error.png",
+    "width": 1440,
+    "height": 800,
+    "distinct_colours": 262,
+    "non_white_fraction": 0.24947395833333333,
+    "readable": true
+  },
+  {
+    "file": "q2_lightgbm_pv_subsets.png",
+    "width": 1440,
+    "height": 800,
+    "distinct_colours": 265,
+    "non_white_fraction": 0.18629600694444445,
+    "readable": true
+  },
+  {
+    "file": "q2_lightgbm_emergency_windows.png",
+    "width": 1440,
+    "height": 800,
+    "distinct_colours": 262,
+    "non_white_fraction": 0.3558133680555556,
+    "readable": true
+  },
+  {
+    "file": "q2_lightgbm_cumulative_cost_difference.png",
+    "width": 1760,
+    "height": 800,
+    "distinct_colours": 1169,
+    "non_white_fraction": 0.05084303977272727,
+    "readable": true
+  }
+]

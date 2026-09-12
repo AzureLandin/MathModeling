@@ -1,0 +1,117 @@
+{
+  "sampled_day_targets": 14,
+  "sample_days": [
+    28,
+    29,
+    35,
+    40,
+    100,
+    171,
+    354
+  ],
+  "max_forecast_difference_kW": 0.0,
+  "atol_kW": 1e-06,
+  "max_param_difference": 0.0,
+  "rtol": 1e-10,
+  "rows": [
+    {
+      "target": "load",
+      "day_index": 28,
+      "date": "2025-01-29",
+      "training_days": 21,
+      "sufficient": true
+    },
+    {
+      "target": "load",
+      "day_index": 29,
+      "date": "2025-01-30",
+      "training_days": 22,
+      "sufficient": true
+    },
+    {
+      "target": "load",
+      "day_index": 35,
+      "date": "2025-02-05",
+      "training_days": 28,
+      "sufficient": true
+    },
+    {
+      "target": "load",
+      "day_index": 40,
+      "date": "2025-02-10",
+      "training_days": 33,
+      "sufficient": true
+    },
+    {
+      "target": "load",
+      "day_index": 100,
+      "date": "2025-04-11",
+      "training_days": 56,
+      "sufficient": true
+    },
+    {
+      "target": "load",
+      "day_index": 171,
+      "date": "2025-06-21",
+      "training_days": 56,
+      "sufficient": true
+    },
+    {
+      "target": "load",
+      "day_index": 354,
+      "date": "2025-12-21",
+      "training_days": 56,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 28,
+      "date": "2025-01-29",
+      "training_days": 27,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 29,
+      "date": "2025-01-30",
+      "training_days": 28,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 35,
+      "date": "2025-02-05",
+      "training_days": 34,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 40,
+      "date": "2025-02-10",
+      "training_days": 39,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 100,
+      "date": "2025-04-11",
+      "training_days": 56,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 171,
+      "date": "2025-06-21",
+      "training_days": 56,
+      "sufficient": true
+    },
+    {
+      "target": "pv",
+      "day_index": 354,
+      "date": "2025-12-21",
+      "training_days": 56,
+      "sufficient": true
+    }
+  ],
+  "passed": true
+}

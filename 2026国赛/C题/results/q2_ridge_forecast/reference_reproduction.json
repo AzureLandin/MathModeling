@@ -1,0 +1,33 @@
+{
+  "segments": 48096,
+  "max_absolute_differences": {
+    "price_yuan_kWh": 0.0,
+    "load_kW": 0.0,
+    "pv_kW": 0.0,
+    "load_forecast_kW": 0.0,
+    "pv_forecast_kW": 0.0,
+    "net_forecast_kWh": 2.2737367544323206e-13,
+    "residual_adjustment_kWh": 2.842170943040401e-14,
+    "protected_net_kWh": 2.2737367544323206e-13,
+    "planned_kWh": 2.2737367544323206e-13,
+    "charge_kWh": 5.684341886080802e-14,
+    "discharge_kWh": 5.684341886080802e-14,
+    "emergency_kWh": 1.1368683772161603e-13,
+    "unused_kWh": 2.2737367544323206e-13,
+    "state_start_kWh": 1.8189894035458565e-12,
+    "state_end_kWh": 1.8189894035458565e-12,
+    "nominal_state_end_kWh": 1.8189894035458565e-12,
+    "planned_cost_yuan": 2.2737367544323206e-13,
+    "emergency_cost_yuan": 9.094947017729282e-13
+  },
+  "max_difference": 1.8189894035458565e-12,
+  "energy_tolerance_kWh": 1e-06,
+  "reference_total_cost_yuan": 14158360.487139745,
+  "current_total_cost_yuan": 14158360.487139745,
+  "cost_difference_yuan": 0.0,
+  "cost_tolerance_yuan": 0.0001,
+  "registered_reference_cost_yuan": 14158360.487139747,
+  "cost_difference_vs_registered_yuan": 1.862645149230957e-09,
+  "all_within_energy_tolerance": true,
+  "within_cost_tolerance": true
+}

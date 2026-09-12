@@ -1,0 +1,15 @@
+{
+  "sampled_fits": 12,
+  "sample_days": [
+    40,
+    100,
+    171,
+    250,
+    300,
+    354
+  ],
+  "max_beta_absolute_difference": 6.423306331271306e-12,
+  "max_forecast_difference_kW": 2.4556356947869062e-11,
+  "atol_kW": 1e-06,
+  "passed": true
+}

@@ -1,0 +1,363 @@
+{
+  "generated_utc": "2026-09-11T07:57:21.788768+00:00",
+  "wall_seconds": 41.110487800091505,
+  "thresholds": {
+    "per_segment_kWh": 1e-06,
+    "cost_yuan": 0.0001,
+    "cumulative_energy_kWh": 0.0001,
+    "forecast_abs_kW": 1e-06,
+    "forecast_rel": 1e-10
+  },
+  "verdict": {
+    "implementation_baseline_reproduced": true,
+    "features_ridge_reproduced": true,
+    "selection_reproduced": true,
+    "q80_reproduced": true,
+    "four_groups_differ_only_in_predictor": true,
+    "physics_and_accounting": true,
+    "energy_contrasts_identity": true,
+    "metrics_recomputed": true,
+    "coverage_recomputed": true,
+    "monthly_contrasts_recomputed": true,
+    "naive_diagnostics_recomputed": true,
+    "report_lambda_distribution_scope_consistent": false,
+    "future_perturbation_passed": true,
+    "feedback_prefix_passed": true,
+    "provenance_intact": true,
+    "milp_sample_resolved": true,
+    "audit_inputs_unchanged_during_audit": true
+  },
+  "checks": {
+    "baseline_reproduction": {
+      "axis_match": true,
+      "max_abs_diff": {
+        "load_forecast_kW": 0.0,
+        "pv_forecast_kW": 0.0,
+        "net_forecast_kWh": 0.0,
+        "residual_adjustment_kWh": 0.0,
+        "protected_net_kWh": 0.0,
+        "planned_kWh": 0.0,
+        "charge_kWh": 0.0,
+        "discharge_kWh": 0.0,
+        "emergency_kWh": 0.0,
+        "unused_kWh": 0.0,
+        "state_start_kWh": 0.0,
+        "state_end_kWh": 0.0,
+        "nominal_state_end_kWh": 0.0,
+        "planned_cost_yuan": 0.0,
+        "emergency_cost_yuan": 0.0
+      },
+      "max_overall_kWh": 0.0,
+      "cost_diff_yuan": 0.0,
+      "r0_total_cost_yuan": 14158360.487139745,
+      "registered_reference_yuan": 14158360.487139747,
+      "cost_diff_vs_registered_yuan": 1.862645149230957e-09,
+      "passed": true
+    },
+    "features_and_ridge": {
+      "load": {
+        "max_mean_diff": 0.0,
+        "max_scale_diff": 0.0,
+        "max_singular_diff": 3.126388037344441e-13,
+        "max_beta_diff": 3.154809746774845e-12,
+        "max_beta0_diff": 0.0,
+        "max_candidate_diff_kW": 5.4569682106375694e-12,
+        "max_issued_diff_kW": 5.4569682106375694e-12,
+        "passed": true
+      },
+      "pv": {
+        "max_mean_diff": 0.0,
+        "max_scale_diff": 0.0,
+        "max_singular_diff": 1.9895196601282805e-13,
+        "max_beta_diff": 2.3374013835564256e-10,
+        "max_beta0_diff": 0.0,
+        "max_candidate_diff_kW": 6.275513442233205e-11,
+        "max_issued_diff_kW": 5.758238330599852e-11,
+        "passed": true
+      }
+    },
+    "selection": {
+      "rows": 715,
+      "max_score_abs_diff": 2.9103830456733704e-09,
+      "n_lambda_mismatch": 0,
+      "passed": true
+    },
+    "q80": {
+      "R0_naive": {
+        "days": 334,
+        "max_net_forecast_diff_kWh": 2.2737367544323206e-13,
+        "max_adjustment_diff_kWh": 2.842170943040401e-14,
+        "max_protected_diff_kWh": 2.2737367544323206e-13,
+        "stored_eps_check": 5.684341886080802e-14,
+        "passed": true
+      },
+      "R1_load_ridge": {
+        "days": 334,
+        "max_net_forecast_diff_kWh": 9.094947017729282e-13,
+        "max_adjustment_diff_kWh": 6.821210263296962e-13,
+        "max_protected_diff_kWh": 1.1937117960769683e-12,
+        "stored_eps_check": 9.094947017729282e-13,
+        "passed": true
+      },
+      "R2_pv_ridge": {
+        "days": 334,
+        "max_net_forecast_diff_kWh": 9.43600753089413e-12,
+        "max_adjustment_diff_kWh": 8.86757334228605e-12,
+        "max_protected_diff_kWh": 1.5802470443304628e-11,
+        "stored_eps_check": 9.549694368615746e-12,
+        "passed": true
+      },
+      "R3_both_ridge": {
+        "days": 334,
+        "max_net_forecast_diff_kWh": 9.549694368615746e-12,
+        "max_adjustment_diff_kWh": 8.807177209746442e-12,
+        "max_protected_diff_kWh": 1.4267698134062812e-11,
+        "stored_eps_check": 9.563905223330949e-12,
+        "passed": true
+      }
+    },
+    "group_ablation": {
+      "naive_load_identical_R0_R2": 0.0,
+      "naive_pv_identical_R0_R1": 0.0,
+      "ridge_load_identical_R1_R3": 0.0,
+      "ridge_pv_identical_R2_R3": 0.0,
+      "load_treatment_max_diff": 1056.0951145685717,
+      "pv_treatment_max_diff": 2033.108545023235,
+      "adjustment_max_diff_pairs": {
+        "R0_naive__R1_load_ridge": 166.18368731978507,
+        "R0_naive__R2_pv_ridge": 128.30192602792917,
+        "R1_load_ridge__R3_both_ridge": 149.72685608098374,
+        "R2_pv_ridge__R3_both_ridge": 102.7699432672291
+      },
+      "q80_shared_between_groups": false,
+      "passed": true
+    },
+    "physics": {
+      "R0_naive": {
+        "physical_max_kWh": 4.547473508864641e-12,
+        "nominal_max_kWh": 7.796535328452593e-08,
+        "physical_passed": true,
+        "nominal_passed": true,
+        "accounting_passed": true,
+        "solver_passed": true
+      },
+      "R1_load_ridge": {
+        "physical_max_kWh": 4.547473508864641e-12,
+        "nominal_max_kWh": 1.4349926972783459e-09,
+        "physical_passed": true,
+        "nominal_passed": true,
+        "accounting_passed": true,
+        "solver_passed": true
+      },
+      "R2_pv_ridge": {
+        "physical_max_kWh": 4.547473508864641e-12,
+        "nominal_max_kWh": 2.3425705819590803e-10,
+        "physical_passed": true,
+        "nominal_passed": true,
+        "accounting_passed": true,
+        "solver_passed": true
+      },
+      "R3_both_ridge": {
+        "physical_max_kWh": 4.547473508864641e-12,
+        "nominal_max_kWh": 5.01450732789029e-11,
+        "physical_passed": true,
+        "nominal_passed": true,
+        "accounting_passed": true,
+        "solver_passed": true
+      }
+    },
+    "energy_contrasts": {
+      "max_recomputed_residual_kWh": 5.73345459997654e-09,
+      "passed": true
+    },
+    "metrics": {
+      "max_abs_difference": 4.547473508864641e-13,
+      "n_rows": 28,
+      "passed": true,
+      "monthly_rows": 44,
+      "hourly_rows": 96
+    },
+    "coverage": {
+      "max_abs_difference": 7.105427357601002e-15,
+      "passed": true
+    },
+    "monthly_contrasts": {
+      "max_abs_difference_yuan": 2.3283064365386963e-10,
+      "rows": 44,
+      "per_group": {
+        "R0_naive": {
+          "months": 11,
+          "improved": 0,
+          "worse": 0,
+          "worst_month": "2025-02",
+          "worst_delta_yuan": 0.0
+        },
+        "R1_load_ridge": {
+          "months": 11,
+          "improved": 8,
+          "worse": 3,
+          "worst_month": "2025-02",
+          "worst_delta_yuan": 4432.915289586876
+        },
+        "R2_pv_ridge": {
+          "months": 11,
+          "improved": 9,
+          "worse": 2,
+          "worst_month": "2025-06",
+          "worst_delta_yuan": 59907.1309707223
+        },
+        "R3_both_ridge": {
+          "months": 11,
+          "improved": 10,
+          "worse": 1,
+          "worst_month": "2025-04",
+          "worst_delta_yuan": 5606.596292572562
+        }
+      },
+      "passed": true
+    },
+    "lambda_distribution": {
+      "load": {
+        "all_days_n": 357,
+        "all_days": {
+          "0.1": 179,
+          "1": 75,
+          "0.001": 75,
+          "0.01": 28
+        },
+        "evaluation_days_n": 334,
+        "evaluation_days": {
+          "0.1": 156,
+          "1": 75,
+          "0.001": 75,
+          "0.01": 28
+        },
+        "evaluation_default_days": 0,
+        "lambda_10_never_chosen": true
+      },
+      "pv": {
+        "all_days_n": 358,
+        "all_days": {
+          "0.001": 139,
+          "0.1": 87,
+          "0.01": 72,
+          "1": 60
+        },
+        "evaluation_days_n": 334,
+        "evaluation_days": {
+          "0.001": 136,
+          "0.01": 72,
+          "0.1": 66,
+          "1": 60
+        },
+        "evaluation_default_days": 0,
+        "lambda_10_never_chosen": true
+      },
+      "report_claims": {
+        "label": "评价期334天",
+        "load": {
+          "0.1": 179,
+          "1": 75,
+          "0.001": 75,
+          "0.01": 28
+        },
+        "pv": {
+          "0.001": 139,
+          "0.1": 87,
+          "0.01": 72,
+          "1": 60
+        }
+      },
+      "report_load_claim_matches_evaluation_scope": false,
+      "report_pv_claim_matches_evaluation_scope": false,
+      "report_load_claim_matches_all_days": true,
+      "report_pv_claim_matches_all_days": true
+    },
+    "naive_diagnostics": {
+      "recomputed": {
+        "mean_bias_kWh": -0.19807539850853845,
+        "mean_absolute_day_bias_kWh": 22.432543786732094,
+        "worst_positive_day_bias_kWh": 148.31156539351852,
+        "worst_negative_day_bias_kWh": -110.1277193287037,
+        "adjacent_day_same_slot_mean_correlation": -0.3169386586282195
+      },
+      "file": {
+        "mean_bias_kWh": -0.1980753985085384,
+        "mean_absolute_day_bias_kWh": 22.432543786732094,
+        "worst_positive_day_bias_kWh": 148.31156539351852,
+        "worst_negative_day_bias_kWh": -110.1277193287037,
+        "adjacent_day_same_slot_mean_correlation": -0.3169386586282195
+      },
+      "max_abs_difference": 5.551115123125783e-17,
+      "passed": true
+    },
+    "future_perturbation": {
+      "all_passed": true
+    },
+    "feedback_prefix": {
+      "date": "2025-06-21",
+      "rows": [
+        {
+          "quantity": "charge",
+          "prefix_max_diff": 0.0,
+          "full_day_max_diff": 326.7478583333333
+        },
+        {
+          "quantity": "discharge",
+          "prefix_max_diff": 0.0,
+          "full_day_max_diff": 667.4907
+        },
+        {
+          "quantity": "emergency",
+          "prefix_max_diff": 0.0,
+          "full_day_max_diff": 1084.5693833333332
+        },
+        {
+          "quantity": "unused",
+          "prefix_max_diff": 0.0,
+          "full_day_max_diff": 771.6880166666666
+        },
+        {
+          "quantity": "state_prefix",
+          "prefix_max_diff": 0.0,
+          "full_day_max_diff": 9600.0
+        }
+      ],
+      "prefix_unchanged": true,
+      "later_does_change": true,
+      "passed": true
+    },
+    "provenance": {
+      "signature_reproduced": true,
+      "all_input_hashes_match": true,
+      "code_matches_registration": true,
+      "spec_matches_registration": true,
+      "protected": {
+        "n": 445,
+        "n_changed": 0,
+        "n_missing": 0,
+        "changed": [],
+        "missing": []
+      },
+      "artifacts": {
+        "n": 70,
+        "n_mismatch": 0,
+        "mismatch": []
+      },
+      "january": {
+        "feb1_state_recomputed": 8801.462273333342,
+        "feb1_state_recorded": 8801.462273333342,
+        "feb1_abs_diff": 0.0,
+        "matches_8801": true,
+        "max_diff_vs_recorded": 0.0
+      }
+    },
+    "milp_resample": {
+      "n_resolved": 28,
+      "max_objective_difference_yuan": 1.4551915228366852e-11,
+      "max_mip_gap": 1.897100718842616e-16,
+      "note": "sampled re-solve only; not a full-period re-solve",
+      "passed": true
+    }
+  }
+}

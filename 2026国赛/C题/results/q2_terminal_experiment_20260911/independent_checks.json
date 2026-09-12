@@ -1,0 +1,87 @@
+[
+  {
+    "strategy_id": "A_base",
+    "total_cost_yuan": 15378368.410622532,
+    "energy_identity_residual_kWh": -1.7817001207731664e-09,
+    "nominal_terminal_max_error_kWh": 0.0,
+    "checks": {
+      "balance": 4.831690603168681e-13,
+      "state": 4.547473508864641e-12,
+      "continuous": 0.0,
+      "capacity": 0.0,
+      "power": 0.0,
+      "nonnegative": 0.0,
+      "mutex": 0.0
+    },
+    "final_kWh": 6414.659659256388,
+    "full_end_days": 13
+  },
+  {
+    "strategy_id": "B_fixed_q80",
+    "total_cost_yuan": 14337679.296739332,
+    "energy_identity_residual_kWh": -2.0727384253405035e-09,
+    "nominal_terminal_max_error_kWh": 0.0,
+    "checks": {
+      "balance": 6.821210263296962e-13,
+      "state": 4.547473508864641e-12,
+      "continuous": 0.0,
+      "capacity": 0.0,
+      "power": 0.0,
+      "nonnegative": 0.0,
+      "mutex": 0.0
+    },
+    "final_kWh": 10800.0,
+    "full_end_days": 300
+  },
+  {
+    "strategy_id": "B_adaptive",
+    "total_cost_yuan": 14342031.12525189,
+    "energy_identity_residual_kWh": -1.9285835151094943e-09,
+    "nominal_terminal_max_error_kWh": 0.0,
+    "checks": {
+      "balance": 6.821210263296962e-13,
+      "state": 4.547473508864641e-12,
+      "continuous": 0.0,
+      "capacity": 0.0,
+      "power": 0.0,
+      "nonnegative": 0.0,
+      "mutex": 0.0
+    },
+    "final_kWh": 10133.411347592591,
+    "full_end_days": 242
+  },
+  {
+    "strategy_id": "T_base_6000",
+    "total_cost_yuan": 15335974.462198656,
+    "energy_identity_residual_kWh": -1.7089405446313322e-09,
+    "nominal_terminal_max_error_kWh": 0.0,
+    "checks": {
+      "balance": 4.831690603168681e-13,
+      "state": 4.547473508864641e-12,
+      "continuous": 0.0,
+      "capacity": 0.0,
+      "power": 0.0,
+      "nonnegative": 0.0,
+      "mutex": 0.0
+    },
+    "final_kWh": 5811.055042962961,
+    "full_end_days": 0
+  },
+  {
+    "strategy_id": "T_q80_6000",
+    "total_cost_yuan": 14158360.487139747,
+    "energy_identity_residual_kWh": -1.984062691917643e-09,
+    "nominal_terminal_max_error_kWh": 0.0,
+    "checks": {
+      "balance": 6.821210263296962e-13,
+      "state": 4.547473508864641e-12,
+      "continuous": 0.0,
+      "capacity": 0.0,
+      "power": 0.0,
+      "nonnegative": 0.0,
+      "mutex": 0.0
+    },
+    "final_kWh": 6386.64090314815,
+    "full_end_days": 0
+  }
+]

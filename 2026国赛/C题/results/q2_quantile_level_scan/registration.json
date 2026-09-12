@@ -1,0 +1,82 @@
+{
+  "registered_utc": "2026-09-11T12:16:15.383315+00:00",
+  "specification": "reports/问题二_分位水平扫描实验方案.md",
+  "parameters": {
+    "alphas": [
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9
+    ],
+    "residual_window_days": 28,
+    "min_history_days": 7,
+    "quantile_rule": "empirical inverse distribution: 1-based position (m*a + 99)//100 with a the integer percentage, array index position-1; no interpolation; negative corrections retained",
+    "terminal_kWh": 6000.0,
+    "solver": "frozen scipy.optimize.milp/HiGHS kernel, relative gap 1e-9, time limit 120 s",
+    "actual_control": "surplus charges, deficit discharges, residual deficit at 5x the slot price; actual state carries across days",
+    "evaluation": "2025-02-01..2025-12-31, 334 days, 48096 slots per scenario, 3340 day-ahead MILPs total",
+    "predictors": {
+      "ridge": "results/q2_lightgbm_residual/G3_ridge_fixed/forecast_residuals.csv",
+      "lightgbm": "results/q2_lightgbm_residual/G4_lightgbm_fixed/forecast_residuals.csv"
+    },
+    "no_retraining": true,
+    "reference_costs": {
+      "ridge": 13717382.360776227,
+      "lightgbm": 13673080.670412183
+    },
+    "grid_note": "pre-specified local sensitivity grid around the existing q80; global optimality is not claimed and the grid is not extended if the minimum lands on a boundary",
+    "upstream_audit": "the corrected ridge/LightGBM archives passed their own self-checks and a limited read-only review by the main agent; the full module-20 independent audit is still outstanding, and this scan does not claim otherwise"
+  },
+  "input_sha256": {
+    "code/14_q2_ridge_forecast_experiment.py": "c775cbf0d4587df56997b4617b130a446fe4b4f25a982e2a471889baba1e6623",
+    "code/19_q2_lightgbm_residual_experiment.py": "8f5ac36597231b8e91a4ae85cca36d7b6db2f6c92d650001fed1796d35c0f15f",
+    "code/21_q2_quantile_level_scan.py": "c040f3e9c08db74797290be2c663fab3fbe0f89e11d16cec6a4b0163b4814238",
+    "results/q2_lightgbm_residual/G3_ridge_fixed/forecast_residuals.csv": "ea4bd5f4ac546bb60847928430dff48ea9b1f30ef2d5e578ce18aaf779498e69",
+    "results/q2_lightgbm_residual/G4_lightgbm_fixed/forecast_residuals.csv": "447b755cf5169514af9fb3724221a0631dd09a419a8c0e20facd40cc2ab80eab",
+    "results/q2_lightgbm_residual/registration.json": "78ac0d2b0b193308707e6aad48c1321cb5171f92faadb952d89e35db8b00de48",
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "reports/问题二_分位水平扫描实验方案.md": "1502a7ec3a46c3f615406d9cab712761bdd42b9d7fd7c70748295d4ec5561431"
+  },
+  "snapshot_sha256": {
+    "code/02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "code/05_q2_baseline.py": "d0118520c25ed46a5193ec5f0eaba0762df44b469a23d26a3b563db739e3e7dd",
+    "code/08_q2_quantile_experiment.py": "c49115e1e3229f0eeb9a89b504df8d49e67e866b3119c5a1fafb654408e15b8c"
+  },
+  "code_sha256": "c040f3e9c08db74797290be2c663fab3fbe0f89e11d16cec6a4b0163b4814238",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-11T12:11:50.905295+00:00",
+      "previous_signature": "1f479a420df76e3e47cbe2c281de105d11e126badceccea62fb8d7a39b8465ac",
+      "previous_code_sha256": "1098262eee5547d160464cfe8292070508c8ee879b6086202ae6dcd1c84223d7",
+      "new_signature": "1ea53e4073fbab977990bf6c7fa53120dd67bcc1f144950ba931c7642ef9a859",
+      "new_code_sha256": "7934865351b4e34ba379baa95f2760bc03b65fd9cd0958d813beae9ba3213ce4",
+      "reason": "控制组对照把名义末态轨迹与执行轨迹混在同一通过条件：等优多解下名义轨迹可不同（L_q80实测191.86 kWh），而实际轨迹、购电计划与费用逐段一致。改为分离 executed/nominal 两类并单独报告名义日目标费差。分位规则、alpha 网格、W28、6000 末态、门控与预测档案均未改动。",
+      "frozen_spec_unchanged": true
+    },
+    {
+      "amended_utc": "2026-09-11T12:13:11.770582+00:00",
+      "previous_signature": "1ea53e4073fbab977990bf6c7fa53120dd67bcc1f144950ba931c7642ef9a859",
+      "previous_code_sha256": "7934865351b4e34ba379baa95f2760bc03b65fd9cd0958d813beae9ba3213ce4",
+      "new_signature": "02492aee84a2233a81066e32a883ad1ca30764e31c3b73e154934107238a3e82",
+      "new_code_sha256": "6fa6dcf7a8069cf47ee75890e0893f90871ce550a5e90a5c2e8fb9a98cae1eba",
+      "reason": "控制组对照改为三层判定：日级聚合（计划、费用、充放电、应急、未使用、日初末状态）为复现闸门；总费对照登记值；逐时段仅接受已证明的等优重排（受影响时段电价相同且日级目标费不变）。原因是 R_q80 在 2025-08-02 的 2 个同时段电价 0.424 元/kWh 的时段间移动 333.333 kWh 充电，日级聚合与总费完全一致。分位规则、alpha 网格、W28、6000 末态、门控与预测档案均未改动。",
+      "frozen_spec_unchanged": true
+    },
+    {
+      "amended_utc": "2026-09-11T12:16:15.383653+00:00",
+      "previous_signature": "02492aee84a2233a81066e32a883ad1ca30764e31c3b73e154934107238a3e82",
+      "previous_code_sha256": "6fa6dcf7a8069cf47ee75890e0893f90871ce550a5e90a5c2e8fb9a98cae1eba",
+      "new_signature": "551165ebc24fce259b17e87560cf174b3feba7588802fb928750ad2e9e9ce9e8",
+      "new_code_sha256": "c040f3e9c08db74797290be2c663fab3fbe0f89e11d16cec6a4b0163b4814238",
+      "reason": "覆盖率函数误用不存在的 net_actual_kWh 列，改为由负载与光伏真值重算净需求；同时把图中 ridge q80 基准线由脆弱的 query('alpha == 0.8') 改为 np.isclose 选取。分位规则、alpha 网格、W28、6000 末态、门控、预测档案与对照口径均未改动。",
+      "frozen_spec_unchanged": true
+    }
+  ],
+  "signature": "551165ebc24fce259b17e87560cf174b3feba7588802fb928750ad2e9e9ce9e8"
+}

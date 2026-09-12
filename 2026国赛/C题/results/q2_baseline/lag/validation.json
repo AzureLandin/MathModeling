@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "balance_kWh": 4.547473508864641e-13,
+    "state_recursion_kWh": 9.094947017729282e-13,
+    "state_bounds_kWh": 0,
+    "power_bounds_kWh": 0,
+    "nonnegative_kWh": 0,
+    "simultaneous_kWh": 0,
+    "nominal_bus_balance_max_abs_kWh": 1.2505552149377763e-12,
+    "nominal_battery_balance_max_abs_kWh": 1.6350441001122818e-10,
+    "nominal_boundary_error_kWh": 0,
+    "nominal_state_bound_violation_kWh": 1.2505552149377763e-11,
+    "nominal_flow_bound_violation_kWh": 2.041815605480224e-10,
+    "nominal_simultaneous_charge_discharge_kWh": 8.594724931754171e-12,
+    "nominal_binary_integrality_error": 5.000000000109139e-07,
+    "nominal_binary_bound_violation": 2.657873920952625e-13,
+    "nominal_binary_gate_violation_kWh": 2.214894934127187e-10
+  },
+  "totals": {
+    "planned_kWh": 20248566.691808097,
+    "emergency_kWh": 519323.55605119443,
+    "unused_kWh": 1566126.994136193,
+    "charge_kWh": 6656430.953205807,
+    "discharge_kWh": 5393857.1944493735,
+    "planned_cost_yuan": 12265436.51341214,
+    "emergency_cost_yuan": 3112931.8972103912,
+    "total_cost_yuan": 15378368.410622533,
+    "policy": "lag",
+    "emergency_events": 699,
+    "emergency_days": 306,
+    "emergency_cost_share": 0.20242276775344703,
+    "load_mae_kW": 176.79572117223884,
+    "pv_mae_kW": 185.34649152736193,
+    "net_mae_kW": 303.8291523868929,
+    "net_rmse_kW": 448.2115496746542,
+    "net_bias_actual_minus_forecast_kW": -1.1884523910512308,
+    "evaluation_initial_kWh": 8801.462273333342,
+    "final_kWh": 6414.659659256388,
+    "max_mip_gap": 3.401208115964013e-16,
+    "solver_total_seconds": 12.587847298709676,
+    "worst_day": "2025-07-03"
+  }
+}

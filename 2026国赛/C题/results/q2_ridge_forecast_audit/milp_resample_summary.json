@@ -1,0 +1,7 @@
+{
+  "n_resolved": 28,
+  "max_objective_difference_yuan": 1.4551915228366852e-11,
+  "max_mip_gap": 1.897100718842616e-16,
+  "note": "sampled re-solve only; not a full-period re-solve",
+  "passed": true
+}

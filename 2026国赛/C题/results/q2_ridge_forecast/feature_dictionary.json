@@ -1,0 +1,38 @@
+{
+  "load_features": [
+    "l_base",
+    "l_yesterday_minus_base",
+    "l_known_week_change",
+    "l_sameweekday_mean_minus_base",
+    "l_daily_week_change",
+    "weekday_tue",
+    "weekday_wed",
+    "weekday_thu",
+    "weekday_fri",
+    "weekday_sat",
+    "weekday_sun",
+    "sin1",
+    "cos1",
+    "sin2",
+    "cos2"
+  ],
+  "pv_features": [
+    "v_base",
+    "v_recent_change",
+    "v_week_mean_minus_base",
+    "v_daily_change",
+    "sin1",
+    "cos1",
+    "sin2",
+    "cos2"
+  ],
+  "load_first_valid_day_index": 8,
+  "pv_first_valid_day_index": 7,
+  "weekday_reference": "Monday",
+  "harmonics": "sin/cos of 2*pi*t/144 and 4*pi*t/144, t=0..143",
+  "target_load": "u^L = L[k,t] - naive_load(k), kW",
+  "target_pv": "u^V = V[k,t] - V[k-1,t], kW",
+  "units": "all features kW except weekday and harmonic columns (dimensionless)",
+  "standardisation": "per-day training-window column mean; population std (ddof=0), constant -> 1",
+  "label": "not scaled, only centred; the intercept is unpenalised"
+}

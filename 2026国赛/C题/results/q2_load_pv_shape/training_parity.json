@@ -1,0 +1,21 @@
+{
+  "load": {
+    "target": "load",
+    "mismatches": [],
+    "mismatch_count": 0,
+    "first_trainable_day": 22,
+    "control_first_trainable_day": 22,
+    "expected_first_trainable_day": 22,
+    "all_passed": true
+  },
+  "pv": {
+    "target": "pv",
+    "mismatches": [],
+    "mismatch_count": 0,
+    "first_trainable_day": 21,
+    "control_first_trainable_day": 21,
+    "expected_first_trainable_day": 21,
+    "all_passed": true
+  },
+  "all_passed": true
+}

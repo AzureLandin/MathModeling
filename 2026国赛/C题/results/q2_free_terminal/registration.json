@@ -1,0 +1,145 @@
+{
+  "registered_utc": "2026-09-12T02:47:02.019767+00:00",
+  "specification": "reports/问题二_固定6000与自由末态对照实验方案.md",
+  "parameters": {
+    "experiment": "fixed-6000 versus free nominal end-of-day state, two pre-registered groups on one frozen published forecast archive",
+    "alpha": 0.8,
+    "residual_window_days": 28,
+    "min_history_days": 7,
+    "terminal_modes": {
+      "fixed6000": "E_bar[144] = 6000 kWh",
+      "free": "1200 <= E_bar[144] <= 10800 kWh"
+    },
+    "groups": [
+      {
+        "id": "T_fixed6000",
+        "terminal_mode": "fixed6000"
+      },
+      {
+        "id": "T_free",
+        "terminal_mode": "free"
+      }
+    ],
+    "primary_comparison": "T_free minus T_fixed6000 (pre-registered terminal-mode comparison)",
+    "forecast_archive": "results/q2_pv_support_features/pv_forecast_archive_P1.csv (frozen, not retrained)",
+    "quantile_rule": "empirical inverse distribution, per-slot ascending order statistic at 1-based position (m*a+99)//100 with a the integer percentage, index position-1; m = k - max(1, k-28), m<7 gives no correction",
+    "solver": {
+      "kernel": "verbatim local transcription of code/02_q1_baseline.py solve(integer=True); relative gap 1e-9, time limit 120 s",
+      "only_difference": "the E_144 lower/upper bound: [6000,6000] versus [1200,10800]",
+      "variable_order": "q[144], c[144], d[144], w[144], E[0..144], z[144] binary"
+    },
+    "actual_control": "surplus charges, deficit discharges, residual deficit at 5x the slot price; actual state carries across days; no daily cycle is forced on the actual state",
+    "warmup": "shared public January pre-run, 2025-02-01 00:00 begin state 8801.462273333342 kWh for both groups",
+    "evaluation": "2025-02-01..2025-12-31, 334 days, 48096 slots per group",
+    "sampled_dates": [
+      "2025-02-01",
+      "2025-03-20",
+      "2025-06-21",
+      "2025-09-23",
+      "2025-12-21"
+    ],
+    "perturbation_days": [
+      "2025-02-01",
+      "2025-06-21",
+      "2025-12-21"
+    ],
+    "half_day_check": {
+      "date": "2025-06-21",
+      "perturbed_from_slot": 72,
+      "load_factor": 1.2,
+      "pv_factor": 0.7
+    },
+    "emergency_windows": {
+      "00-06": [
+        0,
+        36
+      ],
+      "06-10": [
+        36,
+        60
+      ],
+      "10-24": [
+        60,
+        144
+      ]
+    },
+    "diagnostic_windows": {
+      "19-21": [
+        114,
+        126
+      ]
+    },
+    "late_night_window": {
+      "name": "23-24",
+      "start": 138,
+      "stop": 144
+    },
+    "valuation": "C* = C - nu*(E_end - E_start), nu = median(price)/0.9 CNY per internal kWh; diagnostic only, never part of the main cost",
+    "thresholds": {
+      "energy_kWh": 1e-06,
+      "cost_yuan": 0.0001
+    },
+    "control_reference": {
+      "P1_q80": 13658867.74953597
+    },
+    "control_reproduction": {
+      "strict": "day-level aggregates within 1e-6 kWh of the registered P1_q80 archive and |total cash cost difference| <= 1e-4 CNY",
+      "equal_cost_face_exemption": "additionally accepted, and stored beside the strict flag, when at most 3 days differ, the first diverging day has an identical own plan cost (equal-cost optimum), every differing slot shares a price, the day-level difference stays within 5 kWh and the annual difference stays within 1 CNY; disclosure only, never a rewrite of the strict number"
+    }
+  },
+  "dependency": {
+    "residual_window": 28,
+    "alpha": 0.8,
+    "position_at_28": 23,
+    "frozen_terminal_kWh": 6000.0,
+    "modes": [
+      "fixed6000",
+      "free"
+    ]
+  },
+  "input_sha256": {
+    "code/14_q2_ridge_forecast_experiment.py": "c775cbf0d4587df56997b4617b130a446fe4b4f25a982e2a471889baba1e6623",
+    "code/21_q2_quantile_level_scan.py": "c040f3e9c08db74797290be2c663fab3fbe0f89e11d16cec6a4b0163b4814238",
+    "code/23_q2_pv_support_features_experiment.py": "9bbb74f373dbb40c6402674c1b51af6dafe5de9d0a5fada7839a80468a1363e6",
+    "code/27_q2_free_terminal_experiment.py": "df90a4109aec1c93310adf698a9e9dfc1003e80bb4a14899f0bcf5e9b383ddc1",
+    "results/q2_pv_support_features/pv_forecast_archive_P1.csv": "4a54ccf6edfd330fdcfda1e70b8307a7639a5c839f3b3746492f89f788cad345",
+    "results/q2_pv_support_features/P1_q80/dispatch.csv": "8849f2657281e0b8b451f5ffdd0b0377a161a6d0710c74448cde82265bd1a08a",
+    "results/q2_pv_support_features/P1_q80/daily_summary.csv": "c75fc01802395e0e2e45549a76a4398e435a9c9bf0a10190158c8cb8ac7fd378",
+    "results/q2_pv_support_features/checks.json": "bc8a0c72ed21cabac82608088658f6f1b9c3c7c5643ba66eac6e0b2e75222aa1",
+    "results/q2_load_pv_shape/F01_pv_support/dispatch.csv": "9f32a1cdbe78822a11c35f972f65827ced4e62ceed7c0df8ecc10818c382e462",
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "reports/问题二_固定6000与自由末态对照实验方案.md": "952c91bc1b5ad858bebcf85077179a29488e14f4f56577caa2033610390289dc"
+  },
+  "snapshot_sha256": {
+    "code/02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "code/05_q2_baseline.py": "d0118520c25ed46a5193ec5f0eaba0762df44b469a23d26a3b563db739e3e7dd",
+    "code/08_q2_quantile_experiment.py": "c49115e1e3229f0eeb9a89b504df8d49e67e866b3119c5a1fafb654408e15b8c"
+  },
+  "code_sha256": "df90a4109aec1c93310adf698a9e9dfc1003e80bb4a14899f0bcf5e9b383ddc1",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T02:43:26.997930+00:00",
+      "previous_signature": "ce861b0a51e94a51a87c00c62b6047133336a7482fe1cb99146327420165376b",
+      "previous_code_sha256": "ff79bc5ba2f666de42fd7509dea5af641aeb32c739899bd23fbd86a0926e3e15",
+      "new_signature": "18b0b14bf1b458d596c3ab6e02ece8e4b8204fb7106485c559695665e4f9a1bc",
+      "new_code_sha256": "0bface330c9945e44159e8abb9fbf68482eeb148fb902b6def63bc3b308fc712",
+      "reason": "fix the console summary print to the renamed metric key (mae_kW -> mae); no parameter, input, scenario or result definition changed",
+      "frozen_spec_unchanged": true
+    },
+    {
+      "amended_utc": "2026-09-12T02:47:02.020163+00:00",
+      "previous_signature": "18b0b14bf1b458d596c3ab6e02ece8e4b8204fb7106485c559695665e4f9a1bc",
+      "previous_code_sha256": "0bface330c9945e44159e8abb9fbf68482eeb148fb902b6def63bc3b308fc712",
+      "new_signature": "65382be416a830549edb9508420c677b03874cb4184d1738ac1e75b5f72f6284",
+      "new_code_sha256": "df90a4109aec1c93310adf698a9e9dfc1003e80bb4a14899f0bcf5e9b383ddc1",
+      "reason": "the registered P1_q80 archive is not reproducible to the strict 1e-4 CNY gate by an independent re-solve: 2025-09-08 has a degenerate equal-cost optimal face (identical own plan cost, 2.71 kWh of circulating charge at equal prices), and the ~1 ULP reconstruction difference in the protected net demand moves the returned vertex, shifting the carried actual state by 0.572 kWh and the next day's cash cost by 0.2724 CNY (2.0e-8 of the annual total). Add the plan-section-4.1 disclosure rule as an explicit, evidence-backed second criterion while keeping strict_passed=False recorded; no group, parameter, forecast, protection or threshold definition changed",
+      "frozen_spec_unchanged": true
+    }
+  ],
+  "signature": "65382be416a830549edb9508420c677b03874cb4184d1738ac1e75b5f72f6284"
+}

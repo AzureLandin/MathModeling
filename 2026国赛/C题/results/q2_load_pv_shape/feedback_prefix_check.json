@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "day": 171,
+      "kind": "load",
+      "group": "F00_original",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "load",
+      "group": "F10_load_shape",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "load",
+      "group": "F01_pv_support",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "load",
+      "group": "F11_joint",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "pv",
+      "group": "F00_original",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "pv",
+      "group": "F10_load_shape",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "pv",
+      "group": "F01_pv_support",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    },
+    {
+      "day": 171,
+      "kind": "pv",
+      "group": "F11_joint",
+      "plan_max_kWh": 0.0,
+      "executed_prefix_max": 0.0,
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "scope": "day 171 plan and slots 0..71 of the realised execution plus the state entering slot 72, all four groups"
+}

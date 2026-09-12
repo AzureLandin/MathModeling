@@ -1,0 +1,228 @@
+{
+  "thresholds": {
+    "physical_kWh": 1e-06,
+    "accounting": 0.0001,
+    "continuity_kWh": 1e-09,
+    "nominal_terminal_kWh": 1e-06,
+    "cost_yuan": 0.0001,
+    "energy_kWh": 1e-06
+  },
+  "reproduction": {
+    "compared_file": "results\\q2_terminal_experiment_20260911\\T_q80_6000\\dispatch.csv",
+    "segments": 48096,
+    "total_cost_old_yuan": 14158360.487139745,
+    "total_cost_new_yuan": 14158360.487139745,
+    "total_cost_abs_diff_yuan": 0.0,
+    "license_total_yuan": 14158360.487139747,
+    "license_total_abs_diff_yuan": 1.862645149230957e-09,
+    "max_energy_diff_kWh": {
+      "planned_kWh": 0.0,
+      "charge_kWh": 0.0,
+      "discharge_kWh": 0.0,
+      "emergency_kWh": 0.0,
+      "unused_kWh": 0.0,
+      "state_start_kWh": 0.0,
+      "state_end_kWh": 0.0,
+      "nominal_state_end_kWh": 0.0,
+      "net_forecast_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "protected_net_kWh": 0.0
+    },
+    "max_cost_diff_yuan": {
+      "planned_cost_yuan": 0.0,
+      "emergency_cost_yuan": 0.0
+    },
+    "max_energy_diff_overall_kWh": 0.0,
+    "max_cost_diff_overall_yuan": 0.0,
+    "axis_and_theta_match": true,
+    "energy_within_tolerance": true,
+    "cost_within_tolerance": true,
+    "license_total_within_tolerance": true
+  },
+  "checks": {
+    "max_physical_violation_kWh": 4.547473508864641e-12,
+    "max_day_continuity_kWh": 0.0,
+    "max_nominal_terminal_error_kWh": 6000.0000000000055,
+    "max_initial_offset_kWh": 0.0,
+    "max_accounting_error": 2.014530764427036e-09,
+    "max_energy_identity_kWh": 2.014530764427036e-09,
+    "segments_all_48096": true,
+    "days_all_334": true,
+    "protection_identical_across_groups": true,
+    "future_perturbation_all_passed": true,
+    "solver_failures_total": 0,
+    "fallback_days_total": 0,
+    "max_mip_gap": 3.8842651004004265e-16,
+    "physical_within_tolerance": true,
+    "accounting_within_tolerance": true,
+    "continuity_within_tolerance": true,
+    "nominal_terminal_within_tolerance": false
+  },
+  "warmup": {
+    "state_kWh": 8801.462273333342,
+    "checks": {
+      "balance_kWh": 4.547473508864641e-13,
+      "state_recursion_kWh": 9.094947017729282e-13,
+      "state_bounds_kWh": 0.0,
+      "power_bounds_kWh": 0.0,
+      "nonnegative_kWh": 0.0,
+      "simultaneous_kWh": 0.0
+    }
+  },
+  "per_group_physical": {
+    "T_q80_4800": {
+      "balance_kWh": 6.821210263296962e-13,
+      "state_kWh": 4.547473508864641e-12,
+      "continuity_kWh": 0.0,
+      "bounds_kWh": 0.0,
+      "power_kWh": 0.0,
+      "nonnegative_kWh": 0.0,
+      "mutex_kWh": 0.0,
+      "nominal_terminal_kWh": 6000.0,
+      "initial_state_kWh": 0.0
+    },
+    "T_q80_6000": {
+      "balance_kWh": 6.821210263296962e-13,
+      "state_kWh": 4.547473508864641e-12,
+      "continuity_kWh": 0.0,
+      "bounds_kWh": 0.0,
+      "power_kWh": 0.0,
+      "nonnegative_kWh": 0.0,
+      "mutex_kWh": 0.0,
+      "nominal_terminal_kWh": 4800.000000000031,
+      "initial_state_kWh": 0.0
+    },
+    "T_q80_7200": {
+      "balance_kWh": 6.821210263296962e-13,
+      "state_kWh": 4.547473508864641e-12,
+      "continuity_kWh": 0.0,
+      "bounds_kWh": 0.0,
+      "power_kWh": 0.0,
+      "nonnegative_kWh": 0.0,
+      "mutex_kWh": 0.0,
+      "nominal_terminal_kWh": 6000.0000000000055,
+      "initial_state_kWh": 0.0
+    }
+  },
+  "per_group_accounting": {
+    "T_q80_4800": {
+      "daily_total_cost_yuan": 0.0,
+      "daily_planned_cost_yuan": 0.0,
+      "daily_emergency_cost_yuan": 1.1641532182693481e-10,
+      "monthly_total_cost_yuan": 0.0,
+      "monthly_planned_cost_yuan": 1.862645149230957e-09,
+      "monthly_emergency_cost_yuan": 1.1641532182693481e-10,
+      "event_energy_kWh": 1.4551915228366852e-11,
+      "event_cost_yuan": 0.0,
+      "energy_identity_kWh": 1.9495018932502717e-09
+    },
+    "T_q80_6000": {
+      "daily_total_cost_yuan": 0.0,
+      "daily_planned_cost_yuan": 0.0,
+      "daily_emergency_cost_yuan": 0.0,
+      "monthly_total_cost_yuan": 0.0,
+      "monthly_planned_cost_yuan": 1.862645149230957e-09,
+      "monthly_emergency_cost_yuan": 1.1641532182693481e-10,
+      "event_energy_kWh": 0.0,
+      "event_cost_yuan": 1.1641532182693481e-10,
+      "energy_identity_kWh": 1.984062691917643e-09
+    },
+    "T_q80_7200": {
+      "daily_total_cost_yuan": 1.862645149230957e-09,
+      "daily_planned_cost_yuan": 1.862645149230957e-09,
+      "daily_emergency_cost_yuan": 0.0,
+      "monthly_total_cost_yuan": 1.862645149230957e-09,
+      "monthly_planned_cost_yuan": 1.862645149230957e-09,
+      "monthly_emergency_cost_yuan": 1.1641532182693481e-10,
+      "event_energy_kWh": 1.4551915228366852e-11,
+      "event_cost_yuan": 0.0,
+      "energy_identity_kWh": 2.014530764427036e-09
+    }
+  },
+  "future_perturbation": [
+    {
+      "target_kWh": 4800.0,
+      "day_index": 31,
+      "day": "2025-02-01",
+      "initial_state_kWh": 8801.462273333342,
+      "forecast_error_kWh": 0.0,
+      "correction_error_kWh": 0.0,
+      "plan_error_kWh": 0.0,
+      "solver_fallback": false,
+      "passed": true
+    },
+    {
+      "target_kWh": 4800.0,
+      "day_index": 200,
+      "day": "2025-07-20",
+      "initial_state_kWh": 8252.61652074074,
+      "forecast_error_kWh": 0.0,
+      "correction_error_kWh": 0.0,
+      "plan_error_kWh": 0.0,
+      "solver_fallback": false,
+      "passed": true
+    },
+    {
+      "target_kWh": 6000.0,
+      "day_index": 31,
+      "day": "2025-02-01",
+      "initial_state_kWh": 8801.462273333342,
+      "forecast_error_kWh": 0.0,
+      "correction_error_kWh": 0.0,
+      "plan_error_kWh": 0.0,
+      "solver_fallback": false,
+      "passed": true
+    },
+    {
+      "target_kWh": 6000.0,
+      "day_index": 200,
+      "day": "2025-07-20",
+      "initial_state_kWh": 8252.61652074074,
+      "forecast_error_kWh": 0.0,
+      "correction_error_kWh": 0.0,
+      "plan_error_kWh": 0.0,
+      "solver_fallback": false,
+      "passed": true
+    },
+    {
+      "target_kWh": 7200.0,
+      "day_index": 31,
+      "day": "2025-02-01",
+      "initial_state_kWh": 8801.462273333342,
+      "forecast_error_kWh": 0.0,
+      "correction_error_kWh": 0.0,
+      "plan_error_kWh": 0.0,
+      "solver_fallback": false,
+      "passed": true
+    },
+    {
+      "target_kWh": 7200.0,
+      "day_index": 200,
+      "day": "2025-07-20",
+      "initial_state_kWh": 8252.61652074074,
+      "forecast_error_kWh": 0.0,
+      "correction_error_kWh": 0.0,
+      "plan_error_kWh": 0.0,
+      "solver_fallback": false,
+      "passed": true
+    }
+  ],
+  "shared_protection": {
+    "T_q80_4800": {
+      "net_forecast_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "protected_net_kWh": 0.0
+    },
+    "T_q80_6000": {
+      "net_forecast_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "protected_net_kWh": 0.0
+    },
+    "T_q80_7200": {
+      "net_forecast_kWh": 0.0,
+      "residual_adjustment_kWh": 0.0,
+      "protected_net_kWh": 0.0
+    },
+    "all_zero": true
+  }
+}

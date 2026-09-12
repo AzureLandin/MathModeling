@@ -1,0 +1,84 @@
+{
+  "first_trainable_day": {
+    "load_day_index": 28,
+    "load_date": "2025-01-29",
+    "pv_day_index": 22,
+    "pv_date": "2025-01-23",
+    "expected": "load day index 28 (2025-01-29), pv day index 22 (2025-01-23)",
+    "passed": true
+  },
+  "first_seven_day_scoring": {
+    "load_day_index": 35,
+    "load_date": "2025-02-05",
+    "pv_day_index": 29,
+    "pv_date": "2025-01-30",
+    "expected": "load day index 35 (2025-02-05), pv day index 29 (2025-01-30)",
+    "passed": true
+  },
+  "min_train_days_boundary": {
+    "note": "21 valid training days are required; 20 days must fall back to the naive level",
+    "twenty_days_sufficient": true,
+    "training_days_at_27": 20,
+    "training_days_at_28": 21,
+    "passed": true
+  },
+  "constant_series_bypass": {
+    "series_value": 4.0,
+    "sample_std": 0.0,
+    "threshold_kW": 1e-08,
+    "expected": "a constant window yields the window mean for every statistical candidate",
+    "passed": true
+  },
+  "zero_series_gives_zero_correction": {
+    "note": "an all-zero residual window predicts zero, so the issued forecast is max(0, naive)",
+    "passed": true
+  },
+  "variance_threshold_sides": {
+    "below": 0.0,
+    "above": 1e-06,
+    "threshold_kW": 1e-08,
+    "note": "constant windows bypass the optimiser; a non-constant window is fitted normally",
+    "passed": true
+  },
+  "tie_rule_prefers_zero": {
+    "scores": {
+      "zero": 10.0,
+      "ar1": 10.0,
+      "ma1": 10.0,
+      "arma11": 12.0
+    },
+    "tied": [
+      "zero",
+      "ar1",
+      "ma1"
+    ],
+    "chosen": "zero",
+    "expected": "zero, ar1, ma1 are tied -> zero wins",
+    "passed": true
+  },
+  "gate_boundaries": {
+    "probe_day": "2025-02-10",
+    "gated_slots": 67,
+    "first_gated_slot": 0,
+    "last_gated_slot": 143,
+    "gated_actual_energy_kWh": 0.003616666666666666,
+    "gated_actual_max_kW": 0.011,
+    "gated_actual_gt100_slots": 0,
+    "note": "mis-deleted slots above 100 kW are reported, not asserted; the gate is a historical support proxy rather than a sunrise/sunset determination",
+    "passed": true
+  },
+  "gate_history_insufficient": {
+    "day_index": 5,
+    "gate_active": false,
+    "expected": "no gate before 7 days of history",
+    "passed": true
+  },
+  "quantile_negative_and_23rd": {
+    "window_days": 28,
+    "index_used": 22,
+    "value": -5.0,
+    "expected": "the 23rd smallest value (-5.0), negative corrections retained",
+    "passed": true
+  },
+  "all_passed": true
+}

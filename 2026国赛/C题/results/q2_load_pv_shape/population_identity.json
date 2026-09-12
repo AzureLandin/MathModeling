@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "check": "F00_original and F01_pv_support share the identical load archive",
+      "worst": 0.0
+    },
+    {
+      "check": "F10_load_shape and F11_joint share the identical load archive",
+      "worst": 0.0
+    },
+    {
+      "check": "F00_original and F10_load_shape share the identical PV archive",
+      "worst": 0.0
+    },
+    {
+      "check": "F01_pv_support and F11_joint share the identical PV archive",
+      "worst": 0.0
+    }
+  ],
+  "gate": {
+    "gated_off_slots": 21408,
+    "v0_max_off_gate_kW": 0.0,
+    "v1_max_off_gate_kW": 0.0,
+    "v0_above_100kW_off_gate_slots": 0,
+    "v1_above_100kW_off_gate_slots": 0,
+    "truth_off_gate_kWh": 2.4960833333333334
+  },
+  "all_passed": true
+}

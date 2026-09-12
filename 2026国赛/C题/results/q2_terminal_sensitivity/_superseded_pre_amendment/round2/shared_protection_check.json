@@ -1,0 +1,18 @@
+{
+  "T_q80_4800": {
+    "net_forecast_kWh": 0.0,
+    "residual_adjustment_kWh": 0.0,
+    "protected_net_kWh": 0.0
+  },
+  "T_q80_6000": {
+    "net_forecast_kWh": 0.0,
+    "residual_adjustment_kWh": 0.0,
+    "protected_net_kWh": 0.0
+  },
+  "T_q80_7200": {
+    "net_forecast_kWh": 0.0,
+    "residual_adjustment_kWh": 0.0,
+    "protected_net_kWh": 0.0
+  },
+  "all_zero": true
+}

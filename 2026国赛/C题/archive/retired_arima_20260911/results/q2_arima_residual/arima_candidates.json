@@ -1,0 +1,15 @@
+{
+  "signature": "37a2639e17513b7c903650f22bbf70d788f3ced73043749bd29cf01bb486055b",
+  "day_range": [
+    0,
+    364
+  ],
+  "candidates": [
+    "zero",
+    "ar1",
+    "ma1",
+    "arma11"
+  ],
+  "elapsed_seconds": 593.5702840997837,
+  "generated_utc": "2026-09-11T09:30:27.468498+00:00"
+}

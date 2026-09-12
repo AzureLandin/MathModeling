@@ -1,0 +1,23 @@
+{
+  "positions_at_28_days": {
+    "0.80": 23,
+    "0.75": 21
+  },
+  "expected": {
+    "0.80": 23,
+    "0.75": 21
+  },
+  "positions_passed": true,
+  "integer_rule_equals_ceil": true,
+  "per_archive": {
+    "P0": {
+      "max_difference_kWh": 0.0,
+      "passed": true
+    },
+    "P1": {
+      "max_difference_kWh": 0.0,
+      "passed": true
+    }
+  },
+  "all_passed": true
+}

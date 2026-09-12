@@ -1,0 +1,3 @@
+﻿target,fitted_slots,failure_rate,bypass_rate,ar1_fit_failure,arma11_fit_failure,load,ma1_fit_failure,pv,bypass_ar1_constant_bypass,bypass_arma11_constant_bypass,bypass_load,bypass_ma1_constant_bypass,bypass_pv
+load,48528,0.0023903725684141113,0.0,,,,,,,,,,
+pv,49392,0.003212396069538927,0.361212342079689,,,,,,,,,,

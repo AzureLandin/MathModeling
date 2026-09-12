@@ -1,0 +1,26 @@
+{
+  "R0_naive": {
+    "checked_days": 6,
+    "max_difference_kWh": 0.0,
+    "atol_kWh": 1e-06,
+    "passed": true
+  },
+  "R1_load_ridge": {
+    "checked_days": 6,
+    "max_difference_kWh": 0.0,
+    "atol_kWh": 1e-06,
+    "passed": true
+  },
+  "R2_pv_ridge": {
+    "checked_days": 6,
+    "max_difference_kWh": 0.0,
+    "atol_kWh": 1e-06,
+    "passed": true
+  },
+  "R3_both_ridge": {
+    "checked_days": 6,
+    "max_difference_kWh": 0.0,
+    "atol_kWh": 1e-06,
+    "passed": true
+  }
+}

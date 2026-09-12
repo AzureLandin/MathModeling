@@ -1,0 +1,2 @@
+﻿metric,evaluation_days,mean_bias_kWh,mean_absolute_day_bias_kWh,worst_positive_day_bias_kWh,worst_negative_day_bias_kWh,max_positive_slot_bias_kWh,max_negative_slot_bias_kWh,adjacent_day_same_slot_mean_correlation,days_with_1h_underestimate,days_with_4h_underestimate
+naive_net_demand_residual_kWh,334,-0.19807539850853845,22.432543786732094,148.31156539351852,-110.1277193287037,0.35079091816367347,-0.8898096806387235,-0.3169386586282195,334,325

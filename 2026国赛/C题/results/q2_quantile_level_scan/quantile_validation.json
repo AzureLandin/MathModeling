@@ -1,0 +1,90 @@
+{
+  "positions_at_28_days": {
+    "positions": {
+      "0.70": 20,
+      "0.75": 21,
+      "0.80": 23,
+      "0.85": 24,
+      "0.90": 26
+    },
+    "expected": {
+      "0.70": 20,
+      "0.75": 21,
+      "0.80": 23,
+      "0.85": 24,
+      "0.90": 26
+    },
+    "passed": true
+  },
+  "integer_vs_ceil_rule": {
+    "checked_pairs": 110,
+    "mismatches": [],
+    "note": "the frozen kernel uses ceil(m*alpha); the registered rule uses (m*a+99)//100. They agree for every m in 7..28 with these five levels, and the formal period always has m=28.",
+    "passed": true
+  },
+  "history_length": {
+    "ridge": {
+      "distinct_lengths": [
+        28
+      ],
+      "note": "every formal-period day must use exactly 28 effective history days",
+      "passed": true
+    },
+    "lightgbm": {
+      "distinct_lengths": [
+        28
+      ],
+      "note": "every formal-period day must use exactly 28 effective history days",
+      "passed": true
+    }
+  },
+  "monotone_in_alpha": {
+    "ridge": {
+      "max_downward_step_kWh": 0.0,
+      "slot_days_changed_between_adjacent_levels": 192384,
+      "slot_days_compared": 192384,
+      "note": "the protection amount is non-decreasing in alpha; because the residual series is continuous, adjacent levels almost always select distinct order statistics, so the changed count is close to the number of comparisons",
+      "passed": true
+    },
+    "lightgbm": {
+      "max_downward_step_kWh": 0.0,
+      "slot_days_changed_between_adjacent_levels": 192384,
+      "slot_days_compared": 192384,
+      "note": "the protection amount is non-decreasing in alpha; because the residual series is continuous, adjacent levels almost always select distinct order statistics, so the changed count is close to the number of comparisons",
+      "passed": true
+    }
+  },
+  "m6_falls_back": {
+    "window_days": 6,
+    "correction_kWh": 0.0,
+    "reason": "insufficient_history(m=6<7)",
+    "expected": "m=6 < 7 -> no correction",
+    "passed": true
+  },
+  "m7_sorts_normally": {
+    "m": 7,
+    "index": 6,
+    "value": 5.0,
+    "expected": "ceil(7*0.8)=6 -> the 6th smallest of the seven values = 5.0",
+    "passed": true
+  },
+  "negative_correction_retained": {
+    "value": -5.0,
+    "note": "negative corrections are not clipped at zero",
+    "passed": true
+  },
+  "duplicate_values": {
+    "correction_kWh": 7.0,
+    "note": "repeated residuals make adjacent levels select the same order statistic",
+    "passed": true
+  },
+  "nan_input_must_fail": {
+    "probe_index": 23,
+    "sorted_value_at_probe": 0.0,
+    "nan_lands_at_sorted_position": 28,
+    "note": "np.sort places NaN last, so a single NaN does not necessarily corrupt the chosen order statistic; the input gate must therefore reject it up front rather than rely on sorting",
+    "input_gate_rejects_nan": true,
+    "passed": true
+  },
+  "all_passed": true
+}

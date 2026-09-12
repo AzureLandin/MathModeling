@@ -1,0 +1,58 @@
+{
+  "day": "2025-06-21",
+  "rows": [
+    {
+      "strategy_id": "R_q70",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "R_q75",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "R_q80",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "R_q85",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "R_q90",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "L_q70",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "L_q75",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "L_q80",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "L_q85",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    },
+    {
+      "strategy_id": "L_q90",
+      "prefix_max_difference": 0.0,
+      "full_day_max_difference": 9600.0
+    }
+  ],
+  "prefix_unchanged": true,
+  "later_slots_do_change": true,
+  "passed": true
+}

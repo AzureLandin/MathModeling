@@ -1,0 +1,313 @@
+{
+  "scope": "Saved-output arithmetic and archive review only; no training or MILP replay.",
+  "groups": {
+    "G0_naive_gate": {
+      "rows": 48096,
+      "total_cost_yuan": 14158360.533742815,
+      "planned_cost_yuan": 13618814.541329559,
+      "emergency_cost_yuan": 539545.9924132547,
+      "cost_vs_summary": 0.0,
+      "balance_error_kWh": 4.618527782440651e-13,
+      "state_error_kWh": 4.547473508864641e-12,
+      "continuity_error_kWh": 0.0,
+      "energy_error_kWh": -1.9726940081454813e-09,
+      "emergency_slots": 545,
+      "emergency_days": 106,
+      "emergency_events": 172,
+      "initial_kWh": 8801.462273333342,
+      "final_kWh": 6386.641606851853,
+      "planned_kWh": 22189694.54651042,
+      "emergency_kWh": 90293.65026662749,
+      "unused_kWh": 3130022.9895519074,
+      "loss_kWh": 1213190.532924959,
+      "metrics": {
+        "load": {
+          "mae": 176.79572117223884,
+          "rmse": 244.28661499529923
+        },
+        "pv": {
+          "mae": 185.34670601921155,
+          "rmse": 375.17487814648325
+        },
+        "net": {
+          "mae": 303.8291541375582,
+          "rmse": 448.2115419716763
+        }
+      }
+    },
+    "G1_ridge_gate": {
+      "rows": 48096,
+      "total_cost_yuan": 13724593.278482819,
+      "planned_cost_yuan": 13297835.041471459,
+      "emergency_cost_yuan": 426758.23701136035,
+      "cost_vs_summary": -1.862645149230957e-09,
+      "balance_error_kWh": 4.547473508864641e-13,
+      "state_error_kWh": 4.547473508864641e-12,
+      "continuity_error_kWh": 0.0,
+      "energy_error_kWh": -2.0413608581293374e-09,
+      "emergency_slots": 515,
+      "emergency_days": 123,
+      "emergency_events": 205,
+      "initial_kWh": 8801.462273333342,
+      "final_kWh": 6197.843078466478,
+      "planned_kWh": 21743053.909096226,
+      "emergency_kWh": 68754.61605788155,
+      "unused_kWh": 2644483.183119474,
+      "loss_kWh": 1230739.4662628374,
+      "metrics": {
+        "load": {
+          "mae": 150.02486407635743,
+          "rmse": 195.98837941402917
+        },
+        "pv": {
+          "mae": 152.0413763306946,
+          "rmse": 303.31841474989403
+        },
+        "net": {
+          "mae": 248.8581051352954,
+          "rmse": 361.03486034454136
+        }
+      }
+    },
+    "G2_lightgbm_gate": {
+      "rows": 48096,
+      "total_cost_yuan": 13680001.420637704,
+      "planned_cost_yuan": 13278448.803895103,
+      "emergency_cost_yuan": 401552.6167426024,
+      "cost_vs_summary": -1.862645149230957e-09,
+      "balance_error_kWh": 4.547473508864641e-13,
+      "state_error_kWh": 4.547473508864641e-12,
+      "continuity_error_kWh": 0.0,
+      "energy_error_kWh": -2.0122570276726037e-09,
+      "emergency_slots": 448,
+      "emergency_days": 126,
+      "emergency_events": 191,
+      "initial_kWh": 8801.462273333342,
+      "final_kWh": 6236.456532540259,
+      "planned_kWh": 21725832.793547455,
+      "emergency_kWh": 64391.110959228456,
+      "unused_kWh": 2620579.522961395,
+      "loss_kWh": 1233019.8923194152,
+      "metrics": {
+        "load": {
+          "mae": 138.05211661140402,
+          "rmse": 183.49505959501334
+        },
+        "pv": {
+          "mae": 152.37981943245296,
+          "rmse": 308.53447184453273
+        },
+        "net": {
+          "mae": 243.35647238334258,
+          "rmse": 360.2378680095867
+        }
+      }
+    }
+  },
+  "q80_review": {
+    "G0_naive_gate": {
+      "missing_forecast_dates": {
+        "load": [],
+        "pv": []
+      },
+      "affected_dates": []
+    },
+    "G1_ridge_gate": {
+      "missing_forecast_dates": {
+        "load": [
+          "2025-01-02",
+          "2025-01-03",
+          "2025-01-04",
+          "2025-01-05",
+          "2025-01-06",
+          "2025-01-07",
+          "2025-01-08"
+        ],
+        "pv": [
+          "2025-01-02",
+          "2025-01-03",
+          "2025-01-04",
+          "2025-01-05",
+          "2025-01-06",
+          "2025-01-07"
+        ]
+      },
+      "affected_dates": [
+        {
+          "date": "2025-02-01",
+          "counted_dates": 28,
+          "finite_dates_min": 23,
+          "finite_dates_max": 23,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.7763568394002505e-13,
+          "changed_slots_after_fallback": 144,
+          "max_q80_difference_kWh": 108.16101065973878,
+          "delta_q80_sum_kWh": -5113.762163708667
+        },
+        {
+          "date": "2025-02-02",
+          "counted_dates": 28,
+          "finite_dates_min": 24,
+          "finite_dates_max": 24,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.9184653865522705e-13,
+          "changed_slots_after_fallback": 144,
+          "max_q80_difference_kWh": 73.15067235718502,
+          "delta_q80_sum_kWh": -2839.8430729761303
+        },
+        {
+          "date": "2025-02-03",
+          "counted_dates": 28,
+          "finite_dates_min": 25,
+          "finite_dates_max": 25,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.4210854715202004e-13,
+          "changed_slots_after_fallback": 144,
+          "max_q80_difference_kWh": 72.74919757644908,
+          "delta_q80_sum_kWh": -2245.549374973651
+        },
+        {
+          "date": "2025-02-04",
+          "counted_dates": 28,
+          "finite_dates_min": 26,
+          "finite_dates_max": 26,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 2.1316282072803006e-13,
+          "changed_slots_after_fallback": 138,
+          "max_q80_difference_kWh": 45.438523773436366,
+          "delta_q80_sum_kWh": -1150.0520483441553
+        },
+        {
+          "date": "2025-02-05",
+          "counted_dates": 28,
+          "finite_dates_min": 27,
+          "finite_dates_max": 27,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.509903313490213e-13,
+          "changed_slots_after_fallback": 116,
+          "max_q80_difference_kWh": 45.438523773436366,
+          "delta_q80_sum_kWh": -637.9088299930777
+        }
+      ]
+    },
+    "G2_lightgbm_gate": {
+      "missing_forecast_dates": {
+        "load": [
+          "2025-01-02",
+          "2025-01-03",
+          "2025-01-04",
+          "2025-01-05",
+          "2025-01-06",
+          "2025-01-07",
+          "2025-01-08"
+        ],
+        "pv": [
+          "2025-01-02",
+          "2025-01-03",
+          "2025-01-04",
+          "2025-01-05",
+          "2025-01-06",
+          "2025-01-07"
+        ]
+      },
+      "affected_dates": [
+        {
+          "date": "2025-02-01",
+          "counted_dates": 28,
+          "finite_dates_min": 23,
+          "finite_dates_max": 23,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.7763568394002505e-13,
+          "changed_slots_after_fallback": 144,
+          "max_q80_difference_kWh": 148.3399222054283,
+          "delta_q80_sum_kWh": -5464.277219274397
+        },
+        {
+          "date": "2025-02-02",
+          "counted_dates": 28,
+          "finite_dates_min": 24,
+          "finite_dates_max": 24,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.8474111129762605e-13,
+          "changed_slots_after_fallback": 144,
+          "max_q80_difference_kWh": 72.01034925680229,
+          "delta_q80_sum_kWh": -2910.291070488478
+        },
+        {
+          "date": "2025-02-03",
+          "counted_dates": 28,
+          "finite_dates_min": 25,
+          "finite_dates_max": 25,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.2434497875801753e-13,
+          "changed_slots_after_fallback": 144,
+          "max_q80_difference_kWh": 75.82234908015319,
+          "delta_q80_sum_kWh": -2290.6917454298296
+        },
+        {
+          "date": "2025-02-04",
+          "counted_dates": 28,
+          "finite_dates_min": 26,
+          "finite_dates_max": 26,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 1.7053025658242404e-13,
+          "changed_slots_after_fallback": 139,
+          "max_q80_difference_kWh": 47.45299908015323,
+          "delta_q80_sum_kWh": -1150.6290585869056
+        },
+        {
+          "date": "2025-02-05",
+          "counted_dates": 28,
+          "finite_dates_min": 27,
+          "finite_dates_max": 27,
+          "selected_one_based_rank": 23,
+          "raw_sort_matches_saved_max_error": 2.3092638912203256e-13,
+          "changed_slots_after_fallback": 117,
+          "max_q80_difference_kWh": 36.337733089270984,
+          "delta_q80_sum_kWh": -609.4274484836009
+        }
+      ]
+    }
+  },
+  "registration_matches_run": true,
+  "source_matches_registration": true,
+  "manifest_clock_duration_seconds": 1.3e-05,
+  "manifest_perf_duration_seconds": 121.97254129988141,
+  "primary": {
+    "delta_total_cost_yuan": -44591.85784511352,
+    "delta_pct": -0.3249047672328758,
+    "improved_days": 192,
+    "improved_months": 9,
+    "monthly": {
+      "2025-02": 3928.1785644499214,
+      "2025-03": -14104.78377061301,
+      "2025-04": -7054.230356146118,
+      "2025-05": -2666.559876665011,
+      "2025-06": -4519.972275906941,
+      "2025-07": 6518.110797358644,
+      "2025-08": -2063.2459127791917,
+      "2025-09": -4934.797986512469,
+      "2025-10": -10995.186946030784,
+      "2025-11": -5447.710334642557,
+      "2025-12": -3251.659747625996
+    },
+    "mae_change_pct": {
+      "load": -7.980508790102759,
+      "pv": 0.22259934099928547,
+      "net": -2.210750881094181
+    }
+  },
+  "source_hashes": {
+    "results/q2_lightgbm_residual/registration.json": "893d46b5f6feeba28f9343f9a2ac54e9e0f8a60e87be290f3d26d2b5f4a82a10",
+    "results/q2_lightgbm_residual/run_manifest.json": "ab0320809332d2030bf7667710048b3225d906262290f3e7eccc4ab095e28db3",
+    "code/19_q2_lightgbm_residual_experiment.py": "5e28f4866a1b73a44c5c66ac0d0ae82d0d58078b7d12285bcfeffde0e1c00b76",
+    "results/q2_lightgbm_residual/comparison.csv": "a57ae1c4284c09bd981b88eb1b3f60da36bfea940dcf36d48fc194a5fb019156",
+    "results/q2_lightgbm_residual/G0_naive_gate/dispatch.csv": "c471882135707fc99063c0fbb8dba6a140d1a27531707c5678ba7d1ad8a663ce",
+    "results/q2_lightgbm_residual/G0_naive_gate/forecast_residuals.csv": "b073005f24ff6cf2bdff7d5141af24adc4f64ec8c627ac4b5b9b68f624023dd1",
+    "results/q2_lightgbm_residual/G1_ridge_gate/dispatch.csv": "2d48f4ed2d3669f5f395cb1dd00928430c41f5d8bdf31ce878aa49032b6acac1",
+    "results/q2_lightgbm_residual/G1_ridge_gate/forecast_residuals.csv": "5769ad8fcec68e2fc7a6073b55c707b73dae2d7a37b85d85a9cdf4f40d30bc8a",
+    "results/q2_lightgbm_residual/G2_lightgbm_gate/dispatch.csv": "6ec8c8fc898d2e147b6cc77ab776a71efd76ba8199daebf0cace2de53f3eb030",
+    "results/q2_lightgbm_residual/G2_lightgbm_gate/forecast_residuals.csv": "73c254a5ccd221b160ac1e76f343cb7d076dce329414a589410d59ff6c15ac4b"
+  },
+  "inputs_changed_during_review": []
+}

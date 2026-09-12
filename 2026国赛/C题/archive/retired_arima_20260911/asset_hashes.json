@@ -1,0 +1,318 @@
+[
+  {
+    "Relative": "code\\17_q2_arima_residual_experiment.py",
+    "SHA256": "9A7DEE04A3234385944EB202D0E80701D2B4AB90067317A99BB0624C94442E20"
+  },
+  {
+    "Relative": "code\\__pycache__\\17_q2_arima_residual_experiment.cpython-314.pyc",
+    "SHA256": "093234AE17A6B8FB89B2E358AC7FF325F740A87EDB420BA88E211B96D4C57534"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\arima_candidates.json",
+    "SHA256": "B132D19CF4A700E2E433969F7095BFDEF68F21BC3952B28A185C2536474575FE"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\arima_candidates.npz",
+    "SHA256": "3D1CE45DA6FD722876A0F5D6B0D93E956F4C3C4F9294C22178D2380938B1BAF3"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\arima_rebuild_check.json",
+    "SHA256": "1D752A8132396BFC060E01A183D0CF661988C1DC483475691C37275D220E1798"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\boundary_checks.json",
+    "SHA256": "438B48CE37C82D88FF618C1E1A9BB550DE8FFF1BC7F14F8951E7728F8C9F5207"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\comparison.csv",
+    "SHA256": "18A3E38F078130585538A41E726A211F63D4B0CAC92A00D35917553129607E85"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\energy_contrasts.csv",
+    "SHA256": "EE1389D0546F406E4E8626B9936958ABF9DD5948122148740AB42FC294AEC055"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\fit_failure_summary.csv",
+    "SHA256": "D8766671C9A2449291E0FC30122305A9895398141C987C8C6F23E5DE025696C4"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\fit_log.csv",
+    "SHA256": "4F2A413BD3B049CED51F424F8CAAE7759474D429283F9E331741788F42D184D3"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\forecast_metrics_hourly.csv",
+    "SHA256": "8246F25D4FAE44CA894B49C33913246BAC15C7A2D99C2841CD55F64B674081FB"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\forecast_metrics_monthly.csv",
+    "SHA256": "822D885B1FBE60B612E4521DF4585C4162FEBD6146D2406E680DA5C29FC590D5"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\forecast_metrics.csv",
+    "SHA256": "B6438793BCAFF2790C1D7DCF7970669EA0AEC3881D546E49A0CC57A2A4FEA6CE"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\gate_effect.csv",
+    "SHA256": "316FCD045BC1D77BBDD22F361B6229B3E887B91003758D9A50893C30145E17FE"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\gate_mask.csv",
+    "SHA256": "EA220EAD903E5464E6C262FBACA6EA5EFAEF03F686D914B041CD99F231612012"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\monthly_contrasts.csv",
+    "SHA256": "8FECE94E7E829DEFA9497711DA84A4FA72AF2DD18677C9EB1034EB4CAACCFDAA"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\primary_contrasts.csv",
+    "SHA256": "E1BBCFECD8A3A45002E1EB8A4A33FEB2AB03558664326E1013DF055358254880"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\protected_before.json",
+    "SHA256": "D8CAC07D41F8E1C90AC51E5B7E0A8E7E0BD72E010DF28146EF631E8C9CA66DDB"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\pv_subsets.csv",
+    "SHA256": "47CB2B8942A7A8CD91470A050A783BDD26F116DCCD410C0834CF060FB4FEE51B"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\q80_coverage.csv",
+    "SHA256": "E376FCEBA8BDA33B6581ADF45ACF377510C43CCFF2B303393F4B8B8AEC12BE19"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\registration.json",
+    "SHA256": "94B932A694D744FF5A1621A137C449CB5EF5DB5E252922418021541BB094C763"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\residual_diagnostics.csv",
+    "SHA256": "81003CF02757597131FD74D635511605E420C5CA58600863B04692F8FA678235"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\selection_frequency_total.csv",
+    "SHA256": "BCEF393E8562DA5FE4756B330E4178ADA3DA15876FE99E0F4C066C101A4534DF"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\selection_frequency.csv",
+    "SHA256": "EE0D755DE77990466E7E131A12B09ABBF367C3415FDD4CAA057713B0D240B3A5"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\selection_log.csv",
+    "SHA256": "AB5322A823455CDE7695D8589B40C320E9F33F8AB07D8224632F0B543336ECE6"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\stability.csv",
+    "SHA256": "836431B9C8A8993CD0A659194A5334AB6F84A023BC99376204E1B6F5A381B35A"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\warmup_january.csv",
+    "SHA256": "1B0510AE930B9147299C173AAB010599146B2845C3A7A31E0F61857539902B6F"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\daily_summary.csv",
+    "SHA256": "0F6ABFD9D1AEA07FCEDF9FBFE361D224A117F0297D3C5C0F69C8B84E00D9B34A"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\dispatch.csv",
+    "SHA256": "C06681E8EF6D389E87535B2A1847379CEB599E8774D0B72EE7A0C2836736DCD4"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\emergency_events.csv",
+    "SHA256": "C191271F9D402BC789B43601B6CBFC6D009B2B930D3B13D0AB33105716D4042C"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\forecast_residuals.csv",
+    "SHA256": "3A6A34DDCCDED3A074A0EB0BBCBF26AF4CD38E0966DB4F9D17638CA7582A02A9"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\monthly_summary.csv",
+    "SHA256": "015E2F9D19970CD911061246BB85BF4563423B45A40B364FD9EFBDFC8CFBC90E"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\nominal_dispatch.csv",
+    "SHA256": "8248A3177C988243204A402DC1FE58B137AB26C40D41E9C2333472455293BFAB"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\solver_log.csv",
+    "SHA256": "ABB3B729ABCBD75644B0987251460FDEC3A05160124EEF0FC6E3B8C5409233B8"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A0_naive_gate\\validation.json",
+    "SHA256": "578C807F82578ED74B5924B5722C4FBBB089F3175361528DB3425F95F1731092"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\daily_summary.csv",
+    "SHA256": "4399154D1F068662436137B373F72B77793838C90FC2588E2709DFD851E58656"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\dispatch.csv",
+    "SHA256": "1FD031A1792FB0DA760925553A4E8175748C89F6DF3DFD56C9D657728F0835A3"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\emergency_events.csv",
+    "SHA256": "F3E3CF78B20E18EBF52BEA2AE5933551C5AFBA2CEF3AE773F5775778C25EC087"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\forecast_residuals.csv",
+    "SHA256": "CBF922BA64064B1B4BD3ABDD1B64625BEAD16CA0DF356CE20C38710096713EDE"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\monthly_summary.csv",
+    "SHA256": "ADE85576BB881D19EE5CBC85153BA21ACFCDF40077D083D4AAFAA16B0043BEA5"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\nominal_dispatch.csv",
+    "SHA256": "6DC4CCE53B61A063CF36FABA31288C7A2DE57FBB525500A3678CAA7F57B85B6F"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\solver_log.csv",
+    "SHA256": "9740717A6E85D55A09C9172DFD4B76FE198C3860BE16C69056032BDBBEDB320B"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A1_load_arima\\validation.json",
+    "SHA256": "64C733FF8761CA9CB182AC5F7D35690CFF7F1AE3852162A2DA747C7505C49F98"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\daily_summary.csv",
+    "SHA256": "D7EAC158A7FB4723D355245F844B7EF6850F6B585F5AF4AAB4B339BB3481C167"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\dispatch.csv",
+    "SHA256": "101604B4B62F46093CE22AE364F35DB87BA8CF4951A40D13765ABD98637FF997"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\emergency_events.csv",
+    "SHA256": "1B6D303F37A2E914C375CE6B70C0A8BA59DDEDDC9CCC56308930922A80FD0423"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\forecast_residuals.csv",
+    "SHA256": "689AD96FAC7934868E928E5F51148FF9F2E8FAB23E936123779D84F72B377C51"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\monthly_summary.csv",
+    "SHA256": "93DCE6F3B673A20B9329F51A039BD48DD43FDEEAA43864ED35A946B82AC33F62"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\nominal_dispatch.csv",
+    "SHA256": "504937537BAC6FE9A99FF7FE3488DFCBE9679097BFCFCA99CE1FBBBE65C8E4F9"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\solver_log.csv",
+    "SHA256": "D49E04214DE4CD37E1FA7AFA8C36C8646FC505D41FE7A51C17F197D048075112"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A2_pv_arima\\validation.json",
+    "SHA256": "3656786B9E463CAFCF7B79728B09E2CF9749DB98DEA02F8277C5AD5E49C47FD4"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\daily_summary.csv",
+    "SHA256": "7EC831C0B8E2FC523D0BC5AD9455A7F6DC169CC1D4205BF72DFC009CB9ABDDD6"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\dispatch.csv",
+    "SHA256": "854D11C615583FCBEE1907F2A0811B854A6B6A7EA855B64F3BC7FA82D415E8F5"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\emergency_events.csv",
+    "SHA256": "BC09C4F06F7EFCF94D5B4AD9FAE361A51D235CF08030B2635EB581DD4D70A891"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\forecast_residuals.csv",
+    "SHA256": "294BA6EB765F8C701A5C36137879D9510C54F8D820257C5FD14A6412FA8FA4F1"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\monthly_summary.csv",
+    "SHA256": "8C0D92C32B3C59BDCD7BC07F90F8B1BE1F5B4EA6AA1DA5F94C351D036309BB7D"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\nominal_dispatch.csv",
+    "SHA256": "2AAE6D6744578D5403A078DF8CD5B9572443F49007D1CC9679B4ABBBF43CD522"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\solver_log.csv",
+    "SHA256": "09C87FF3EAA67DFACD4830DD5E23EC2B75395E2CFEC7083E0678469C66833032"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\A3_both_arima\\validation.json",
+    "SHA256": "13EDC113B9D6988639DB297A5F90914F260FBFA17E1889AC33588E3BC24C9D64"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\daily_summary.csv",
+    "SHA256": "014588D70C53A75E7AED82DDEC285D173239116B765D1490DE1887CC8AA6457C"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\dispatch.csv",
+    "SHA256": "EC621E1D04BD86CFC739BB6BC299016E8D33760038CFE3D78785459B5C564B79"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\emergency_events.csv",
+    "SHA256": "656DA79A0B4C7284C975B3694A188A1B8BE455578666BE9707F12B783023BA1D"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\forecast_residuals.csv",
+    "SHA256": "0D330D6663F2A9A46DD874CB30CB89DDE1CF57364F43AEB97E341E8F9DB2B7E9"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\monthly_summary.csv",
+    "SHA256": "B82BA5B6C702D0B19FCAD2CE524A10806276E3B855FC60D6C7DE1E3343B66183"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\nominal_dispatch.csv",
+    "SHA256": "6E315DA7E3484297D2E6DEC74E67AD0D52FE8D8F1962B04C9076FD9245D2DF4D"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\solver_log.csv",
+    "SHA256": "56779D8330F8D7974970ED718F2869809043676B0180E037FDC4E68034FD6334"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C0_original_naive\\validation.json",
+    "SHA256": "C480DD398AA2C51E4DFE5A085C8FC3213A5868E75D5AABED8B47949AF73AB68D"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\daily_summary.csv",
+    "SHA256": "0DAB71D3DE1BD10C8ECD21DF6E3CD4C6D644ADEB429B9C5B64CE1734FAE15609"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\dispatch.csv",
+    "SHA256": "7AC43944D6FC66BD77E0FD04444D1D8BB2C9AC89D53F88323EA826ED95E2AF6F"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\emergency_events.csv",
+    "SHA256": "1AA0AB35F2B0610AEA2E788C38C376410B15A45907DD34AE3EA176C86E4D4C80"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\forecast_residuals.csv",
+    "SHA256": "AF07D0B95C300692CD2FB55828E55C9E5144F0348AE4AB93A1E53C20044F4B53"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\monthly_summary.csv",
+    "SHA256": "19833D5FF470CF3F60C179C3B904EAD372DCD5D2C2D227A718CA39424E9FC3E6"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\nominal_dispatch.csv",
+    "SHA256": "F99438118C935A36C26CEF3E7A9F7C512AD2FC2EB126FC1F9ED13AEFB3BE7680"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\solver_log.csv",
+    "SHA256": "C52CA74FAE756F3584747AF3F3F6539B3BE74C8F13DF678EF5E10A4981C398BF"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\C3_ridge_gate\\validation.json",
+    "SHA256": "8A8F5694DA63CFFD6A74D0AD5758B246A8FAD1CCBADB79775B916938491B26BE"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\source_archive\\experiment_plan.md",
+    "SHA256": "1C266617DD685B9638CF052383B4F9B13D2A25F4CCAADB2679726FA740012653"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\source_archive\\code\\14_q2_ridge_forecast_experiment.py",
+    "SHA256": "C775CBF0D4587DF56997B4617B130A446FE4B4F25A982E2A471889BABA1E6623"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\source_archive\\code\\16_q2_pv_night_gate.py",
+    "SHA256": "AEDF87F93329B08263D2DCA406C5475889DED39C5F4B799AED8546459F57564D"
+  },
+  {
+    "Relative": "results\\q2_arima_residual\\source_archive\\code\\17_q2_arima_residual_experiment.py",
+    "SHA256": "9A7DEE04A3234385944EB202D0E80701D2B4AB90067317A99BB0624C94442E20"
+  }
+]

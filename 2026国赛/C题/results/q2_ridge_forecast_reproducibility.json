@@ -1,0 +1,185 @@
+{
+  "purpose": "independent run-to-run reproducibility check of the registered experiment",
+  "method": "hash every artifact, re-execute the module under the identical registration (no amendment), re-hash, and compare every differing file field by field after excluding only wall-clock timing columns",
+  "compared_files": 72,
+  "byte_identical_files": 56,
+  "byte_mismatched_files": [
+    "R0_naive/daily_summary.csv",
+    "R0_naive/solver_log.csv",
+    "R0_naive/validation.json",
+    "R1_load_ridge/daily_summary.csv",
+    "R1_load_ridge/solver_log.csv",
+    "R1_load_ridge/validation.json",
+    "R2_pv_ridge/daily_summary.csv",
+    "R2_pv_ridge/solver_log.csv",
+    "R2_pv_ridge/validation.json",
+    "R3_both_ridge/daily_summary.csv",
+    "R3_both_ridge/solver_log.csv",
+    "R3_both_ridge/validation.json",
+    "artifact_hashes.json",
+    "comparison.csv",
+    "fit_log.csv",
+    "run_manifest.json"
+  ],
+  "delivery_metadata_files": [
+    "artifact_hashes.json",
+    "run_manifest.json"
+  ],
+  "timing_only_files": {
+    "R0_naive/daily_summary.csv": [
+      "solver_seconds"
+    ],
+    "R0_naive/solver_log.csv": [
+      "elapsed_seconds"
+    ],
+    "R1_load_ridge/daily_summary.csv": [
+      "solver_seconds"
+    ],
+    "R1_load_ridge/solver_log.csv": [
+      "elapsed_seconds"
+    ],
+    "R2_pv_ridge/daily_summary.csv": [
+      "solver_seconds"
+    ],
+    "R2_pv_ridge/solver_log.csv": [
+      "elapsed_seconds"
+    ],
+    "R3_both_ridge/daily_summary.csv": [
+      "solver_seconds"
+    ],
+    "R3_both_ridge/solver_log.csv": [
+      "elapsed_seconds"
+    ],
+    "comparison.csv": [
+      "solver_seconds"
+    ],
+    "fit_log.csv": [
+      "elapsed_seconds"
+    ]
+  },
+  "validation_json_files": [
+    "R0_naive/validation.json",
+    "R1_load_ridge/validation.json",
+    "R2_pv_ridge/validation.json",
+    "R3_both_ridge/validation.json"
+  ],
+  "unexplained_mismatches": [],
+  "field_level_evidence": {
+    "R0_naive/daily_summary.csv": {
+      "excluded_columns": [
+        "solver_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R0_naive/solver_log.csv": {
+      "excluded_columns": [
+        "elapsed_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap",
+        "mip_node_count"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R0_naive/validation.json": {
+      "excluded_columns": [
+        "*seconds"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R1_load_ridge/daily_summary.csv": {
+      "excluded_columns": [
+        "solver_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R1_load_ridge/solver_log.csv": {
+      "excluded_columns": [
+        "elapsed_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap",
+        "mip_node_count"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R1_load_ridge/validation.json": {
+      "excluded_columns": [
+        "*seconds"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R2_pv_ridge/daily_summary.csv": {
+      "excluded_columns": [
+        "solver_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R2_pv_ridge/solver_log.csv": {
+      "excluded_columns": [
+        "elapsed_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap",
+        "mip_node_count"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R2_pv_ridge/validation.json": {
+      "excluded_columns": [
+        "*seconds"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R3_both_ridge/daily_summary.csv": {
+      "excluded_columns": [
+        "solver_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R3_both_ridge/solver_log.csv": {
+      "excluded_columns": [
+        "elapsed_seconds"
+      ],
+      "retained_check_columns": [
+        "mip_gap",
+        "mip_node_count"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "R3_both_ridge/validation.json": {
+      "excluded_columns": [
+        "*seconds"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "fit_log.csv": {
+      "excluded_columns": [
+        "elapsed_seconds"
+      ],
+      "max_absolute_difference": 0.0
+    },
+    "comparison.csv": {
+      "excluded_columns": [
+        "solver_seconds"
+      ],
+      "max_absolute_difference": 0.0
+    }
+  },
+  "field_level_max_absolute_difference": 0.0,
+  "report_byte_identical": true,
+  "source_archive_matches_live_module": true,
+  "conclusion": "every physical, cost, energy, forecast and solver-quality artifact is byte-identical across runs; the only differing files are delivery metadata and files carrying solver wall-clock timings, and all remaining fields of those files are exactly equal"
+}

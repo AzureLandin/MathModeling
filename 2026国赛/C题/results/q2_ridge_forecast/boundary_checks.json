@@ -1,0 +1,82 @@
+{
+  "constant_feature_scale": {
+    "min_scale_before_guard": 0.33071891388307384,
+    "guarded_scale_min": 0.33071891388307384,
+    "note": "a constant column would take scale 1; no column of the load matrix is constant here",
+    "passed": true
+  },
+  "first_trainable_day": {
+    "load_day_index": 22,
+    "load_date": "2025-01-23",
+    "pv_day_index": 21,
+    "pv_date": "2025-01-22",
+    "expected": "load day index 22 (2025-01-23), pv day index 21 (2025-01-22)",
+    "passed": true
+  },
+  "first_seven_day_scoring": {
+    "load_day_index": 29,
+    "load_date": "2025-01-30",
+    "pv_day_index": 28,
+    "pv_date": "2025-01-29",
+    "expected": "load day index 29 (2025-01-30), pv day index 28 (2025-01-29)",
+    "passed": true
+  },
+  "tie_rule_takes_largest_lambda": {
+    "scores": {
+      "0.001": 10.0,
+      "0.01": 10.000000000001,
+      "0.1": 10.00000001,
+      "1": 11.0,
+      "10": 12.0
+    },
+    "tied": [
+      "0.001",
+      "0.01"
+    ],
+    "chosen": 0.01,
+    "expected": 1.0,
+    "passed": true
+  },
+  "quantile_index_28_days": {
+    "window_days": 28,
+    "theta": 0.8,
+    "zero_based_index": 22,
+    "expected": "ceil(28*0.8)-1 = 22 (the 23rd smallest)",
+    "passed": true
+  },
+  "quantile_index_small_sample": {
+    "five_values": [
+      -2.0,
+      0.0,
+      1.0,
+      3.0,
+      10.0
+    ],
+    "index_used": 3,
+    "value": 3.0,
+    "expected": "ceil(5*0.8)-1 = 3 -> the 4th smallest = 3.0",
+    "passed": true
+  },
+  "negative_correction_preserved": {
+    "probe_adjustment_min_kWh": -5.0,
+    "probe_adjustment_max_kWh": -5.0,
+    "forecast_net_max_kWh": 503.50333333333333,
+    "protected_net_min_kWh": -947.79,
+    "note": "an all-negative residual history yields a negative correction and may keep the protected net demand negative; nothing is clipped at zero",
+    "passed": true
+  },
+  "battery_and_power_limits": {
+    "empty_battery_emergency_kWh": 2000.0,
+    "full_battery_discharge_kWh": 833.3333333333333,
+    "full_battery_remaining_emergency_kWh": 1166.6666666666667,
+    "full_battery_unused_kWh": 2000.0,
+    "segment_limit_kWh": 833.3333333333333,
+    "passed": true
+  },
+  "zero_correction_recovers_naive": {
+    "max_difference_kW": 0.0,
+    "note": "with all ridge coefficients and intercepts at zero the issued forecast is the naive level",
+    "passed": true
+  },
+  "all_passed": true
+}

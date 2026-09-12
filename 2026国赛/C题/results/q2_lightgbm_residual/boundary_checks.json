@@ -1,0 +1,85 @@
+{
+  "first_trainable_day": {
+    "load_day_index": 22,
+    "load_date": "2025-01-23",
+    "pv_day_index": 21,
+    "pv_date": "2025-01-22",
+    "expected": "load day index 22 (2025-01-23), pv day index 21 (2025-01-22)",
+    "passed": true
+  },
+  "training_boundary_14_days": {
+    "days_with_13": {
+      "load": 1,
+      "pv": 1
+    },
+    "days_with_14": {
+      "load": 1,
+      "pv": 1
+    },
+    "trained_with_only_13_days": {
+      "load": false,
+      "pv": false
+    },
+    "note": "a 13-day window must fall back to the naive level; 14 days is the first training day",
+    "passed": true
+  },
+  "quantile_index_28_days": {
+    "zero_based_index": 22,
+    "expected": "ceil(28*0.8)-1 = 22 (the 23rd smallest)",
+    "passed": true
+  },
+  "quantile_index_small_sample": {
+    "index_used": 3,
+    "value": 3.0,
+    "expected": "ceil(5*0.8)-1 = 3 -> the 4th smallest = 3.0",
+    "passed": true
+  },
+  "negative_correction_preserved": {
+    "probe_adjustment_min_kWh": -5.0,
+    "note": "an all-negative residual history yields a negative correction; nothing is clipped at zero",
+    "passed": true
+  },
+  "battery_and_power_limits": {
+    "empty_battery_emergency_kWh": 2000.0,
+    "full_battery_discharge_kWh": 833.3333333333333,
+    "full_battery_remaining_emergency_kWh": 1166.6666666666667,
+    "full_battery_unused_kWh": 2000.0,
+    "segment_limit_kWh": 833.3333333333333,
+    "passed": true
+  },
+  "gate_boundaries": {
+    "active_window_is_37_103": true,
+    "untouched_before_seven_days": true,
+    "no_active_history_stays_ungated": true,
+    "day_seven_ignores_later_days": true,
+    "passed": true
+  },
+  "pre_feature_fallback": {
+    "thresholds": {
+      "load": 8,
+      "pv": 7
+    },
+    "note": "before the feature-valid day the published forecast is the causal naive fallback and day index 0 (2025-01-01) has no published prediction at all; module 14 left the whole pre-feature block unpublished",
+    "passed": true
+  },
+  "branch_consistency": {
+    "fitted_days": 687,
+    "fitted_with_zero_trees": 0,
+    "constant_days": 0,
+    "constant_with_trees": 0,
+    "fallback_days": 13,
+    "insufficient_days": 28,
+    "note": "a fitted day must carry at least one tree; a constant-target day must carry none",
+    "passed": true
+  },
+  "model_save_reload": {
+    "target": "load",
+    "day_index": 22,
+    "max_difference_kW": 0.0,
+    "model_file": "models/load_2025-01-23.txt",
+    "model_sha256": "e20c35ff7e4081e617e139bbb91b61d0186acd27f14119d6d7125b7c35ed37e7",
+    "note": "the saved model text is reloaded and must reproduce the issued forecast for that day",
+    "passed": true
+  },
+  "all_passed": true
+}

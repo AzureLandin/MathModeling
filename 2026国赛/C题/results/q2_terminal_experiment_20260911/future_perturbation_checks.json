@@ -1,0 +1,38 @@
+[
+  {
+    "policy": "B_adaptive",
+    "day": "2025-02-01",
+    "theta_same": true,
+    "score_error": 0.0,
+    "forecast_error": 0.0,
+    "correction_error": 0.0,
+    "plan_error": 0.0
+  },
+  {
+    "policy": "B_adaptive",
+    "day": "2025-07-20",
+    "theta_same": true,
+    "score_error": 0.0,
+    "forecast_error": 0.0,
+    "correction_error": 0.0,
+    "plan_error": 0.0
+  },
+  {
+    "policy": "S_adaptive_W56",
+    "day": "2025-02-01",
+    "theta_same": true,
+    "score_error": 0.0,
+    "forecast_error": 0.0,
+    "correction_error": 0.0,
+    "plan_error": 0.0
+  },
+  {
+    "policy": "T_q80_6000",
+    "day": "2025-07-20",
+    "theta_same": true,
+    "score_error": 0.0,
+    "forecast_error": 0.0,
+    "correction_error": 0.0,
+    "plan_error": 0.0
+  }
+]

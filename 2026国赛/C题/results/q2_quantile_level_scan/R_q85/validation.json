@@ -1,0 +1,63 @@
+{
+  "totals": {
+    "strategy_id": "R_q85",
+    "predictor_id": "ridge",
+    "alpha": 0.85,
+    "planned_kWh": 21983813.876274478,
+    "emergency_kWh": 52457.53160902916,
+    "unused_kWh": 2879705.6805317374,
+    "charge_kWh": 6419221.92358138,
+    "discharge_kWh": 5201845.691196275,
+    "loss_kWh": 1219905.0469355022,
+    "planned_cost_yuan": 13465631.951722862,
+    "emergency_cost_yuan": 324405.8211031235,
+    "total_cost_yuan": 13790037.772825986,
+    "emergency_slots": 408,
+    "emergency_days": 109,
+    "emergency_events": 166,
+    "evaluation_initial_kWh": 8801.462273333342,
+    "final_kWh": 6272.6477229374905,
+    "max_mip_gap": 2.994100705798092e-16,
+    "solver_seconds": 10.135566200595349,
+    "solver_failures": 0,
+    "mean_adjustment_kWh": 51.3916398468207,
+    "evaluated_days": 334,
+    "evaluated_slots": 48096
+  },
+  "validation": {
+    "checks": {
+      "balance": 4.547473508864641e-13,
+      "state_recursion": 9.094947017729282e-13,
+      "day_continuity": 0.0,
+      "capacity": 0.0,
+      "power": 0.0,
+      "nonnegative": 0.0,
+      "mutex": 0.0,
+      "nominal_terminal": 0.0,
+      "nominal_mutex": 5.738101539784335e-13,
+      "nominal_binary": 1.794120407794253e-13,
+      "nominal_recursion": 5.9756644077424426e-12
+    },
+    "energy_identity_residual_kWh": -9.235918696504086e-10,
+    "cost_reconciliation_yuan": 0.0,
+    "emergency_reconciliation_kWh": 0.0,
+    "nominal_check_max": 1.1916393797643346e-10,
+    "nominal_checks": {
+      "balance_kWh": 4.547473508864641e-13,
+      "state_recursion_kWh": 9.094947017729282e-13,
+      "state_bounds_kWh": 0.0,
+      "power_bounds_kWh": 0.0,
+      "nonnegative_kWh": 0.0,
+      "simultaneous_kWh": 0.0,
+      "nominal_bus_balance_max_abs_kWh": 2.8421709430404007e-13,
+      "nominal_battery_balance_max_abs_kWh": 5.9756644077424426e-12,
+      "nominal_boundary_error_kWh": 0.0,
+      "nominal_state_bound_violation_kWh": 3.183231456205249e-12,
+      "nominal_flow_bound_violation_kWh": 9.413270163349807e-11,
+      "nominal_simultaneous_charge_discharge_kWh": 5.738101539784335e-13,
+      "nominal_binary_integrality_error": 1.794120407794253e-13,
+      "nominal_binary_bound_violation": 1.7021034507522514e-13,
+      "nominal_binary_gate_violation_kWh": 1.1916393797643346e-10
+    }
+  }
+}

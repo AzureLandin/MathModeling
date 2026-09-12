@@ -1,0 +1,144 @@
+{
+  "cases": [
+    {
+      "day": 31,
+      "date": "2025-02-01",
+      "kind": "load",
+      "load_forecast_max_kW": 0.0,
+      "pv_forecast_max_kW": 0.0,
+      "load_template_equal": true,
+      "support_window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "plan_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 31,
+      "date": "2025-02-01",
+      "kind": "pv",
+      "load_forecast_max_kW": 0.0,
+      "pv_forecast_max_kW": 0.0,
+      "load_template_equal": true,
+      "support_window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "plan_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 171,
+      "date": "2025-06-21",
+      "kind": "load",
+      "load_forecast_max_kW": 0.0,
+      "pv_forecast_max_kW": 0.0,
+      "load_template_equal": true,
+      "support_window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "plan_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 171,
+      "date": "2025-06-21",
+      "kind": "pv",
+      "load_forecast_max_kW": 0.0,
+      "pv_forecast_max_kW": 0.0,
+      "load_template_equal": true,
+      "support_window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "plan_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 354,
+      "date": "2025-12-21",
+      "kind": "load",
+      "load_forecast_max_kW": 0.0,
+      "pv_forecast_max_kW": 0.0,
+      "load_template_equal": true,
+      "support_window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "plan_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 354,
+      "date": "2025-12-21",
+      "kind": "pv",
+      "load_forecast_max_kW": 0.0,
+      "pv_forecast_max_kW": 0.0,
+      "load_template_equal": true,
+      "support_window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "plan_max_kWh": {
+        "F00_original": 0.0,
+        "F10_load_shape": 0.0,
+        "F01_pv_support": 0.0,
+        "F11_joint": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "scope": "load template and forward one-hour slope + PV support window + both training row sets + both published forecasts + all four groups q80 protection and ordinary plans on the issue day; post-reveal execution is not asserted"
+}

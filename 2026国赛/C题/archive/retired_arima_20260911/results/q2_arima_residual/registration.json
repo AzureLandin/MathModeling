@@ -1,0 +1,55 @@
+{
+  "registered_utc": "2026-09-11T09:20:28.481551+00:00",
+  "specification": "reports/问题二_ARIMA残差预测实验方案.md",
+  "parameters": {
+    "model": "statsmodels.tsa.arima.model.ARIMA, order in {(1,0,0),(0,0,1),(1,0,1)}, d=0, trend=\"c\"",
+    "candidates": [
+      "zero",
+      "ar1",
+      "ma1",
+      "arma11"
+    ],
+    "labels": "load u=L[k,t]-L[k-7,t] (k>=7); pv u=V[k,t]-V[k-1,t] (k>=1); per-slot across days",
+    "train_window_days": 56,
+    "min_train_days": 21,
+    "first_trainable": "load k=28 (2025-01-29), pv k=22 (2025-01-23)",
+    "validation_window_days": 14,
+    "min_selection_days": 7,
+    "first_seven_day_scoring": "load k=35 (2025-02-05), pv k=29 (2025-01-30)",
+    "standardisation": "per target/slot/day window mean and population std (ddof=0); constant -> bypass",
+    "constant_rule": "std <= 1e-08 kW -> all statistical candidates predict the window mean, flagged constant_bypass and not counted as a successful fit",
+    "tie_rule": "within 1e-10*max(1,S_min) choose by order zero, ar1, ma1, arma11",
+    "fit_interface": "ARIMA(z, order, trend=\"c\", enforce_stationarity=True, enforce_invertibility=True).fit(method=\"statespace\", cov_type=\"none\", method_kwargs={lbfgs, maxiter=200, pgtol=1e-8, factr=1e7, disp=False})",
+    "failure_rule": "exception / converged=False / non-finite params, likelihood or forecast / |ar|>=1 or |ma|>=1 -> fit_failure, that slot falls back to the naive level",
+    "gate": "past-only PV support gate inherited from code/16: from the previous 7 days take the earliest and latest slots whose max PV exceeded 1.0 kW, pad 3 slots each side, zero outside",
+    "residual_window_days": 28,
+    "theta": 0.8,
+    "terminal_kWh": 6000.0,
+    "evaluation": "2025-02-01..2025-12-31, 334 days, 48096 slots per group",
+    "reference_cost_yuan": {
+      "C0": 14158360.48714,
+      "C3": 13724593.278483,
+      "historical_ungated_R3": 13722565.421093
+    },
+    "solvers": "frozen scipy.optimize.milp/HiGHS kernel, relative gap 1e-9, time limit 120 s"
+  },
+  "input_sha256": {
+    "code/14_q2_ridge_forecast_experiment.py": "c775cbf0d4587df56997b4617b130a446fe4b4f25a982e2a471889baba1e6623",
+    "code/16_q2_pv_night_gate.py": "aedf87f93329b08263d2dca406c5475889ded39c5f4b799aed8546459f57564d",
+    "code/17_q2_arima_residual_experiment.py": "9a7dee04a3234385944eb202d0e80701d2b4ab90067317a99bb0624c94442e20",
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "results/audit/audit_summary.json": "a2685e9d1252c10ff7b9cefab7bc5e618134245116a7552b5baca4779eb3c70f",
+    "reports/问题二_ARIMA残差预测实验方案.md": "1c266617dd685b9638cf052383b4f9b13d2a25f4ccaadb2679726fa740012653"
+  },
+  "snapshot_sha256": {
+    "code/02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "code/05_q2_baseline.py": "ff833234b2d324127fd34fed3919aaa66aa2c0c2e2d57da1ca2006c25de286b0",
+    "code/08_q2_quantile_experiment.py": "c49115e1e3229f0eeb9a89b504df8d49e67e866b3119c5a1fafb654408e15b8c"
+  },
+  "code_sha256": "9a7dee04a3234385944eb202d0e80701d2b4ab90067317a99bb0624c94442e20",
+  "statsmodels": "0.14.6",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "signature": "5bb42652d2099afaccb01f663b6d3a56f0964f4741eae5f48a5b70432508fc02"
+}

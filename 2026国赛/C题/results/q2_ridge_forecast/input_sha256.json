@@ -1,0 +1,23 @@
+{
+  "live": {
+    "code/02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "code/05_q2_baseline.py": "ff833234b2d324127fd34fed3919aaa66aa2c0c2e2d57da1ca2006c25de286b0",
+    "code/08_q2_quantile_experiment.py": "c49115e1e3229f0eeb9a89b504df8d49e67e866b3119c5a1fafb654408e15b8c",
+    "code/09_q2_quantile_diagnostics.py": "700f8752bbc961343054f880069980e8d4df6a997b40d3dbebfcfca726bae229",
+    "code/10_q2_terminal_experiment.py": "25dd3f61e8b91fff15ae920b73f39e242f59acd63ca431097cf1436ca2e50433",
+    "code/12_q2_terminal_sensitivity.py": "1e05ba40f5004672d58d712ce80215fc6b38930168f6eafcc555caa5e31c6311",
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "results/audit/audit_summary.json": "a2685e9d1252c10ff7b9cefab7bc5e618134245116a7552b5baca4779eb3c70f",
+    "reports/问题二_岭回归残差预测实验方案.md": "bfc9b40016a977c4fe87855dcb455a5fad25f1804f65f0867f81d2aef341e9c8",
+    "results/q2_terminal_sensitivity/T_q80_6000/dispatch.csv": "025eb56a47d89e77286db2b46aae38a9c12ee4a9580a70a168f77a0c8fea3773",
+    "results/q2_terminal_sensitivity/T_q80_6000/daily_summary.csv": "39cea10ded0ec46585eff457272d785f0584c2082e7b3dae2844f9769c0ad6bf",
+    "results/q2_terminal_sensitivity/T_q80_6000/validation.json": "30b26738beec646ffaa9bccbbb6f74d1fbee05d3c10a884fd03981a89dd914c1",
+    "results/q2_terminal_sensitivity/registration.json": "cbeeb5947f8400f0a41d577b973bde73f4a06b5a9acbc801e36b83c9f026b49c"
+  },
+  "snapshot": {
+    "code/02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "code/05_q2_baseline.py": "ff833234b2d324127fd34fed3919aaa66aa2c0c2e2d57da1ca2006c25de286b0",
+    "code/08_q2_quantile_experiment.py": "c49115e1e3229f0eeb9a89b504df8d49e67e866b3119c5a1fafb654408e15b8c"
+  }
+}

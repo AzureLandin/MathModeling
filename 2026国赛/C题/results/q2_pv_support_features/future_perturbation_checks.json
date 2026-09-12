@@ -1,0 +1,114 @@
+{
+  "cases": [
+    {
+      "day": 31,
+      "date": "2025-02-01",
+      "kind": "pv",
+      "forecast_max_kW": 0.0,
+      "gate_equal": true,
+      "window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "plan_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 31,
+      "date": "2025-02-01",
+      "kind": "load",
+      "forecast_max_kW": 0.0,
+      "gate_equal": true,
+      "window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "plan_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 171,
+      "date": "2025-06-21",
+      "kind": "pv",
+      "forecast_max_kW": 0.0,
+      "gate_equal": true,
+      "window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "plan_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 171,
+      "date": "2025-06-21",
+      "kind": "load",
+      "forecast_max_kW": 0.0,
+      "gate_equal": true,
+      "window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "plan_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 354,
+      "date": "2025-12-21",
+      "kind": "pv",
+      "forecast_max_kW": 0.0,
+      "gate_equal": true,
+      "window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "plan_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "passed": true
+    },
+    {
+      "day": 354,
+      "date": "2025-12-21",
+      "kind": "load",
+      "forecast_max_kW": 0.0,
+      "gate_equal": true,
+      "window_equal": true,
+      "training_rows_equal": true,
+      "protection_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "plan_max_kWh": {
+        "0.80": 0.0,
+        "0.75": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "scope": "support window + gate + training rows + published PV + both alpha protections + both ordinary plans on the issue day; post-reveal execution is not asserted"
+}

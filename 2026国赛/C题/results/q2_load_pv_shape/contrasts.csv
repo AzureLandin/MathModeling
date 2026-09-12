@@ -1,0 +1,7 @@
+﻿comparison,treatment,baseline,delta_planned_cost_yuan,delta_emergency_cost_yuan,delta_total_cost_yuan,delta_planned_kWh,delta_emergency_kWh,delta_unused_kWh,delta_emergency_days,delta_emergency_events,delta_total_cost_percent
+F10_load_shape minus F00_original (pre-registered load comparison),F10_load_shape,F00_original,4887.807414915413,10408.79797241313,15296.605387330055,6003.764947962016,1928.1027869295576,8358.037968703546,-8.0,-10.0,0.11187387653194421
+F01_pv_support minus F00_original (pre-registered PV comparison),F01_pv_support,F00_original,-276.58903696760535,-13936.3318392426,-14212.920876212418,-2339.518548116088,-2012.7780231865254,-4249.626138436608,-3.0,-6.0,-0.10394819732884646
+F11_joint minus F00_original (pre-registered joint comparison),F11_joint,F00_original,4349.647445900366,2100.7564347668667,6450.403880666941,3648.2724290043116,735.8835682059653,5056.647671084385,-9.0,-13.0,0.04717593669015112
+F11_joint minus F01_pv_support (conditional on load frozen at F01),F11_joint,F01_pv_support,4626.236482867971,16037.088274009468,20663.32475687936,5987.7909771203995,2748.6615913924907,9306.273809520993,-6.0,-7.0,0.1512813882950243
+F11_joint minus F10_load_shape (conditional on PV frozen at F10),F11_joint,F10_load_shape,-538.159969015047,-8308.041537646262,-8846.201506663114,-2355.4925189577043,-1192.2192187235923,-3301.3902976191603,-1.0,-3.0,-0.06462564063238405
+interaction I_C = C11 - C10 - C01 + C00,F11_joint,additive model,,,5366.719369549304,,,,,,

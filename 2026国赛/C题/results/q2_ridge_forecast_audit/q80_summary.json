@@ -1,0 +1,34 @@
+{
+  "R0_naive": {
+    "days": 334,
+    "max_net_forecast_diff_kWh": 2.2737367544323206e-13,
+    "max_adjustment_diff_kWh": 2.842170943040401e-14,
+    "max_protected_diff_kWh": 2.2737367544323206e-13,
+    "stored_eps_check": 5.684341886080802e-14,
+    "passed": true
+  },
+  "R1_load_ridge": {
+    "days": 334,
+    "max_net_forecast_diff_kWh": 9.094947017729282e-13,
+    "max_adjustment_diff_kWh": 6.821210263296962e-13,
+    "max_protected_diff_kWh": 1.1937117960769683e-12,
+    "stored_eps_check": 9.094947017729282e-13,
+    "passed": true
+  },
+  "R2_pv_ridge": {
+    "days": 334,
+    "max_net_forecast_diff_kWh": 9.43600753089413e-12,
+    "max_adjustment_diff_kWh": 8.86757334228605e-12,
+    "max_protected_diff_kWh": 1.5802470443304628e-11,
+    "stored_eps_check": 9.549694368615746e-12,
+    "passed": true
+  },
+  "R3_both_ridge": {
+    "days": 334,
+    "max_net_forecast_diff_kWh": 9.549694368615746e-12,
+    "max_adjustment_diff_kWh": 8.807177209746442e-12,
+    "max_protected_diff_kWh": 1.4267698134062812e-11,
+    "stored_eps_check": 9.563905223330949e-12,
+    "passed": true
+  }
+}

@@ -1,0 +1,12 @@
+﻿treatment,baseline,month,delta_cost_yuan
+G2_lightgbm_gate,G1_ridge_gate,2025-02,3928.1785644497722
+G2_lightgbm_gate,G1_ridge_gate,2025-03,-14104.783770612907
+G2_lightgbm_gate,G1_ridge_gate,2025-04,-7054.230356146116
+G2_lightgbm_gate,G1_ridge_gate,2025-05,-2666.5598766650073
+G2_lightgbm_gate,G1_ridge_gate,2025-06,-4519.972275906708
+G2_lightgbm_gate,G1_ridge_gate,2025-07,6518.110797358677
+G2_lightgbm_gate,G1_ridge_gate,2025-08,-2063.2459127793554
+G2_lightgbm_gate,G1_ridge_gate,2025-09,-4934.797986512538
+G2_lightgbm_gate,G1_ridge_gate,2025-10,-10995.186946030939
+G2_lightgbm_gate,G1_ridge_gate,2025-11,-5447.710334642557
+G2_lightgbm_gate,G1_ridge_gate,2025-12,-3251.659747625934

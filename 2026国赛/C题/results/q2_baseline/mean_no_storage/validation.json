@@ -1,0 +1,34 @@
+{
+  "checks": {
+    "balance_kWh": 4.547473508864641e-13,
+    "state_recursion_kWh": 0,
+    "state_bounds_kWh": 0,
+    "power_bounds_kWh": 0,
+    "nonnegative_kWh": 0,
+    "simultaneous_kWh": 0
+  },
+  "totals": {
+    "planned_kWh": 20956518.36939881,
+    "emergency_kWh": 769187.3690178571,
+    "unused_kWh": 3786516.2434499995,
+    "charge_kWh": 0.0,
+    "discharge_kWh": 0.0,
+    "planned_cost_yuan": 16370115.273091882,
+    "emergency_cost_yuan": 3095505.3849514136,
+    "total_cost_yuan": 19465620.658043295,
+    "policy": "mean_no_storage",
+    "emergency_events": 4274,
+    "emergency_days": 333,
+    "emergency_cost_share": 0.15902423248304362,
+    "load_mae_kW": 188.8801444901863,
+    "pv_mae_kW": 153.39970672494297,
+    "net_mae_kW": 284.9047550708107,
+    "net_rmse_kW": 401.08784804278883,
+    "net_bias_actual_minus_forecast_kW": -2.1491271921930037,
+    "evaluation_initial_kWh": 6000.0,
+    "final_kWh": 6000.0,
+    "max_mip_gap": 0.0,
+    "solver_total_seconds": 0.0,
+    "worst_day": "2025-07-06"
+  }
+}

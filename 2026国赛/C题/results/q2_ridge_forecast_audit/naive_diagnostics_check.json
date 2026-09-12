@@ -1,0 +1,18 @@
+{
+  "recomputed": {
+    "mean_bias_kWh": -0.19807539850853845,
+    "mean_absolute_day_bias_kWh": 22.432543786732094,
+    "worst_positive_day_bias_kWh": 148.31156539351852,
+    "worst_negative_day_bias_kWh": -110.1277193287037,
+    "adjacent_day_same_slot_mean_correlation": -0.3169386586282195
+  },
+  "file": {
+    "mean_bias_kWh": -0.1980753985085384,
+    "mean_absolute_day_bias_kWh": 22.432543786732094,
+    "worst_positive_day_bias_kWh": 148.31156539351852,
+    "worst_negative_day_bias_kWh": -110.1277193287037,
+    "adjacent_day_same_slot_mean_correlation": -0.3169386586282195
+  },
+  "max_abs_difference": 5.551115123125783e-17,
+  "passed": true
+}

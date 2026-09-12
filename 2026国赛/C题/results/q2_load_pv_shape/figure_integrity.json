@@ -1,0 +1,34 @@
+[
+  {
+    "file": "q2_load_pv_load_error.png",
+    "width": 2240,
+    "height": 800,
+    "distinct_colours": 1311,
+    "non_white_fraction": 0.24297098214285714,
+    "readable": true
+  },
+  {
+    "file": "q2_load_pv_pv_error.png",
+    "width": 2240,
+    "height": 800,
+    "distinct_colours": 262,
+    "non_white_fraction": 0.18375055803571427,
+    "readable": true
+  },
+  {
+    "file": "q2_load_pv_costs.png",
+    "width": 1760,
+    "height": 800,
+    "distinct_colours": 449,
+    "non_white_fraction": 0.41635582386363634,
+    "readable": true
+  },
+  {
+    "file": "q2_load_pv_monthly_delta.png",
+    "width": 1760,
+    "height": 800,
+    "distinct_colours": 265,
+    "non_white_fraction": 0.09704616477272728,
+    "readable": true
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "point_forecast": [
+    {
+      "target": "load",
+      "unit": "kW",
+      "n": 48096,
+      "mae": 138.05211661140402,
+      "rmse": 183.49505959501334,
+      "bias": 3.409170792468147
+    },
+    {
+      "target": "pv",
+      "unit": "kW",
+      "n": 48096,
+      "mae": 151.82658467278205,
+      "rmse": 308.1701372940165,
+      "bias": 1.9688572925926755
+    },
+    {
+      "target": "net_demand",
+      "unit": "kWh per slot",
+      "n": 48096,
+      "mae": 40.39245185156549,
+      "rmse": 59.86839072761496,
+      "bias": 0.24005224997924543
+    }
+  ],
+  "mean_protection_kWh": 42.22930440841177,
+  "protection_min_kWh": -9.97226145616969,
+  "protection_max_kWh": 194.80563740361126,
+  "coverage": 0.7910013306719893,
+  "slots": 48096,
+  "protection_shared": true,
+  "note": "the two groups use this identical prediction and protection; it is reported once and asserted identical from the per-group dispatch"
+}

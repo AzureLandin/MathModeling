@@ -1,0 +1,237 @@
+{
+  "generated_utc": "2026-09-11T07:01:23.517143+00:00",
+  "day_index": 52,
+  "date": "2025-02-21",
+  "substituted_inputs": "附件2 小区负载 and 光伏发电实际功率 for the selected day",
+  "price_source": "附件1 (144 points), unchanged from the locked problem-1 model",
+  "not_used": [
+    "附件3 光伏预报",
+    "附件4 波动电价"
+  ],
+  "day_resolution": "2025-01-01 counts as day 1; the attachment row is day - 1 with the header at row 0",
+  "parameters": {
+    "dt_hours": 0.16666666666666666,
+    "eta_c": 0.9,
+    "eta_d": 0.9,
+    "state_min_kWh": 1200.0,
+    "state_max_kWh": 10800.0,
+    "power_max_kW": 5000.0,
+    "initial_kWh": 6000.0,
+    "milp_relative_gap": 1e-09,
+    "milp_time_limit_seconds": 120
+  },
+  "source_sha256": {
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "code/02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "code/13_q1_day52_recompute.py": "8fe764f66311c2ac4cfd0718cd780970ca5649826fc70e4dae92a00b99412617"
+  },
+  "results": {
+    "grid_kWh": 34203.35629794239,
+    "cost_yuan": 17456.796932609257,
+    "charge_kWh": 17883.01016460905,
+    "discharge_kWh": 14485.238233333333,
+    "unused_kWh": 5245.322333333335,
+    "loss_kWh": 3397.7719312757204,
+    "no_storage_cost_yuan": 30531.945979348333,
+    "saving_vs_no_storage_yuan": 13075.149046739076
+  },
+  "selected_intervals": [
+    {
+      "interval": "10:00-10:10",
+      "grid_kWh": 0.0,
+      "cost_yuan": 0.0
+    },
+    {
+      "interval": "12:00-12:10",
+      "grid_kWh": 0.0,
+      "cost_yuan": 0.0
+    },
+    {
+      "interval": "14:00-14:10",
+      "grid_kWh": 0.0,
+      "cost_yuan": 0.0
+    },
+    {
+      "interval": "16:00-16:10",
+      "grid_kWh": 134.16245000000004,
+      "cost_yuan": 110.96576239500003
+    },
+    {
+      "interval": "18:00-18:10",
+      "grid_kWh": 0.0,
+      "cost_yuan": 0.0
+    },
+    {
+      "interval": "20:00-20:10",
+      "grid_kWh": 0.0,
+      "cost_yuan": 0.0
+    }
+  ],
+  "four_hour_blocks": [
+    {
+      "interval": "00:00-04:00",
+      "charge_kWh": 1049.6768312757204,
+      "discharge_kWh": 0.0
+    },
+    {
+      "interval": "04:00-08:00",
+      "charge_kWh": 833.3333333333333,
+      "discharge_kWh": 5719.567916666667
+    },
+    {
+      "interval": "08:00-12:00",
+      "charge_kWh": 2020.521066666666,
+      "discharge_kWh": 125.67031666666668
+    },
+    {
+      "interval": "12:00-16:00",
+      "charge_kWh": 8646.1456,
+      "discharge_kWh": 0.0
+    },
+    {
+      "interval": "16:00-20:00",
+      "charge_kWh": 0.0,
+      "discharge_kWh": 6267.617933333333
+    },
+    {
+      "interval": "20:00-24:00",
+      "charge_kWh": 5333.333333333332,
+      "discharge_kWh": 2372.382066666667
+    }
+  ],
+  "lp_comparison": {
+    "designated_lp": {
+      "formulation": "core.solve(integer=False): linprog/HiGHS, c_t and d_t bounded independently by M, mutual exclusion relaxed",
+      "cost_yuan": 17456.796932609257,
+      "grid_kWh": 34203.35629794239,
+      "charge_kWh": 17883.01016460905,
+      "discharge_kWh": 14485.238233333333,
+      "unused_kWh": 5245.322333333335,
+      "state_min_kWh": 1200.0,
+      "state_max_kWh": 10800.0,
+      "solver": "HiGHS LP",
+      "cost_gap_vs_milp_yuan": 0.0
+    },
+    "z_relaxation_lp": {
+      "formulation": "same matrices as the MILP kernel with the charge-mode variable z in [0,1]; mutual-exclusion rows kept",
+      "cost_yuan": 17456.796932609257,
+      "grid_kWh": 34203.35629794239,
+      "charge_kWh": 17883.010164609048,
+      "discharge_kWh": 14485.238233333333,
+      "unused_kWh": 5245.322333333335,
+      "state_min_kWh": 1200.0,
+      "state_max_kWh": 10800.0,
+      "cost_gap_vs_milp_yuan": 0.0,
+      "cost_gap_vs_designated_lp_yuan": 0.0
+    },
+    "simultaneous_charge_discharge_kWh": {
+      "milp": 0.0,
+      "designated_lp": 0.0,
+      "z_relaxation_lp": 0.0,
+      "threshold_kWh": 1e-06
+    },
+    "decycled_designated_lp": {
+      "formulation": "c'=c-delta, d'=d-0.81*delta, w'=w+0.19*delta with delta=min(c, d/0.81); preserves q, the state path and the cost",
+      "removed_cycle_energy_kWh": 0.0,
+      "max_simultaneous_kWh": 0.0,
+      "cost_gap_vs_milp_yuan": 0.0,
+      "charge_kWh": 17883.01016460905,
+      "discharge_kWh": 14485.238233333333,
+      "unused_kWh": 5245.322333333335,
+      "state_recursion_gap_kWh": 9.094947017729282e-13,
+      "balance_gap_kWh": 2.2737367544323206e-13
+    },
+    "lp_vs_milp_slots": {
+      "grid_kWh": 333.33333333333337,
+      "charge_kWh": 333.3333333333333,
+      "discharge_kWh": 0.0,
+      "unused_kWh": 47.62553333333386,
+      "state_kWh": 300.0,
+      "slots_with_grid_difference": 2,
+      "slots_with_state_difference": 27,
+      "grid_total_difference_kWh": 0.0
+    },
+    "ordering_note": "LP with independent bounds has the widest feasible set, the z-relaxation LP a subset of it, and the MILP the smallest; hence cost(LP) <= cost(z-relax) <= cost(MILP) must hold.",
+    "feasible_set_ordering_holds": true,
+    "all_three_costs_equal": true
+  },
+  "diagnostic_terminal_scan": [
+    {
+      "terminal_kWh": 1200.0,
+      "grid_kWh": 28870.022964609052,
+      "cost_yuan": 15239.713599275925,
+      "charge_kWh": 12549.676831275716,
+      "discharge_kWh": 14485.238233333333,
+      "unused_kWh": 5245.322333333335,
+      "state_min_kWh": 1200.0,
+      "state_max_kWh": 10800.0,
+      "note": "diagnostic only; not the problem-1 model result"
+    },
+    {
+      "terminal_kWh": 6000.0,
+      "grid_kWh": 34203.35629794239,
+      "cost_yuan": 17456.796932609257,
+      "charge_kWh": 17883.01016460905,
+      "discharge_kWh": 14485.238233333333,
+      "unused_kWh": 5245.322333333335,
+      "state_min_kWh": 1200.0,
+      "state_max_kWh": 10800.0,
+      "note": "diagnostic only; not the problem-1 model result"
+    },
+    {
+      "terminal_kWh": 10800.0,
+      "grid_kWh": 39536.689631275716,
+      "cost_yuan": 19732.996932609258,
+      "charge_kWh": 23216.343497942384,
+      "discharge_kWh": 14485.238233333333,
+      "unused_kWh": 5245.322333333335,
+      "state_min_kWh": 1200.0,
+      "state_max_kWh": 10800.0,
+      "note": "diagnostic only; not the problem-1 model result"
+    }
+  ],
+  "comparison_vs_attachment1": {
+    "cost_difference_yuan": -17670.151656680377,
+    "grid_difference_kWh": -25279.342700411522,
+    "net_demand_difference_kWh": -29981.710400000004,
+    "same_price_curve": true,
+    "same_solver": true,
+    "same_terminal_rule": true
+  },
+  "validation": {
+    "model": "locked problem-1 MILP from code/02_q1_baseline.py, unchanged",
+    "substituted": "附件2 row for day 52 (2025-02-21): load and PV only",
+    "terminal_kWh": 6000.0,
+    "solver": "HiGHS MILP",
+    "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+    "elapsed_seconds": 0.0360767999663949,
+    "mip_gap": 0.0,
+    "nominal_checks": {
+      "bus_balance_max_abs_kWh": 2.2737367544323206e-13,
+      "battery_balance_max_abs_kWh": 9.094947017729282e-13,
+      "boundary_error_kWh": 0.0,
+      "state_bound_violation_kWh": 0.0,
+      "flow_bound_violation_kWh": 3.410605131648481e-13,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "binary_integrality_error": 7.216449660063518e-15,
+      "binary_bound_violation": 1.1102230246251565e-15,
+      "binary_gate_violation_kWh": 9.25185853854297e-13
+    },
+    "max_nominal_violation_kWh": 9.25185853854297e-13,
+    "lp_milp_cost_gap_yuan": 0.0,
+    "energy_identity_residual_kWh": 1.4097167877480388e-11,
+    "no_storage_analytic_gap_yuan": 0.0,
+    "terminal_state_kWh": 6000.0,
+    "final_state_kWh": 6000.0,
+    "state_min_kWh": 1200.0,
+    "state_max_kWh": 10800.0,
+    "thresholds": {
+      "physical_kWh": 1e-06,
+      "energy_identity_kWh": 1e-06
+    },
+    "physical_within_tolerance": true,
+    "energy_identity_within_tolerance": true,
+    "terminal_constraint_satisfied": true
+  }
+}
