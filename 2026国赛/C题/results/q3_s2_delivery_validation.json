@@ -1,0 +1,8 @@
+{
+  "q0_kWh_max_abs_error": 4.547473508864641e-13,
+  "q_eff_kWh_max_abs_error": 4.547473508864641e-13,
+  "storage_rows": 2005,
+  "emergency_rows": 532,
+  "emergency_total_error": 0.0,
+  "sha256": "97cf7a7c14c9d8fa447607982231178d4ac91715721173ede7cafd1a43b30c1d"
+}

@@ -1,0 +1,229 @@
+{
+  "status": "passed",
+  "signature": "0af78e11997bca90878b1b4cc98a9b68010de8b59b3774377c5c2c08f2dc6f17",
+  "checks": {
+    "inputs_and_protection": {
+      "identity": {
+        "net_f0_vs_frozen_net_c0_max_abs_kWh": 0.0,
+        "net_f0_compared_cells": 132495,
+        "f0_vs_issued_load_max_abs_kW": 0.0,
+        "f0_vs_issued_compared_cells": 52779
+      },
+      "public_initial": {
+        "initial_kWh": 6075.795025925926,
+        "carry_kWh": 0.0,
+        "carry_version": "public_January",
+        "carry_owner": "2025-01-31"
+      },
+      "f0_protection_rebuild": {
+        "max_abs_protected_kWh": 0.0,
+        "max_abs_rho_kWh": 0.0,
+        "cells": 132495,
+        "counts_identical": true
+      },
+      "f2_zero_version_equals_f0": {
+        "max_abs_kWh": 0.0,
+        "cells": 52779
+      },
+      "intraday_version_06_protection_max_abs_change_kWh": 134.8150668427579,
+      "intraday_version_12_protection_max_abs_change_kWh": 92.07932375771566,
+      "intraday_version_18_protection_max_abs_change_kWh": 132.95233444230803,
+      "spot_protection_groups": [
+        {
+          "k": 31,
+          "date": "2025-02-01",
+          "publication_hour": 6,
+          "h": 36,
+          "m": 28,
+          "position": 21,
+          "saved_position": 21,
+          "rho_kWh": 13.654005555555614,
+          "rebuilt_rho_kWh": 13.654005555555614,
+          "abs_difference_kWh": 0.0
+        },
+        {
+          "k": 171,
+          "date": "2025-06-21",
+          "publication_hour": 0,
+          "h": 144,
+          "m": 27,
+          "position": 21,
+          "saved_position": 21,
+          "rho_kWh": 44.85091006838928,
+          "rebuilt_rho_kWh": 44.85091006838928,
+          "abs_difference_kWh": 0.0
+        },
+        {
+          "k": 171,
+          "date": "2025-06-21",
+          "publication_hour": 18,
+          "h": 108,
+          "m": 28,
+          "position": 21,
+          "saved_position": 21,
+          "rho_kWh": 16.51134675266951,
+          "rebuilt_rho_kWh": 16.51134675266951,
+          "abs_difference_kWh": 0.0
+        }
+      ],
+      "boundary_perturbation": {
+        "day": "2025-06-21",
+        "perturb_kWh": 25.0,
+        "rows": [
+          {
+            "publication_hour": 0,
+            "max_abs_change_kWh": 0.0
+          },
+          {
+            "publication_hour": 6,
+            "max_abs_change_kWh": 0.0
+          }
+        ],
+        "max_abs_change_kWh": 0.0,
+        "rule": "only targets whose interval has NOT ended at the publication instant are shifted; that instant's protection must not move. The forecast causality itself was verified in the previous round and is not refitted here."
+      }
+    },
+    "adaptation": {
+      "day": "2025-06-21",
+      "k": 171,
+      "extra_milp_solves": 2,
+      "midnight": {
+        "auxiliary_state_estimate_kWh": 2356.7083852707583,
+        "saved_plan_cost_yuan": 20022.671686246373,
+        "resolved_plan_cost_yuan": 20022.671686246376,
+        "objective_delta_yuan": 3.637978807091713e-12,
+        "plan_max_delta_kWh": 5.684341886080802e-14,
+        "max_feasibility_violation_kWh": 8.242295734817162e-13,
+        "note": "objective equality is the gate; a nonzero plan delta would only reflect another equal-cost vertex of the same MILP"
+      },
+      "six": {
+        "update_instant_state_kWh": 3539.93318998118,
+        "old_score_yuan": 13282.60608532321,
+        "new_score_yuan": 12446.03080403792,
+        "score_improvement_yuan": 836.5752812852897,
+        "saved_candidate_score_yuan": 12446.030804037922,
+        "saved_accepted": true,
+        "replayed_accepted": true,
+        "candidate_max_delta_kWh": 5.684341886080802e-14,
+        "max_feasibility_violation_kWh": 2.4054832200211726e-12,
+        "note": "the old effective plan is the saved `previous` column of the plan archive, never a slice of the final ledger"
+      }
+    },
+    "saved_results": {
+      "note": "read back from the persisted CSV artifacts, not from the in-memory frames",
+      "S0_L75": {
+        "rows": 48097,
+        "nonfinite_dispatch_cells": 0,
+        "simultaneous_charge_discharge_kWh": 0.0,
+        "bus_balance_max_abs_kWh": 4.547473508864641e-13,
+        "battery_recurrence_max_abs_kWh": 4.547473508864641e-12,
+        "state_continuity_max_abs_kWh": 0.0,
+        "truth_reproduction_max_abs_kWh": 2.2737367544323206e-13,
+        "truth_compared_cells": 48097,
+        "ordinary_cash_max_abs_yuan": 4.547473508864641e-13,
+        "adjustment_cash_max_abs_yuan": 2.218364381079141e-13,
+        "emergency_cash_max_abs_yuan": 4.547473508864641e-13,
+        "cash_parts_vs_total_yuan": 0.0,
+        "natural_total_yuan": 13353822.038919853,
+        "template_total_yuan": 13354083.552569441,
+        "bridge_yuan": 261.5136495884508,
+        "max_solver_gap": 4.934883533766942e-16,
+        "solver_rows": 1336,
+        "nonfinite_objectives": 0,
+        "negative_gaps": 0,
+        "accept_rule_violations": 0,
+        "accept_rule_misses": 0,
+        "min_improvement_yuan_of_accepted": 0.0194818705931538,
+        "max_improvement_yuan_of_rejected": 9.094947017729282e-12
+      },
+      "S2_load_q75": {
+        "rows": 48097,
+        "nonfinite_dispatch_cells": 0,
+        "simultaneous_charge_discharge_kWh": 0.0,
+        "bus_balance_max_abs_kWh": 4.547473508864641e-13,
+        "battery_recurrence_max_abs_kWh": 4.547473508864641e-12,
+        "state_continuity_max_abs_kWh": 0.0,
+        "truth_reproduction_max_abs_kWh": 2.2737367544323206e-13,
+        "truth_compared_cells": 48097,
+        "ordinary_cash_max_abs_yuan": 4.547473508864641e-13,
+        "adjustment_cash_max_abs_yuan": 1.6697754290362354e-13,
+        "emergency_cash_max_abs_yuan": 4.547473508864641e-13,
+        "cash_parts_vs_total_yuan": 0.0,
+        "natural_total_yuan": 13330377.958340947,
+        "template_total_yuan": 13330637.869535515,
+        "bridge_yuan": 259.9111945684999,
+        "max_solver_gap": 4.1434246105939067e-10,
+        "solver_rows": 1336,
+        "nonfinite_objectives": 0,
+        "negative_gaps": 0,
+        "accept_rule_violations": 0,
+        "accept_rule_misses": 0,
+        "min_improvement_yuan_of_accepted": 6.03864882371272,
+        "max_improvement_yuan_of_rejected": null
+      }
+    }
+  },
+  "solves": {
+    "S2_formal": 1336,
+    "adaptation": 2,
+    "S0_full_year_reruns": 0
+  },
+  "protection_rebuild": "pure array arithmetic over the frozen archives; counted as 2 group rebuilds, not as zero work",
+  "delta_total_yuan": -23444.08057890646,
+  "verdict": "S2 比 S0 低 23,444.08 元：在本年度此固定配置下费用更低。这是「F2 负载修正＋相应残差保护＋调度响应」的组合效果，不能拆称纯当天信息价值，也不称最优",
+  "days": {
+    "refreshed": 143,
+    "worsened": 191,
+    "tied": 0,
+    "months_refreshed": 5,
+    "months_worsened": 6,
+    "largest_absolute": [
+      [
+        "2025-12-02",
+        -7881.406199923513
+      ],
+      [
+        "2025-07-01",
+        -7163.241410628747
+      ],
+      [
+        "2025-09-08",
+        -7142.79207898357
+      ]
+    ],
+    "largest_increase": [
+      [
+        "2025-09-04",
+        1991.101036552871
+      ],
+      [
+        "2025-07-03",
+        1977.2211799807483
+      ],
+      [
+        "2025-09-15",
+        1939.194541109151
+      ]
+    ],
+    "best_day": "2025-12-02:-7881.406200",
+    "delta_median_yuan": 58.383424109153566,
+    "baseline_total_yuan": 13353822.038919853
+  },
+  "zero_budget": {
+    "s0_full_year_reruns": 0,
+    "lightgbm_training": 0,
+    "weight_refits": 0,
+    "pv_rebuild": 0,
+    "public_january_dispatch": 0,
+    "parameter_sweeps": 0
+  },
+  "limitations": [
+    "所得差异是「F2 负载修正＋相应残差保护＋调度响应」的组合效果，不是纯当天信息价值，也不能判断 F2 一定比 F1 更节费。",
+    "点预测 MAE 改善不代表费用改善；本轮只报现金与风险指标，不反过来由 MAE 推费用。",
+    "2025 年已参与方法设计，这是同年后验回测，不是跨年盲测，也不是独立样本外验证。",
+    "应急风险与现金收益必须并列披露；现金已含 5 倍应急费，不额外发明题面没有的风险否决约束。",
+    "末期库存的 ν=0.8970555555555555 元/kWh 只是沿用原费用对照的辅助估值敏感性，不是真实终端市场价值，也不改现金主指标。",
+    "1,002 条午夜尾槽记录对应 334 个不同实际午夜区间、被三个版本各预测一次，不能当成三次实际发生；保留 S2 全年版本预测，不按本轮诊断事后把尾槽换回 F0。",
+    "没有任何图件经过目视核查（本 Agent 无法查看图像），只做程序化完整性检查。"
+  ]
+}

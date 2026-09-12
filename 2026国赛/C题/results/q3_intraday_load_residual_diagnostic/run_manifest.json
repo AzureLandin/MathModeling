@@ -1,0 +1,41 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T16:17:06.874542+00:00",
+  "finished_utc": "2026-09-12T16:17:07.550722+00:00",
+  "wall_seconds": 0.6761948999483138,
+  "timings": {
+    "inputs_seconds": 0.00795320002362132,
+    "features_seconds": 0.3964907000772655,
+    "checks_seconds": 0.02020330005325377,
+    "aggregates_seconds": 0.14474779996089637
+  },
+  "signature": "00db21edf9d336a85ebc9ea40ed5c39e6ecdf7f58720c7e8c59d3ed812c33864",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "zero_solves": {
+    "training": 0,
+    "milp_lp_dp": 0,
+    "storage_replay": 0,
+    "prediction_rebuild": 0,
+    "quantile_rebuild": 0
+  },
+  "inputs_read": [
+    "code/29_q2_time_mapping_experiment.py",
+    "code/q3_rolling_baseline_experiment.py",
+    "reports/问题三/问题三_日内负载残差可预测性轻量诊断方案.md",
+    "results/q2_time_mapping/archive_float.npz",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz"
+  ],
+  "outputs": {
+    "centered_summary.csv": "f124de96471562a4c438df0e72488030c4e80b46ccd09e75943c8437dee6cb6e",
+    "hourly_pairs.csv": "c9d2309cc94844b899ed007ab30224ccee0c2fbcc0f1ecf752df0d307a8d37e3",
+    "monthly_summary.csv": "ff80f9a755488bf67f67b4aae1ab15735900b247aac78b8182b2e53478beee8b",
+    "overall_summary.csv": "b0f0ea00f520285e3de9151cb6eb14050d029bc2bd48d2020c8f4c0664e813e2",
+    "publication_features.csv": "028796d8eef0585cf5346262709e33d171532167694347733cbe9faee3b52898",
+    "registration.json": "e98dcbeccff78ae0422facba2ca4e436f980a685b49ab5000a61fd8c57e96dba",
+    "source_archive/code/29_q2_time_mapping_experiment.py": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+    "source_archive/code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+    "source_archive/experiment_plan.md": "c39221548e0b40e3c7b8abcec3051356eef9516e52bd6872febfcd7ee62eec23",
+    "validation.json": "c83011c948932e21d4d4c6b7cfc9ea72b041e1aaafa96df9b97692b5c286180c"
+  }
+}

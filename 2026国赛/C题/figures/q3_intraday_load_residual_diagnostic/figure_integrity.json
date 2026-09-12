@@ -1,0 +1,11 @@
+{
+  "residual_correlation.png": {
+    "sha256": "f2b2b4b700195e8f24487bf05da1b7be7d6678dfd6495267c8e89f1f33b03978",
+    "bytes": 151820,
+    "width": 1520,
+    "height": 832,
+    "ink_coverage": 0.0879,
+    "distinct_colours": 1601,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

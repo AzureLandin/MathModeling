@@ -1,0 +1,345 @@
+{
+  "scope": "saved ledgers, feedback identities, summaries and six history targets; no solver",
+  "signature": "b67ff7c3125a7782236038353125be01b8843552b4811ac2f327c6bcd2ca3390",
+  "manifest_hash_checks": {
+    "C75/dispatch.csv": true,
+    "C75/nominal_trajectory.csv": true,
+    "C75/plan_versions.csv": true,
+    "C75/revision_decisions.csv": true,
+    "C75/solver_log.csv": true,
+    "C80/dispatch.csv": true,
+    "C80/nominal_trajectory.csv": true,
+    "C80/plan_versions.csv": true,
+    "C80/revision_decisions.csv": true,
+    "C80/solver_log.csv": true,
+    "checks.json": true,
+    "contrasts.csv": true,
+    "daily.csv": true,
+    "daily_contrasts.csv": true,
+    "L75/dispatch.csv": true,
+    "L75/nominal_trajectory.csv": true,
+    "L75/plan_versions.csv": true,
+    "L75/revision_decisions.csv": true,
+    "L75/solver_log.csv": true,
+    "monthly.csv": true,
+    "monthly_contrasts.csv": true,
+    "protection_q75.npz": true,
+    "registration.json": true,
+    "selected_dates.csv": true,
+    "selected_dates_contrasts.csv": true,
+    "source_archive/code/q3_rolling_baseline_experiment.py": true,
+    "source_archive/experiment_plan.md": true,
+    "summary.csv": true,
+    "validation.json": true
+  },
+  "wall_seconds_from_manifest": 151.92778180004098,
+  "groups": {
+    "L80": {
+      "ordinary_cost_yuan": 12930615.16877282,
+      "adjustment_cost_yuan": 431866.10524992,
+      "emergency_cost_yuan": 129830.99206441411,
+      "natural_total_yuan": 13492312.266087154,
+      "template_total_yuan": 13492578.670495674,
+      "emergency_kWh": 25269.234552697864,
+      "emergency_intervals": 449,
+      "emergency_days": 108,
+      "emergency_events": 186,
+      "final_natural_state_kWh": 1682.897933104455,
+      "final_template_state_kWh": 1642.1858636354666,
+      "initial_state_kWh": 6075.795025925926,
+      "rejected": {
+        "n": 129,
+        "hours": [
+          18
+        ],
+        "largest_total_kWh": 3.33333412072534e-05,
+        "largest_window_segments": 37,
+        "largest_date": "2025-07-22",
+        "candidate_minus_accepted_kWh": 0.00020000061959724036
+      },
+      "errors": {
+        "truth_kWh": 4.547473508864641e-13,
+        "charge_feedback_kWh": 2.1032064978498966e-12,
+        "discharge_feedback_kWh": 4.547473508864641e-13,
+        "emergency_feedback_kWh": 2.2737367544323206e-13,
+        "unused_feedback_kWh": 2.2737367544323206e-12,
+        "soc_recurrence_kWh": 4.604316927725449e-12,
+        "soc_continuity_kWh": 0.0
+      }
+    },
+    "L75": {
+      "ordinary_cost_yuan": 12771312.063726118,
+      "adjustment_cost_yuan": 396263.2741960229,
+      "emergency_cost_yuan": 186246.70099771133,
+      "natural_total_yuan": 13353822.038919853,
+      "template_total_yuan": 13354083.552569441,
+      "emergency_kWh": 36526.874321672105,
+      "emergency_intervals": 667,
+      "emergency_days": 139,
+      "emergency_events": 269,
+      "final_natural_state_kWh": 1501.3373595881317,
+      "final_template_state_kWh": 1447.2448202638957,
+      "initial_state_kWh": 6075.795025925926,
+      "rejected": {
+        "n": 100,
+        "hours": [
+          18
+        ],
+        "largest_total_kWh": 3.728928277269006e-11,
+        "largest_window_segments": 37,
+        "largest_date": "2025-08-02",
+        "candidate_minus_accepted_kWh": 5.815721237922844e-10
+      },
+      "errors": {
+        "truth_kWh": 4.547473508864641e-13,
+        "charge_feedback_kWh": 2.1032064978498966e-12,
+        "discharge_feedback_kWh": 4.548028620376954e-13,
+        "emergency_feedback_kWh": 3.410605131648481e-13,
+        "unused_feedback_kWh": 2.3021584638627246e-12,
+        "soc_recurrence_kWh": 4.547473508864641e-12,
+        "soc_continuity_kWh": 0.0
+      }
+    },
+    "C80": {
+      "ordinary_cost_yuan": 12931411.333380837,
+      "adjustment_cost_yuan": 444874.2359984701,
+      "emergency_cost_yuan": 136049.90002260252,
+      "natural_total_yuan": 13512335.469401909,
+      "template_total_yuan": 13512601.87381043,
+      "emergency_kWh": 26575.199295623082,
+      "emergency_intervals": 440,
+      "emergency_days": 104,
+      "emergency_events": 181,
+      "final_natural_state_kWh": 1682.89783191398,
+      "final_template_state_kWh": 1642.1857624449915,
+      "initial_state_kWh": 6075.795025925926,
+      "rejected": {
+        "n": 96,
+        "hours": [
+          18
+        ],
+        "largest_total_kWh": 2.5124791136477143e-11,
+        "largest_window_segments": 37,
+        "largest_date": "2025-08-23",
+        "candidate_minus_accepted_kWh": 4.66600980075782e-10
+      },
+      "errors": {
+        "truth_kWh": 4.547473508864641e-13,
+        "charge_feedback_kWh": 2.1032064978498966e-12,
+        "discharge_feedback_kWh": 2.291500322826323e-13,
+        "emergency_feedback_kWh": 3.126388037344441e-13,
+        "unused_feedback_kWh": 2.3874235921539366e-12,
+        "soc_recurrence_kWh": 4.551026222543442e-12,
+        "soc_continuity_kWh": 0.0
+      }
+    },
+    "C75": {
+      "ordinary_cost_yuan": 12770986.871410854,
+      "adjustment_cost_yuan": 409255.5844098084,
+      "emergency_cost_yuan": 194834.68328052794,
+      "natural_total_yuan": 13375077.139101189,
+      "template_total_yuan": 13375338.652750777,
+      "emergency_kWh": 38302.84321096969,
+      "emergency_intervals": 654,
+      "emergency_days": 138,
+      "emergency_events": 266,
+      "final_natural_state_kWh": 1501.3376138672306,
+      "final_template_state_kWh": 1447.2450745429944,
+      "initial_state_kWh": 6075.795025925926,
+      "rejected": {
+        "n": 89,
+        "hours": [
+          18
+        ],
+        "largest_total_kWh": 4.365107201920182e-06,
+        "largest_window_segments": 37,
+        "largest_date": "2025-08-23",
+        "candidate_minus_accepted_kWh": 7.901296342538444e-06
+      },
+      "errors": {
+        "truth_kWh": 4.547473508864641e-13,
+        "charge_feedback_kWh": 2.1032064978498966e-12,
+        "discharge_feedback_kWh": 4.549693954913892e-13,
+        "emergency_feedback_kWh": 3.410605131648481e-13,
+        "unused_feedback_kWh": 2.2737367544323206e-12,
+        "soc_recurrence_kWh": 4.547473508864641e-12,
+        "soc_continuity_kWh": 0.0
+      }
+    }
+  },
+  "contrasts": {
+    "quantile_L": {
+      "total_yuan": -138490.22716730175,
+      "better_days": 294,
+      "better_months": 11,
+      "top_five": [
+        {
+          "date": "2025-07-01",
+          "delta_yuan": 3258.1170887762273
+        },
+        {
+          "date": "2025-09-29",
+          "delta_yuan": 1994.0731917774392
+        },
+        {
+          "date": "2025-09-07",
+          "delta_yuan": 1958.9037930247578
+        },
+        {
+          "date": "2025-07-06",
+          "delta_yuan": 1701.0810617448515
+        },
+        {
+          "date": "2025-09-15",
+          "delta_yuan": 1658.5075973194616
+        }
+      ],
+      "top_five_sum_yuan": 10570.682732642737,
+      "other_days_yuan": -149060.9098999445
+    },
+    "bias_80": {
+      "total_yuan": 20023.203314755352,
+      "better_days": 148,
+      "better_months": 1,
+      "top_five": [
+        {
+          "date": "2025-12-01",
+          "delta_yuan": 2192.1717223247397
+        },
+        {
+          "date": "2025-12-04",
+          "delta_yuan": 1695.2742336122392
+        },
+        {
+          "date": "2025-12-02",
+          "delta_yuan": 1215.7829358440067
+        },
+        {
+          "date": "2025-09-07",
+          "delta_yuan": 1158.6920500512206
+        },
+        {
+          "date": "2025-12-03",
+          "delta_yuan": 908.9689459812507
+        }
+      ],
+      "top_five_sum_yuan": 7170.889887813457,
+      "other_days_yuan": 12852.313426941895
+    },
+    "quantile_C": {
+      "total_yuan": -137258.3303007197,
+      "better_days": 295,
+      "better_months": 11,
+      "top_five": [
+        {
+          "date": "2025-09-04",
+          "delta_yuan": 3569.7972800121206
+        },
+        {
+          "date": "2025-07-01",
+          "delta_yuan": 3398.9084911415994
+        },
+        {
+          "date": "2025-09-29",
+          "delta_yuan": 1772.5309815900546
+        },
+        {
+          "date": "2025-09-15",
+          "delta_yuan": 1727.3731668125038
+        },
+        {
+          "date": "2025-06-01",
+          "delta_yuan": 1637.6809570930345
+        }
+      ],
+      "top_five_sum_yuan": 12106.290876649313,
+      "other_days_yuan": -149364.62117736903
+    },
+    "bias_75": {
+      "total_yuan": 21255.100181337402,
+      "better_days": 143,
+      "better_months": 3,
+      "top_five": [
+        {
+          "date": "2025-09-04",
+          "delta_yuan": 3454.2562357104034
+        },
+        {
+          "date": "2025-12-01",
+          "delta_yuan": 1978.0521934666758
+        },
+        {
+          "date": "2025-12-04",
+          "delta_yuan": 1549.4550183089596
+        },
+        {
+          "date": "2025-12-02",
+          "delta_yuan": 1191.822802012306
+        },
+        {
+          "date": "2025-12-07",
+          "delta_yuan": 1004.719092214611
+        }
+      ],
+      "top_five_sum_yuan": 9178.305341712956,
+      "other_days_yuan": 12076.794839624446
+    }
+  },
+  "interaction_yuan": 1231.896866582043,
+  "q80_alignment": {
+    "linear_rho": 0.0,
+    "linear_protected": 0.0,
+    "corrected_rho": 0.0,
+    "corrected_protected": 0.0
+  },
+  "q75_history_spotchecks": [
+    {
+      "predictor": "linear",
+      "h": 0,
+      "hour": 0,
+      "n": 28,
+      "position": 21,
+      "difference_kWh": 1.1368683772161603e-13
+    },
+    {
+      "predictor": "linear",
+      "h": 144,
+      "hour": 0,
+      "n": 27,
+      "position": 21,
+      "difference_kWh": 1.1368683772161603e-13
+    },
+    {
+      "predictor": "linear",
+      "h": 36,
+      "hour": 6,
+      "n": 28,
+      "position": 21,
+      "difference_kWh": 0.0
+    },
+    {
+      "predictor": "corrected",
+      "h": 0,
+      "hour": 0,
+      "n": 28,
+      "position": 21,
+      "difference_kWh": 1.1368683772161603e-13
+    },
+    {
+      "predictor": "corrected",
+      "h": 144,
+      "hour": 0,
+      "n": 27,
+      "position": 21,
+      "difference_kWh": 1.1368683772161603e-13
+    },
+    {
+      "predictor": "corrected",
+      "h": 36,
+      "hour": 6,
+      "n": 28,
+      "position": 21,
+      "difference_kWh": 0.0
+    }
+  ]
+}

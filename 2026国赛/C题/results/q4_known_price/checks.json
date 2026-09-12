@@ -1,0 +1,39 @@
+{
+  "F42": {
+    "physics_kWh": 9.094947017729282e-13,
+    "settlement_yuan": 0.0,
+    "bridge_yuan": 287.83638151548803,
+    "prices_match": true,
+    "common_initial": true
+  },
+  "F43": {
+    "physics_kWh": 9.094947017729282e-13,
+    "settlement_yuan": 0.0,
+    "bridge_yuan": 287.8363815136254,
+    "prices_match": true,
+    "common_initial": true
+  },
+  "Q42": {
+    "physics_kWh": 9.094947017729282e-13,
+    "settlement_yuan": 0.0,
+    "bridge_yuan": 0.0,
+    "prices_match": true,
+    "common_initial": true,
+    "saved_nominal_max_residual_kWh": 5.5706550483591855e-12
+  },
+  "Q43": {
+    "physics_kWh": 9.094947017729282e-13,
+    "settlement_yuan": 0.0,
+    "bridge_yuan": 3.725290298461914e-09,
+    "prices_match": true,
+    "common_initial": true,
+    "saved_nominal_max_residual_kWh": 3.0524915928253904e-10
+  },
+  "single_day_q2_kernel": {
+    "date": "2025-06-21",
+    "objective_difference_yuan": 3.480408850009553e-13,
+    "max_plan_difference_kWh": 2.2737367544323206e-13,
+    "additional_solves": 1,
+    "note": "Same inputs, independently assembled existing Q2 kernel; objective equality allows tied plans."
+  }
+}

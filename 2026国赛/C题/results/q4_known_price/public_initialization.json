@@ -1,0 +1,9 @@
+{
+  "initial_2025_01_01_kWh": 6000.0,
+  "feb1_state_kWh": 6097.354409999999,
+  "feb1_carry_kWh": 0.0,
+  "feb1_carry_original_kWh": 0.0,
+  "solves": 29,
+  "missing_segment": "2025-01-01 00:00-00:10: idle state; unknown supply/demand and cash",
+  "january_cost_excluded_from_formal": true
+}

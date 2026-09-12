@@ -1,0 +1,20 @@
+{
+  "cost_components_and_savings.png": {
+    "sha256": "0070b70c22f68cd862d81157bdb3254300406dbc0221b2c68576e7ae68ce0ab8",
+    "bytes": 75231,
+    "width": 2048,
+    "height": 784,
+    "ink_coverage": 0.5261,
+    "distinct_colours": 569,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "selected_day_dispatch.png": {
+    "sha256": "f654d1c252259b6a38fd8d998c25e93acc5536a2969c7717e3d6f42c56076cce",
+    "bytes": 244112,
+    "width": 1760,
+    "height": 1376,
+    "ink_coverage": 0.0688,
+    "distinct_colours": 13190,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "hash_checks": {
+    "contrasts.csv": true,
+    "daily.csv": true,
+    "monthly.csv": true,
+    "protection.npz": true,
+    "protection_change.csv": true,
+    "registration.json": true,
+    "S2_load_q75/dispatch.csv": true,
+    "S2_load_q75/nominal_trajectory.csv": true,
+    "S2_load_q75/plan_versions.csv": true,
+    "S2_load_q75/revision_decisions.csv": true,
+    "S2_load_q75/solver_log.csv": true,
+    "selected_dates.csv": true,
+    "source_archive/code/q3_rolling_baseline_experiment.py": true,
+    "source_archive/experiment_plan.md": true,
+    "summary.csv": true,
+    "validation.json": true
+  },
+  "signature": "0af78e11997bca90878b1b4cc98a9b68010de8b59b3774377c5c2c08f2dc6f17",
+  "summary_rows": 2,
+  "max_physics": 4.547473508864641e-12,
+  "max_cash_recalc": 23444.080578907102,
+  "daily_better": 143,
+  "daily_worse": 191,
+  "monthly_better": 5,
+  "monthly_worse": 6,
+  "delta_yuan": -23444.08057890646,
+  "decomposition": {
+    "ordinary": 1073.2648768350482,
+    "adjustment": 56680.181320459815,
+    "emergency": -81197.52677620196
+  }
+}

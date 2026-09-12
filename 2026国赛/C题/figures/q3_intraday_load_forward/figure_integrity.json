@@ -1,0 +1,20 @@
+{
+  "monthly_mae_difference.png": {
+    "sha256": "59283d324c20e2ac1a7d1854ec1570b7480e737ae8463f522a802d8809335550",
+    "bytes": 58533,
+    "width": 1568,
+    "height": 736,
+    "ink_coverage": 0.13,
+    "distinct_colours": 262,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "node_distance_mae_difference.png": {
+    "sha256": "0655de0e4992a28f85acc3f872ca6a7f4e11b01cd461c40f904bbfc5ef0d680a",
+    "bytes": 121346,
+    "width": 1984,
+    "height": 736,
+    "ink_coverage": 0.1854,
+    "distinct_colours": 1194,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

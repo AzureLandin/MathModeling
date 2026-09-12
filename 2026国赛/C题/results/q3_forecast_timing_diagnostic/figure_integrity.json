@@ -1,0 +1,20 @@
+{
+  "hourly_emergency.png": {
+    "sha256": "71dd2cd2ba310d591fa0d5efb6a729dc3f4800816f86197a044862ba8a257612",
+    "bytes": 99242,
+    "width": 2400,
+    "height": 896,
+    "ink_coverage": 0.0828,
+    "distinct_colours": 262,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "node_age_grid.png": {
+    "sha256": "e03cdf946b52f98f6f89236cf308f919119f0e47fcc771f5789ce93d3000f46a",
+    "bytes": 160068,
+    "width": 2080,
+    "height": 1344,
+    "ink_coverage": 0.1067,
+    "distinct_colours": 1491,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

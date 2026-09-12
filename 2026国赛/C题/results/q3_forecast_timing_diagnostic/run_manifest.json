@@ -1,0 +1,43 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T15:14:21.490869+00:00",
+  "finished_utc": "2026-09-12T15:14:26.252860+00:00",
+  "wall_seconds": 4.762006000149995,
+  "timings": {
+    "inputs_seconds": 0.40595049993135035,
+    "checks_early_seconds": 0.03162919986061752,
+    "aggregates_seconds": 2.9443476998712867,
+    "checks_aggregate_seconds": 0.026283100014552474
+  },
+  "signature": "ee26699f138c6ab515d02e3b279cdd5a6b0b0c0130ce66aacad6d2fec2663460",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "zero_solves": {
+    "training": 0,
+    "milp_lp_dp": 0,
+    "storage_replay": 0,
+    "prediction_rebuild": 0,
+    "quantile_rebuild": 0
+  },
+  "inputs_read": [
+    "reports/问题三/问题三_分位费用实验接收核查.md",
+    "reports/问题三/问题三_新增预报时刻必要性轻量分析方案.md",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz",
+    "results/q3_bias_quantile_cost/L75/dispatch.csv",
+    "results/q3_bias_quantile_cost/protection_q75.npz",
+    "results/q3_bias_quantile_cost/run_manifest.json",
+    "results/q3_bias_quantile_cost/summary.csv",
+    "results/q3_rolling_baseline/B2_dispatch.csv"
+  ],
+  "outputs": {
+    "age_summary.csv": "e19dc380fc378bc241230902a4ada770c06833f15a3c41b2b53016970345527f",
+    "candidate_windows.csv": "653bea798441aa339609c26730589b6288e0f0003ace9217b01c4666a20f8342",
+    "hourly_summary.csv": "3b73f5070c965778868f076bb2aa552b98b256ad26a333cfb8fc1f89f065a808",
+    "interval_diagnostic.csv": "cd4d1fd62019a72775708ee38666a2b9e103404c418d3bc1cb1bc0e6bd3b15af",
+    "monthly_hourly.csv": "a195bd5eb0ad8fb3eb848edfb7b6c3907931b1b250c5777bc709f83effab5d91",
+    "registration.json": "23b300730459b2bcb3af5581a5ea9c9c01a253ffa9792ebf51ac687e40a87a37",
+    "risk_window_evidence.csv": "6aafd80c12571325bb2e92cd1ca77583f53e0abdbea03d87564af79979b70050",
+    "source_archive/experiment_plan.md": "3666ab60a7b77f6a83582a256f96d1b77cda2049a7796aabdf200107fb3c1939",
+    "validation.json": "3241442de3fff500e658d44d2977dc12498028e002f0c15309c76a15ef8b4b30"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "review_date": "2026-09-12",
+  "scope": "read-only Q2/Q3 mapping review plus verification of the newly finalized Q1 workbook; no training, optimization or replay",
+  "q1": {
+    "formal_sha256": "62431e596c9d15b8bafb10598f24edf6f12a95bbe5830ac1398de9a6c0b54d8f",
+    "matches_delivery_validation_hash": true,
+    "first_label": "0:10-0:20",
+    "penultimate_label": "23:50-0:00+1",
+    "last_label": "0:00+1-0:10+1",
+    "labels_correct": true,
+    "planned_cells_nonempty": 144,
+    "storage_cells_nonempty": 12,
+    "endpoint_cells_nonempty": 2,
+    "formal_delivery_validation_status": "complete",
+    "style_and_structure_preserved": true
+  },
+  "q2": {
+    "formal_sha256": "c04a604b53e5db2e5b8d9dd111b155532477213f14e493a385153d546bf2ad42",
+    "matches_fill_validation_hash": true,
+    "fill_readback_passed": true,
+    "first_template_label": "0:10-0:20",
+    "penultimate_template_label": "23:50-0:00+1",
+    "last_template_label": "0:00-0:10+1",
+    "formal_headers_correct": true,
+    "formal_planned_cells_nonempty": 48096,
+    "formal_expected_planned_cells": 48096,
+    "time_versions": [
+      "start_time_v1"
+    ],
+    "template_interval_start_mismatches": 0,
+    "natural_official_rows": 48096,
+    "natural_official_continuous_10min": true,
+    "natural_first_interval": "2025-02-01 00:00:00",
+    "natural_last_interval_start": "2025-12-31 23:50:00",
+    "generated_source_label_mismatches_all_364_publication_days": 50232,
+    "source_label_issue_scope": "presentation metadata only: interval_start, template_slot, price order, solver arrays and formal workbook headers are correct; fill_result2_frozen.py does not use source_label",
+    "known_separate_metadata_issue": "source_interval_mapping.csv price rows 0..142 export template_slot=j-1; model and formal workbook use the correct stored price order",
+    "delivery_status": "formal result2 is filled under start_time_v1; independent audit remains deferred"
+  },
+  "q3": {
+    "formal_sha256": "c59da470cabd0be23f602c95c8aa9d11ec224a0cdac216b3e1f218e65d006bdc",
+    "formal_first_template_label": "0:10-0:20",
+    "formal_penultimate_template_label": "23:50-0:00+1",
+    "formal_last_template_label": "0:00-0:10+1",
+    "formal_headers_correct": true,
+    "formal_plan_cells_nonempty": 0,
+    "formal_adjusted_cells_nonempty": 0,
+    "formal_delivery_status": "template remains unfilled; no stale old-time numerical values are present",
+    "saved_B2_rows_including_tail": 48097,
+    "saved_B2_natural_evaluation_rows": 48096,
+    "saved_B2_continuous_10min_including_tail": true,
+    "saved_B2_first_interval": "2025-02-01 00:00:00",
+    "saved_B2_last_interval": "2026-01-01 00:00:00",
+    "first_midnight_effective_version": "public_January",
+    "ledger_bridge_residual_yuan": 1.1997940418950748e-09,
+    "model_time_mapping_status": "corrected: current midnight uses previous-day carry; current publication starts at 00:10; natural and template ledgers are separate",
+    "strategy_status": "Linear+q75 is the current candidate, but formal result3 has not been frozen or filled"
+  },
+  "overall": {
+    "q1_formal_new_time_complete": true,
+    "q2_substantive_time_mapping_and_formal_delivery_correct": true,
+    "q2_metadata_fully_clean": false,
+    "q3_substantive_time_mapping_correct": true,
+    "q3_formal_delivery_complete": false
+  }
+}

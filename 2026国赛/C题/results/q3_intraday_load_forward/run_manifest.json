@@ -1,0 +1,50 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T17:09:08.393532+00:00",
+  "finished_utc": "2026-09-12T17:09:31.815068+00:00",
+  "wall_seconds": 23.42155220010318,
+  "timings": {
+    "inputs_seconds": 0.0077680000104010105,
+    "forecast_seconds": 4.338449699804187,
+    "scoring_seconds": 2.7013419000431895,
+    "checks_seconds": 14.114990999922156
+  },
+  "signature": "d83c4ae298d398b5c7d93d289205a1ca0f2e004db127ae0e780d50427414a819",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "zero_solves": {
+    "lightgbm_training": 0,
+    "milp_lp_dp": 0,
+    "storage_replay": 0,
+    "pv_rebuild": 0,
+    "quantile_rebuild": 0,
+    "parameter_grid_search": 0
+  },
+  "closed_form_fits": {
+    "estimated": 13650,
+    "groups": 14235,
+    "fallback_m_below_min": 585,
+    "fallback_degenerate_variance": 0,
+    "fallback_b_invalid": 39
+  },
+  "inputs_read": [
+    "code/q3_intraday_load_residual_diagnostic.py",
+    "reports/问题三/问题三_日内负载修正前向预测对照实验方案.md",
+    "results/q2_time_mapping/archive_float.npz",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz",
+    "results/q3_intraday_load_residual_diagnostic/hourly_pairs.csv"
+  ],
+  "outputs": {
+    "contrasts.csv": "27a6d0517cc1c6acd133b114d79fe3bffe1e88f894f7980e7f644bb63b11ea95",
+    "forecast_archive.npz": "8ba57748f826d8c283234bfca36531a21b4c83580b32847b519c2b498c208356",
+    "grouped_metrics.csv": "f1484bdb1be41a935576fba13a9b4e2d1bf59359db9e2d3232eeb0113b66dc0f",
+    "parameter_log.csv": "c1b711032ec869543ee847c68f84d9a3bc9d759846bd4d7da5260edde95e56fe",
+    "parameter_summary.csv": "66137d34aeb898eb48fde86bebb923a0691c8571f85129bfc25f819247c8abb2",
+    "prediction_pairs.csv": "4b5a5f838d174e15c60624e0f0f3a2f2a1e6c35dbe1e95ebdf667d7dd777b128",
+    "registration.json": "33261e4ba0266e6be4aa5504961f3a0da9bb4101cac2f3b4e0cb352feeabe918",
+    "source_archive/code/q3_intraday_load_residual_diagnostic.py": "20ffcfc569aea02b8770d7c1f3d654f9e4ac44d9a72bc10695f4f0ab61e6b9d6",
+    "source_archive/experiment_plan.md": "ba958009164fa6b1b876f91d5b012c25984679733cf3b13100d375739eaac059",
+    "summary.csv": "d7f04463c730df81b4b511bcd337a43679ddc5696002688041bba25bd5401118",
+    "validation.json": "5702fa1a5ace1aaf89e676b6e6f187c7d9288a1e00ef8b374a007f4ed199c32f"
+  }
+}

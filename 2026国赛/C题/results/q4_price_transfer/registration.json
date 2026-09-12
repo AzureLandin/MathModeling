@@ -1,0 +1,99 @@
+{
+  "registered_utc": "2026-09-12T18:31:02.996015+00:00",
+  "specification": "reports\\问题四\\问题四_已知电价迁移实验方案_实验Agent任务书.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q4 known-price transfer: 4-2 and 4-3 recomputed under attachment-4 prices",
+    "specification": "reports\\问题四\\问题四_已知电价迁移实验方案_实验Agent任务书.md",
+    "price_information": "attachment 4 read directly, never forecast; the day's 0:00 knows its full 144-slot delivery prices including the next midnight tail",
+    "time_rule": "label 00:10 covers [00:10,00:20); label 0:00+1 covers the next day [00:00,00:10)",
+    "price_mapping": "template day k slot j starts at day k 00:10 + 10j minutes; the natural-day midnight price is the previous source row's last column",
+    "groups": {
+      "F42": "frozen Q2 N_free purchase plan quantities, feedback re-run from the new common initial state",
+      "Q42": "Q2 frozen forecasts and q80, re-optimised once per day under attachment 4",
+      "F43_S0": "frozen S0/L75 original and final effective quantities, feedback re-run",
+      "F43_S2": "frozen S2 original and final effective quantities, feedback re-run",
+      "Q43_S0": "S0 original 0:00 load + Linear PV + q75, four nodes per day",
+      "Q43_S2": "S2 F2 intraday load correction + Linear PV + its own q75"
+    },
+    "protection": {
+      "q42_alpha": 0.8,
+      "q43_alpha": 0.75,
+      "source": "read from the audited archives; no quantile is recomputed and q80 is never scaled to imitate q75"
+    },
+    "nominal": "0:00 minimises sum p q0; intraday candidates minimise sum p [q + 0.5 a] with a >= |q - q0|; free terminal; only the 1200-10800 kWh band",
+    "feedback": "greedy charge/discharge with the 5x emergency price; emergency never charges the battery; Q43 scores a candidate against the previous effective plan on the same protection, real state, remaining horizon and prices, accepting only if the score improves by more than 1e-4 yuan",
+    "settlement": "F42: sum p (q0 + 5e); F43: sum p (q_eff + 0.5 |q_eff - q0| + 5 e) on the delivery-interval price, where q0 is the owning template day's 0:00 commitment",
+    "ledgers": {
+      "unified": "2025-02-01 00:00 .. 2026-01-01 00:10, 48097 segments",
+      "A": "natural days [2025-02-01 00:00, 2026-01-01 00:00), 48096 segments, main metric",
+      "B": "template days [2025-02-01 00:10, 2026-01-01 00:10), 48096 segments, reported separately; C_B - C_A = tail - head"
+    },
+    "public_january": "single shared physical trajectory: Jan 1 idle with zero plan (the first 00:00-00:10 has no measurement), Jan 2 zero plan with feedback, Jan 3-31 naive forecasts with zero protection and a nominal natural 24:00 state of 6000 kWh, all priced by attachment 4",
+    "solver": "HiGHS via scipy.optimize.milp, relative gap 1e-9, 120 s limit, binary charge/discharge exclusion; no random optimisation and no warm start",
+    "budget": "main MILP cap 3035 (January 29 + Q42 334 + Q43_S0 1336 + Q43_S2 1336); at most 3 extra validation MILP; 0 training, 0 annual protection rebuild, 0 parameter sweep",
+    "validation": "three checks: input/time/price adaptation, cheap assertions during solving, one read-only formula reconciliation from disk"
+  },
+  "dependency": {
+    "q2_archive": "results/q2_time_mapping/archive_float.npz (issued load/PV, W28/q80 protection)",
+    "q3_candidates": "results/q3_bias_quantile_cost/protection_q75.npz (S0) and results/q3_intraday_load_cost/protection.npz (S2)",
+    "frozen_plans": "results/q2_time_mapping/N_free/template_plan.csv (F42), L75 and S2 dispatch ledgers (F43_S0 / F43_S2)",
+    "old_draft": "results/q4_known_price/ kept read-only as a cross-check only; its Q43/F43 are q80 and are never renamed into S0 or S2",
+    "kernel": "code/q3_rolling_baseline_experiment.py imported as a read-only library",
+    "zero_budget": {
+      "training": 0,
+      "annual_protection_rebuild": 0,
+      "parameter_sweeps": 0,
+      "old_q80_branch_rescheduling": 0,
+      "full_tree_hashing": 0
+    }
+  },
+  "input_sha256": {
+    "reports/问题四/问题四_已知电价迁移实验方案_实验Agent任务书.md": "cd6fd218215bcc459a5377d0060c16e8690054317e25f040470f8b9ef50f85eb",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "附件/附件4.xlsx": "20e9c93aeab5e8e21ae4dd15587f9e190f7408692504c1319598461cd654fe71",
+    "results/q2_time_mapping/archive_float.npz": "97e329f8c8ab988115fceba48d29528818f5a3b128f841f5ce938203f8e13c71",
+    "results/q2_time_mapping/naive_load.npy": "a680c6472e3a75a1c55bb38485004d659b550920b8a831c6074bf85e53a358b6",
+    "results/q2_time_mapping/naive_pv.npy": "3a8761e1968b9746b4fc375d466e96e54c862df9705f7354fb78188cf2a11395",
+    "results/q2_time_mapping/N_free/template_plan.csv": "e3a581a3d64d8b056f991164b8cb257fdcf5f84dca69d4cba8d42b05852d7c6a",
+    "results/q3_rolling_baseline/prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "results/q3_bias_quantile_cost/protection_q75.npz": "c41ca05ea76f2d6f568b3de062de9fdc1a95287bed15b1af7f80502d56808a44",
+    "results/q3_bias_quantile_cost/L75/dispatch.csv": "979f4460e3368f2f7c336cdda5c8e99a607886be7eb5d65e102a1d4099171072",
+    "results/q3_intraday_load_cost/protection.npz": "6b557fb3d47f33275a7700ae296d5fc6f6a4ecb1e71451bb95dc0fa5e89bb9de",
+    "results/q3_intraday_load_cost/S2_load_q75/dispatch.csv": "a8ae7c5469826eeda0ea18b498dbfd9583ec996bb186a80f54c58fabbcb58136",
+    "code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b"
+  },
+  "code_sha256": "ec33da42a795bdea0356f94a468e9bf68f6095a437afd2b19999bf3643fd9ed9",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T18:28:09.004750+00:00",
+      "previous_signature": "8c53b08748a231994e7395011ed08be2fa9d2e4e62b7600e4f3a24b85e40ac35",
+      "previous_code_sha256": "3663a35226986332edb23833a27147a57f9da1f49e0c3c539546d373b95b02a4",
+      "new_signature": "61d2b77565f3f0bcf3dcff1f88eeab275508f19c0c157bffa052a923703eb884",
+      "new_code_sha256": "1a8e625a613532bbc7179ba9a140c2a88d4eb0dc6fc283ac8b8e365d81b9edef",
+      "reason": "the auxiliary-state check compared against an un-capped closed form and fired whenever a charge/discharge cap bound; it now asserts the physically meaningful invariant that the estimate stays inside the battery band"
+    },
+    {
+      "amended_utc": "2026-09-12T18:28:36.544211+00:00",
+      "previous_signature": "61d2b77565f3f0bcf3dcff1f88eeab275508f19c0c157bffa052a923703eb884",
+      "previous_code_sha256": "1a8e625a613532bbc7179ba9a140c2a88d4eb0dc6fc283ac8b8e365d81b9edef",
+      "new_signature": "06147ad9db7ecde2cfc116b271dc3c17b4f1f8dd0815c48cc242e62a35e8fa47",
+      "new_code_sha256": "b1aacd3c059f4b3865ac246c6052ca9657d98fd45328f4a6d8288f6e77d3a7e9",
+      "reason": "the ledger frame selected a derived column that is only added afterwards; the base column list now excludes total_cost_yuan"
+    },
+    {
+      "amended_utc": "2026-09-12T18:31:02.996436+00:00",
+      "previous_signature": "06147ad9db7ecde2cfc116b271dc3c17b4f1f8dd0815c48cc242e62a35e8fa47",
+      "previous_code_sha256": "b1aacd3c059f4b3865ac246c6052ca9657d98fd45328f4a6d8288f6e77d3a7e9",
+      "new_signature": "74ceac508494368a68bc4ec82d6e56c25ae861c6d36d704edbbf318fc1d0b30f",
+      "new_code_sha256": "ec33da42a795bdea0356f94a468e9bf68f6095a437afd2b19999bf3643fd9ed9",
+      "reason": "Q42 belongs to the main branch set and was therefore skipped by the loop that writes replay dispatches, so its dispatch.csv was never produced; Q42 now writes its own four artifacts right after it runs"
+    }
+  ],
+  "signature": "74ceac508494368a68bc4ec82d6e56c25ae861c6d36d704edbbf318fc1d0b30f"
+}

@@ -1,0 +1,19 @@
+{
+  "reviewed": "results/q4_known_price/ (declared rules: attachment-4 prices, same January recipe, Q42 = Q2 frozen forecasts with q80)",
+  "decision": "NOT reused: this run recomputes January and Q42 inside the task book's no-reuse cap (3035 MILP) so that every reported number has a single reproducible origin; the draft is kept as a cross-check",
+  "january": {
+    "draft_feb1_state_kWh": 6097.354409999999,
+    "this_run_feb1_state_kWh": 6097.354409999999,
+    "difference_kWh": 0.0
+  },
+  "q42": {
+    "draft_natural_total_yuan": 14347907.89204545,
+    "this_run_natural_total_yuan": 14347907.89204545,
+    "difference_yuan": 0.0
+  },
+  "not_reusable": [
+    "old Q43 and F43 use Linear+q80 and are never renamed into S0 or S2",
+    "the draft keeps no binary charge mode in its nominal table"
+  ],
+  "note": "the draft's own ledger is never modified; only figures read from it are quoted"
+}

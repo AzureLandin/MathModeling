@@ -1,0 +1,375 @@
+{
+  "status": "passed",
+  "signature": "00db21edf9d336a85ebc9ea40ed5c39e6ecdf7f58720c7e8c59d3ed812c33864",
+  "checks": {
+    "inputs_and_samples": {
+      "cross_check": {
+        "archive_cells": 52925,
+        "nan_mask_agreeing_cells": 52779,
+        "max_abs_difference_kW": 0.0,
+        "first_all_finite_issued_row": 2,
+        "first_all_finite_truth_row": 1,
+        "finite_eval_cells_issued": 48430,
+        "finite_eval_cells_truth": 48430
+      },
+      "dates": {
+        "first": "2025-02-01",
+        "last": "2025-12-31",
+        "days": 334,
+        "unique_and_consecutive": true
+      },
+      "residual_identity": {
+        "cells": 48430,
+        "max_abs_difference_kW": 0.0
+      },
+      "window_geometry": {
+        "6": {
+          "s_r": 36,
+          "recent_h": [
+            30,
+            35
+          ],
+          "recent_last_interval_start": "05:50",
+          "publication_instant": "06:00",
+          "full_future_slots": 109,
+          "full_hours": 18,
+          "uses_no_observation_at_or_after_publication": true
+        },
+        "12": {
+          "s_r": 72,
+          "recent_h": [
+            66,
+            71
+          ],
+          "recent_last_interval_start": "11:50",
+          "publication_instant": "12:00",
+          "full_future_slots": 73,
+          "full_hours": 12,
+          "uses_no_observation_at_or_after_publication": true
+        },
+        "18": {
+          "s_r": 108,
+          "recent_h": [
+            102,
+            107
+          ],
+          "recent_last_interval_start": "17:50",
+          "publication_instant": "18:00",
+          "full_future_slots": 37,
+          "full_hours": 6,
+          "uses_no_observation_at_or_after_publication": true
+        }
+      },
+      "sample_counts": {
+        "publication_features": 1002,
+        "hour_pairs": 12024,
+        "midnight_tail_rows": 1002,
+        "near_hour_pairs": 6012,
+        "far_hour_pairs": 6012,
+        "distinct_days": 334,
+        "duplicate_pairs": 0,
+        "full_window_slot_records": 73146,
+        "to_next_node_slot_records": 36072,
+        "windowed_2025_06_21_hour_pairs": 36
+      },
+      "validity": {
+        "feature_invalid": 0,
+        "hour_pair_invalid": 0,
+        "tail_invalid": 0,
+        "invalid_rows_filled": 0,
+        "feature_b_finite": 1002
+      },
+      "feature_replay_max_abs_kW": 0.0
+    },
+    "boundary_date": {
+      "day": "2025-06-21",
+      "k": 171,
+      "perturb_kW": 25.0,
+      "rule": "truth at and after the publication instant moved in memory; b must not move because it uses only h < s_r, while the future label is allowed to move",
+      "rows": [
+        {
+          "publication_hour": 6,
+          "s_r": 36,
+          "recent_first_interval_start": "2025-06-21 05:00",
+          "recent_last_interval_start": "2025-06-21 05:50",
+          "future_first_interval_start": "2025-06-21 06:00",
+          "future_first_interval_end": "2025-06-21 07:00",
+          "midnight_tail_interval_start": "2025-06-22 00:00",
+          "b_before_kW": -41.83237143964902,
+          "b_after_shift_kW": -41.83237143964902,
+          "b_abs_change_kW": 0.0,
+          "y_first_hour_before_kW": 57.6140991119042,
+          "y_first_hour_after_shift_kW": 82.6140991119042,
+          "y_first_hour_abs_change_kW": 24.999999999999993,
+          "tail_before_kW": -437.8519583296211,
+          "tail_after_shift_kW": -412.8519583296211,
+          "tail_abs_change_kW": 25.0
+        },
+        {
+          "publication_hour": 12,
+          "s_r": 72,
+          "recent_first_interval_start": "2025-06-21 11:00",
+          "recent_last_interval_start": "2025-06-21 11:50",
+          "future_first_interval_start": "2025-06-21 12:00",
+          "future_first_interval_end": "2025-06-21 13:00",
+          "midnight_tail_interval_start": "2025-06-22 00:00",
+          "b_before_kW": 45.985319417479865,
+          "b_after_shift_kW": 45.985319417479865,
+          "b_abs_change_kW": 0.0,
+          "y_first_hour_before_kW": 109.11312678293909,
+          "y_first_hour_after_shift_kW": 134.11312678293908,
+          "y_first_hour_abs_change_kW": 24.999999999999986,
+          "tail_before_kW": -437.8519583296211,
+          "tail_after_shift_kW": -412.8519583296211,
+          "tail_abs_change_kW": 25.0
+        },
+        {
+          "publication_hour": 18,
+          "s_r": 108,
+          "recent_first_interval_start": "2025-06-21 17:00",
+          "recent_last_interval_start": "2025-06-21 17:50",
+          "future_first_interval_start": "2025-06-21 18:00",
+          "future_first_interval_end": "2025-06-21 19:00",
+          "midnight_tail_interval_start": "2025-06-22 00:00",
+          "b_before_kW": -8.789033361679913,
+          "b_after_shift_kW": -8.789033361679913,
+          "b_abs_change_kW": 0.0,
+          "y_first_hour_before_kW": -167.78577030485476,
+          "y_first_hour_after_shift_kW": -142.78577030485476,
+          "y_first_hour_abs_change_kW": 25.0,
+          "tail_before_kW": -437.8519583296211,
+          "tail_after_shift_kW": -412.8519583296211,
+          "tail_abs_change_kW": 25.0
+        }
+      ],
+      "max_abs_b_change_kW": 0.0,
+      "all_b_unchanged": true,
+      "all_future_labels_moved": true
+    },
+    "disk_readback": {
+      "recomputed_cells": [
+        {
+          "publication_hour": 6,
+          "j": 0,
+          "n": 334,
+          "mean_b_recomputed_kW": 5.012772532195258,
+          "mean_b_saved_kW": 5.012772532195258,
+          "mean_y_recomputed_kW": 7.561225346925704,
+          "mean_y_saved_kW": 7.561225346925704,
+          "r_recomputed": 0.6477892624822034,
+          "r_saved": 0.6477892624822033,
+          "beta_recomputed": 0.6513541645274419,
+          "beta_saved": 0.6513541645274418
+        },
+        {
+          "publication_hour": 18,
+          "j": 0,
+          "n": 334,
+          "mean_b_recomputed_kW": -1.2432635080899728,
+          "mean_b_saved_kW": -1.2432635080899728,
+          "mean_y_recomputed_kW": 0.5417036846551492,
+          "mean_y_saved_kW": 0.5417036846551383,
+          "r_recomputed": 0.726216110027642,
+          "r_saved": 0.7262161100276419,
+          "beta_recomputed": 0.7022804878468958,
+          "beta_saved": 0.7022804878468958
+        }
+      ],
+      "max_abs_recompute_difference": 1.0880185641326534e-14,
+      "constant_series": {
+        "pearson_r": null,
+        "beta": null,
+        "constant_b": true,
+        "flagged": true
+      },
+      "rising_series": {
+        "pearson_r": 1.0,
+        "beta": 1.0,
+        "intercept_a_kW": 0.0
+      },
+      "incomplete_recent_window": "b and the pair are marked invalid and left NaN; the window is never widened to recover a sample"
+    }
+  },
+  "overall_verdicts": {
+    "near_pairs": 18,
+    "far_pairs": 18,
+    "tail_cells": 3,
+    "cells_total": 39,
+    "cells_pooled_positive": 39,
+    "cells_pooled_negative": 0,
+    "cells_positive_after_month_demeaning": 39,
+    "cells_positive_after_weekday_demeaning": 39,
+    "min_pooled_r": 0.2823971784257997,
+    "min_demeaned_month_r": 0.2961170536345384,
+    "min_demeaned_weekday_r": 0.2808946110921491,
+    "cells_with_month_reversal": 35,
+    "by_node": {
+      "next_node": {
+        "cells": 18,
+        "pooled_positive": 18,
+        "pooled_negative": 0,
+        "pooled_r_min": 0.4146916578240096,
+        "pooled_r_max": 0.738906401139057,
+        "cells_with_month_reversal": 14,
+        "min_months_negative": 0,
+        "max_months_negative": 4,
+        "min_month_r": -0.41881521271313316,
+        "min_demeaned_month_r": 0.4076618285615742,
+        "min_demeaned_weekday_r": 0.412215016393062
+      },
+      "far": {
+        "cells": 18,
+        "pooled_positive": 18,
+        "pooled_negative": 0,
+        "pooled_r_min": 0.2823971784257997,
+        "pooled_r_max": 0.5875574908152759,
+        "cells_with_month_reversal": 18,
+        "min_months_negative": 1,
+        "max_months_negative": 5,
+        "min_month_r": -0.564704167473325,
+        "min_demeaned_month_r": 0.2961170536345384,
+        "min_demeaned_weekday_r": 0.2808946110921491
+      },
+      "midnight_tail": {
+        "cells": 3,
+        "pooled_positive": 3,
+        "pooled_negative": 0,
+        "pooled_r_min": 0.3221112057042266,
+        "pooled_r_max": 0.4627746316290509,
+        "cells_with_month_reversal": 3,
+        "min_months_negative": 3,
+        "max_months_negative": 4,
+        "min_month_r": -0.2907797364599298,
+        "min_demeaned_month_r": 0.32150231485396563,
+        "min_demeaned_weekday_r": 0.3160118218745149
+      }
+    }
+  },
+  "stability": {
+    "cells_total": 39,
+    "cells_pooled_positive": 39,
+    "cells_pooled_negative": 0,
+    "cells_positive_after_month_demeaning": 39,
+    "cells_positive_after_weekday_demeaning": 39,
+    "min_pooled_r": 0.2823971784257997,
+    "min_demeaned_month_r": 0.2961170536345384,
+    "min_demeaned_weekday_r": 0.2808946110921491,
+    "cells_with_month_reversal": 35,
+    "worst_month_reversal_cells": [
+      {
+        "publication_hour": 6,
+        "kind": "hour",
+        "j": 11,
+        "months_negative": 5,
+        "months_total": 11,
+        "pooled_r": 0.2989516168483017,
+        "min_month_r": -0.3510463978972798
+      },
+      {
+        "publication_hour": 12,
+        "kind": "hour",
+        "j": 7,
+        "months_negative": 5,
+        "months_total": 11,
+        "pooled_r": 0.3198559345693756,
+        "min_month_r": -0.3462362100124602
+      },
+      {
+        "publication_hour": 6,
+        "kind": "hour",
+        "j": 16,
+        "months_negative": 4,
+        "months_total": 11,
+        "pooled_r": 0.2823971784257997,
+        "min_month_r": -0.21075935564446824
+      },
+      {
+        "publication_hour": 12,
+        "kind": "midnight_tail",
+        "j": -1,
+        "months_negative": 4,
+        "months_total": 11,
+        "pooled_r": 0.34471592406674545,
+        "min_month_r": -0.2907797364599298
+      },
+      {
+        "publication_hour": 12,
+        "kind": "hour",
+        "j": 8,
+        "months_negative": 4,
+        "months_total": 11,
+        "pooled_r": 0.36115817453697546,
+        "min_month_r": -0.43802406130885246
+      },
+      {
+        "publication_hour": 12,
+        "kind": "hour",
+        "j": 11,
+        "months_negative": 4,
+        "months_total": 11,
+        "pooled_r": 0.38899569748894525,
+        "min_month_r": -0.19003902402973136
+      }
+    ],
+    "by_node": {
+      "next_node": {
+        "cells": 18,
+        "pooled_positive": 18,
+        "pooled_negative": 0,
+        "pooled_r_min": 0.4146916578240096,
+        "pooled_r_max": 0.738906401139057,
+        "cells_with_month_reversal": 14,
+        "min_months_negative": 0,
+        "max_months_negative": 4,
+        "min_month_r": -0.41881521271313316,
+        "min_demeaned_month_r": 0.4076618285615742,
+        "min_demeaned_weekday_r": 0.412215016393062
+      },
+      "far": {
+        "cells": 18,
+        "pooled_positive": 18,
+        "pooled_negative": 0,
+        "pooled_r_min": 0.2823971784257997,
+        "pooled_r_max": 0.5875574908152759,
+        "cells_with_month_reversal": 18,
+        "min_months_negative": 1,
+        "max_months_negative": 5,
+        "min_month_r": -0.564704167473325,
+        "min_demeaned_month_r": 0.2961170536345384,
+        "min_demeaned_weekday_r": 0.2808946110921491
+      },
+      "midnight_tail": {
+        "cells": 3,
+        "pooled_positive": 3,
+        "pooled_negative": 0,
+        "pooled_r_min": 0.3221112057042266,
+        "pooled_r_max": 0.4627746316290509,
+        "cells_with_month_reversal": 3,
+        "min_months_negative": 3,
+        "max_months_negative": 4,
+        "min_month_r": -0.2907797364599298,
+        "min_demeaned_month_r": 0.32150231485396563,
+        "min_demeaned_weekday_r": 0.3160118218745149
+      }
+    }
+  },
+  "zero_budget": {
+    "training": 0,
+    "milp_lp_dp": 0,
+    "storage_replay": 0,
+    "public_january_reruns": 0,
+    "prediction_rebuild": 0,
+    "pv_forecast_rebuild": 0,
+    "quantile_rebuild": 0,
+    "window_search": 0,
+    "parameter_sweeps": 0
+  },
+  "limitations": [
+    "只做描述性统计：仅一个事先固定的一小时近期窗口，不搜索窗口、不做显著性星号。一个窗口的负结果只说明该设计未发现足够线索，不证明所有日内特征均无价值。",
+    "相关不是因果；相关系数与斜率都既不是预测改善，也不是节费。本轮没有拟合或发布任何修正模型。",
+    "同一发布日内所有未来小时共用同一个 b，增加 j 并不增加独立的日样本；日间残差本身存在序列相关，因此不附未经校正的独立样本显著性解释。",
+    "月份／星期去均值只用于检查共同水平是否解释了原相关，不能消除全部混杂；去均值用的是全期分组统计，只可用于诊断，绝不能进入前向预测。",
+    "2025 年此前已用于方法设计：本轮描述的是一个已被开发的年份，不是独立盲测。",
+    "没有任何图件经过目视核查（本 Agent 无法查看图像），只做程序化完整性检查。"
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "generated_utc": "2026-09-12T18:56:57.464308+00:00",
+  "purpose": "fill result4-2.xlsx (Q42) and result4-3.xlsx (Q43_S2) as copies and verify by re-reading, without re-optimising anything",
+  "formal_period": "2025-02-01 00:00 .. 2025-12-31 23:50 (334 natural days, 48096 segments); the January public initialisation is excluded from the formal cost",
+  "time_rule": "the label 00:10 covers [00:10,00:20); the template plan row of day d holds the 144 published slots 00:10..next 00:10",
+  "candidate_choice": {
+    "result4_2": "Q42",
+    "result4_3": "Q43_S2",
+    "note": "Q43_S0 is kept as a comparison only and is NOT written into any template"
+  },
+  "field_mapping": {
+    "计划购电量 (result4-2)": "dispatch.csv::q0_kWh of Q42 (no intraday revision, so the original plan is also the effective plan)",
+    "计划购电量 (result4-3)": "dispatch.csv::q0_kWh of Q43_S2 (the original 0:00 plan)",
+    "调整购电量 (result4-3)": "dispatch.csv::q_eff_kWh of Q43_S2 (the final effective plan)",
+    "全天购电量": "sum of the 144 written slots of that row",
+    "全天购电费": "sum over the 144 slots of price_yuan_kWh * the written quantity; this is a pure purchase cost and does NOT include the 0.5*|q_eff-q0| adjustment fee or any emergency cost, which are reported in the summary",
+    "充放电量": "charge_kWh / discharge_kWh summed over each natural day's six 4-hour blocks; the 储电量 column holds the day-start state in block 0 and the day-end state in block 1 (same layout as the shipped result2.xlsx)",
+    "紧急购电量": "contiguous positive-emergency ranges inside one natural day; every day gets at least one row, clean days get 无紧急购电 with 0"
+  },
+  "inputs": {
+    "Q42_dispatch": {
+      "path": "results\\q4_price_transfer\\Q42\\dispatch.csv",
+      "sha256": "dc0b8215472c28e03c6330dc60252caf4ab21ded412b7a3f36c502b3bf648f27",
+      "rows": 48097
+    },
+    "result4-2_template": {
+      "path": "附件\\附件5\\result4-2.xlsx",
+      "sha256": "1c26494cfc6d754e0bd9bff7e13e1126a73d2d2da6c5336eb251d89b9a1a1a47"
+    },
+    "Q43_S2_dispatch": {
+      "path": "results\\q4_price_transfer\\Q43_S2\\dispatch.csv",
+      "sha256": "b371b36bf667b320c99189f2f9f18e6ecc2fcfb6a94a897cd938fb1b5e9b0144",
+      "rows": 48097
+    },
+    "result4-3_template": {
+      "path": "附件\\附件5\\result4-3.xlsx",
+      "sha256": "c59da470cabd0be23f602c95c8aa9d11ec224a0cdac216b3e1f218e65d006bdc"
+    }
+  },
+  "outputs": {
+    "result4-2_filled": {
+      "path": "results\\q4_delivery\\result4-2_filled.xlsx",
+      "sha256": "cfb48ceec58ab072f19dce30200afe5188296aca25d6026e9364db4fb5bb372e",
+      "bytes": 596002
+    },
+    "result4-2_template_backup": {
+      "path": "results\\q4_delivery\\template_backup\\result4-2_before_fill.xlsx",
+      "sha256": "1c26494cfc6d754e0bd9bff7e13e1126a73d2d2da6c5336eb251d89b9a1a1a47"
+    },
+    "result4-3_filled": {
+      "path": "results\\q4_delivery\\result4-3_filled.xlsx",
+      "sha256": "3557532e16613026de4099ffd55181660a0467a88993b80e6b3d0605de5241b4",
+      "bytes": 1084537
+    },
+    "result4-3_template_backup": {
+      "path": "results\\q4_delivery\\template_backup\\result4-3_before_fill.xlsx",
+      "sha256": "c59da470cabd0be23f602c95c8aa9d11ec224a0cdac216b3e1f218e65d006bdc"
+    }
+  },
+  "checks": {
+    "result4-2": {
+      "strategy": "Q42",
+      "read_back": {
+        "sheet_names": [
+          "计划购电量",
+          "充放电量",
+          "紧急购电量"
+        ],
+        "plan": {
+          "计划购电量": {
+            "rows": 334,
+            "slots": 144,
+            "cells": 48096,
+            "time_labels": 144,
+            "first_label": "0:10-0:20",
+            "last_label": "0:00-0:10+1",
+            "max_abs_value_error_kWh": 4.547473508864641e-13,
+            "max_abs_total_error_kWh": 4.3655745685100555e-11,
+            "max_abs_cost_error_yuan": 7.275957614183426e-12,
+            "total_purchase_kWh": 21697863.772018075,
+            "total_cost_yuan": 13872116.157930791
+          }
+        },
+        "storage": {
+          "rows": 2004,
+          "max_abs_charge_error_kWh": 5.4569682106375694e-12,
+          "max_abs_discharge_error_kWh": 9.094947017729282e-13,
+          "total_charge_kWh": 6683664.764987593,
+          "total_discharge_kWh": 5417154.193304328,
+          "initial_state_kWh": 6097.354409999999
+        },
+        "emergency": {
+          "rows": 445,
+          "total_kWh": 74524.08956366192,
+          "ledger_total_kWh": 74524.08956366192,
+          "abs_total_error_kWh": 0.0,
+          "zero_rows": 202,
+          "range_rows": 243
+        },
+        "record": {
+          "计划购电量": {
+            "rows": 334,
+            "columns": 144,
+            "values": 48096,
+            "max_abs_total_recompute_kWh": 0.0,
+            "max_abs_cost_recompute_yuan": 0.0
+          },
+          "充放电量": {
+            "rows": 2004,
+            "blocks_per_day": 6,
+            "max_abs_charge_recompute_kWh": 0.0,
+            "max_abs_discharge_recompute_kWh": 0.0,
+            "state_column": "day-start state in block 0 and day-end state in block 1"
+          },
+          "紧急购电量": {
+            "rows": 445,
+            "clean_day_rows": 202,
+            "range_rows": 243,
+            "covered_intervals": 622,
+            "total_kWh": 74524.08956366192,
+            "convention": "contiguous positive-emergency ranges inside one natural day, one row per day even when there is none (same convention as the filled result2.xlsx)"
+          }
+        }
+      },
+      "ledger_summary": {
+        "natural_segments": 48096,
+        "total_cost_yuan": 14347907.89204545,
+        "ordinary_cost_yuan": 13872116.157930791,
+        "adjustment_cost_yuan": 0.0,
+        "emergency_cost_yuan": 475791.7341146602,
+        "purchase_effective_kWh": 21697863.772018075,
+        "purchase_original_kWh": 21697863.772018075,
+        "charge_kWh": 6683664.76498759,
+        "discharge_kWh": 5417154.1933043245,
+        "emergency_kWh": 74524.08956366192,
+        "emergency_intervals": 622,
+        "unused_kWh": 2566923.4982651407,
+        "initial_state_kWh": 6097.354409999999,
+        "final_state_kWh": 2335.428116246688,
+        "tail_state_end_kWh": 1602.4688569874286
+      }
+    },
+    "result4-3": {
+      "strategy": "Q43_S2",
+      "read_back": {
+        "sheet_names": [
+          "计划购电量",
+          "调整购电量",
+          "充放电量",
+          "紧急购电量"
+        ],
+        "plan": {
+          "计划购电量": {
+            "rows": 334,
+            "slots": 144,
+            "cells": 48096,
+            "time_labels": 144,
+            "first_label": "0:10-0:20",
+            "last_label": "0:00-0:10+1",
+            "max_abs_value_error_kWh": 4.547473508864641e-13,
+            "max_abs_total_error_kWh": 4.3655745685100555e-11,
+            "max_abs_cost_error_yuan": 7.275957614183426e-12,
+            "total_purchase_kWh": 21481248.997870717,
+            "total_cost_yuan": 13736242.047850626
+          },
+          "调整购电量": {
+            "rows": 334,
+            "slots": 144,
+            "cells": 48096,
+            "time_labels": 144,
+            "first_label": "0:10-0:20",
+            "last_label": "0:00-0:10+1",
+            "max_abs_value_error_kWh": 4.547473508864641e-13,
+            "max_abs_total_error_kWh": 7.275957614183426e-12,
+            "max_abs_cost_error_yuan": 7.275957614183426e-12,
+            "total_purchase_kWh": 20857267.007347737,
+            "total_cost_yuan": 13362355.91234662
+          }
+        },
+        "storage": {
+          "rows": 2004,
+          "max_abs_charge_error_kWh": 5.4569682106375694e-12,
+          "max_abs_discharge_error_kWh": 9.094947017729282e-13,
+          "total_charge_kWh": 6822568.759079413,
+          "total_discharge_kWh": 5529938.118905791,
+          "initial_state_kWh": 6097.354409999999
+        },
+        "emergency": {
+          "rows": 476,
+          "total_kWh": 23567.622677123272,
+          "ledger_total_kWh": 23567.622677123272,
+          "abs_total_error_kWh": 0.0,
+          "zero_rows": 177,
+          "range_rows": 299
+        },
+        "record": {
+          "计划购电量": {
+            "rows": 334,
+            "columns": 144,
+            "values": 48096,
+            "max_abs_total_recompute_kWh": 0.0,
+            "max_abs_cost_recompute_yuan": 0.0
+          },
+          "调整购电量": {
+            "rows": 334,
+            "columns": 144,
+            "values": 48096,
+            "max_abs_total_recompute_kWh": 0.0,
+            "max_abs_cost_recompute_yuan": 0.0
+          },
+          "充放电量": {
+            "rows": 2004,
+            "blocks_per_day": 6,
+            "max_abs_charge_recompute_kWh": 0.0,
+            "max_abs_discharge_recompute_kWh": 0.0,
+            "state_column": "day-start state in block 0 and day-end state in block 1"
+          },
+          "紧急购电量": {
+            "rows": 476,
+            "clean_day_rows": 177,
+            "range_rows": 299,
+            "covered_intervals": 618,
+            "total_kWh": 23567.622677123272,
+            "convention": "contiguous positive-emergency ranges inside one natural day, one row per day even when there is none (same convention as the filled result2.xlsx)"
+          }
+        }
+      },
+      "ledger_summary": {
+        "natural_segments": 48096,
+        "total_cost_yuan": 13972808.907644086,
+        "ordinary_cost_yuan": 13362355.91234662,
+        "adjustment_cost_yuan": 480740.85500843165,
+        "emergency_cost_yuan": 129712.14028903413,
+        "purchase_effective_kWh": 20857267.00734774,
+        "purchase_original_kWh": 21481248.997870713,
+        "charge_kWh": 6822568.759079404,
+        "discharge_kWh": 5529938.118905794,
+        "emergency_kWh": 23567.622677123272,
+        "emergency_intervals": 618,
+        "unused_kWh": 1649250.1982179182,
+        "initial_state_kWh": 6097.354409999999,
+        "final_state_kWh": 2033.549908358823,
+        "tail_state_end_kWh": 1300.5906490995635
+      }
+    }
+  },
+  "anomalies": [],
+  "gaps": [],
+  "elapsed_seconds": 8.766781999962404,
+  "status": "passed",
+  "note": "only writing and re-reading happened here: no training, no protection rebuild, no optimisation, no parameter sweep. The 附件5 originals were backed up and left untouched; Q2 and Q3 artifacts were read only."
+}

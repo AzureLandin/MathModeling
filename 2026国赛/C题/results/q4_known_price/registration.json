@@ -1,0 +1,30 @@
+{
+  "started_utc": "2026-09-12T15:37:49.981510+00:00",
+  "hashes": {
+    "code/29_q2_time_mapping_experiment.py": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+    "code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+    "code/q4_known_price_experiment.py": "ac3d034d9b51a687d5d71852e70cf456179285f6b22cfe8e90e2e4e573b9d127",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "附件/附件4.xlsx": "20e9c93aeab5e8e21ae4dd15587f9e190f7408692504c1319598461cd654fe71",
+    "results/q2_time_mapping/archive_float.npz": "97e329f8c8ab988115fceba48d29528818f5a3b128f841f5ce938203f8e13c71",
+    "results/q2_time_mapping/naive_load.npy": "a680c6472e3a75a1c55bb38485004d659b550920b8a831c6074bf85e53a358b6",
+    "results/q2_time_mapping/naive_pv.npy": "3a8761e1968b9746b4fc375d466e96e54c862df9705f7354fb78188cf2a11395",
+    "results/q3_rolling_baseline/prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "results/q3_rolling_baseline/B0_dispatch.csv": "62b38b09405ce9b6ffc6d4df31aa87807c811d149940628a5acca0307d72cfc9",
+    "results/q3_rolling_baseline/B2_dispatch.csv": "de0cd209a8b3db71eb3b7e65bff7b9541cadc5cdd110870faacac68136cd5f8f"
+  },
+  "environment": {
+    "python": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "pandas": "3.0.5",
+    "openpyxl": "3.1.5"
+  },
+  "price_information": "00:00 knows its complete 144-slot template prices, including next midnight",
+  "january": "Jan1 idle, Jan2 zero plans with feedback; Jan3-31 naive/no protection/fixed S143=6000",
+  "formal": "Q42=Q2 frozen forecasts; Q43=Q3 B2 forecasts and revisions; free terminal; greedy feedback",
+  "controls": "F42/F43 freeze Q2/Q3 purchase plans, replay feedback from new common January state",
+  "validation": "input timestamp mapping, all physical/cash ledgers, one paired single-day price adapter test",
+  "training_calls": 0,
+  "expected_main_solves": 1699
+}
