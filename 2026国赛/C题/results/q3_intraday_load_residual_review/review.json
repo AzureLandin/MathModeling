@@ -1,0 +1,67 @@
+{
+  "scope": "saved-data pairing and descriptive summaries; not independent model-chain audit",
+  "signature": "00db21edf9d336a85ebc9ea40ed5c39e6ecdf7f58720c7e8c59d3ed812c33864",
+  "hash_checks": {
+    "centered_summary.csv": true,
+    "hourly_pairs.csv": true,
+    "monthly_summary.csv": true,
+    "overall_summary.csv": true,
+    "publication_features.csv": true,
+    "registration.json": true,
+    "source_archive/code/29_q2_time_mapping_experiment.py": true,
+    "source_archive/code/q3_rolling_baseline_experiment.py": true,
+    "source_archive/experiment_plan.md": true,
+    "validation.json": true
+  },
+  "max_absolute_errors": {
+    "b_kW": 5.684341886080802e-14,
+    "y_kW": 1.1368683772161603e-13,
+    "summary": 4.440892098500626e-16
+  },
+  "pair_rows": 13026,
+  "overall_cells": 39,
+  "overall_r_range": [
+    0.2823971784257997,
+    0.738906401139057
+  ],
+  "centered_r_min": {
+    "month": 0.2961170536345384,
+    "weekday": 0.2808946110921491
+  },
+  "cells_with_negative_month": 35,
+  "minimum_monthly_cell": {
+    "publication_hour": 12,
+    "kind": "hour",
+    "j": 9,
+    "month": "2025-10",
+    "n": 31,
+    "n_invalid": 0,
+    "mean_b_kW": 40.84152704427119,
+    "sd_b_kW": 71.23400743417848,
+    "mean_y_kW": -8.532759118010112,
+    "sd_y_kW": 144.8846745474179,
+    "pearson_r": -0.564704167473325,
+    "beta": -1.1485662883075003,
+    "intercept_a_kW": 38.37644200803885,
+    "constant_b": false,
+    "constant_y": false
+  },
+  "near_negative_month_hour_cells": {
+    "6": 8,
+    "12": 13,
+    "18": 2
+  },
+  "near_distinct_negative_months": {
+    "6": 4,
+    "12": 6,
+    "18": 2
+  },
+  "r_by_hour_18": [
+    0.7262161100276419,
+    0.6744643389950338,
+    0.738906401139057,
+    0.6876525119355203,
+    0.6665630420990935,
+    0.6681321261140595
+  ]
+}

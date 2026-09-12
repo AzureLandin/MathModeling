@@ -1,0 +1,142 @@
+{
+  "registered_utc": "2026-09-12T13:27:21.956451+00:00",
+  "specification": "reports\\问题三\\问题三_偏差校正与分位水平四组费用实验方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q3 bias-correction x quantile-level four-group cost comparison",
+    "specification": "reports/问题三/问题三_偏差校正与分位水平四组费用实验方案.md",
+    "groups": {
+      "L80": "frozen Linear + q80, read-only reuse of the saved B2 ledger",
+      "L75": "frozen Linear + q75, re-extracted from Linear residuals",
+      "C80": "frozen Bias28 corrected forecast + its own q80, reused from the accepted bias-correction diagnostic",
+      "C75": "frozen Bias28 corrected forecast + q75, re-extracted from corrected residuals"
+    },
+    "time_version": "start_time_v1",
+    "interval_rule": "label 00:10 covers 00:10-00:20; label 0:00+1 covers the next day 00:00-00:10",
+    "natural_day_rule": "natural day d = previous source row column 143 ++ current row columns 0..142",
+    "template_rule": "k-day 0:00 publishes 144 slots covering [k 00:10, (k+1) 00:10); the current midnight 00:00-00:10 executes the previous publication's carry commitment",
+    "targets": "h=0 current 00:00-00:10; h=1..143 current 00:10..23:50; h=144 next 00:00-00:10; template slot j = h-1",
+    "protection": {
+      "window_days": 28,
+      "alphas": [
+        0.75,
+        0.8
+      ],
+      "min_samples": 7,
+      "key": "publication hour, target day-offset, target slot clock",
+      "rule": "ascending order statistic at position ceil(alpha*m); zero when m<7; negative corrections retained",
+      "expected_positions": {
+        "q75": {
+          "m=27": 21,
+          "m=28": 21
+        },
+        "q80": {
+          "m=27": 22,
+          "m=28": 23
+        }
+      },
+      "note": "q75 is re-extracted from each predictor's own historical residuals; it is not q80 times a coefficient, and C75 never uses Linear residuals"
+    },
+    "schedule": "four-node rolling: 0:00 plans 144 slots; 6/12/18 revise the remaining 109/73/37",
+    "scoring": "0:00 minimises sum p*q0; intraday minimises sum p*q + 0.5 p|q - q0|; a candidate must lower the predicted total (ordinary + adjustment + 5x predicted emergency) by more than 1e-4 yuan to be accepted, ties keep the old plan",
+    "emergency_rule": "5*p*e on the delivered-interval price",
+    "settlement": "final effective version against the 0:00 original plan, once only",
+    "ledgers": {
+      "A": "natural days 2025-02-01..2025-12-31, 334 days, 48096 segments",
+      "B": "template publications 2025-02-01..2025-12-31, 48096 segments",
+      "bridge": "C_B - C_A = cost(2026-01-01 00:00-00:10) - cost(2025-02-01 00:00-00:10)"
+    },
+    "solver": "SciPy milp/HiGHS, relative MIP gap 1e-9, time limit 120 s, free terminal",
+    "reuse": {
+      "kernel": "code/q3_rolling_baseline_experiment.py imported as a library; its main entry is NOT called",
+      "L80": "results/q3_rolling_baseline/B2_dispatch.csv and summaries, read only",
+      "C80": "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz::protected_c1",
+      "load": "results/q2_time_mapping/archive_float.npz::issued_load"
+    },
+    "validation": "three classes only: quantile-input checks (no MILP), one adaptation control on 2025-06-21 (2 MILPs), one read-only reconciliation of the saved ledgers"
+  },
+  "dependency": {
+    "L80_REFERENCE_YUAN": 13492312.266087154,
+    "PUBLIC_INITIAL_KWH": 6075.795025925926,
+    "PUBLIC_CARRY_KWH": 0.0,
+    "kernel_sha256": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+    "report_layer": {
+      "figures": "figures\\q3_bias_quantile_cost",
+      "report": "reports\\问题三\\问题三_偏差校正与分位水平费用实验结果.md"
+    },
+    "budgets": {
+      "new_training": 0,
+      "public_january_reruns": 0,
+      "l80_full_year_reruns": 0,
+      "extra_validation_milp_limit": 2,
+      "planned_formal_milp": 4008
+    }
+  },
+  "input_sha256": {
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "results/q3_bias_correction_diagnostic/registration.json": "79ee76ca15d86401760e625e959adc8d9b4a55c02610043d742378b0d0097bd3",
+    "results/q3_bias_correction_diagnostic/run_manifest.json": "e6e2f78d92c1a38d48fa021649657b631c876399bd8a5401bde412a5a159aa3b",
+    "results/q3_rolling_baseline/prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "results/q3_rolling_baseline/B2_dispatch.csv": "de0cd209a8b3db71eb3b7e65bff7b9541cadc5cdd110870faacac68136cd5f8f",
+    "results/q3_rolling_baseline/B2_plan_versions.csv": "665c75dfb1dd7e14ff2b3c9e4ba456547ab8080f0bd23656311701e5179f9db4",
+    "results/q3_rolling_baseline/B2_revision_decisions.csv": "991a6a6f030770f74bc6f93e2e8b0f3e769b376dbe3340eeacb1c87ef1f5aa92",
+    "results/q3_rolling_baseline/B2_solver_log.csv": "26f7c36e6a73d8024f6ddc5c9fe0929a12744b15512950365f6c2e4386a5bbf4",
+    "results/q3_rolling_baseline/summary.csv": "132fe6d078b21a5fa4643f91a58be5a0726a90f97d3d5764fdc3bce5b8162bf1",
+    "results/q3_rolling_baseline/registration.json": "52711753762b5ceee35b20321999f6d229ce8dc1cd614266ef70574fe434f888",
+    "results/q3_rolling_baseline/run_manifest.json": "6dd89d8be8868cdddade777d6a76351df4217c46adfb08e8c306dcbb5cbdc3c1",
+    "results/q2_time_mapping/N_free/natural_dispatch.csv": "5a8798c2b308cbc4a157b3e726294676add96c86c75dffce5264237288acb8c1",
+    "results/q2_time_mapping/N_free/template_plan.csv": "e3a581a3d64d8b056f991164b8cb257fdcf5f84dca69d4cba8d42b05852d7c6a",
+    "code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+    "reports/问题三/问题三_偏差校正与分位水平四组费用实验方案.md": "3788da373190eae1228180a8c5db9482eea259bf5f64bdf86bc2af258143d778"
+  },
+  "code_sha256": "cc652fc3b20db8f771ecf009b2fe35fb0e21491de4dec67647d30a5cd3a8a7fd",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T13:19:35.314904+00:00",
+      "previous_signature": "6578748eb78f1cd5c8779564b591c0dda9989c5124d86504ac78009d8a9148bf",
+      "previous_code_sha256": "d99e4d354d84630ef8e62ea22ad6b5cef95667af8d4b1c8ef150235f93fd2aa8",
+      "new_signature": "9819151240b0c7f3d174bfce6c93330eda79c335703aa12d2bb928199a5b82c1",
+      "new_code_sha256": "7f5a0d5cb53575adaacc6a0445d83991364b015479690442c6edc02ea7d89f8f",
+      "reason": "修正2025-06-21分位抽检的匹配键：抽检行新增version字段，避免用发布小时(06)去匹配版本索引(1)；首次运行在类一检查即失败，未执行任何MILP"
+    },
+    {
+      "amended_utc": "2026-09-12T13:19:48.914015+00:00",
+      "previous_signature": "9819151240b0c7f3d174bfce6c93330eda79c335703aa12d2bb928199a5b82c1",
+      "previous_code_sha256": "7f5a0d5cb53575adaacc6a0445d83991364b015479690442c6edc02ea7d89f8f",
+      "new_signature": "9c0fcd5ee40e44332e27258f0cde1779de7f84f80b15d7f811e3ff24e3c7369d",
+      "new_code_sha256": "407a542566bacc543d1c234a61bede2a11aca0aeb1cfbc8c05982aff34d50c20",
+      "reason": "修正类二适配控制的0:00计划窗口：h=144落在次日00:00，按日期字符串过滤只得143段，改用(day, day+24h]显式区间取满144段；失败于取数阶段，当时已执行0次MILP"
+    },
+    {
+      "amended_utc": "2026-09-12T13:24:03.844005+00:00",
+      "previous_signature": "9c0fcd5ee40e44332e27258f0cde1779de7f84f80b15d7f811e3ff24e3c7369d",
+      "previous_code_sha256": "407a542566bacc543d1c234a61bede2a11aca0aeb1cfbc8c05982aff34d50c20",
+      "new_signature": "24ef6b86f78696603f4da72f516e3d6af4afa44da9bbd2814cd9d47a70ffe755",
+      "new_code_sha256": "785437217591b26c05b819b6babe78cff98dd319ef42d994b00d29afb613c508",
+      "reason": "加固非有限值检查：新增known_max_abs/comparable_max_abs，凡被检查量出现NaN/inf即失败；原net_c0与protected_c0的对齐比较因合法NaN单元被np.max污染而静默通过，现改为比对NaN掩码并在有限单元上取最大绝对差，同时要求逐行信度重算无缺失单元"
+    },
+    {
+      "amended_utc": "2026-09-12T13:24:21.788509+00:00",
+      "previous_signature": "24ef6b86f78696603f4da72f516e3d6af4afa44da9bbd2814cd9d47a70ffe755",
+      "previous_code_sha256": "785437217591b26c05b819b6babe78cff98dd319ef42d994b00d29afb613c508",
+      "new_signature": "0cc1ac310ed167a7411a2e52626492d664a88a6c0c2c50068733b78006611776",
+      "new_code_sha256": "d0faee98cca5ee39c2511eb6d46efb31d0b85cbd64490fbfca1d0e659d5d4574",
+      "reason": "修正known_max_abs的误用：q75<=q80单调性判据需要符号最大值，改用新增的known_max（同样对NaN/inf报错）；前一次运行于类一检查失败，0次MILP"
+    },
+    {
+      "amended_utc": "2026-09-12T13:27:21.956933+00:00",
+      "previous_signature": "0cc1ac310ed167a7411a2e52626492d664a88a6c0c2c50068733b78006611776",
+      "previous_code_sha256": "d0faee98cca5ee39c2511eb6d46efb31d0b85cbd64490fbfca1d0e659d5d4574",
+      "new_signature": "b67ff7c3125a7782236038353125be01b8843552b4811ac2f327c6bcd2ca3390",
+      "new_code_sha256": "cc652fc3b20db8f771ecf009b2fe35fb0e21491de4dec67647d30a5cd3a8a7fd",
+      "reason": "运行清单排除非计算产物run.log（由shell在运行中追加，清单哈希必然失配），并把n_solves拆成复用L80与本脚本实跑各4008次；检查逻辑未变，结果应与前一修订逐位一致"
+    }
+  ],
+  "signature": "b67ff7c3125a7782236038353125be01b8843552b4811ac2f327c6bcd2ca3390"
+}

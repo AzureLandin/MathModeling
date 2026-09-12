@@ -1,0 +1,20 @@
+{
+  "monthly_cash_difference.png": {
+    "sha256": "2e2bd5fc841a6acf918a85e824385827c8865c2c12a1a64e229d77128b036638",
+    "bytes": 55026,
+    "width": 1568,
+    "height": 736,
+    "ink_coverage": 0.1415,
+    "distinct_colours": 260,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "cost_components_and_emergency.png": {
+    "sha256": "b4b6cc0043f617808e26213831fbd19dcdda9742f0423a63340b20afc17839c5",
+    "bytes": 68240,
+    "width": 2016,
+    "height": 768,
+    "ink_coverage": 0.1576,
+    "distinct_colours": 267,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

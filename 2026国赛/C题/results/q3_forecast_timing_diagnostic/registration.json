@@ -1,0 +1,89 @@
+{
+  "registered_utc": "2026-09-12T15:14:21.516944+00:00",
+  "specification": "reports\\问题三\\问题三_新增预报时刻必要性轻量分析方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q3 forecast-timing necessity diagnostic (read-only)",
+    "specification": "reports/问题三/问题三_新增预报时刻必要性轻量分析方案.md",
+    "subject": "以 L75 为主要观察对象、L80 为对照，判断是否需要引入其他时刻的光伏预报",
+    "time_version": "start_time_v1",
+    "range": "2025-02-01 00:00 .. 2025-12-31 23:50, 48096 natural cash segments; the 2026-01-01 00:00-00:10 template tail is excluded",
+    "clock_rule": "non-midnight: v_t = floor(hour/6), h = 6*hour + minute/10, tau_t = (h - 6*v_t)/6 hours",
+    "midnight_rule": "the 334 midnight carry segments keep their cash and emergency in the hourly and monthly totals but are excluded from the latest-forecast pairing and tau diagnostic; main pairing is 47762 segments",
+    "forecast_source": "pv_linear[k, v_t, h] and issued_load[k, h] from the frozen archives; the group's own rho (q75 for L75, q80 for L80). The latest published forecast is used even when it did not lead to an accepted plan revision",
+    "decomposition": "a_L = (L - Lhat)*dt, a_V = (Vhat - V)*dt, eps = a_L + a_V = n - nhat, g = eps - rho; positive a_L = load under-forecast, positive a_V = PV over-forecast, positive g = the protected curve still under-estimates",
+    "storage": "Dmax_t = min(M, 0.9*(E_t - 1200)), A_t = (n_t - q_eff_t)^+, e_t = (A_t - Dmax_t)^+ under the existing greedy feedback; the classes inventory_limited / power_limited / close are companion state, not isolated causes",
+    "candidate_rule": "top-3 risk hours by L75 hourly emergency cost; the candidate publication clock (H-1) mod 24 is an unverified engineering convention for lead time, not an estimated optimum; at most two new windows, none if the evidence does not support them",
+    "descriptive_thresholds": {
+      "pv_over_share_min": 0.5,
+      "months_with_emergency_min": 6,
+      "note": "introduced in this round, NOT pre-registered; used only to structure the candidate table. Every hour that satisfies them is reported even when its cost rank is below the top 3, and no publication time is excluded by them. No significance test and no optimality claim."
+    },
+    "solver": "none: no training, no MILP/LP/DP, no storage replay, no prediction or quantile rebuild",
+    "validation": "three light checks only: sample/time mapping, one date and six boundaries, aggregation identities"
+  },
+  "dependency": {
+    "cost_registration": "b67ff7c3125a7782236038353125be01b8843552b4811ac2f327c6bcd2ca3390",
+    "cost_manifest_status": "complete",
+    "zero_budget": {
+      "training": 0,
+      "milp_lp_dp": 0,
+      "storage_replay": 0,
+      "public_january_reruns": 0,
+      "prediction_rebuild": 0,
+      "quantile_rebuild": 0,
+      "update_time_ablation": 0,
+      "parameter_sweeps": 0
+    }
+  },
+  "input_sha256": {
+    "results/q3_bias_quantile_cost/L75/dispatch.csv": "979f4460e3368f2f7c336cdda5c8e99a607886be7eb5d65e102a1d4099171072",
+    "results/q3_rolling_baseline/B2_dispatch.csv": "de0cd209a8b3db71eb3b7e65bff7b9541cadc5cdd110870faacac68136cd5f8f",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "results/q3_bias_quantile_cost/protection_q75.npz": "c41ca05ea76f2d6f568b3de062de9fdc1a95287bed15b1af7f80502d56808a44",
+    "results/q3_bias_quantile_cost/summary.csv": "e91a0cf58c77bfa5b0082178d175e85beb91aa26aec11684751818a311df5f91",
+    "results/q3_bias_quantile_cost/run_manifest.json": "4ec3fc28a13b9893290b8aa1ec8791456332e02380f67ec89a076df637ee380a",
+    "reports/问题三/问题三_分位费用实验接收核查.md": "4d623c578f16a7238032bfd2b6443231c8bb11e49c11e0755b67a59f8e88824b",
+    "reports/问题三/问题三_新增预报时刻必要性轻量分析方案.md": "3666ab60a7b77f6a83582a256f96d1b77cda2049a7796aabdf200107fb3c1939"
+  },
+  "code_sha256": "01574cd9f979471f51b343dc25e29e820d86eb301209684811adde9ed10e8344",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T14:23:53.631856+00:00",
+      "previous_signature": "47a49ddae67ed96dd4d40350ed3c5d3d8895af7c2d7764e24a31ac241522d2ba",
+      "previous_code_sha256": "5c3335a5699a0cdfcb6f1e6b792d3237fb03c0e803af09519c8275f0fd6a6bd5",
+      "new_signature": "36f818d7df8ecc32cccaee209a87c0769c67e237dc2791e50c24ef9bc5764670",
+      "new_code_sha256": "8d5a2e4f1bbfad48a8ce2d7c88a153317cb6f515a0071c374a77368faf5c5fef",
+      "reason": "修正预报年龄单位：发布时刻对应槽位是36*v（v=floor(小时/6)），原式误用6*v，使06:00-11:50等区间的tau少了5小时；抽检断言同时修正。首次运行在样本/映射检查即失败，0次求解"
+    },
+    {
+      "amended_utc": "2026-09-12T14:24:09.043398+00:00",
+      "previous_signature": "36f818d7df8ecc32cccaee209a87c0769c67e237dc2791e50c24ef9bc5764670",
+      "previous_code_sha256": "8d5a2e4f1bbfad48a8ce2d7c88a153317cb6f515a0071c374a77368faf5c5fef",
+      "new_signature": "0c33fe718d350509c4f4e8fc5980b0f6c6198bb825df62f9d4ff6ff9b63a7c8e",
+      "new_code_sha256": "55f85a350f6036f6bf1251ada8d4e4872fe0e69c8605d0c2de3f76bf0a0239df",
+      "reason": "修正年龄组覆盖检查的重复计数：merged_age 是同一批47762段的另一种聚合，不能与 node_age 相加，改为两类各自单独加午夜段核对；首次运行在汇总检查失败，0次求解"
+    },
+    {
+      "amended_utc": "2026-09-12T15:14:07.481867+00:00",
+      "previous_signature": "0c33fe718d350509c4f4e8fc5980b0f6c6198bb825df62f9d4ff6ff9b63a7c8e",
+      "previous_code_sha256": "55f85a350f6036f6bf1251ada8d4e4872fe0e69c8605d0c2de3f76bf0a0239df",
+      "new_signature": "e2ea74a1c9b62a1c612e188aa9ef65d40916c927ad2a66302c45246817dd2c82",
+      "new_code_sha256": "92ca98f437131d5c014c75cc6f3c49a77a16b6778079c963258abd983261d971",
+      "reason": "按新增预报时刻接收核查修订：(1)风险小时表不再只用费用前3——凡满足描述性规则的小时都列入（selection列区分），并明确不排除任何新增时刻；(2)判定词改为描述性、非排除性；(3)hourly新增实测光伏正值段数/最大值/电量；(4)soc_block新增区间终点中位数与起点是否已在下限的计数，修正起点/终点标签；(5)interval_diagnostic补state_end_kWh。0训练/0求解不变"
+    },
+    {
+      "amended_utc": "2026-09-12T15:14:21.517548+00:00",
+      "previous_signature": "e2ea74a1c9b62a1c612e188aa9ef65d40916c927ad2a66302c45246817dd2c82",
+      "previous_code_sha256": "92ca98f437131d5c014c75cc6f3c49a77a16b6778079c963258abd983261d971",
+      "new_signature": "ee26699f138c6ab515d02e3b279cdd5a6b0b0c0130ce66aacad6d2fec2663460",
+      "new_code_sha256": "01574cd9f979471f51b343dc25e29e820d86eb301209684811adde9ed10e8344",
+      "reason": "同上一条修订（本轮同一处修复的续）：rule_satisfying_hours 误用列名 a_pv_kW，改为 a_pv_kWh；运行在构造风险小时表时即失败，0次求解"
+    }
+  ],
+  "signature": "ee26699f138c6ab515d02e3b279cdd5a6b0b0c0130ce66aacad6d2fec2663460"
+}

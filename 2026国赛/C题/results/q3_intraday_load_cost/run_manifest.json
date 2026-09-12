@@ -1,0 +1,65 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T17:36:12.398505+00:00",
+  "finished_utc": "2026-09-12T17:36:53.162276+00:00",
+  "wall_seconds": 40.76378679997288,
+  "timings": {
+    "inputs_seconds": 0.935937900096178,
+    "protection_seconds": 0.324213300133124,
+    "check_class1_seconds": 0.11098520015366375,
+    "check_class2_seconds": 0.19263929990120232,
+    "S2_seconds": 38.133799500064924,
+    "check_class3_seconds": 0.31509140017442405
+  },
+  "signature": "0af78e11997bca90878b1b4cc98a9b68010de8b59b3774377c5c2c08f2dc6f17",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "zero_solves": {
+    "s0_full_year_reruns": 0,
+    "lightgbm_training": 0,
+    "weight_refits": 0,
+    "pv_rebuild": 0,
+    "public_january_dispatch": 0,
+    "parameter_sweeps": 0
+  },
+  "milp": {
+    "S2_formal": 1336,
+    "adaptation": 2
+  },
+  "inputs_read": [
+    "code/q3_rolling_baseline_experiment.py",
+    "reports/问题三/问题三_日内负载修正与q75费用对照实验方案.md",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz",
+    "results/q3_bias_quantile_cost/L75/dispatch.csv",
+    "results/q3_bias_quantile_cost/L75/nominal_trajectory.csv",
+    "results/q3_bias_quantile_cost/L75/plan_versions.csv",
+    "results/q3_bias_quantile_cost/L75/revision_decisions.csv",
+    "results/q3_bias_quantile_cost/L75/solver_log.csv",
+    "results/q3_bias_quantile_cost/protection_q75.npz",
+    "results/q3_bias_quantile_cost/registration.json",
+    "results/q3_bias_quantile_cost/run_manifest.json",
+    "results/q3_bias_quantile_cost/summary.csv",
+    "results/q3_intraday_load_forward/forecast_archive.npz",
+    "results/q3_intraday_load_forward/registration.json",
+    "results/q3_intraday_load_forward/run_manifest.json",
+    "results/q3_rolling_baseline/prediction_protection.npz"
+  ],
+  "outputs": {
+    "contrasts.csv": "1469447d57443122c144bc78ef567f9ef48d54e2db84d8148facc8fb4ce11718",
+    "daily.csv": "de168f8d10923dd708f394902c5f27d363e3348e4e975d486a252241740e89cc",
+    "monthly.csv": "8e38de75d9a35249fd3d95f55d7c5143e1dea4d1fd73246bae00713743277962",
+    "protection.npz": "6b557fb3d47f33275a7700ae296d5fc6f6a4ecb1e71451bb95dc0fa5e89bb9de",
+    "protection_change.csv": "b5fc8d18c4a7b37ac167f76aedaa77e76c7a4b95e7356dcd8cde3dc8318d13d3",
+    "registration.json": "db1c0e150f2cc4b4dea3667e6378e0fdb56636697aa8ded9c394c33cac5f1875",
+    "S2_load_q75/dispatch.csv": "a8ae7c5469826eeda0ea18b498dbfd9583ec996bb186a80f54c58fabbcb58136",
+    "S2_load_q75/nominal_trajectory.csv": "6930f5762c102f84dc5df43a13d66e1d4e8679253dbe80a37cf5b7a2a9f6e9be",
+    "S2_load_q75/plan_versions.csv": "eea4b8a06b20c634414ac0d743a1d904643ed0447632b597bd15a00fa1d9e1f1",
+    "S2_load_q75/revision_decisions.csv": "c04912112abdeef3b99b50b2ce17813e194deec2610f529a3cc697b76061989e",
+    "S2_load_q75/solver_log.csv": "d21affe694332fd76935b6e3b42be4f3123b341487ff011cb6369d914da4a49e",
+    "selected_dates.csv": "00ad519b38c888e55647712e801b02d1f12f261b9551a6cad721df9e4a4be2d1",
+    "source_archive/code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+    "source_archive/experiment_plan.md": "a0bbd7dd835069208b2a6ea158334e22b8413fabd377c548af44029bcf13faa0",
+    "summary.csv": "e0921b30bc0a6f217df738612417ba30e1145f81e8e0a9b9a6bad146533b35d6",
+    "validation.json": "19c9ed8e5a40940f2a230cf241edcfc57d8e4fa6f6800c350c287ffd36617dbd"
+  }
+}

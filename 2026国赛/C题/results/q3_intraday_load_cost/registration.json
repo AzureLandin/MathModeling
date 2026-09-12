@@ -1,0 +1,97 @@
+{
+  "registered_utc": "2026-09-12T17:36:12.437717+00:00",
+  "specification": "reports\\问题三\\问题三_日内负载修正与q75费用对照实验方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q3 intraday load correction with its own q75 protection: S0_L75 vs S2_load_q75",
+    "specification": "reports\\问题三\\问题三_日内负载修正与q75费用对照实验方案.md",
+    "groups": {
+      "S0_L75": "forward-archive F0 load (the original 0:00 forecast) + attachment-3 Linear PV + the saved own W28/q75; read-only reuse of the audited ledger",
+      "S2_load_q75": "forward-archive F2 load (0:00 original, revised at 6/12/18) + the same Linear PV + a W28/q75 rebuilt from F2's own published errors"
+    },
+    "identification": "the difference measures the combined effect of the F2 load correction, its matching residual protection and the dispatch response. It is NOT the isolated value of same-day information and says nothing about F1.",
+    "net_forecast": "n_hat[k,v,h] = (load_hat[k,v,h] - pv_linear[k,v,h]) * dt; n = (L - V) * dt; eps = n - n_hat, all in kWh",
+    "history": {
+      "window_days": 28,
+      "min_samples": 7,
+      "rule": "d in [max(0,k-28), k-1] with 144d + h + 1 <= 144k + 6*r_v, that publication's prediction and the target truth valid",
+      "quantile": "ascending order statistic at position ceil(0.75 m); zero when m < 7; negative protection retained",
+      "separation": "the 14-day weight fit of the F2 forecast and the 7-day q75 history are different mechanisms and are never mixed; F2 uses its own stored published values, never F0/F1 errors or current parameters backfilled"
+    },
+    "engine": "unchanged rolling kernel: power cap 5000 kW (5000/6 kWh per slot), state band 1200-10800 kWh, charge/discharge efficiency 0.9 each, free terminal, no selling and no new penalty; the 0:00 plan minimises sum p q0, intraday revisions minimise sum [p q + 0.5 p |q - q0|]; accept a candidate only if its greedy score beats the previous plan by more than 1e-4 yuan",
+    "settlement": "C = sum over the final effective purchase of [p q_eff + 0.5 p |q_eff - q0| + 5 p e] on the delivery-interval price; no repeated adjustment fee across overwrites; the midnight carry keeps the original commitment of its owning day",
+    "ledgers": {
+      "A": "natural [2025-02-01 00:00, 2026-01-01 00:00), 48096 segments, main metric",
+      "B": "full 48097-segment trajectory including the 2026-01-01 00:00-00:10 tail, not part of the main cost",
+      "template": "[2025-02-01 00:10, 2026-01-01 00:10), reported separately and bridged by the head/tail difference; the two ledgers are never summed up as one"
+    },
+    "selected_dates": [
+      "2025-03-20",
+      "2025-06-21",
+      "2025-09-23",
+      "2025-12-21"
+    ],
+    "inventory_valuation_yuan_per_kWh": 0.8970555555555555,
+    "gate": "delta C = C_S2 - C_S0 on the natural ledger; |delta| <= 0.0001 yuan is numerically tied; lower cash supports only 'cheaper in this one-year fixed configuration'. No automatic model replacement and no result3.xlsx write.",
+    "solver": "HiGHS via scipy.optimize.milp, the same binary mutual-exclusion formulation and tolerances as the accepted kernel",
+    "validation": "three light checks: input and protection boundary (0 MILP), two adaptation solves (2 MILP), persisted-ledger reconciliation (0 MILP)"
+  },
+  "dependency": {
+    "forward_archive_signature": "d83c4ae298d398b5c7d93d289205a1ca0f2e004db127ae0e780d50427414a819",
+    "forward_archive_status": "complete",
+    "cost_experiment_signature": "b67ff7c3125a7782236038353125be01b8843552b4811ac2f327c6bcd2ca3390",
+    "cost_experiment_status": "complete",
+    "kernel": "code/q3_rolling_baseline_experiment.py imported as a read-only library",
+    "zero_budget": {
+      "s0_full_year_reruns": 0,
+      "lightgbm_training": 0,
+      "weight_refits": 0,
+      "pv_rebuild": 0,
+      "public_january_dispatch": 0,
+      "parameter_sweeps": 0
+    },
+    "note": "the protection rebuild is pure array arithmetic and is NOT reported as zero work"
+  },
+  "input_sha256": {
+    "reports/问题三/问题三_日内负载修正与q75费用对照实验方案.md": "a0bbd7dd835069208b2a6ea158334e22b8413fabd377c548af44029bcf13faa0",
+    "results/q3_intraday_load_forward/forecast_archive.npz": "8ba57748f826d8c283234bfca36531a21b4c83580b32847b519c2b498c208356",
+    "results/q3_intraday_load_forward/registration.json": "33261e4ba0266e6be4aa5504961f3a0da9bb4101cac2f3b4e0cb352feeabe918",
+    "results/q3_intraday_load_forward/run_manifest.json": "152f996acdf77be4cf5442154a7a29133e72e39ed7fda7037b8f5abbf11c91cd",
+    "results/q3_rolling_baseline/prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "results/q3_bias_quantile_cost/protection_q75.npz": "c41ca05ea76f2d6f568b3de062de9fdc1a95287bed15b1af7f80502d56808a44",
+    "results/q3_bias_quantile_cost/summary.csv": "e91a0cf58c77bfa5b0082178d175e85beb91aa26aec11684751818a311df5f91",
+    "results/q3_bias_quantile_cost/registration.json": "1bc5599fdf1db723ccb16238d5c345e991ca07b7145075816da33abcfdb59a8b",
+    "results/q3_bias_quantile_cost/run_manifest.json": "4ec3fc28a13b9893290b8aa1ec8791456332e02380f67ec89a076df637ee380a",
+    "results/q3_bias_quantile_cost/L75/dispatch.csv": "979f4460e3368f2f7c336cdda5c8e99a607886be7eb5d65e102a1d4099171072",
+    "results/q3_bias_quantile_cost/L75/plan_versions.csv": "659941882644dc7e4e5cc29d8b29fa1638cd727b3b7a3c12d52634cb68be9693",
+    "results/q3_bias_quantile_cost/L75/revision_decisions.csv": "7855b9b61e23a9ecab4a89238359a461a171b9065e7824046bb726f86facabdf",
+    "results/q3_bias_quantile_cost/L75/solver_log.csv": "0b4e20c51624bb60245d55b3360c97e53f111621e512c4d5613e35e877a32aa4",
+    "results/q3_bias_quantile_cost/L75/nominal_trajectory.csv": "fa789a370fa72e06065bb40ceb0f8371c2047b4ad4419f3858b372a2530cefd6",
+    "code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b"
+  },
+  "code_sha256": "d25e15dacfdc55316bc3d60d47559a10cb1f579279dc95e4d688f17c0051003a",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T17:34:17.012801+00:00",
+      "previous_signature": "08b75cb675563fbfc6babd4e969ae8dd76bcb86f758a23f78c246e376b66deaa",
+      "previous_code_sha256": "aa923a04d81035eb8458a575da2ba5726a48b4edcb7029c1e06d0d6d927cb7d5",
+      "new_signature": "c5b2b70d93e7c3c2c533ce3f685b5613c6875c5cef503d32927a9ac3abae0aee",
+      "new_code_sha256": "e21e4189e04450e9cd7545c715c55c3d884819bf929baa997039fdbc2b643a41",
+      "reason": "the cash decomposition check summed the wrong rows (total+ordinary+adjustment instead of the three components); it now sums rows 1:4 and asserts against the total difference"
+    },
+    {
+      "amended_utc": "2026-09-12T17:36:12.438115+00:00",
+      "previous_signature": "c5b2b70d93e7c3c2c533ce3f685b5613c6875c5cef503d32927a9ac3abae0aee",
+      "previous_code_sha256": "e21e4189e04450e9cd7545c715c55c3d884819bf929baa997039fdbc2b643a41",
+      "new_signature": "0af78e11997bca90878b1b4cc98a9b68010de8b59b3774377c5c2c08f2dc6f17",
+      "new_code_sha256": "d25e15dacfdc55316bc3d60d47559a10cb1f579279dc95e4d688f17c0051003a",
+      "reason": "the per-day cost-difference median was published as delta_median_kW although it is yuan; renamed to delta_median_yuan. No protection, kernel or evaluation rule changed."
+    }
+  ],
+  "signature": "0af78e11997bca90878b1b4cc98a9b68010de8b59b3774377c5c2c08f2dc6f17"
+}
