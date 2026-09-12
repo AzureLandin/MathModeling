@@ -42,6 +42,7 @@
 \setlist{nosep, leftmargin=2em}
 \usepackage[indentafter]{titlesec}
 \usepackage{caption}
+\captionsetup{font=bf}
 \usepackage{bm}
 \usepackage{mathtools}
 
@@ -248,7 +249,7 @@ $M$ & 单时段最大充放电电量，$M = P_{\max} \cdot \Delta t$ & kWh \\
 
 此外，定义状态变量$E_t$为第$t$个时段开始前储能设备的内部储电量（kWh），$t = 0, 1, \ldots, 144$，其中$E_0$为初始储电量，$E_{144}$为调度周期结束时的储电量。
 
-\noindent\textbf{（2）目标函数}\\[6pt]
+\noindent\textbf{（2）目标函数的确定}\\[6pt]
 \indent 微网的全天购电费用等于各时段购电量与对应电价之积的总和。以最小化全天购电费用为目标：
 \begin{equation}
   \min \quad Z = \sum_{t=0}^{143} p_t \cdot q_t
@@ -301,7 +302,7 @@ $M$ & 单时段最大充放电电量，$M = P_{\max} \cdot \Delta t$ & kWh \\
   \label{eq:q1_nonneg}
 \end{equation}
 
-\noindent\textbf{完整模型汇总}\\[6pt]
+\noindent\textbf{（3）完整模型汇总}\\[6pt]
 \indent 综合上述分析，问题一的MILP模型可完整表述为：
 
 \begin{equation}
@@ -328,7 +329,7 @@ $M$ & 单时段最大充放电电量，$M = P_{\max} \cdot \Delta t$ & kWh \\
 
 本问采用优化求解器HiGHS~\cite{huangfu2018parallelizing}对上述MILP模型进行精确求解。由于目标函数与全部约束均为线性，充放电互斥只需引入0-1变量即可线性刻画，问题一属于标准的混合整数线性规划，采用分支定界法即可获得全局最优解；HiGHS集成了单纯形法、内点法和分支定界法，能够高效处理该规模共865个变量的MILP，对该尺寸问题可在秒级内精确求解并获得全局最优证认，无需依赖遗传算法等随机搜索方法。
 
-依据式~\eqref{eq:q1_full_model}构建MILP模型，定义目标函数和全部约束条件，调用HiGHS求解器进行求解。求解器在$0.034$秒内完成求解，搜索节点数为1，返回全局最优解，相对间隙为$0.000\times 10^{0}$，证实了解的全局最优性。目标函数下界与最优值完全一致，均为$35\,126.95$元。
+依据式~\eqref{eq:q1_full_model}构建MILP模型，定义目标函数和全部约束条件，调用HiGHS求解器进行求解。目标函数下界与最优值完全一致，均为$35\,126.95$元。
 
 模型的各项物理一致性校验结果如表~\ref{tab:q1_validation}所示，所有指标均在数值精度范围内满足约束要求。
 
@@ -572,7 +573,7 @@ $23{:}30$--$23{:}40$ & $0.4240$ & $571.62$ & $904.95$ \\
 
 \subsubsection{模型求解}
 
-\paragraph{（1）求解流程}
+\noindent\textbf{（1）求解流程}\\[6pt]
 
 \step{1} \textbf{公共预运行} 以$2025$年$1$月$1$日$0{:}00$初始储电量$E_0 = 6\,000$~kWh为起点，运行$1$月$31$天形成预测残差历史并递推储能状态，得到$2$月$1$日日初实际储电量为$6\,075.80$~kWh。$1$月不计入正式评价费用。
 
@@ -632,6 +633,15 @@ $N_{\text{free}}$  & 自由末态           & $\bm{13\,699\,337.68}$ & $13\,264\
 \bottomrule
 \end{tabular}
 \end{table}
+
+图~\ref{fig:q2_annual_cost}给出问题二全年费用构成与应急购电占比，计划购电费与应急购电费分别占总费用的$96.83\%$和$3.17\%$，应急购电保持较低水平。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{../../C题/问题二可能用到的图片/q2_fig1_annual_cost_and_emergency_share.png}
+  \caption{问题二全年费用构成与应急购电占比}
+  \label{fig:q2_annual_cost}
+\end{figure}
 
 \paragraph{（2）指定日期的计划购电结果}
 
@@ -730,7 +740,14 @@ $N_{\text{free}}$  & 自由末态           & $\bm{13\,699\,337.68}$ & $13\,264\
 
 自由名义末态较固定$6\,000$~kWh名义末态的全期总费用少$28\,710.48$元，降幅为$0.2091\%$，且在$11/11$个月中均更省。自由组的应急电量因减少保护性购电而增加$4\,754$~kWh，但总费用仍更低，说明名义末态设置不会翻转问题二的主要结论；本文按与实际执行一致的自由末态口径填写正式结果。
 
-% 此处应插入图：名义末态敏感性分析图。横轴为末态目标（4800/6000/7200 kWh），纵轴为总费用（元）。
+图~\ref{fig:q2_monthly_cost_diff}给出自由名义末态相对固定$6\,000$~kWh名义末态的逐月费用差额，全部$11$个月的差额均为负值，与表~\ref{tab:q2_ablation}的整体结论一致。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{../../C题/问题二可能用到的图片/q2_fig4_monthly_cost_differences.png}
+  \caption{自由名义末态相对固定$6\,000$~kWh名义末态的逐月费用差额}
+  \label{fig:q2_monthly_cost_diff}
+\end{figure}
 
 \paragraph{（3）物理一致性校验}
 
