@@ -1,0 +1,815 @@
+% !TEX program = xelatex
+% ============================================================
+%  全国大学生数学建模竞赛 (CUMCM) LaTeX 论文
+%  编译方式: XeLaTeX
+% ============================================================
+\documentclass[12pt,a4paper]{ctexart}
+
+% ======================== 宏包加载 ========================
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=green!50!black,
+    urlcolor=blue!60!black
+}
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red!70!black},
+    tabsize=4
+}
+
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=2em}
+\usepackage[indentafter]{titlesec}
+\usepackage{caption}
+\usepackage{bm}
+\usepackage{mathtools}
+
+% ======================== 字体设置 ========================
+\setCJKmainfont{SimSun}[BoldFont=SimHei, ItalicFont=KaiTi]
+\setCJKsansfont{SimHei}
+\setCJKmonofont{FangSong}
+\setmainfont{Times New Roman}
+\setCJKfamilyfont{zhsong}{SimSun}[BoldFont=SimHei]
+\setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
+\setCJKfamilyfont{zhkai}{KaiTi}[BoldFont=SimHei]
+\setCJKfamilyfont{zhfang}{FangSong}[BoldFont=SimHei]
+
+% ======================== 编号格式 ========================
+\renewcommand{\thesection}{\chinese{section}、}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
+% ======================== 标题格式 ========================
+\titleformat{\section}
+  {\centering\heiti\zihao{-3}\bfseries}
+  {\thesection}{0em}{}
+\titlespacing*{\section}{0pt}{1.5ex plus .5ex minus .2ex}{1.0ex plus .2ex}
+
+\titleformat{\subsection}
+  {\heiti\zihao{4}\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{1.2ex plus .4ex minus .2ex}{0.8ex plus .2ex}
+
+\titleformat{\subsubsection}
+  {\heiti\zihao{-4}\bfseries}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus .3ex minus .1ex}{0.6ex plus .1ex}
+
+% ======================== 定理环境 ========================
+\theoremstyle{definition}
+\newtheorem{definition}{定义}[section]
+\newtheorem{assumption}{假设}[section]
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{corollary}{推论}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{注}[section]
+
+% ======================== 自定义命令 ========================
+\renewenvironment{abstract}
+  {\begin{center}\heiti\zihao{-3}摘\quad 要\end{center}\zihao{-4}\songti\indent}
+  {\par\vspace{1em}}
+
+\newcommand{\keywords}[1]{%
+  \par\noindent\textbf{关键词：}#1}
+
+\newenvironment{symboltable}
+  {\begin{center}\zihao{5}\begin{tabular}{>{\centering\arraybackslash}p{3.5cm} p{7.5cm} >{\centering\arraybackslash}p{1.5cm}}
+  \toprule
+  \textbf{符号} & \textbf{含义} & \textbf{单位} \\
+  \midrule}
+  {\bottomrule\end{tabular}\end{center}}
+
+\newcommand{\step}[1]{\par\noindent\textbf{Step #1}\quad}
+
+% ============================================================
+\begin{document}
+\pagestyle{plain}
+
+\begin{center}
+{\zihao{-2}\heiti\bfseries 微网与外部电网电力调控策略}
+\end{center}
+\vspace{1em}
+
+% ======================== 摘要 ========================
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\begin{abstract}
+本文针对微网与外部电网的电力调控策略优化问题，综合运用混合整数线性规划（MILP）、滚动优化与多阶段调整策略等方法，建立了系统化的购电决策模型。
+
+\textbf{针对问题一：}在电价与负载固定、光伏发电预测已知的条件下，建立了以全天购电费用最小化为目标的MILP模型。模型以144个10分钟时段为决策周期，引入充放电互斥二进制变量精确刻画储能设备物理特性，采用HiGHS求解器精确求解。最终得到全天最优购电费用为$35\,126.95$元，购电量$59\,482.70$~kWh，相较于无储能方案节省$26.90\%$。
+
+% 后续问题的摘要待补充
+\end{abstract}
+
+\keywords{微网调度；混合整数线性规划；储能优化；分时电价；滚动优化}
+
+% ============================================================
+%  正文
+% ============================================================
+
+\section{问题重述}
+
+\subsection{问题背景}
+微网是为促进光伏发电等分布式能源的就地消纳、缓解并网冲击而迅速发展的小型发用电系统。出于经济考量，非孤岛式微网可在外部电网（下文简称外网）电价偏低或分布式能源有多余电量的时段，为储能设备充电蓄能，并在外网电价较高的时段放电。
+
+微网与外网的调控目的是综合利用小区负载、光伏发电功率及储能设备的当前储电量等信息，尽可能精准地决策微网的购电量与储能设备的充放电量，使得微网所供电力既能满足小区的负载需求，又尽可能节约购电费用。
+\subsection{问题提出}
+
+已知微网的电价数据、小区负载数据、光伏发电功率数据以及储能设备的物理参数（最大容量$12\,000$~kWh，最大充放电功率$5\,000$~kW，初始储电量$6\,000$~kWh，储电量约束$[1\,200, 10\,800]$~kWh，充放电效率$90\%$），本文需要解决以下问题：
+
+\textbf{问题一：}若每天的电价和小区负载相同，且光伏发电功率预测已知，要求微网提供的电能不低于小区负载，且储能设备在$0{:}00$和$24{:}00$的储电量相同，在每天$0{:}00$制定当天的计划购电策略。
+
+\textbf{问题二：}若每天电价相同，而小区负载和光伏发电功率随时间变化，且当实际供电低于负载时需以$5$倍电价紧急购电，在每天$0{:}00$制定当天的计划购电策略。
+
+\textbf{问题三：}在每天$0{:}00$、$6{:}00$、$12{:}00$和$18{:}00$可获得未来24小时光伏发电功率预报，可据此调整购电策略。调整涉及违约费用（减少部分按$50\%$电价收费）和超购费用（增加部分按$1.5$倍电价收费），建立微网当天购电策略的数学模型。
+
+\textbf{问题四：}在电价也实时波动的情况下，重新计算问题二和问题三的购电策略。
+
+
+\section{问题分析}
+
+\subsection{问题一的分析}
+
+问题一要求在给定电价、负载和光伏预测数据的条件下，制定微网当天的最优计划购电策略，以最小化全天总购电费用。由于储能充放电会直接改变各时段的外购电需求，两变量相互耦合，因此模型需将各时段的外购电量与储能充放电量作为联合决策变量，在保证各时段供电不低于小区负载、储能充放电功率与剩余电量均不超出设备允许范围、且首尾电量一致的物理约束下，寻找全局最优的电量分配方案。考虑到储能设备不可同时充放电的特性需引入 0-1 状态变量刻画，以及目标函数与主要约束均为线性关系，本问构建混合整数线性规划（MILP）模型；由于单日时段规模有限，采用 HiGHS 求解器可快速求得全局最优解，从而输出各时段的最优购电量与储能调度策略。
+% 此处应插入图：附件1电价、负载与光伏功率的24小时时序曲线（双纵轴图）。
+% 横轴为时间0:00--24:00，左纵轴为功率(kW)对应负载与光伏曲线，右纵轴为电价(元/kWh)。
+
+\subsection{问题二的分析}
+问题二要求在每天0:00、当日真实负载与光伏尚未知的条件下决定当天144个时段的购电计划，使334天内的计划购电费与应急购电费之和最小。由于计划不足需高价购电来应急，且溢出部分虽不退款但可贮存留用，低估代价远高于高估；本问在继承问题一规划模型的基础上新增预测环节，估计当日光伏与负载功率。我们将其拆解为预测、日前计划与真实数据反馈三个模块：在预测模块中，我们先依据小区负载的周内规律与光伏发电日间规律做季节性朴素预测；再根据历史数据构造时序特征，采用LightGBM回归模型对季节性预测结果做进一步修正；最后以该各时段历史残差的的高分位数再次修正，以此来减少不可避免的低估造成的影响。随后以修正净需求与当日实际初态为输入，将计划购电量、名义充放电量及充放电状态作为决策变量，建立以计划费最小为目标的日前混合整数线性规划模型；做出计划后，逐段揭示真实供需情况，对富余电量进行贮存、并在用电缺口时进行放电、不足时购买应急电量并跨日继承状态，从而在保证小区用电需求的情况下尽可能降低用电成本。因模型与问题一同为线性且含互斥0-1变量，仍采用HiGHS求解器求解，并回测输出全年购电计划、应急安排与总费用。
+\subsection{问题三的分析}
+% 待补充
+
+\subsection{问题四的分析}
+% 待补充
+
+
+\section{模型假设}
+
+\begin{enumerate}[label=\arabic*.]
+\item 微网向外部电网的购电即时且足额，任意时段缺口均可按当时电价立即购入，无传输延迟与购电上限.
+\item 微网不具备售电能力，外购电量非负，多余电力只能弃置或存入储能。
+\item 储能无自放电损耗，未充放电的时段储电量保持不变；充放电效率恒为90\%且不随充放电功率和荷电状态变化。
+\item 每个10分钟时段内负载功率与光伏发电功率保持恒定，以该时段采样值作为区间代表值并乘时段长度折算为电量。
+\item 每日0:00的决策仅使用此前已结束区间的观测与已发布预测，当日实际负载与光伏逐段揭示.
+\item 2025年1月作为冷启动预运行期以积累残差样本与电池初态，不计入评价。
+\end{enumerate}
+
+
+\section{符号说明}
+
+\begin{symboltable}
+$t$ & 时段编号，$t = 0, 1, \ldots, 143$ & -- \\
+$\Delta t$ & 时段长度，$\Delta t = 1/6$ 小时 & h \\
+$p_t$ & 第$t$个时段的电价 & 元/kWh \\
+$L_t$ & 第$t$个时段的小区负载功率 & kW \\
+$V_t$ & 第$t$个时段的光伏发电功率 & kW \\
+$L_t^{E}$ & 第$t$个时段的负载电量，$L_t^{E} = L_t \cdot \Delta t$ & kWh \\
+$V_t^{E}$ & 第$t$个时段的光伏电量，$V_t^{E} = V_t \cdot \Delta t$ & kWh \\
+$q_t$ & 第$t$个时段的计划购电量 & kWh \\
+$c_t$ & 第$t$个时段储能设备母线侧充电量 & kWh \\
+$d_t$ & 第$t$个时段储能设备母线侧放电量 & kWh \\
+$w_t$ & 第$t$个时段的弃电量 & kWh \\
+$z_t$ & 充放电状态指示变量，$z_t \in \{0, 1\}$ & -- \\
+$E_t$ & 第$t$个时段起始时刻的储能设备内部储电量 & kWh \\
+$\eta_c$ & 储能设备充电效率，$\eta_c = 0.9$ & -- \\
+$\eta_d$ & 储能设备放电效率，$\eta_d = 0.9$ & -- \\
+$P_{\max}$ & 储能设备最大充放电功率，$P_{\max} = 5000$ & kW \\
+$M$ & 单时段最大充放电电量，$M = P_{\max} \cdot \Delta t$ & kWh \\
+\end{symboltable}
+
+
+\section{模型建立与求解}
+
+\subsection{问题一模型建立及求解}
+
+\subsubsection{数据预处理}
+
+附件 1 提供了一天内 144 个等间隔时刻的电价、小区负载功率及光伏发电预测功率数据。本文将每个采样值作为其前 10 分钟区间的代表值，采样值 0:10 代表 0:00–0:10 这一时段，24:00 代表 23:50–24:00。时段内的电价与功率取该标签处的采样值并视为恒定，即第 t 个时段（t = 0, 1, . . . , 143）对应从第 10t 分钟到第 10(t + 1) 分钟的区间。
+
+由于数据以功率（kW）形式给出，而优化模型需要以电量（kWh）为决策变量，因此需进行如下转换。设时段长度$\Delta t = \frac{10}{60} = \frac{1}{6}$小时，则第$t$个时段的负载电量和光伏发电电量分别为：
+\begin{equation}
+  L_t^{E} = L_t \cdot \Delta t, \quad V_t^{E} = V_t \cdot \Delta t
+  \label{eq:q1_energy_convert}
+\end{equation}
+\noindent 其中$L_t$和$V_t$分别为第$t$个时段的负载功率和光伏发电功率。
+
+\subsubsection{模型建立}
+
+\noindent\textbf{（1）决策变量}\\[6pt]
+\indent 为完整描述微网在每个时段的电力调度过程，令调度时段$t = 0, 1, \ldots, 143$，定义连续决策变量$q_t, c_t, d_t, w_t \geq 0$和二元决策变量$z_t \in \{0, 1\}$。其中$z_t = 1$表示储能设备处于充电模式，$z_t = 0$表示放电模式，用于避免同一时段同时充放电。
+
+此外，定义状态变量$E_t$为第$t$个时段开始前储能设备的内部储电量（kWh），$t = 0, 1, \ldots, 144$，其中$E_0$为初始储电量，$E_{144}$为调度周期结束时的储电量。
+
+\noindent\textbf{（2）目标函数}\\[6pt]
+\indent 微网的全天购电费用等于各时段购电量与对应电价之积的总和。以最小化全天购电费用为目标：
+\begin{equation}
+  \min \quad Z = \sum_{t=0}^{143} p_t \cdot q_t
+  \label{eq:q1_obj}
+\end{equation}
+\noindent 其中$p_t$为第$t$个时段的电价（元/kWh）。
+
+\noindent\textbf{（3）约束条件}\\[6pt]
+\noindent\textbf{a. 母线能量平衡约束}\\[4pt]
+\indent 题目要求微网提供的电能不可低于小区负载。在各时段，购电量、光伏发电量与储能放电量之和，必须等于小区负载、储能充电量与未使用电量之和，保证微网能量平衡：
+\begin{equation}
+  q_t + V_t^{E} + d_t = L_t^{E} + c_t + w_t, \quad t = 0, 1, \ldots, 143
+  \label{eq:q1_bus_balance}
+\end{equation}
+其中，$q_t$ 为计划购电量，$V_t^{E}$ 与 $L_t^{E}$ 分别为光伏和负载电量，$c_t, d_t$ 分别为母线侧充电量和放电量，$w_t$ 为未使用电量。
+
+\noindent\textbf{b. 储能设备储电量递推约束}\\[4pt]
+\indent 储能设备的充放电效率按单向各 $90\%$ 计算。充电时存入内部电量为 $0.9 c_t$，放电时内部消耗电量为 $d_t / 0.9$，由此确定相邻时段电池内部储电量的递推关系：
+\begin{equation}
+  E_{t+1} = E_t + \eta_c \cdot c_t - \frac{d_t}{\eta_d} = E_t + 0.9 \, c_t - \frac{d_t}{0.9}, \quad t = 0, 1, \ldots, 143
+  \label{eq:q1_soc_dynamics}
+\end{equation}
+其中，$E_t$ 为时段起点储能设备内部的储电量。
+
+\noindent\textbf{c. 储能设备容量范围约束}\\[4pt]
+\indent 附录1规定，为了避免过度充电或放电，储能设备的储电量在全天所有时段必须始终保持在 1200--10800~kWh 之间：
+\begin{equation}
+  1200 \leq E_t \leq 10\,800, \quad t = 0, 1, \ldots, 144
+  \label{eq:q1_soc_bounds}
+\end{equation}
+
+\noindent\textbf{d. 充放电功率与互斥约束}\\[4pt]
+\indent 储能设备的最大充放电功率为 $5000\text{ kW}$，单时段充放电量上限为 $M = 5000 \times \frac{1}{6} = 833.\overline{3}\text{ kWh}$。显式引入二进制变量 $z_t \in \{0, 1\}$ 限制储能设备不可同时充放电（$z_t=1$ 允许充电，$z_t=0$ 允许放电）：
+\begin{equation}
+  0 \leq c_t \leq M \cdot z_t, \quad 0 \leq d_t \leq M \cdot (1 - z_t), \quad t = 0, 1, \ldots, 143
+  \label{eq:q1_charge_discharge_limit}
+\end{equation}
+
+\noindent\textbf{e. 日初日末储电量相同约束}\\[4pt]
+\indent 题目要求储能设备在 $0:00$ 和 $24:00$ 的储电量相同，结合附录1给定的初始储电量 $6000\text{ kWh}$，首末储电量满足：
+\begin{equation}
+  E_0 = E_{144} = 6000\text{ kWh}
+  \label{eq:q1_boundary}
+\end{equation}
+
+\noindent\textbf{f. 变量非负与整数约束}\\[4pt]
+\indent 购电量与未使用电量必须非负，充放电状态变量取二进制整数：
+\begin{equation}
+  q_t \geq 0, \quad w_t \geq 0, \quad z_t \in \{0, 1\}, \quad t = 0, 1, \ldots, 143
+  \label{eq:q1_nonneg}
+\end{equation}
+
+\noindent\textbf{（4）完整模型汇总}\\[6pt]
+\indent 综合上述分析，问题一的MILP模型可完整表述为：
+
+\begin{equation}
+\begin{aligned}
+  \min \quad & Z = \sum_{t=0}^{143} p_t \cdot q_t \\[6pt]
+  \text{s.t.} \quad 
+  & \left.
+  \begin{aligned}
+    & q_t + V_t^{E} + d_t = L_t^{E} + c_t + w_t \\
+    & E_{t+1} = E_t + 0.9\,c_t - \frac{d_t}{0.9} \\
+    & 0 \leq c_t \leq 833.\overline{3} \cdot z_t \\
+    & 0 \leq d_t \leq 833.\overline{3} \cdot (1 - z_t) \\
+    & q_t \geq 0, \quad w_t \geq 0, \quad z_t \in \{0, 1\}
+  \end{aligned}
+  \right\} \quad t = 0, 1, \ldots, 143 \\[6pt]
+  & 1200 \leq E_t \leq 10\,800, \quad t = 0, 1, \ldots, 144 \\[4pt]
+  & E_0 = E_{144} = 6000
+\end{aligned}
+\label{eq:q1_full_model}
+\end{equation}
+
+\noindent 该模型共包含 721 个连续决策变量与 144 个二进制变量，具有标准的混合整数线性规划结构，规模适中，适于直接调用求解器进行精确求解。
+
+\subsubsection{模型求解}
+
+\paragraph{（1）求解算法与环境}
+
+本文采用开源高性能优化求解器HiGHS~\cite{huangfu2018parallelizing}对上述MILP模型进行精确求解。HiGHS求解器集成了单纯形法、内点法和分支定界法，能够高效处理大规模混合整数线性规划问题。求解过程中设置相对间隙（MIP gap）目标为$10^{-9}$，时间限制为120秒。
+
+\paragraph{（2）求解流程}
+
+\step{1} \textbf{数据读取与预处理。} 从附件1读取144个时段的电价$p_t$、负载功率$L_t$和光伏预测功率$V_t$，按式~\eqref{eq:q1_energy_convert}将功率转换为电量。
+
+\step{2} \textbf{模型构建。} 依据式~\eqref{eq:q1_full_model}构建MILP模型，定义目标函数和全部约束条件。
+
+\step{3} \textbf{求解与验证。} 调用HiGHS求解器求解，获取最优解后进行多项物理一致性校验，包括：母线能量平衡残差、储电量递推残差、储电量边界违反量、充放电互斥违反量和二进制变量完整性等。
+
+\paragraph{（3）求解结果}
+
+求解器在$0.034$秒内完成求解（不含数据读取与导出时间），搜索节点数为1，返回全局最优解，MIP gap为$0.000\times 10^{0}$，证实了解的全局最优性。目标函数下界与最优值完全一致，均为$35\,126.95$元。
+
+模型的各项物理一致性校验结果如表~\ref{tab:q1_validation}所示，所有指标均在数值精度范围内满足约束要求。
+
+\begin{table}[H]
+\centering
+\caption{问题一MILP模型求解结果的物理一致性校验}
+\label{tab:q1_validation}
+\zihao{5}
+\begin{tabular}{lc}
+\toprule
+\textbf{校验指标} & \textbf{数值} \\
+\midrule
+母线能量平衡最大绝对误差（kWh）  & $1.71 \times 10^{-13}$ \\
+储电量递推最大绝对误差（kWh）    & $8.74 \times 10^{-13}$ \\
+储电量边界违反量（kWh）          & $0.00$ \\
+充放电流量越界违反量（kWh）      & $0.00$ \\
+充放电互斥违反量（kWh）          & $0.00$ \\
+二进制变量完整性误差             & $9.10 \times 10^{-15}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{结果展示}
+
+\paragraph{（1）全天关键指标}
+
+问题一模型的最优调度策略下，全天关键运行指标如表~\ref{tab:q1_summary}所示。
+
+\begin{table}[H]
+\centering
+\caption{问题一最优调度策略的全天关键指标}
+\label{tab:q1_summary}
+\zihao{5}
+\begin{tabular}{lc}
+\toprule
+\textbf{指标} & \textbf{数值} \\
+\midrule
+全天购电费（元）             & $35\,126.95$ \\
+全天购电量（kWh）            & $59\,482.70$ \\
+全天充电量（kWh）            & $20\,740.67$ \\
+全天放电量（kWh）            & $16\,799.94$ \\
+弃电量（kWh）                & $0.00$ \\
+初始储电量 $E_0$（kWh）      & $6\,000.00$ \\
+最终储电量 $E_{144}$（kWh）  & $6\,000.00$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+全天负载总电量为$111\,024.8$~kWh，光伏发电总电量为$55\,482.8$~kWh，净负载电量为$55\,542.0$~kWh。最优方案的购电量$59\,482.70$~kWh高于净负载电量，其差值$3\,940.70$~kWh恰好对应储能设备充放电过程中$\eta_c \cdot \eta_d = 0.81$（即$19\%$）的往返能量损耗。
+
+\paragraph{（2）指定时段购电量}
+
+按题目要求，表~\ref{tab:q1_purchase_specified}给出指定时段的购电量以及全天购电量和购电费用。
+
+\begin{table}[H]
+\centering
+\caption{微网在指定时间段的购电量及全天购电量和购电费}
+\label{tab:q1_purchase_specified}
+\zihao{5}
+\begin{tabular}{cc|cc|cc}
+\toprule
+\textbf{时间段} & \textbf{购电量(kWh)} & \textbf{时间段} & \textbf{购电量(kWh)} & \textbf{时间段} & \textbf{购电量(kWh)} \\
+\midrule
+$10{:}00$--$10{:}10$ & $0.000$ & $12{:}00$--$12{:}10$ & $480.412$ & $14{:}00$--$14{:}10$ & $0.000$ \\
+$16{:}00$--$16{:}10$ & $445.432$ & $18{:}00$--$18{:}10$ & $531.894$ & $20{:}00$--$20{:}10$ & $0.000$ \\
+\midrule
+\multicolumn{2}{c|}{\textbf{全天购电量(kWh)}} & \multicolumn{4}{c}{$59\,482.70$} \\
+\multicolumn{2}{c|}{\textbf{全天购电费(元)}} & \multicolumn{4}{c}{$35\,126.95$} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{（3）储能设备充放电量及储电量}
+
+表~\ref{tab:q1_storage}给出储能设备在各4小时时段的充放电量以及$0{:}00$和$24{:}00$的储电量。
+
+\begin{table}[H]
+\centering
+\caption{储能设备在指定时间段的充放电量及$0{:}00$和$24{:}00$的储电量}
+\label{tab:q1_storage}
+\zihao{5}
+\begin{tabular}{ccc|ccc}
+\toprule
+\textbf{时间段} & \textbf{充电量(kWh)} & \textbf{放电量(kWh)} & \textbf{时间段} & \textbf{充电量(kWh)} & \textbf{放电量(kWh)} \\
+\midrule
+$0{:}00$--$4{:}00$   & $4\,500.00$ & $0.00$      & $4{:}00$--$8{:}00$   & $833.33$    & $6\,365.84$ \\
+$8{:}00$--$12{:}00$  & $4\,787.96$ & $1\,703.00$ & $12{:}00$--$16{:}00$ & $5\,286.04$ & $91.10$     \\
+$16{:}00$--$20{:}00$ & $0.00$      & $5\,780.13$ & $20{:}00$--$24{:}00$ & $5\,333.33$ & $2\,859.87$ \\
+\midrule
+\multicolumn{3}{c|}{$0{:}00$储电量\;(kWh)：$6\,000.00$} & \multicolumn{3}{c}{$24{:}00$储电量\;(kWh)：$6\,000.00$} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{（4）全天购电策略与调度时序分析}
+
+% 此处应插入图：全天144个时段的购电量柱状图。
+% 横轴为时间0:00--24:00（144个10分钟时段），纵轴为购电量(kWh)，
+% 同时以折线叠加电价曲线（右纵轴，元/kWh），以直观呈现"低价多购、高价少购"的策略特征。
+
+% 此处应插入图：储能设备荷电状态（SOC）全天变化曲线。
+% 横轴为时间0:00--24:00，纵轴为储电量E_t(kWh)，
+% 虚线标注上限10800 kWh和下限1200 kWh。
+
+% 此处应插入图：全天能量调度堆叠面积图。
+% 横轴为时间，纵轴为功率或电量，分层展示外购电力、光伏发电、储能放电三种供给来源。
+
+\subsubsection{结果分析与验证}
+
+\paragraph{（1）最优策略的经济学解释}
+
+从全天购电策略的时序分布可以清晰地观察到如下规律：
+
+\begin{enumerate}
+  \item \textbf{凌晨低价大量购电并充电}（$0{:}00$--$6{:}00$）：该时段电价处于全天谷值（平均$0.43$~元/kWh），同时光伏发电为零。最优策略选择在该时段大量购电，一方面直接满足负载需求，另一方面以最大功率为储能设备充电（$0{:}00$--$4{:}00$充电量$4\,500.00$~kWh，接近满功率$833.33 \times 6 = 5\,000$~kWh）。
+
+  \item \textbf{白天光伏盈余时段购电为零}（约$6{:}00$--$11{:}00$及$13{:}00$--$15{:}00$）：光伏发电功率超过负载需求，净负载为负值。此时不仅无需外购电力（$q_t = 0$），光伏盈余电量还被用于为储能设备充电（$8{:}00$--$12{:}00$充电$4\,787.96$~kWh）。
+
+  \item \textbf{傍晚至夜间高价时段依靠储能放电}（$18{:}00$--$21{:}00$）：该时段电价达到全天最高（$1.23$--$1.40$~元/kWh），且光伏发电已降至接近零。最优策略选择完全依靠储能设备放电覆盖负载（$16{:}00$--$20{:}00$放电量$5\,780.13$~kWh），购电量为零。
+
+  \item \textbf{深夜恢复购电并补充储能}（$22{:}00$--$24{:}00$）：电价回落至谷值后，策略再次大量购电（$20{:}00$--$24{:}00$充电$5\,333.33$~kWh），将储能设备的储电量恢复至初始的$6\,000$~kWh，满足日初日末等量约束。
+\end{enumerate}
+
+上述调度策略本质上是\textbf{通过储能设备实现电力的时间套利}：以$0.81$的往返效率为代价，将低价电力从谷时段转移至峰时段使用。储能充放电的全天总量分别为$20\,740.67$~kWh和$16\,799.94$~kWh，其差值$3\,940.73$~kWh即为往返效率损耗。
+
+\paragraph{（2）与无储能方案的对比}
+
+若不使用储能设备，微网须在每个时段直接购买等于净负载的电量（当净负载为正时）。此时全天购电费用为$48\,052.05$元。最优储能调度方案的购电费用为$35\,126.95$元，\textbf{节省费用$12\,925.10$元，降幅达$26.90\%$}。这一显著的成本节约来源于储能设备对峰谷电价差的有效利用。
+
+\paragraph{（3）LP与MILP解的对比}
+
+为验证充放电互斥约束的必要性，本文同时求解了放松二进制变量$z_t$为连续变量$z_t \in [0, 1]$的线性规划（LP）松弛问题。结果表明：LP与MILP的最优购电费用完全相同，均为$35\,126.95$元，说明\textbf{在本实例中LP的最优解已自然满足充放电互斥条件}。
+
+两种求解方法在144个时段中仅有2个时段的购电量存在差异（如表~\ref{tab:q1_lp_milp_diff}所示）。
+
+\begin{table}[H]
+\centering
+\caption{LP与MILP求解结果的时段差异}
+\label{tab:q1_lp_milp_diff}
+\zihao{5}
+\begin{tabular}{cccc}
+\toprule
+\textbf{时段} & \textbf{电价（元/kWh）} & \textbf{LP购电量（kWh）} & \textbf{MILP购电量（kWh）} \\
+\midrule
+$23{:}10$--$23{:}20$ & $0.4240$ & $902.69$ & $569.36$ \\
+$23{:}30$--$23{:}40$ & $0.4240$ & $571.62$ & $904.95$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+上述差异系等价电价时段之间充电安排的重新分配：$23{:}10$--$23{:}20$与$23{:}30$--$23{:}40$的电价均为$0.4240$~元/kWh，$333.33$~kWh的充电量在两个时段之间移动不影响总费用。这表明\textbf{最优解并非唯一}，在同一电价的相邻时段内存在调度方案的等价变换自由度。
+
+\paragraph{（4）灵敏度分析}
+
+% 此处应插入图：灵敏度分析图。
+% 分别展示储能设备最大容量变化和最大充放电功率变化对最优购电费用的影响。
+
+\paragraph{（5）小结}
+
+问题一的最优购电策略通过MILP模型精确求解，全天购电费用为$35\,126.95$元，相较于无储能方案节省$26.90\%$。最优策略的核心逻辑可以概括为"谷充峰放"——利用储能设备在低电价时段充电蓄能、在高电价时段放电供能，以最大限度地降低外购电力的综合成本。模型通过多项物理一致性校验，验证了求解结果的正确性和可靠性。
+
+
+% 后续问题模型待补充
+\subsection{问题二模型建立及求解}
+
+\subsubsection{模型建立}
+
+\paragraph{（1）需求预测子模型}
+
+在每天$k$的$0{:}00$，需利用历史数据预测当天$144$个时段的负载功率和光伏发电功率。本文采用\textbf{季节性朴素预测}方法：负载功率取$7$天前同时段的观测值（捕捉周内周期性），光伏功率取$1$天前同时段的观测值（利用相邻日的日照相似性）。记第$k$天第$t$个时段的实际负载和光伏功率分别为$L_{k,t}$和$V_{k,t}$，则预测值为：
+\begin{equation}
+  \widehat{L}_{k,t} = \begin{cases} L_{k-7,t}, & k \geq 7 \\ L_{k-1,t}, & 1 \leq k < 7 \end{cases}, \qquad \widehat{V}_{k,t} = V_{k-1,t}
+  \label{eq:q2_forecast}
+\end{equation}
+\noindent 其中，历史样本不足$7$天时负载预测退化为昨日同段值。预测的净需求电量为：
+\begin{equation}
+  \widehat{n}_{k,t} = (\widehat{L}_{k,t} - \widehat{V}_{k,t}) \cdot \Delta t
+  \label{eq:q2_net_demand_forecast}
+\end{equation}
+
+\paragraph{（2）历史残差$q_{80}$风险修正子模型}
+
+由于紧急购电代价远高于计划购电（$5$倍电价），需对净需求预测进行保护性上行修正。本文基于\textbf{报童模型}（Newsvendor Model）的最优分位数理论推导保护水平。
+
+在无储能、单时段的简化情形下，设计划购电量为$q$，随机净需求为$X$，则期望费用为：
+\begin{equation}
+  f(q) = p \cdot q + 5p \cdot \mathbb{E}[(X - q)^+]
+  \label{eq:q2_newsvendor}
+\end{equation}
+\noindent 其中$p$为电价，$(X - q)^+$为缺口部分。对连续分布取一阶条件$f'(q^*) = 0$，可得最优分位水平：
+\begin{equation}
+  F_X(q^*) = 1 - \frac{1}{5} = 0.8
+  \label{eq:q2_optimal_quantile}
+\end{equation}
+
+\noindent 这意味着最优计划购电量应设在净需求分布的$80\%$分位数处。虽然该结论严格成立的条件是无储能的单时段情形，但将其作为含储能系统的启发式保护水平仍具有合理性。
+
+具体实现中，定义第$j$天第$t$个时段的预测残差为$\varepsilon_{j,t} = n_{j,t} - \widehat{n}_{j,t}$。每天$k$的$0{:}00$，取最近$W = 28$天的历史残差集合$\mathcal{H}_k = \{j: \max(1, k-28) \leq j < k\}$，样本数$m = |\mathcal{H}_k|$，计算每个时段的经验$80\%$分位数修正量：
+\begin{equation}
+  r_{k,t} = \begin{cases} \varepsilon_{(\lceil 0.8m \rceil), t}, & m \geq 7 \\ 0, & m < 7 \end{cases}
+  \label{eq:q2_quantile_correction}
+\end{equation}
+\noindent 其中$\varepsilon_{(\lceil 0.8m \rceil), t}$为将$\mathcal{H}_k$中第$t$个时段的残差升序排列后的第$\lceil 0.8m \rceil$个值。修正后的保护性净需求为：
+\begin{equation}
+  \widetilde{n}_{k,t} = \widehat{n}_{k,t} + r_{k,t}
+  \label{eq:q2_protected_demand}
+\end{equation}
+
+\paragraph{（3）日前MILP优化子模型}
+
+将修正后的保护性净需求$\widetilde{n}_{k,t}$代入问题一的MILP框架。与问题一的差异在于：
+\begin{itemize}
+  \item \textbf{初始状态}：日初储电量$E_{k,0}$为前一日实际运行的末态储电量（跨日继承），不再固定为$6\,000$~kWh；
+  \item \textbf{终端约束}：名义日末目标固定为$h = 6\,000$~kWh，即$\bar{E}_{k,144} = 6\,000$~kWh。这一设计避免了名义末态跟随实际高库存持续抬高，保障了跨日调度的稳定性。
+\end{itemize}
+
+日前MILP模型为：
+\begin{equation}
+\begin{aligned}
+  & \min \quad \sum_{t=0}^{143} p_t \cdot q_{k,t} \\
+  & \text{s.t.} \quad q_{k,t} + \bar{d}_{k,t} = \widetilde{n}_{k,t} + \bar{c}_{k,t} + \bar{w}_{k,t}, && t = 0,\ldots,143 \\
+  & \quad\quad\; \bar{E}_{k,t+1} = \bar{E}_{k,t} + \eta_c \bar{c}_{k,t} - \bar{d}_{k,t}/\eta_d, && t = 0,\ldots,143 \\
+  & \quad\quad\; E_{\min} \leq \bar{E}_{k,t} \leq E_{\max}, && t = 0,\ldots,144 \\
+  & \quad\quad\; 0 \leq \bar{c}_{k,t} \leq M \bar{z}_{k,t}, \; 0 \leq \bar{d}_{k,t} \leq M(1-\bar{z}_{k,t}), && t = 0,\ldots,143 \\
+  & \quad\quad\; \bar{E}_{k,0} = E_{k,0}, \quad \bar{E}_{k,144} = 6\,000 \\
+  & \quad\quad\; q_{k,t}, \bar{w}_{k,t} \geq 0, \quad \bar{z}_{k,t} \in \{0,1\}
+\end{aligned}
+\label{eq:q2_milp}
+\end{equation}
+
+\noindent 求解得到的$q_{k,t}$在$0{:}00$冻结为当天的计划购电量。名义充放电$\bar{c}_{k,t}$、$\bar{d}_{k,t}$仅用于保证计划可行性，\textbf{实际充放电由下述反馈机制确定}。
+
+\paragraph{（4）实际执行与储能反馈机制}
+
+当天实际供需按时段逐步揭示。定义第$t$个时段的供需盈余为$s_t = q_{k,t} - n_{k,t}$，其中$n_{k,t} = (L_{k,t} - V_{k,t}) \cdot \Delta t$为实际净需求。储能设备按如下贪心规则运行：
+
+\textbf{情形一：供给盈余}（$s_t \geq 0$）——优先为储能充电：
+\begin{equation}
+  c_t = \min\{s_t,\; M,\; (E_{\max} - E_t)/\eta_c\}, \quad d_t = e_t = 0, \quad w_t = s_t - c_t
+  \label{eq:q2_surplus}
+\end{equation}
+
+\textbf{情形二：供给不足}（$s_t < 0$）——优先由储能放电补缺：
+\begin{equation}
+  d_t = \min\{-s_t,\; M,\; \eta_d(E_t - E_{\min})\}, \quad e_t = -s_t - d_t, \quad c_t = w_t = 0
+  \label{eq:q2_deficit}
+\end{equation}
+\noindent 其中$e_t$为紧急购电量。储电量按$E_{t+1} = E_t + \eta_c c_t - d_t/\eta_d$更新，日末实际储电量$E_{k,144}$直接继承为次日日初储电量$E_{k+1,0}$。
+
+\paragraph{（5）费用核算}
+
+全期（$2025$年$2$--$12$月，共$334$天）的总购电费用为：
+\begin{equation}
+  C = \sum_{k \in \mathcal{K}} \sum_{t=0}^{143} \left( p_t \cdot q_{k,t} + 5 p_t \cdot e_{k,t} \right)
+  \label{eq:q2_total_cost}
+\end{equation}
+\noindent 其中计划购电全额付费（无论是否使用），紧急购电按$5$倍电价计费。
+
+\subsubsection{模型求解}
+
+\paragraph{（1）求解流程}
+
+\step{1} \textbf{公共预运行（$1$月）。} 以$2025$年$1$月$1$日$0{:}00$初始储电量$E_0 = 6\,000$~kWh为起点，运行$1$月$31$天形成预测残差历史并递推储能状态，得到$2$月$1$日日初实际储电量为$8\,801.46$~kWh。$1$月不计入正式评价费用。
+
+\step{2} \textbf{逐日滚动优化（$2$--$12$月）。} 从$2$月$1$日起，每天$0{:}00$执行：生成负载与光伏预测 $\to$ 计算$q_{80}$残差修正 $\to$ 求解日前MILP $\to$ 冻结计划购电量。
+
+\step{3} \textbf{逐段实际执行。} 按式~\eqref{eq:q2_surplus}--\eqref{eq:q2_deficit}逐段反馈执行，记录充放电量、紧急购电量和储电量。
+
+\step{4} \textbf{日末状态继承。} 实际日末储电量继承为次日日初储电量，滚动推进至$12$月$31$日。
+
+\paragraph{（2）消融实验与策略对比}
+
+为验证各模块的贡献，本文设计了$2 \times 2$消融实验，固定预测器和反馈机制，分别考察残差保护（无/q80）和名义末态目标（跟随实际/固定$6\,000$~kWh）的效果，如表~\ref{tab:q2_ablation}所示。
+
+\begin{table}[H]
+\centering
+\caption{问题二消融实验：各策略$2$--$12$月总费用对比}
+\label{tab:q2_ablation}
+\zihao{5}
+\begin{tabular}{llccc}
+\toprule
+\textbf{策略} & \textbf{残差保护} & \textbf{名义末态} & \textbf{总费用（万元）} & \textbf{相对基线} \\
+\midrule
+$A_{\text{base}}$  & 无    & 跟随实际 & $1\,537.84$ & 基准 \\
+$B_{\text{q80}}$   & q80   & 跟随实际 & $1\,433.77$ & $-6.77\%$ \\
+$T_{\text{base}}$  & 无    & 固定$6\,000$ & $1\,533.60$ & $-0.28\%$ \\
+$T_{\text{q80}}$   & q80   & 固定$6\,000$ & $\bm{1\,415.84}$ & $\bm{-7.93\%}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+最优策略$T_{\text{q80}}$（q80残差保护$+$固定$6\,000$~kWh名义末态）的全期总费用为$\bm{14\,158\,360.49}$\textbf{元}，较原始基线$A_{\text{base}}$节省$1\,220\,007.92$元（$7.93\%$）。其中：q80残差保护贡献了主要节费效果（$6.77\%$），固定名义末态与残差保护存在正向交互作用（两模块联合效果超过单独效果之和$136\,925$元）。
+
+\subsubsection{结果展示}
+
+\paragraph{（1）全期关键指标}
+
+\begin{table}[H]
+\centering
+\caption{问题二最优策略$T_{\text{q80}}$的全期运行指标}
+\label{tab:q2_summary}
+\zihao{5}
+\begin{tabular}{lc}
+\toprule
+\textbf{指标} & \textbf{数值} \\
+\midrule
+计划购电费（元）    & $13\,618\,814.45$ \\
+紧急购电费（元）    & $539\,546.04$ \\
+总费用（元）        & $14\,158\,360.49$ \\
+计划购电量（kWh）   & $22\,189\,694.41$ \\
+紧急购电量（kWh）   & $90\,293.66$ \\
+未使用电量（kWh）   & $3\,130\,022.85$ \\
+全期充电量（kWh）   & $6\,383\,942.39$ \\
+全期放电量（kWh）   & $5\,173\,166.67$ \\
+全期损耗（kWh）     & $1\,213\,190.54$ \\
+紧急购电天数        & $106$ / $334$天 \\
+紧急购电时段数      & $545$ / $48\,096$段 \\
+紧急购电事件数      & $172$ \\
+日初储电量（$2$月$1$日） & $8\,801.46$~kWh \\
+日末储电量（$12$月$31$日） & $6\,386.64$~kWh \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{（2）指定日期的计划购电结果}
+
+按题目要求，表~\ref{tab:q2_specified_purchase}给出$4$个指定日期的指定时段购电量及全天购电量与购电费。
+
+\begin{table}[H]
+\centering
+\caption{微网在指定日期指定时段的购电量及全天购电量和购电费}
+\label{tab:q2_specified_purchase}
+\zihao{5}
+\begin{tabular}{c|cccccc|cc}
+\toprule
+\textbf{日期} & $10{:}00$ & $12{:}00$ & $14{:}00$ & $16{:}00$ & $18{:}00$ & $20{:}00$ & \textbf{全天购电量} & \textbf{全天总费用} \\
+ & --$10{:}10$ & --$12{:}10$ & --$14{:}10$ & --$16{:}10$ & --$18{:}10$ & --$20{:}10$ & (kWh) & (元) \\
+\midrule
+% 数据从 selected_dates_summary.csv T_q80_6000 读取
+3.20 & -- & -- & -- & -- & -- & -- & $69\,262$ & $42\,325$ \\
+6.21 & -- & -- & -- & -- & -- & -- & $38\,050$ & $22\,850$ \\
+9.23 & -- & -- & -- & -- & -- & -- & $72\,074$ & $44\,733$ \\
+12.21 & -- & -- & -- & -- & -- & -- & $100\,806$ & $65\,396$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textit{注：表中"--"处的10分钟时段购电量需从完整计划数据中提取，详见result2.xlsx。}
+
+\paragraph{（3）指定日期的储能充放电量}
+
+表~\ref{tab:q2_specified_storage}给出$4$个指定日期储能设备在$6$个$4$小时时段的充放电量，以及$0{:}00$和$24{:}00$的储电量。
+
+\begin{table}[H]
+\centering
+\caption{指定日期储能设备的$4$小时充放电量及首尾储电量（$T_{\text{q80}}$策略）}
+\label{tab:q2_specified_storage}
+\zihao{5}
+\begin{tabular}{c|cc|cc|cc|cc}
+\toprule
+\textbf{日期} & \multicolumn{2}{c|}{$0{:}00$--$4{:}00$} & \multicolumn{2}{c|}{$4{:}00$--$8{:}00$} & \multicolumn{2}{c|}{$8{:}00$--$12{:}00$} & \multicolumn{2}{c}{$0{:}00$ / $24{:}00$储电量} \\
+ & 充 & 放 & 充 & 放 & 充 & 放 & (kWh) & (kWh) \\
+\midrule
+3.20 & $4\,024$ & $205$ & $1\,022$ & $4\,564$ & $6\,154$ & $2\,777$ & $6\,718$ & $6\,461$ \\
+6.21 & $1\,247$ & $1\,742$ & $451$ & $4\,390$ & $8\,557$ & $0$ & $8\,385$ & $8\,825$ \\
+9.23 & $4\,894$ & $14$ & $619$ & $6\,082$ & $5\,976$ & $1\,897$ & $6\,066$ & $6\,573$ \\
+12.21 & $4\,516$ & $66$ & $804$ & $1\,417$ & $5\,818$ & $6\,459$ & $6\,772$ & $6\,735$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\zihao{5}
+\begin{tabular}{c|cc|cc|cc}
+\toprule
+\textbf{日期} & \multicolumn{2}{c|}{$12{:}00$--$16{:}00$} & \multicolumn{2}{c|}{$16{:}00$--$20{:}00$} & \multicolumn{2}{c}{$20{:}00$--$24{:}00$} \\
+ & 充 & 放 & 充 & 放 & 充 & 放 \\
+\midrule
+3.20 & $2\,966$ & $449$ & $297$ & $5\,621$ & $5\,711$ & $2\,957$ \\
+6.21 & $0$ & $0$ & $300$ & $4\,998$ & $6\,746$ & $2\,486$ \\
+9.23 & $4\,263$ & $506$ & $25$ & $5\,588$ & $5\,874$ & $2\,994$ \\
+12.21 & $5\,747$ & $2\,108$ & $0$ & $5\,533$ & $5\,824$ & $2\,843$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{（4）紧急购电结果}
+
+最优策略在评价期内共发生$172$起紧急购电事件，涉及$106$天$545$个时段，总紧急购电量$90\,293.66$~kWh，紧急购电费$539\,546.04$元。紧急购电主要集中在两类时段：（1）清晨$5{:}50$--$6{:}30$（光伏出力突变过渡段）；（2）傍晚$20{:}00$--$22{:}00$（晚高峰负载与预测偏差叠加段）。表~\ref{tab:q2_emergency_sample}给出指定日期的紧急购电情况。
+
+\begin{table}[H]
+\centering
+\caption{指定日期的紧急购电情况（$T_{\text{q80}}$策略）}
+\label{tab:q2_emergency_sample}
+\zihao{5}
+\begin{tabular}{cccc}
+\toprule
+\textbf{日期} & \textbf{紧急购电时段} & \textbf{紧急购电量(kWh)} & \textbf{紧急购电费(元)} \\
+\midrule
+2025.3.20  & 无 & $0.00$ & $0.00$ \\
+2025.6.21  & 无 & $0.00$ & $0.00$ \\
+2025.9.23  & 09:40--10:20等 & $6.38$ & $43.00$ \\
+2025.12.21 & 无 & $0.00$ & $0.00$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% 此处应插入图：全期334天逐日总费用时序图，以及紧急购电费占比的月度柱状图。
+
+% 此处应插入图：指定日期（如3月20日）的购电量与实际负载-光伏曲线叠加图，展示预测偏差与策略响应。
+
+\subsubsection{结果分析与验证}
+
+\paragraph{（1）风险修正效果分析}
+
+q80残差保护的引入使紧急购电事件从$699$起（基线$A_{\text{base}}$）大幅降至$172$起，紧急购电天数从$306$天降至$106$天，紧急购电费从$3\,112\,932$元降至$539\,546$元（降幅$82.67\%$）。虽然保护性超买增加了计划购电费（从$12\,265\,437$元增至$13\,618\,814$元），但紧急购电费的大幅降低远超计划费的增加，实现了总费用的净节约。紧急购电费占总费用的比例从$20.24\%$降至$3.81\%$，表明该风险修正策略有效地平衡了保护成本与风险成本。
+
+\paragraph{（2）名义末态敏感性分析}
+
+固定q80保护不变，将名义末态目标分别设为$4\,800$、$6\,000$和$7\,200$~kWh，三组的总费用分别为$14\,142\,367$、$14\,158\,360$和$14\,175\,783$元。三点极差仅$33\,416$元（$0.24\%$），说明\textbf{模型对名义末态目标具有较强的鲁棒性}。$4\,800$~kWh在$11/11$个月均最优，但改进幅度甚微，本文保守选取$6\,000$~kWh作为候选方案。
+
+% 此处应插入图：名义末态敏感性分析图。横轴为末态目标（4800/6000/7200 kWh），纵轴为总费用（元）。
+
+\paragraph{（3）物理一致性校验}
+
+所有$334$天的逐段调度结果均通过以下检验：母线能量平衡残差、储电量递推残差、储电量边界违反量、充放电功率与互斥约束违反量等均不超过$10^{-6}$~kWh，核账误差低于$10^{-4}$元，验证了全年滚动优化的数值可靠性。
+
+\paragraph{（4）小结}
+
+问题二在不确定性环境下，通过"季节性朴素预测$+$q80历史残差保护$+$固定名义末态MILP$+$贪心储能反馈"的四模块联合框架，实现了全期总费用$14\,158\,360.49$元，较无保护基线节省$7.93\%$。该框架的核心优势在于：（1）基于报童模型最优分位数理论提供了保护水平的经济学依据；（2）固定名义末态策略与残差保护形成正向交互效应；（3）贪心反馈机制保证了实际运行的物理可行性。
+
+% \subsection{问题三模型建立及求解}
+% \subsection{问题四模型建立及求解}
+
+
+\section{模型的评价与推广}
+
+\subsection{模型的优点}
+
+\begin{enumerate}[label=\arabic*.]
+\item 模型以母线功率平衡和储能运行约束为基础，刻画了购电、充放电、弃电与储电状态之间的物理关系，并通过充放电状态变量保证同一时段内储能设备只能充电或放电，使调度方案具有强可执行性。
+\item 问题二的模型先基于历史规律预测当日负载与光伏功率，再结合历史预测残差对净需求进行修正；随后据此制定日前购电计划，并在实际运行中依据真实供需逐时段调整储能和应急购电策略，有效降低预测误差的影响，全年调度结果具有较高的可靠性。
+\end{enumerate}
+
+\subsection{模型的缺点}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 模型将储能设备的充放电效率视为常数，未考虑效率随充放电功率和储电状态变化的非线性特性，可能使计算结果与实际运行存在一定偏差。
+  \item 模型未考虑储能设备的循环老化、自放电及运行维护成本，在长期运行场景下，优化结果可能低估实际总费用。
+\end{enumerate}
+
+\subsection{模型的推广}
+
+当场景中增加储能设备数量、分布式能源种类或可参与调度的柔性负荷时，只需补充相应的决策变量和约束，即可将模型扩展为规模更大的微网综合能源调度模型。将该框架与预测更新和滚动优化相结合，还可进一步用于光伏、风电等出力不确定条件下的长期调度决策。
+
+
+% ======================== 参考文献 ========================
+\newpage
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{参考文献}
+
+\bibitem{huangfu2018parallelizing} Huangfu Q, Hall J A J. Parallelizing the dual revised simplex method[J]. Mathematical Programming Computation, 2018, 10(1): 119-142.
+
+\end{thebibliography}
+
+
+% ======================== 附录 ========================
+\newpage
+\appendix
+\renewcommand{\thesection}{附录 \Alph{section}}
+\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\Alph{section}.\arabic{subsection}.\arabic{subsubsection}}
+\titleformat{\section}
+  {\centering\heiti\zihao{-3}\bfseries}
+  {\thesection}{1em}{}
+
+\section{支撑文件列表}
+
+\begin{table}[H]
+\centering
+\zihao{5}
+\begin{tabular}{lll}
+\toprule
+文件名 & 类型 & 说明 \\
+\midrule
+03\_q1\_milp.py & Python & 问题一MILP模型求解代码 \\
+result1\_baseline.xlsx & Excel & 问题一最优购电策略结果文件 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\end{document}
