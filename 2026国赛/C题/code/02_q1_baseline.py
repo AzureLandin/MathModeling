@@ -1,7 +1,7 @@
 """Deterministic Q1 baseline, independent physical checks and sensitivities.
 
 Input: results/audit/q1_normalized.csv, original result1 template.
-Output: results/q1_baseline, figures/q1_baseline.png, reports/问题1_Baseline结果.md.
+Output: results/q1_baseline, figures/q1_baseline.png, reports/问题一/问题1_Baseline结果.md.
 All energy flows are AC bus-side kWh, state is battery-internal kWh.
 """
 from pathlib import Path
@@ -249,7 +249,7 @@ def main():
                '- `results/q1_baseline/config.json`：集中参数；来源为题面或本报告明确声明的假设。',
                '- `figures/q1_baseline.png`：功率、储电量和电价运行图。',
                '- 在赛题目录依次执行 `conda run -n math_modeling python code/01_audit_inputs.py` 和 `conda run -n math_modeling python code/02_q1_baseline.py`。Windows控制台可设置PYTHONUTF8=1、PYTHONIOENCODING=utf-8，并加--no-capture-output。', '']
-    (ROOT/'reports/问题1_Baseline结果.md').write_text('\n'.join(report),encoding='utf-8')
+    (ROOT/'reports/问题一/问题1_Baseline结果.md').write_text('\n'.join(report),encoding='utf-8')
     print(json.dumps(dict(baseline=baseline,no_storage=no_storage,savings_pct=result['savings_pct'],
                          integer_cost=integer_check['cost_yuan'],
                          sensitivity_costs={k:v['cost_yuan'] for k,v in variations.items()}),indent=2,ensure_ascii=False))

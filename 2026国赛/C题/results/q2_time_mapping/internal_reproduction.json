@@ -1,0 +1,15 @@
+{
+  "segment_max_differences": {
+    "plan_kWh": 0.0,
+    "emergency_kWh": 0.0,
+    "charge_kWh": 0.0,
+    "discharge_kWh": 0.0,
+    "unused_kWh": 0.0,
+    "state_end_kWh": 0.0
+  },
+  "max_segment_difference_kWh": 0.0,
+  "cost_difference_yuan": 0.0,
+  "ledger_A_left": 13728048.168191904,
+  "ledger_A_right": 13728048.168191904,
+  "all_passed": true
+}

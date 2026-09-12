@@ -1,0 +1,76 @@
+{
+  "small_examples": {
+    "settlement_examples_yuan": {
+      "0": 50.0,
+      "80": 90.0,
+      "100": 100.0,
+      "120": 130.0
+    },
+    "settlement_all_cancelled_yuan": 50.0,
+    "settlement_chain_100_80_100_yuan": 100.0,
+    "order_statistic": {
+      "6": 0.0,
+      "7": 6.0,
+      "27": 22.0,
+      "28": 23.0
+    },
+    "feedback_boundaries": {
+      "full_unused_kWh": 1.0,
+      "empty_emergency_kWh": 1.0,
+      "saturated_charge_kWh": 833.3333333333334,
+      "saturated_discharge_kWh": 833.3333333333334
+    },
+    "event_split_check": 2
+  },
+  "information_boundary": {
+    "day": "2025-06-21",
+    "k": 171,
+    "truth_scale": 1.05,
+    "pv_shift_kW": 50.0,
+    "midnight_perturbed_truth_cells": 28131,
+    "midnight_inputs_identical": true,
+    "midnight_aux_estimate_delta_kWh": 0.0,
+    "midnight_plan_max_delta_kWh": 0.0,
+    "midnight_objective_yuan": 20461.245490073936,
+    "six_perturbed_truth_cells": 28094,
+    "six_inputs_identical": true,
+    "six_remaining_intervals": 109,
+    "six_window": [
+      "2025-06-21 06:00:00",
+      "2025-06-22 00:00:00"
+    ],
+    "six_saved_decision_accepted": true,
+    "six_clean_reproduces_saved_max_delta_kWh": 0.0,
+    "six_candidate_max_delta_kWh": 0.0,
+    "six_accept_clean": true,
+    "six_accept_perturbed": true,
+    "six_accept_matches_saved": true
+  },
+  "kernel_agreement": {
+    "day": "2025-06-21",
+    "saved_plan_objective_yuan": 20461.245490073932,
+    "kernel_objective_yuan": 20461.245490073936,
+    "objective_delta_yuan": 3.637978807091713e-12,
+    "plan_max_delta_kWh": 2.2737367544323206e-13,
+    "extra_solves": 1,
+    "note": "one day, one publication; objective equality is the gate, and a nonzero plan delta only reflects an alternative equal-cost vertex of the same MILP. This does not by itself certify solver behaviour on every date; it checks that the transcribed kernel and the one 29 uses give the same objective here."
+  },
+  "ledger": {
+    "reference_b0_total_yuan": 13699337.684431653,
+    "B0_natural_total_yuan": 13699337.684431653,
+    "B0_template_total_yuan": 13699604.088840172,
+    "B0_bridge_residual_yuan": -6.628511073358823e-10,
+    "B1_natural_total_yuan": 13848086.998191595,
+    "B1_template_total_yuan": 13848353.402600115,
+    "B1_bridge_residual_yuan": 1.1997940418950748e-09,
+    "B2_natural_total_yuan": 13492312.266087154,
+    "B2_template_total_yuan": 13492578.670495674,
+    "B2_bridge_residual_yuan": 1.1997940418950748e-09,
+    "b0_reference_delta_yuan": 0.0
+  },
+  "protected_unchanged": {
+    "count": 10877,
+    "changed": [],
+    "missing": []
+  }
+}

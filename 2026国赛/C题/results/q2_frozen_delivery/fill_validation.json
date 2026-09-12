@@ -1,0 +1,23 @@
+{
+  "model": "15/12 LightGBM + W28/q80 + free terminal MILP",
+  "independent_audit": "deferred by user; delivery readback only",
+  "workbook": "E:\\MathModeling\\2026国赛\\C题\\附件\\附件5\\result2.xlsx",
+  "backup": "E:\\MathModeling\\2026国赛\\C题\\results\\q2_frozen_delivery\\result2_before_fill_20260912_182819_110544.xlsx",
+  "source_sha256": {
+    "results\\q2_time_mapping\\N_free\\template_plan.csv": "e3a581a3d64d8b056f991164b8cb257fdcf5f84dca69d4cba8d42b05852d7c6a",
+    "results\\q2_time_mapping\\N_free\\natural_dispatch.csv": "5a8798c2b308cbc4a157b3e726294676add96c86c75dffce5264237288acb8c1"
+  },
+  "output_sha256": "c04a604b53e5db2e5b8d9dd111b155532477213f14e493a385153d546bf2ad42",
+  "script_sha256": "31b42baae82fa9ca600a31477d2008cc03ddd6f5e3f1e7853facdb9e0a408cec",
+  "days": 334,
+  "planned_cells": 48096,
+  "storage_periods": 2004,
+  "emergency_table_rows": 433,
+  "max_readback_error": 1.4551915228366852e-11,
+  "template_planned_kWh": 21636367.314643852,
+  "template_planned_cost_yuan": 13265170.680325355,
+  "natural_emergency_kWh": 73095.96273054686,
+  "natural_total_cost_yuan": 13699337.684431653,
+  "template_total_cost_yuan": 13699604.088840172,
+  "all_readback_checks_passed": true
+}

@@ -1,8 +1,0 @@
-{
-  "status": "complete",
-  "signature": "2533d3c1f7c70f8401499c4b9e65cd8def376c2e88753a1c366d31ead4da476e",
-  "finished_utc": "2026-09-11T08:06:22.423029+00:00",
-  "verification": "reference replay; independently coded execution/q80/accounting; six full-prefix prediction perturbations",
-  "protected_unchanged": true,
-  "adoption": "physical forecast correction candidate; judge cash effects from comparison.csv"
-}

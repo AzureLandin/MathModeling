@@ -1,9 +1,0 @@
-{
-  "columns": [
-    "load_template_mean_kW",
-    "load_template_relative_level",
-    "load_template_backward_slope_kW_per_h",
-    "load_template_forward_slope_kW_per_h"
-  ],
-  "days_with_template": 358
-}

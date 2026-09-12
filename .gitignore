@@ -55,3 +55,41 @@
 Thumbs.db
 .DS_Store
 desktop.ini
+
+## Python caches and local environments
+__pycache__/
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+## Office lock files
+~$*
+.~lock.*#
+
+## C problem: local scratch files and redundant organization backups
+/2026国赛/C题/tmp/
+/2026国赛/C题/results/report_organization_20260912/
+
+## Q2 cleanup archive: retain reports and migration manifests in Git
+/2026国赛/C题/archive/q2_cleanup_20260912/code/
+/2026国赛/C题/archive/q2_cleanup_20260912/figures/
+/2026国赛/C题/archive/q2_cleanup_20260912/results/
+/2026国赛/C题/archive/q2_cleanup_20260912/docs_before/
+/2026国赛/C题/archive/retired_arima_20260911/
+
+## Q2 delivery backups and redundant validation workbooks
+/2026国赛/C题/results/q2_frozen_delivery/result2_before_fill_*.xlsx
+/2026国赛/C题/results/q2_frozen_delivery/result2_filled.xlsx
+/2026国赛/C题/results/q2_time_mapping/*_validation.xlsx
+/2026国赛/C题/results/q2_time_mapping.zip
+
+## Generated whole-workspace hash inventories (keep targeted manifests)
+/2026国赛/C题/results/**/protected_before.json
+/2026国赛/C题/results/**/protected_after.json
+
+## Keep core code, forecast/dispatch data, dependency snapshots, reports,
+## figures and the official attachment workbooks eligible for tracking.

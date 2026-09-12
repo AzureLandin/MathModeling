@@ -1,0 +1,31 @@
+{
+  "moved_items": 84,
+  "moved_files": 2819,
+  "moved_bytes": 1884039132.0,
+  "updated_documents": [
+    "reports\\00_报告导航.md",
+    "reports\\问题二建模报告.md",
+    "reports\\项目进度.md",
+    "建模上下文记忆.md"
+  ],
+  "protected": [
+    {
+      "path": "附件/附件5/result2.xlsx",
+      "sha256": "C04A604B53E5DB2E5B8D9DD111B155532477213F14E493A385153D546BF2AD42"
+    },
+    {
+      "path": "results/q2_time_mapping/archive_float.npz",
+      "sha256": "97E329F8C8AB988115FCEBA48D29528818F5A3B128F841F5CE938203F8E13C71"
+    },
+    {
+      "path": "results/q2_time_mapping/N_free/natural_dispatch.csv",
+      "sha256": "5A8798C2B308CBC4A157B3E726294676ADD96C86C75DFFCE5264237288ACB8C1"
+    },
+    {
+      "path": "results/q2_time_mapping/N_free/template_plan.csv",
+      "sha256": "E3A581A3D64D8B056F991164B8CB257FDCF5F84DCA69D4CBA8D42B05852D7C6A"
+    }
+  ],
+  "hashes_verified": true,
+  "deleted_files": 0
+}

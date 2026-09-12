@@ -1,0 +1,38 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T10:55:29.454610+00:00",
+  "finished_utc": "2026-09-12T10:55:50.760895+00:00",
+  "wall_seconds": 21.30630819988437,
+  "timings": {
+    "inputs_seconds": 2.1030949000269175,
+    "pchip_seconds": 1.4826161998789757,
+    "protection_seconds": 1.8349246000871062,
+    "long_tables_seconds": 1.1582924001850188,
+    "diagnostics_seconds": 6.986724199960008
+  },
+  "signature": "1a8d34b6ff7197feabf5da01749ad597c91cf28cef9564d153a9ebfdb4ac82d6",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "outputs": {
+    "d1_summary.json": "d0678b7bee34c2b61fdabe9897fda36334594bc0f9f19433ae6dc35377d76cf4",
+    "daily_paired_metrics.csv": "ee89ce3ddcb89fbf616062038498c3d4ce28b0ce1b5f2e6df47a6b828f3aaa22",
+    "evening_version_changes.csv": "79383a1052bae984406e5ae709fe5acc81d6d7317506594f9e85ef0924f537eb",
+    "forecast_archive.npz": "b3823e22f8c305396439d1dba50d289083c0132bf03fae8f1daae35064b340ad",
+    "forecast_change_statistics.csv": "d1e619326f46f569178a67b03bea846ae80176a8e1d4845c2ffe199ba950cb2f",
+    "forecast_change_summary.json": "e2e67917cfb4252226d395d2a7061169fe0b688a4695c801d770d31dc5158e40",
+    "hour_integral_delta.csv": "5202a8ab7d62980a284f5ca3d9c3a59563c610e7bbedc335e27c34f84bdacc4a",
+    "interpolation_comparison.csv": "80677868cee4e3e61360f5936e7bb5564ff713464e03ae6078be87a198d6a814",
+    "protected_before.json": "dfed291e625bc8ea50d912224226f7df74ab9bb8219e5998da02db5f760e6818",
+    "registration.json": "309ba8849229730bdf124c158fe7a6b77cff6b1bcd69128a05f5e71f182127bc",
+    "source_comparison.csv": "9804ea00bff247254471912998b0edcdc5a034b357b9dbeb099267e99e414b32",
+    "update_comparison.csv": "2cc033854b52e32797d782ce6e4107ff9c2786d59678ced1e73aec1c9bce0ba5",
+    "update_delta_identity.csv": "ad7089c7575ed77101ab916acb11425528b4942a919cb337cdd9998ad3c3961b",
+    "validation.json": "018395d1e3a25d17c675f44f73ed820580692c2638e5e06012ddbd349c27d535",
+    "window_energy_totals.csv": "a6845fdc8cae2131ef07003b734fd7e2ed41b6b93f3db2bed7767e9cebbeb34c"
+  },
+  "protected": {
+    "count": 10921,
+    "changed": [],
+    "missing": []
+  }
+}

@@ -1,3 +1,0 @@
-﻿comparison,months_improved,months_total,days_improved,days_worse,days_total,worst_day,worst_day_yuan,best_day,best_day_yuan,delta_emergency_cost_0_10h,delta_emergency_cost_19_21h,delta_emergency_cost_21_24h
-P1_q80 minus P0_q80 (pre-registered main comparison),7,11,202,132,334,2025-07-06,2034.308132957638,2025-08-25,-7371.830601402238,2521.644874254125,-15675.487101892126,-152.6160464695713
-P1_q75 minus P0_q75 (pre-registered paired robustness comparison),5,11,188,146,334,2025-03-31,3280.2281621969814,2025-08-25,-7543.886227360541,3380.3713586086233,-18600.76711130014,-17.57495268963976

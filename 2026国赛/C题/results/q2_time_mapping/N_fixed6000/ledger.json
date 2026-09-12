@@ -1,0 +1,31 @@
+{
+  "ledger_A": {
+    "planned_kWh": 21776491.47031574,
+    "emergency_kWh": 68341.71217353357,
+    "unused_kWh": 2635676.915494953,
+    "charge_kWh": 6684272.493944998,
+    "discharge_kWh": 5414070.018584009,
+    "loss_kWh": 1269990.5847927234,
+    "planned_cost_yuan": 13303179.055716598,
+    "emergency_cost_yuan": 424869.11247530626,
+    "total_cost_yuan": 13728048.168191904,
+    "emergency_slots": 451,
+    "emergency_days": 117,
+    "initial_kWh": 6075.795025925926,
+    "final_kWh": 6287.685594191135,
+    "segments": 48096
+  },
+  "ledger_B": {
+    "planned_kWh": 21776491.47031574,
+    "emergency_kWh": 68341.71217353358,
+    "planned_cost_yuan": 13303179.055716598,
+    "emergency_cost_yuan": 424869.11247530626,
+    "total_cost_yuan": 13728048.168191904,
+    "segments": 48096
+  },
+  "head_cost_yuan": 0.0,
+  "tail_cost_yuan": 0.0,
+  "bridge_difference_yuan": 0.0,
+  "bridge_expected_yuan": 0.0,
+  "bridge_residual_yuan": 0.0
+}

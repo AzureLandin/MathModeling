@@ -1,8 +1,0 @@
-{
-  "mask_mismatch_slots": 0,
-  "frozen_pv_max_off_gate_kW": 0.0,
-  "gated_off_slots": 21408,
-  "zeroed_truth_energy_kWh": 2.4960833333333334,
-  "zeroed_truth_above_100kW_slots": 0,
-  "all_passed": true
-}

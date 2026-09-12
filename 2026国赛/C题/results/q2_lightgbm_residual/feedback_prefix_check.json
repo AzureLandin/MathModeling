@@ -1,7 +1,0 @@
-{
-  "day": 171,
-  "morning_state_max_kWh": 0.0,
-  "morning_plan_max_kWh": 0.0,
-  "scope": "morning plan and executed state prefix (slots 0-71)",
-  "passed": true
-}

@@ -172,7 +172,7 @@ def main():
                '|---|---:|---:|---:|---:|']
     report += [f'| {r.interval} | {r.price_yuan_kWh:.6f} | {r.lp_grid_kWh:.6f} | {r.grid_kWh:.6f} | {r.milp_minus_lp_kWh:.6f} |' for r in diff.itertuples()]
     report += ['', '本次差异是等价时段之间充电安排的变化：23:10—23:20和23:30—23:40电价同为0.424元/kWh，333.333333 kWh充电由前者移至后者，费用不变。两者均通过约束校验，说明在数值容差内存在不同的最优调度。指定的六个10分钟结果及六段4小时汇总均相同。差异数据另存`results/q1_milp/lp_milp_differences.csv`。','']
-    (ROOT/'reports/问题1_MILP重跑结果.md').write_text('\n'.join(report),encoding='utf-8')
+    (ROOT/'reports/问题一/问题1_MILP重跑结果.md').write_text('\n'.join(report),encoding='utf-8')
     print(json.dumps(dict(summary={k:v for k,v in summary.items() if k!='binary_mode_raw'},
                           comparisons=comparisons),ensure_ascii=False,indent=2))
 

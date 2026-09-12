@@ -1,0 +1,107 @@
+{
+  "registered_utc": "2026-09-12T10:09:44.874464+00:00",
+  "specification": "reports\\问题三\\问题三_首轮Baseline对照实验方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q3 first-round rolling baseline B0/B1/B2",
+    "specification": "reports/问题三/问题三_首轮Baseline对照实验方案.md",
+    "time_version": "start_time_v1",
+    "interval_rule": "label 00:10 covers 00:10-00:20; label 0:00+1 covers the next day 00:00-00:10",
+    "natural_day_rule": "natural day d = previous source row column 143 ++ current row columns 0..142",
+    "template_rule": "k-day 0:00 publishes 144 slots covering [k 00:10, (k+1) 00:10); the current midnight 00:00-00:10 executes the previous publication's carry commitment",
+    "targets": "h=0 current 00:00-00:10; h=1..143 current 00:10..23:50; h=144 next 00:00-00:10; template slot j = h-1",
+    "price_rule": "template slot j is billed at price_src[j]; natural slot t at [price_src[143], price_src[:143]][t]; delivered-interval price, independent of the revision clock",
+    "groups": {
+      "B0": "Q2 N_free ledger, 12-column PV LightGBM, no intraday revision",
+      "B1": "attachment-3 0:00 PV forecast, no intraday revision",
+      "B2": "B1 plus 6/12/18 revision with cost-based accept/reject"
+    },
+    "terminal": "free nominal state; both true natural 24:00 and the template tail keep only the 1200-10800 kWh band",
+    "load_forecast": "Q2 15-feature LightGBM issued_load archive, unchanged within the day",
+    "protection": {
+      "window_days": 28,
+      "alpha": 0.8,
+      "min_samples": 7,
+      "key": "publication hour, target day-offset, target slot clock",
+      "rule": "ascending order statistic at position ceil(0.8m); zero when m<7; negative corrections retained; h=144 at 0:00 has m=27 position 22"
+    },
+    "adjustment_rule": "p*q_eff + 0.5*p*|q_eff - q0| on the delivered interval price",
+    "emergency_rule": "5*p*e, no extra ordinary charge on the emergency energy",
+    "settlement": "final effective version against the 0:00 original plan, once only",
+    "ledgers": {
+      "A": "natural days 2025-02-01..2025-12-31, 334 days, 48096 segments",
+      "B": "template publications 2025-02-01..2025-12-31, 48096 segments",
+      "bridge": "C_B - C_A = cost(2026-01-01 00:00-00:10) - cost(2025-02-01 00:00-00:10)"
+    },
+    "solver": "SciPy milp/HiGHS, relative MIP gap 1e-9, time limit 120 s, free terminal",
+    "reuse": {
+      "B0": "results/q2_time_mapping/N_free/ (read only)",
+      "load": "results/q2_time_mapping/archive_float.npz::issued_load",
+      "pv": "results/q3_pv_time_conversion/pv_10min_forecasts.csv"
+    },
+    "validation": "three classes only: A small examples + one information-boundary day, B in-run assertions, C one read-only ledger check; no full re-run"
+  },
+  "dependency": {
+    "PUBLIC_INITIAL_KWH": 6075.795025925926,
+    "PUBLIC_CARRY_KWH": 0.0,
+    "B0_REFERENCE_YUAN": 13699337.684431653,
+    "perturbation": {
+      "day": 171,
+      "truth_scale": 1.05,
+      "pv_shift_kW": 50.0
+    }
+  },
+  "input_sha256": {
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "results/q3_pv_time_conversion/pv_10min_forecasts.csv": "28ea9b115a09552ac408255d96917d38a6d0c82efe9777a04729b20b4c113580",
+    "results/q3_pv_time_conversion/validation.json": "d71c375cdf0fb2618c59f9bd3e4d8cc417779b257aad191f1358199a8127f7f7",
+    "results/q2_time_mapping/archive_float.npz": "97e329f8c8ab988115fceba48d29528818f5a3b128f841f5ce938203f8e13c71",
+    "results/q2_time_mapping/N_free/natural_dispatch.csv": "5a8798c2b308cbc4a157b3e726294676add96c86c75dffce5264237288acb8c1",
+    "results/q2_time_mapping/N_free/template_plan.csv": "e3a581a3d64d8b056f991164b8cb257fdcf5f84dca69d4cba8d42b05852d7c6a",
+    "results/q2_time_mapping/N_free/ledger.json": "552c3c283d2dff87c19befd3688d74f77777cc34627a62676c6a2fd52f15c5c3",
+    "results/q2_time_mapping/tail_interval.csv": "9139efbe7d4779153c70caa2da6630921688a78f2fa9b28350de73a3709b1e57",
+    "code/29_q2_time_mapping_experiment.py": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+    "reports/问题三/问题三_首轮Baseline对照实验方案.md": "78dced19c247e7f088b32707697fdc5891152f1da83568e7886af3b949c07abc"
+  },
+  "code_sha256": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T10:02:45.885574+00:00",
+      "previous_signature": "95b3527fba23ec07f7d46c1289b6404a4f9a31fc49810c3ff0557502725dda3e",
+      "previous_code_sha256": "7d4ba3c1fbacba492001d7b0c43bd5f6903a48a651b15fd5de2ea01f87be4f99",
+      "new_signature": "07759c8df33a3ffc79ae06ca07080d532067b22857b1fbff4cce8010c8fe8c3d",
+      "new_code_sha256": "32093d3a0ce31fb98a1cf44eab8cd94b326b45b4e308d758daf9c33f03bde746",
+      "reason": "接收核查修复：A2 的 06:00 决策切片改为从 B2 保存的修订记录取模板槽35-143（06:00至次日00:00）并用 previous 列作旧计划，新增干净复算与保存候选一致性、接受决定与保存值一致两项断言；A3 改为以已保存 B1 计划对拍29号内核（额外求解由2次降为1次，验证预算回到4次内）；决策日志补新旧普通/调整/预测应急三项拆分；新增 B1/B2_plan_versions.csv 完整原计划档案与 B1/B2_nominal_trajectory.csv 名义轨迹。策略、参数、预测、保护与收费规则未变。"
+    },
+    {
+      "amended_utc": "2026-09-12T10:03:53.581511+00:00",
+      "previous_signature": "07759c8df33a3ffc79ae06ca07080d532067b22857b1fbff4cce8010c8fe8c3d",
+      "previous_code_sha256": "32093d3a0ce31fb98a1cf44eab8cd94b326b45b4e308d758daf9c33f03bde746",
+      "new_signature": "f74e0ad7e7ed60269bc224688429d253a2f9ff666b5ca2fbdc53b3f123b85449",
+      "new_code_sha256": "ffe0ac325aff1e6febd4003094e47ca4d31d24df86bd46f8eea5b70d19c3cf53",
+      "reason": "接收核查修复：A2 的 06:00 决策切片改为从 B2 保存的修订记录取模板槽35-143（06:00至次日00:00）并用 previous 列作旧计划，新增干净复算与保存候选一致性、接受决定与保存值一致两项断言；A3 改为以已保存 B1 计划对拍29号内核（额外求解由2次降为1次，验证预算回到4次内）；决策日志补新旧普通/调整/预测应急三项拆分；新增 B1/B2_plan_versions.csv 完整原计划档案与 B1/B2_nominal_trajectory.csv 名义轨迹。策略、参数、预测、保护与收费规则未变。interval_start 字符串比较修正。"
+    },
+    {
+      "amended_utc": "2026-09-12T10:08:32.000673+00:00",
+      "previous_signature": "f74e0ad7e7ed60269bc224688429d253a2f9ff666b5ca2fbdc53b3f123b85449",
+      "previous_code_sha256": "ffe0ac325aff1e6febd4003094e47ca4d31d24df86bd46f8eea5b70d19c3cf53",
+      "new_signature": "ea11535671820fcbde9ee8406d21ad92ffa3b2ef7e6105471fce3d0a45b2f1a1",
+      "new_code_sha256": "afdc57397bd5b67c0f88c9adb9c510f482f2c38241a4c5f585232f3810ad5047",
+      "reason": "run_manifest.outputs 去掉自引用：原先生成清单时会把上一轮 run_manifest.json 的旧哈希一并写入，导致产物清单出现一处必然失配。仅改清单生成，策略与数值不变。"
+    },
+    {
+      "amended_utc": "2026-09-12T10:09:44.874968+00:00",
+      "previous_signature": "ea11535671820fcbde9ee8406d21ad92ffa3b2ef7e6105471fce3d0a45b2f1a1",
+      "previous_code_sha256": "afdc57397bd5b67c0f88c9adb9c510f482f2c38241a4c5f585232f3810ad5047",
+      "new_signature": "a3a765b13804a1ca3f568c82a3f13082cc151e6c313c14caa55a2b08d635119c",
+      "new_code_sha256": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b",
+      "reason": "产物清单排除报告层写入的 figure_integrity.json 与 revision_information_diagnostic.csv（连同 run_manifest.json 自身）。否则重渲报告会使清单中本应受校验的哈希失配。仅改清单口径，策略与数值不变。"
+    }
+  ],
+  "signature": "a3a765b13804a1ca3f568c82a3f13082cc151e6c313c14caa55a2b08d635119c"
+}

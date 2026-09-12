@@ -1,0 +1,161 @@
+{
+  "registered_utc": "2026-09-12T04:43:36.627755+00:00",
+  "specification": "reports/问题二_统一新时间映射重跑实验方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "time_version": "start_time_v1",
+    "experiment": "unified interval-start mapping, new public January, retrained 15/12-column LightGBM under the new information set, two nominal terminal modes",
+    "interval_rule": "label 00:10 covers 00:10-00:20; label 0:00+1 covers the next day 00:00-00:10",
+    "natural_day_rule": "natural day d = previous source row column 143 ++ current row columns 0..142",
+    "price_rule": "natural-day price = source row 143 value then source rows 0..142",
+    "template_rule": "k-day 0:00 publishes 144 slots covering [k 00:10, (k+1) 00:10); the current midnight is executed from the previous day carry commitment and is never replanned",
+    "targets": {
+      "count": 145,
+      "mapping": "h=0 current 00:00; h=1..143 current 00:10..23:50; h=144 next 00:00; template slot j = h-1"
+    },
+    "midnight_target_rule": "both modes keep S0..S144 physically bounded; the fixed mode pins S143 (true natural-day 24:00); nothing pins S144",
+    "alpha": 0.8,
+    "residual_window_days": 28,
+    "min_history_days": 7,
+    "train_window_days": 56,
+    "min_train_days": 14,
+    "quantile_rule": "per-target empirical inverse distribution, 1-based position (m*a+99)//100, index position-1, no interpolation, negative corrections retained; h=144 has m=27 position 22, all other targets m=28 position 23",
+    "load_features": [
+      "l_base",
+      "l_b_minus_base",
+      "l_b_minus_b7",
+      "l_sameweekday_mean_minus_base",
+      "l_b_mean_minus_b7_mean",
+      "weekday_tue",
+      "weekday_wed",
+      "weekday_thu",
+      "weekday_fri",
+      "weekday_sat",
+      "weekday_sun",
+      "sin1",
+      "cos1",
+      "sin2",
+      "cos2"
+    ],
+    "pv_features": [
+      "v_base",
+      "v_b_minus_b1",
+      "v_week_mean_minus_base",
+      "v_b_mean_minus_b1_mean",
+      "sin1",
+      "cos1",
+      "sin2",
+      "cos2",
+      "support_duration_h",
+      "support_midpoint_h",
+      "support_phase",
+      "support_valid"
+    ],
+    "support_parameters": {
+      "history_days": 7,
+      "activity_threshold_kW": 1.0,
+      "padding_slots": 3
+    },
+    "solver": "local transcription of the frozen integer kernel; relative gap 1e-9, time limit 120 s; the only difference between the two modes is the S143 bound",
+    "ledgers": {
+      "A": "natural days 2025-02-01..2025-12-31, 334 days, 48096 segments",
+      "B": "template publications 2025-02-01..2025-12-31, 48096 segments, shifted by 10 minutes",
+      "bridge": "C_B - C_A = cost(tail 2026-01-01 00:00-00:10) - cost(head 2025-02-01 00:00-00:10)"
+    },
+    "reproduction": "new-run internal cold-start replay of N_fixed6000; no pre-registered new-convention cost constant exists and the old 27-module 1 CNY exemption is not reused",
+    "groups": [
+      {
+        "id": "N_fixed6000",
+        "mode": "fixed6000"
+      },
+      {
+        "id": "N_free",
+        "mode": "free"
+      }
+    ],
+    "comparison": "N_free minus N_fixed6000 (new time mapping, ledger A)"
+  },
+  "dependency": {
+    "first_load_feature_day": 9,
+    "first_pv_feature_day": 8,
+    "quantile_position_28": 23,
+    "quantile_position_27": 22,
+    "lgbm_params_sha256": "c9201bd1a693db46e053c35e9c0cb2e8b10a7cd4fe8feae52c3d226c9f56960f",
+    "lgbm_param_keys": [
+      "bagging_seed",
+      "boost_from_average",
+      "boosting_type",
+      "colsample_bytree",
+      "data_random_seed",
+      "deterministic",
+      "device_type",
+      "feature_fraction_seed",
+      "feature_pre_filter",
+      "force_col_wise",
+      "learning_rate",
+      "max_bin",
+      "max_depth",
+      "min_child_samples",
+      "min_child_weight",
+      "min_data_in_bin",
+      "min_split_gain",
+      "n_estimators",
+      "n_jobs",
+      "num_leaves",
+      "objective",
+      "random_state",
+      "reg_alpha",
+      "reg_lambda",
+      "subsample",
+      "subsample_for_bin",
+      "subsample_freq",
+      "verbosity"
+    ]
+  },
+  "input_sha256": {
+    "code/14_q2_ridge_forecast_experiment.py": "abfa432f97d11d84d98b8fdd90d4004f091ec853a5ee3f91343f8411e816acf2",
+    "code/19_q2_lightgbm_residual_experiment.py": "4f7359ec04719629ddc93c322b51b384c9a4c2c448dca38cbd82406764671e81",
+    "code/21_q2_quantile_level_scan.py": "361815c0a8e3ba978262acd8f0d43030075152dc15119777ae3daeb71a827e9a",
+    "code/29_q2_time_mapping_experiment.py": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+    "code/q1_start_time_recompute.py": "4a45ce75d7176da04ec06b50a0ad75fbe39e5d778f39caf7a0444e5b1fb97290",
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "reports/问题二_统一新时间映射重跑实验方案.md": "2f6f99f75dfd53020c11cd9e0993995a518d03cecfdd53599b3e92d906406ec3",
+    "reports/时间口径变更与跨问题影响_20260912.md": "3271d20067d95b01a6fd21f6bdb97b0ddd0fada6c1b6e25903c0854b005f143d"
+  },
+  "code_sha256": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T04:35:36.527322+00:00",
+      "previous_signature": "e54514233860976352cca4e0870cd6fdd99666db4e92f95f23ff94a613316752",
+      "previous_code_sha256": "ef5a20f7b1ac1e8727523592a13da0aea774fb61e0a35513c44eaac7caa77ea3",
+      "new_signature": "6a223f14adbfc3de9655ef230074af3cfb9a6a834107958105f51ce309352cbe",
+      "new_code_sha256": "ef03fd2d9407185834712c9e08bd63f0846d6e0b2610d08408c1e52baae66ec4",
+      "reason": "report writer fix: pass dates into write_report context (NameError in the first full run); model, solver, groups and all frozen parameters unchanged",
+      "frozen_spec_unchanged": true
+    },
+    {
+      "amended_utc": "2026-09-12T04:40:17.947218+00:00",
+      "previous_signature": "6a223f14adbfc3de9655ef230074af3cfb9a6a834107958105f51ce309352cbe",
+      "previous_code_sha256": "ef03fd2d9407185834712c9e08bd63f0846d6e0b2610d08408c1e52baae66ec4",
+      "new_signature": "4cfd31c2c46554fef08c8bff06cf80a31eee9dba3eaff21ea4f011ad34dcf1d3",
+      "new_code_sha256": "cfa743eb3806cd9e355f30b63ef1ecba08bcad5b7759fe05dac70ff7cedf4eb8",
+      "reason": "report writer fix 2: escape literal brace line in the report template (NameError in write_report); model and frozen parameters unchanged",
+      "frozen_spec_unchanged": true
+    },
+    {
+      "amended_utc": "2026-09-12T04:43:36.628378+00:00",
+      "previous_signature": "4cfd31c2c46554fef08c8bff06cf80a31eee9dba3eaff21ea4f011ad34dcf1d3",
+      "previous_code_sha256": "cfa743eb3806cd9e355f30b63ef1ecba08bcad5b7759fe05dac70ff7cedf4eb8",
+      "new_signature": "c971b155b3e5aa63cc4067cb125eeff033ab757fd82f38803c8464bfb4cb4d5a",
+      "new_code_sha256": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+      "reason": "layer split: report rendering moved out of 29 into code/30 report renderer so report edits never invalidate the experiment registration; experiment code otherwise unchanged",
+      "frozen_spec_unchanged": true
+    }
+  ],
+  "signature": "c971b155b3e5aa63cc4067cb125eeff033ab757fd82f38803c8464bfb4cb4d5a"
+}

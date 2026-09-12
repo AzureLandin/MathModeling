@@ -1,0 +1,338 @@
+[
+  {
+    "old": "code/06_q2_diagnostics.py",
+    "new": "archive/q2_cleanup_20260912/code/06_q2_diagnostics.py"
+  },
+  {
+    "old": "code/09_q2_quantile_diagnostics.py",
+    "new": "archive/q2_cleanup_20260912/code/09_q2_quantile_diagnostics.py"
+  },
+  {
+    "old": "code/10_q2_terminal_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/10_q2_terminal_experiment.py"
+  },
+  {
+    "old": "code/11_q2_terminal_diagnostics.py",
+    "new": "archive/q2_cleanup_20260912/code/11_q2_terminal_diagnostics.py"
+  },
+  {
+    "old": "code/12_q2_terminal_sensitivity.py",
+    "new": "archive/q2_cleanup_20260912/code/12_q2_terminal_sensitivity.py"
+  },
+  {
+    "old": "code/13_q2_terminal_sensitivity_audit.py",
+    "new": "archive/q2_cleanup_20260912/code/13_q2_terminal_sensitivity_audit.py"
+  },
+  {
+    "old": "code/15_q2_ridge_forecast_audit.py",
+    "new": "archive/q2_cleanup_20260912/code/15_q2_ridge_forecast_audit.py"
+  },
+  {
+    "old": "code/16_q2_pv_night_gate.py",
+    "new": "archive/q2_cleanup_20260912/code/16_q2_pv_night_gate.py"
+  },
+  {
+    "old": "code/23_q2_pv_support_features_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/23_q2_pv_support_features_experiment.py"
+  },
+  {
+    "old": "code/25_q2_load_pv_shape_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/25_q2_load_pv_shape_experiment.py"
+  },
+  {
+    "old": "code/27_q2_free_terminal_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/27_q2_free_terminal_experiment.py"
+  },
+  {
+    "old": "code/32_q2_feature_compaction_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/32_q2_feature_compaction_experiment.py"
+  },
+  {
+    "old": "code/33_q2_feature_compaction_report.py",
+    "new": "archive/q2_cleanup_20260912/code/33_q2_feature_compaction_report.py"
+  },
+  {
+    "old": "code/34_q2_soft_terminal_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/34_q2_soft_terminal_experiment.py"
+  },
+  {
+    "old": "code/35_q2_soft_terminal_report.py",
+    "new": "archive/q2_cleanup_20260912/code/35_q2_soft_terminal_report.py"
+  },
+  {
+    "old": "code/q2_evaluation_period_check.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_evaluation_period_check.py"
+  },
+  {
+    "old": "code/q2_feature_compaction_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_feature_compaction_report_review.py"
+  },
+  {
+    "old": "code/q2_feature_usage_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_feature_usage_review.py"
+  },
+  {
+    "old": "code/q2_free_terminal_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_free_terminal_report_review.py"
+  },
+  {
+    "old": "code/q2_lightgbm_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_lightgbm_report_review.py"
+  },
+  {
+    "old": "code/q2_pv_annual_features_experiment.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_pv_annual_features_experiment.py"
+  },
+  {
+    "old": "code/q2_pv_annual_features_report.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_pv_annual_features_report.py"
+  },
+  {
+    "old": "code/q2_pv_support_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_pv_support_report_review.py"
+  },
+  {
+    "old": "code/q2_ridge_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_ridge_report_review.py"
+  },
+  {
+    "old": "code/q2_soft_terminal_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_soft_terminal_report_review.py"
+  },
+  {
+    "old": "code/q2_time_mapping_report_review.py",
+    "new": "archive/q2_cleanup_20260912/code/q2_time_mapping_report_review.py"
+  },
+  {
+    "old": "results/q2_baseline",
+    "new": "archive/q2_cleanup_20260912/results/q2_baseline"
+  },
+  {
+    "old": "results/q2_evaluation_period_check",
+    "new": "archive/q2_cleanup_20260912/results/q2_evaluation_period_check"
+  },
+  {
+    "old": "results/q2_feature_compaction",
+    "new": "archive/q2_cleanup_20260912/results/q2_feature_compaction"
+  },
+  {
+    "old": "results/q2_feature_compaction_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_feature_compaction_report_review"
+  },
+  {
+    "old": "results/q2_feature_usage_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_feature_usage_review"
+  },
+  {
+    "old": "results/q2_free_terminal",
+    "new": "archive/q2_cleanup_20260912/results/q2_free_terminal"
+  },
+  {
+    "old": "results/q2_free_terminal_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_free_terminal_report_review"
+  },
+  {
+    "old": "results/q2_lightgbm_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_lightgbm_report_review"
+  },
+  {
+    "old": "results/q2_lightgbm_residual",
+    "new": "archive/q2_cleanup_20260912/results/q2_lightgbm_residual"
+  },
+  {
+    "old": "results/q2_load_pv_shape",
+    "new": "archive/q2_cleanup_20260912/results/q2_load_pv_shape"
+  },
+  {
+    "old": "results/q2_pv_annual_features",
+    "new": "archive/q2_cleanup_20260912/results/q2_pv_annual_features"
+  },
+  {
+    "old": "results/q2_pv_night_gate",
+    "new": "archive/q2_cleanup_20260912/results/q2_pv_night_gate"
+  },
+  {
+    "old": "results/q2_pv_support_features",
+    "new": "archive/q2_cleanup_20260912/results/q2_pv_support_features"
+  },
+  {
+    "old": "results/q2_pv_support_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_pv_support_report_review"
+  },
+  {
+    "old": "results/q2_quantile_experiment",
+    "new": "archive/q2_cleanup_20260912/results/q2_quantile_experiment"
+  },
+  {
+    "old": "results/q2_quantile_level_scan",
+    "new": "archive/q2_cleanup_20260912/results/q2_quantile_level_scan"
+  },
+  {
+    "old": "results/q2_ridge_forecast",
+    "new": "archive/q2_cleanup_20260912/results/q2_ridge_forecast"
+  },
+  {
+    "old": "results/q2_ridge_forecast_audit",
+    "new": "archive/q2_cleanup_20260912/results/q2_ridge_forecast_audit"
+  },
+  {
+    "old": "results/q2_ridge_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_ridge_report_review"
+  },
+  {
+    "old": "results/q2_soft_terminal",
+    "new": "archive/q2_cleanup_20260912/results/q2_soft_terminal"
+  },
+  {
+    "old": "results/q2_soft_terminal_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_soft_terminal_report_review"
+  },
+  {
+    "old": "results/q2_terminal_diagnostics_20260911",
+    "new": "archive/q2_cleanup_20260912/results/q2_terminal_diagnostics_20260911"
+  },
+  {
+    "old": "results/q2_terminal_experiment_20260911",
+    "new": "archive/q2_cleanup_20260912/results/q2_terminal_experiment_20260911"
+  },
+  {
+    "old": "results/q2_terminal_sensitivity",
+    "new": "archive/q2_cleanup_20260912/results/q2_terminal_sensitivity"
+  },
+  {
+    "old": "results/q2_terminal_sensitivity_audit",
+    "new": "archive/q2_cleanup_20260912/results/q2_terminal_sensitivity_audit"
+  },
+  {
+    "old": "results/q2_time_mapping_report_review",
+    "new": "archive/q2_cleanup_20260912/results/q2_time_mapping_report_review"
+  },
+  {
+    "old": "results/q2_ridge_forecast_reproducibility.json",
+    "new": "archive/q2_cleanup_20260912/results/q2_ridge_forecast_reproducibility.json"
+  },
+  {
+    "old": "results/q2_time_mapping.zip",
+    "new": "archive/q2_cleanup_20260912/results/q2_time_mapping.zip"
+  },
+  {
+    "old": "figures/q2_free_terminal",
+    "new": "archive/q2_cleanup_20260912/figures/q2_free_terminal"
+  },
+  {
+    "old": "figures/q2_lightgbm_residual",
+    "new": "archive/q2_cleanup_20260912/figures/q2_lightgbm_residual"
+  },
+  {
+    "old": "figures/q2_load_pv_shape",
+    "new": "archive/q2_cleanup_20260912/figures/q2_load_pv_shape"
+  },
+  {
+    "old": "figures/q2_pv_night_gate",
+    "new": "archive/q2_cleanup_20260912/figures/q2_pv_night_gate"
+  },
+  {
+    "old": "figures/q2_pv_support_features",
+    "new": "archive/q2_cleanup_20260912/figures/q2_pv_support_features"
+  },
+  {
+    "old": "figures/q2_quantile_experiment",
+    "new": "archive/q2_cleanup_20260912/figures/q2_quantile_experiment"
+  },
+  {
+    "old": "figures/q2_quantile_level_scan",
+    "new": "archive/q2_cleanup_20260912/figures/q2_quantile_level_scan"
+  },
+  {
+    "old": "figures/q2_ridge_forecast",
+    "new": "archive/q2_cleanup_20260912/figures/q2_ridge_forecast"
+  },
+  {
+    "old": "figures/q2_terminal_diagnostics_20260911",
+    "new": "archive/q2_cleanup_20260912/figures/q2_terminal_diagnostics_20260911"
+  },
+  {
+    "old": "figures/q2_terminal_sensitivity",
+    "new": "archive/q2_cleanup_20260912/figures/q2_terminal_sensitivity"
+  },
+  {
+    "old": "figures/q2_baseline.png",
+    "new": "archive/q2_cleanup_20260912/figures/q2_baseline.png"
+  },
+  {
+    "old": "reports/问题二/核查与审计",
+    "new": "archive/q2_cleanup_20260912/reports/问题二/核查与审计"
+  },
+  {
+    "old": "reports/问题二/实验方案",
+    "new": "archive/q2_cleanup_20260912/reports/问题二/实验方案"
+  },
+  {
+    "old": "reports/问题二/实验结果",
+    "new": "archive/q2_cleanup_20260912/reports/问题二/实验结果"
+  },
+  {
+    "old": "code/__pycache__/05_q2_baseline.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/05_q2_baseline.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/08_q2_quantile_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/08_q2_quantile_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/10_q2_terminal_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/10_q2_terminal_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/11_q2_terminal_diagnostics.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/11_q2_terminal_diagnostics.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/12_q2_terminal_sensitivity.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/12_q2_terminal_sensitivity.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/14_q2_ridge_forecast_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/14_q2_ridge_forecast_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/19_q2_lightgbm_residual_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/19_q2_lightgbm_residual_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/21_q2_quantile_level_scan.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/21_q2_quantile_level_scan.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/23_q2_pv_support_features_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/23_q2_pv_support_features_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/25_q2_load_pv_shape_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/25_q2_load_pv_shape_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/27_q2_free_terminal_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/27_q2_free_terminal_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/29_q2_time_mapping_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/29_q2_time_mapping_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/32_q2_feature_compaction_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/32_q2_feature_compaction_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/34_q2_soft_terminal_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/34_q2_soft_terminal_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/q2_pv_annual_features_experiment.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/q2_pv_annual_features_experiment.cpython-314.pyc"
+  },
+  {
+    "old": "code/__pycache__/q2_pv_annual_features_report.cpython-314.pyc",
+    "new": "archive/q2_cleanup_20260912/code/__pycache__/q2_pv_annual_features_report.cpython-314.pyc"
+  }
+]

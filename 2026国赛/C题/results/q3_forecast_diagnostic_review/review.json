@@ -1,0 +1,92 @@
+{
+  "scope": "Saved array metrics only, no training/interpolation/MILP",
+  "D1": {
+    "Q2": {
+      "n": 48096,
+      "pv_mae_kW": 153.12105020003096,
+      "pv_bias_kW": -1.9819643203163286,
+      "false_positive_kWh": 2603.3181269945435
+    },
+    "Linear": {
+      "n": 48096,
+      "pv_mae_kW": 207.47110994538698,
+      "pv_bias_kW": -29.6762228147871,
+      "false_positive_kWh": 22985.85901805555
+    }
+  },
+  "D3": [
+    {
+      "hour": 0,
+      "n": 48096,
+      "Linear": {
+        "pv_mae_kW": 207.47110994538698,
+        "net_mae_kWh": 48.499739368595236,
+        "protected_shortfall_kWh": 6.798816524516295,
+        "protected_surplus_kWh": 54.824552790686276
+      },
+      "PCHIP": {
+        "pv_mae_kW": 207.27677081799465,
+        "net_mae_kWh": 48.67140420522624,
+        "protected_shortfall_kWh": 6.872853124353847,
+        "protected_surplus_kWh": 55.67018322940997
+      }
+    },
+    {
+      "hour": 6,
+      "n": 36406,
+      "Linear": {
+        "pv_mae_kW": 176.416150727902,
+        "net_mae_kWh": 41.93605379343894,
+        "protected_shortfall_kWh": 6.172243125216097,
+        "protected_surplus_kWh": 46.04196571898338
+      },
+      "PCHIP": {
+        "pv_mae_kW": 182.5325350943801,
+        "net_mae_kWh": 42.771821585490784,
+        "protected_shortfall_kWh": 6.246957690693284,
+        "protected_surplus_kWh": 46.665741389357976
+      }
+    },
+    {
+      "hour": 12,
+      "n": 24382,
+      "Linear": {
+        "pv_mae_kW": 96.53211307795368,
+        "net_mae_kWh": 32.79296722540366,
+        "protected_shortfall_kWh": 4.7915490568370585,
+        "protected_surplus_kWh": 36.2896585822568
+      },
+      "PCHIP": {
+        "pv_mae_kW": 98.63255196527835,
+        "net_mae_kWh": 33.01833156642581,
+        "protected_shortfall_kWh": 4.8172785328518435,
+        "protected_surplus_kWh": 36.53280838535705
+      }
+    },
+    {
+      "hour": 18,
+      "n": 12358,
+      "Linear": {
+        "pv_mae_kW": 7.3478704995414565,
+        "net_mae_kWh": 25.53811120245975,
+        "protected_shortfall_kWh": 4.064887412835843,
+        "protected_surplus_kWh": 29.48131367029158
+      },
+      "PCHIP": {
+        "pv_mae_kW": 7.344929465552753,
+        "net_mae_kWh": 25.538301505560693,
+        "protected_shortfall_kWh": 4.0649680097360745,
+        "protected_surplus_kWh": 29.481654357201666
+      }
+    }
+  ],
+  "other_window_actual": {
+    "max_kW": 5.1641,
+    "positive_intervals": 862
+  },
+  "18_vs_12_raw_change": {
+    "max_kW": 0.5883166666666995,
+    "mean_abs_kW": 0.0020975724227222394,
+    "nonzero_intervals": 228
+  }
+}

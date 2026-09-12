@@ -1,7 +1,0 @@
-﻿strategy_id,kind,date,value_kWh,threshold_kWh,within_threshold
-T_q80_4800,max_nominal_reconstruction_violation,2025-05-09,6.476739145000465e-10,1e-06,True
-T_q80_6000,max_nominal_reconstruction_violation,2025-07-26,7.796529644110706e-08,1e-06,True
-T_q80_7200,max_nominal_reconstruction_violation,2025-09-20,4.190496838418767e-10,1e-06,True
-T_q80_4800,max_nominal_state_path_degeneracy,(day not pinned),1166.035680000015,,
-T_q80_6000,max_nominal_state_path_degeneracy,(day not pinned),176.3063849999985,,
-T_q80_7200,max_nominal_state_path_degeneracy,(day not pinned),237.13795499981984,,

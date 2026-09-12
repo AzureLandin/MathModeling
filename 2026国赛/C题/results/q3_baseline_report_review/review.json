@@ -1,0 +1,62 @@
+{
+  "scope": "Read-only saved ledgers; no solver, training or upstream audit",
+  "groups": {
+    "B0": {
+      "total": 13699337.684431653,
+      "emergency_kWh": 73095.96273054686,
+      "emergency_intervals": 577,
+      "initial": 6075.795025925926,
+      "final": 1682.897933104455,
+      "cash_residual": 9.094947017729282e-13,
+      "energy_residual": 4.547473508864641e-13
+    },
+    "B1": {
+      "total": 13848086.998191595,
+      "emergency_kWh": 66348.28707827492,
+      "emergency_intervals": 581,
+      "initial": 6075.795025925926,
+      "final": 1682.897933104455,
+      "cash_residual": 9.094947017729282e-13,
+      "energy_residual": 4.547473508864641e-13
+    },
+    "B2": {
+      "total": 13492312.266087154,
+      "emergency_kWh": 25269.234552697864,
+      "emergency_intervals": 449,
+      "initial": 6075.795025925926,
+      "final": 1682.897933104455,
+      "cash_residual": 4.547473508864641e-13,
+      "energy_residual": 4.547473508864641e-13
+    }
+  },
+  "updates": {
+    "count": 1002,
+    "accepted": 873,
+    "rejected_strictly_more_expensive": 0,
+    "rejected_near_equal": 129
+  },
+  "B1-B0": {
+    "delta": 148749.31375994394,
+    "cheaper_days": 136,
+    "cheaper_months": 3
+  },
+  "B2-B1": {
+    "delta": -355774.7321044417,
+    "cheaper_days": 233,
+    "cheaper_months": 11
+  },
+  "B2-B0": {
+    "delta": -207025.41834449768,
+    "cheaper_days": 168,
+    "cheaper_months": 7
+  },
+  "A2_saved_slice_problem": {
+    "first_target": "2025-06-21 05:50:00",
+    "last_target": "2025-06-21 23:50:00",
+    "count": 109,
+    "final_effective_differs_from_original_intervals": 14,
+    "expected_first": "2025-06-21 06:00:00",
+    "expected_last": "2025-06-22 00:00:00"
+  },
+  "status": "saved_cash_physics_feedback_and_selection_checks_passed"
+}

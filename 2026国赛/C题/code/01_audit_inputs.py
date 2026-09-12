@@ -58,7 +58,7 @@ def main():
     checksums = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     reader = PdfReader(ROOT / 'C题.pdf')
     extracted = '\n\n'.join(f'## 第{i + 1}页\n{p.extract_text()}' for i, p in enumerate(reader.pages))
-    (ROOT / 'reports' / '题目原文提取.txt').write_text(extracted, encoding='utf-8')
+    (ROOT / 'reports/数据与题意/题目原文提取.txt').write_text(extracted, encoding='utf-8')
     source = rows('附件1.xlsx')
     assert [minutes(r[0]) for r in source[1:]] == list(range(10, 1441, 10))
     q1 = pd.DataFrame([r[1:] for r in source[1:]], columns=['price_yuan_kWh', 'load_kW', 'pv_kW'])

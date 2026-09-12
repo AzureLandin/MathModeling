@@ -1,0 +1,27 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T11:25:41.458045+00:00",
+  "finished_utc": "2026-09-12T11:25:44.619384+00:00",
+  "wall_seconds": 3.161351300077513,
+  "timings": {
+    "inputs_seconds": 0.021729099797084928,
+    "correction_seconds": 0.12424629996530712,
+    "long_tables_seconds": 1.4477982001844794,
+    "metrics_seconds": 1.2442185999825597
+  },
+  "signature": "46044b8e35529d63ecdb50eaaf4ea2841d7bc1e297119dc4a64bff32450f70aa",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "outputs": {
+    "bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "bias_statistics.csv": "66c3a7b7116fcbe4c05b2ef447a9e138ec16b6f83e00b6ce78ca6da8d8751869",
+    "comparison.csv": "c53950562584784e3055ffa19dbb5e3cd4e903f4dbf891f903ab65e4bc349f14",
+    "correction_decomposition.csv": "819c630b76162264c5cf498ada1de097a9b5468ba86f1859df10929bcfbc969c",
+    "daily_paired_metrics.csv": "2e2c5290ad7147f406c12251d32e977963f57dba5c931d388b58f03a71828f23",
+    "history_spotcheck.csv": "f4f4c7b485dc1be453f55c6524ac08a6f699f74914bdd7c6ff4b24d86143990d",
+    "monthly.csv": "55b1fbdd1386382561760f869554767c78ebdc853eb910230f25c849841ff2d1",
+    "registration.json": "79ee76ca15d86401760e625e959adc8d9b4a55c02610043d742378b0d0097bd3",
+    "summary.json": "2ecffea40d143e29d16e10c33e06c65ae649ed25b3b7b3bdc04c26228fb6e6a0",
+    "validation.json": "7cb7a870c0d3c34163ff454e711e2d6bc71145b0d10da69f006d3911d6a7f3dc"
+  }
+}

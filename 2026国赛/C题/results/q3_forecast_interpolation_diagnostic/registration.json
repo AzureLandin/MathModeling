@@ -1,0 +1,48 @@
+{
+  "registered_utc": "2026-09-12T10:55:29.493030+00:00",
+  "specification": "reports\\问题三\\问题三_预测误差与插值对照诊断实验方案.md",
+  "parameters": {
+    "experiment": "Q3 forecast-error and interpolation diagnostic (D1/D2/D3)",
+    "specification": "reports/问题三/问题三_预测误差与插值对照诊断实验方案.md",
+    "budget": "model training 0, MILP solves 0, dispatch re-runs 0; conversion + order statistics only",
+    "comparison": {
+      "D1": "Q2 0:00 12-column LightGBM PV vs Linear 0:00, same 144 template targets",
+      "D2": "6-vs-0, 12-vs-6, 18-vs-12 on the newer version's 109/73/37 window",
+      "D3": "PCHIP vs Linear, same issue time and same targets"
+    },
+    "pchip": "SciPy PchipInterpolator on the 24 stored hourly nodes of the same issue, analytic integrate on interior intervals; first hour keeps the stored linear anchor hand-off (including the initial-day backfill); midnight tail keeps the constant extension",
+    "pv_error": "e = V_hat - V (kW), positive means over-forecast",
+    "net_error": "n_hat = (L_hat - V_hat) * dt ; eps = n - n_hat (kWh); load forecast is the common 15-feature LightGBM issued_load for every scheme",
+    "protection": {
+      "window_days": 28,
+      "alpha": 0.8,
+      "min_samples": 7,
+      "key": "publication hour, target day-offset, target clock",
+      "rule": "ascending order statistic at position ceil(0.8m); zero when m<7; negative corrections retained"
+    },
+    "groups": "overall, month, fixed clock windows 05-09/09-15/15-20/other, boundary (first hour / interior / midnight tail), generation subset PV>1 kW",
+    "evaluation": "publication days 2025-02-01..2025-12-31; each version summarised on its own window; matched targets only, sample counts reported"
+  },
+  "dependency": {
+    "generation_threshold_kW": 1.0,
+    "tolerance": 1e-08,
+    "linear_reuse": "results/q3_rolling_baseline/prediction_protection.npz stores the frozen Linear net_forecast/rho/protected"
+  },
+  "input_sha256": {
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "results/q3_pv_time_conversion/pv_hourly_nodes.csv": "a77df6d65ee80ffe1acde17a6a3e09b9133dd276f9a7431d14bde4a67c944c7e",
+    "results/q3_pv_time_conversion/pv_10min_forecasts.csv": "28ea9b115a09552ac408255d96917d38a6d0c82efe9777a04729b20b4c113580",
+    "results/q3_pv_time_conversion/validation.json": "d71c375cdf0fb2618c59f9bd3e4d8cc417779b257aad191f1358199a8127f7f7",
+    "results/q2_time_mapping/archive_float.npz": "97e329f8c8ab988115fceba48d29528818f5a3b128f841f5ce938203f8e13c71",
+    "results/q3_rolling_baseline/prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "results/q3_rolling_baseline/B2_plan_versions.csv": "665c75dfb1dd7e14ff2b3c9e4ba456547ab8080f0bd23656311701e5179f9db4",
+    "results/q3_rolling_baseline/B2_revision_decisions.csv": "991a6a6f030770f74bc6f93e2e8b0f3e769b376dbe3340eeacb1c87ef1f5aa92",
+    "reports/问题三/问题三_预测误差与插值对照诊断实验方案.md": "98700e9c6cf985ca1df1dc13db7894834d3ceea1071d64e1a55a858c48d312e3"
+  },
+  "code_sha256": "ca70f16fdebbe418e381301f4b27bdfd515e50709f709918dcd2b5b1f472f606",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "signature": "1a8d34b6ff7197feabf5da01749ad597c91cf28cef9564d153a9ebfdb4ac82d6"
+}

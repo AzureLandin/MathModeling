@@ -1,0 +1,16 @@
+{
+  "physical": {
+    "balance": 1.1368683772161603e-13,
+    "state_recursion": 9.094947017729282e-13,
+    "capacity": 0.0,
+    "power": 0.0,
+    "nonnegative": 0.0,
+    "mutex": 0.0
+  },
+  "final_state_kWh": 1682.897933104455,
+  "group": {
+    "id": "N_free",
+    "mode": "free",
+    "role": "new time mapping, nominal 24:00 state only bounded by 1200-10800 kWh"
+  }
+}

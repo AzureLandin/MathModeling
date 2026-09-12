@@ -1,0 +1,223 @@
+{
+  "scope": "saved-array review and four target history checks; no training, MILP or dispatch",
+  "source_sha256": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+  "overall": {
+    "n": 121242,
+    "C0": {
+      "pv_mae_kW": 155.4377843654289,
+      "pv_rmse_kW": 304.41828650522774,
+      "pv_bias_kW": -26.384338077563886,
+      "net_mae_kWh": 41.02972191324528,
+      "net_rmse_kWh": 60.232344617227476,
+      "shortfall_kWh": 5.928341585683005,
+      "surplus_kWh": 45.876759084114475
+    },
+    "C1": {
+      "pv_mae_kW": 139.27512843796615,
+      "pv_rmse_kW": 290.63516171788115,
+      "pv_bias_kW": 2.1869624161972196,
+      "net_mae_kWh": 39.21545760830724,
+      "net_rmse_kWh": 58.16281299995259,
+      "shortfall_kWh": 6.0488639512572915,
+      "surplus_kWh": 46.42097254688015
+    },
+    "mean_delta_protected_kWh": 0.4236910971913978,
+    "mean_abs_delta_protected_kWh": 5.15230161008434,
+    "max_abs_delta_protected_kWh": 94.29827207341253,
+    "mean_delta_pv_kW": 28.571300493761104,
+    "mean_abs_delta_pv_kW": 74.18198783329397
+  },
+  "versions": {
+    "0": {
+      "n": 48096,
+      "C0": {
+        "pv_mae_kW": 207.47110994538698,
+        "pv_rmse_kW": 394.21186605842445,
+        "pv_bias_kW": -29.6762228147871,
+        "net_mae_kWh": 48.499739368595236,
+        "net_rmse_kWh": 73.18220822238477,
+        "shortfall_kWh": 6.798816524516291,
+        "surplus_kWh": 54.8245527906863
+      },
+      "C1": {
+        "pv_mae_kW": 194.25027546596417,
+        "pv_rmse_kW": 381.6330711472659,
+        "pv_bias_kW": 1.9168101199448817,
+        "net_mae_kWh": 46.838810890804545,
+        "net_rmse_kWh": 71.07354551857723,
+        "shortfall_kWh": 6.9814119031059985,
+        "surplus_kWh": 55.778820368255644
+      },
+      "mean_delta_protected_kWh": 0.7716721989796362,
+      "mean_abs_delta_protected_kWh": 7.274060939636263,
+      "max_abs_delta_protected_kWh": 94.29827207341253,
+      "mean_delta_pv_kW": 31.59303293473198,
+      "mean_abs_delta_pv_kW": 87.29618651727422
+    },
+    "6": {
+      "n": 36406,
+      "C0": {
+        "pv_mae_kW": 176.416150727902,
+        "pv_rmse_kW": 287.0729960170568,
+        "pv_bias_kW": -15.307375789704999,
+        "net_mae_kWh": 41.93605379343894,
+        "net_rmse_kWh": 57.38484061599795,
+        "shortfall_kWh": 6.172243125216094,
+        "surplus_kWh": 46.04196571898338
+      },
+      "C1": {
+        "pv_mae_kW": 153.68746110683284,
+        "pv_rmse_kW": 270.2644060431958,
+        "pv_bias_kW": 3.385406129009998,
+        "net_mae_kWh": 39.40727553481897,
+        "net_rmse_kWh": 54.99697857396355,
+        "shortfall_kWh": 6.327568354948194,
+        "surplus_kWh": 46.51117953155773
+      },
+      "mean_delta_protected_kWh": 0.3138885828422441,
+      "mean_abs_delta_protected_kWh": 5.4441113990338055,
+      "max_abs_delta_protected_kWh": 51.569828626299795,
+      "mean_delta_pv_kW": 18.692781918715,
+      "mean_abs_delta_pv_kW": 87.38184832082231
+    },
+    "12": {
+      "n": 24382,
+      "C0": {
+        "pv_mae_kW": 96.53211307795368,
+        "pv_rmse_kW": 175.19734414536143,
+        "pv_bias_kW": -51.82834906488394,
+        "net_mae_kWh": 32.79296722540366,
+        "net_rmse_kWh": 44.2562988219719,
+        "shortfall_kWh": 4.791549056837054,
+        "surplus_kWh": 36.28965858225681
+      },
+      "C1": {
+        "pv_mae_kW": 77.71474859414,
+        "pv_rmse_kW": 153.26732341766547,
+        "pv_bias_kW": 1.524788015004728,
+        "net_mae_kWh": 30.950040682683635,
+        "net_rmse_kWh": 41.85051591446332,
+        "shortfall_kWh": 4.820918285368734,
+        "surplus_kWh": 36.43498843000063
+      },
+      "mean_delta_protected_kWh": 0.11596061921214251,
+      "mean_abs_delta_protected_kWh": 2.8239829056044385,
+      "max_abs_delta_protected_kWh": 39.06194738972033,
+      "mean_delta_pv_kW": 53.35313707988866,
+      "mean_abs_delta_pv_kW": 63.25967664459487
+    },
+    "18": {
+      "n": 12358,
+      "C0": {
+        "pv_mae_kW": 7.3478704995414565,
+        "pv_rmse_kW": 32.00466689610285,
+        "pv_bias_kW": 3.9955352969736206,
+        "net_mae_kWh": 25.538111202459746,
+        "net_rmse_kWh": 34.41031024843697,
+        "shortfall_kWh": 4.064887412835836,
+        "surplus_kWh": 29.48131367029161
+      },
+      "C1": {
+        "pv_mae_kW": 4.316812104483119,
+        "pv_rmse_kW": 18.716810710506238,
+        "pv_bias_kW": 1.0142677472998018,
+        "net_mae_kWh": 25.288549740770343,
+        "net_rmse_kWh": 34.10751905511038,
+        "shortfall_kWh": 4.02114364156385,
+        "surplus_kWh": 29.437572355644452
+      },
+      "mean_delta_protected_kWh": 2.4566248302187187e-06,
+      "mean_abs_delta_protected_kWh": 0.6286976905184973,
+      "max_abs_delta_protected_kWh": 28.731415556379716,
+      "mean_delta_pv_kW": -2.9812675496738184,
+      "mean_abs_delta_pv_kW": 5.80629359386921
+    }
+  },
+  "max_metric_difference_from_csv": 5.684341886080802e-14,
+  "clipped_subset": {
+    "n": 3709,
+    "C0": {
+      "pv_mae_kW": 44.10571401995147,
+      "pv_rmse_kW": 82.60084419654551,
+      "pv_bias_kW": 43.50063530151882,
+      "net_mae_kWh": 29.66629388882972,
+      "net_rmse_kWh": 39.10085163323891,
+      "shortfall_kWh": 3.5031025973572634,
+      "surplus_kWh": 38.521158837460774
+    },
+    "C1": {
+      "pv_mae_kW": 1.2333534915071447,
+      "pv_rmse_kW": 4.886881860780077,
+      "pv_bias_kW": -1.2333534915071447,
+      "net_mae_kWh": 26.97459531260373,
+      "net_rmse_kWh": 37.035427893651644,
+      "shortfall_kWh": 4.308240380043631,
+      "surplus_kWh": 33.40391972679021
+    },
+    "mean_delta_protected_kWh": -5.922376893356933,
+    "mean_abs_delta_protected_kWh": 7.345782471210793,
+    "max_abs_delta_protected_kWh": 49.62878794642859,
+    "mean_delta_pv_kW": -44.73398879302598,
+    "mean_abs_delta_pv_kW": 44.73398879302598
+  },
+  "unclipped_subset": {
+    "n": 117533,
+    "C0": {
+      "pv_mae_kW": 158.95110104169325,
+      "pv_rmse_kW": 308.83586869812797,
+      "pv_bias_kW": -28.589704793830958,
+      "net_mae_kWh": 41.38831868642862,
+      "net_rmse_kWh": 60.77972962520568,
+      "shortfall_kWh": 6.004875081873013,
+      "surplus_kWh": 46.10888045696157
+    },
+    "C1": {
+      "pv_mae_kW": 143.63132578914767,
+      "pv_rmse_kW": 295.1840670116224,
+      "pv_bias_kW": 2.294897648869538,
+      "net_mae_kWh": 39.601743657797726,
+      "net_rmse_kWh": 58.70590499783917,
+      "shortfall_kWh": 6.103792973962672,
+      "surplus_kWh": 46.831752914178814
+    },
+    "mean_delta_protected_kWh": 0.623954565127584,
+    "mean_abs_delta_protected_kWh": 5.083081727039425,
+    "max_abs_delta_protected_kWh": 94.29827207341253,
+    "mean_delta_pv_kW": 30.884602442700494,
+    "mean_abs_delta_pv_kW": 75.11128112488318
+  },
+  "history_spotchecks": [
+    {
+      "hour": 0,
+      "h": 0,
+      "m_bias": 28,
+      "m_net": 28,
+      "bias_difference_kW": 0.0,
+      "rho_difference_kWh": 7.105427357601002e-14
+    },
+    {
+      "hour": 0,
+      "h": 1,
+      "m_bias": 28,
+      "m_net": 28,
+      "bias_difference_kW": 0.0,
+      "rho_difference_kWh": 2.1316282072803006e-14
+    },
+    {
+      "hour": 0,
+      "h": 144,
+      "m_bias": 27,
+      "m_net": 27,
+      "bias_difference_kW": 0.0,
+      "rho_difference_kWh": 3.552713678800501e-14
+    },
+    {
+      "hour": 6,
+      "h": 36,
+      "m_bias": 28,
+      "m_net": 28,
+      "bias_difference_kW": 2.842170943040401e-14,
+      "rho_difference_kWh": 7.460698725481052e-14
+    }
+  ]
+}

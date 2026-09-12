@@ -1,0 +1,68 @@
+{
+  "summary": {
+    "load_first_feature_day": 9,
+    "pv_first_feature_day": 8,
+    "load_first_trainable_day": 24,
+    "pv_first_trainable_day": 23,
+    "load_trained_days": 341,
+    "pv_trained_days": 342,
+    "formal_finite": true,
+    "formal_nonnegative": true,
+    "gated_off_slots": 20039,
+    "support_valid_days": 334,
+    "support_invalid_days": 0
+  },
+  "rounds": [
+    {
+      "check": "load first feature day is 9 (Jan 10 formed as 0-based 9)",
+      "value": 9,
+      "expected": 9,
+      "passed": true
+    },
+    {
+      "check": "pv first feature day is 8 (Jan 9)",
+      "value": 8,
+      "expected": 8,
+      "passed": true
+    },
+    {
+      "check": "h=144 pv base ignores the unknown current midnight",
+      "value": [
+        0.0,
+        0.0
+      ],
+      "expected": [
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "check": "empty support window -> s=0,e=143,v=0 and no zeroing",
+      "value": [
+        0,
+        143,
+        0
+      ],
+      "expected": [
+        0,
+        143,
+        0
+      ],
+      "passed": true
+    },
+    {
+      "check": "2025-01-01 00:00-00:10 stays unknown",
+      "value": 1.0,
+      "expected": 1.0,
+      "passed": true
+    },
+    {
+      "check": "every stored power value is carried into the natural arrays",
+      "value": 105120.0,
+      "expected": 105120.0,
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

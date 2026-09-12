@@ -1,8 +1,0 @@
-{
-  "max_difference_kW": 1.8189894035458565e-12,
-  "compared_slots": 52416,
-  "n_fitted": 344,
-  "n_constant": 0,
-  "first_trainable_day": 21,
-  "all_passed": true
-}

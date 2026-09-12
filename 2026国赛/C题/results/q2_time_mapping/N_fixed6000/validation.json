@@ -1,0 +1,16 @@
+{
+  "physical": {
+    "balance": 5.684341886080802e-14,
+    "state_recursion": 9.094947017729282e-13,
+    "capacity": 0.0,
+    "power": 0.0,
+    "nonnegative": 0.0,
+    "mutex": 0.0
+  },
+  "final_state_kWh": 6287.685594191135,
+  "group": {
+    "id": "N_fixed6000",
+    "mode": "fixed6000",
+    "role": "new time mapping, nominal natural-day 24:00 state pinned to 6000 kWh"
+  }
+}

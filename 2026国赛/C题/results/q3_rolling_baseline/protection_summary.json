@@ -1,0 +1,20 @@
+{
+  "count_summary": {
+    "h144_0am": 27,
+    "other_0am": 28,
+    "later_versions": 28
+  },
+  "window_days": 28,
+  "alpha": 0.8,
+  "min_samples": 7,
+  "finite_net_forecast_cells": 132495,
+  "zero_correction_cells": 81754,
+  "h144_m_values": [
+    27
+  ],
+  "other_m_values": [
+    28
+  ],
+  "rho_min_kWh": -52.06952403128446,
+  "rho_max_kWh": 262.0007069444445
+}

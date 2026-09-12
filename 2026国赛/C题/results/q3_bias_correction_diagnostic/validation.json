@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "signature": "46044b8e35529d63ecdb50eaaf4ea2841d7bc1e297119dc4a64bff32450f70aa",
+  "budget": "new model training 0 / MILP 0 / dispatch re-runs 0",
+  "synthetic": {
+    "uniform_shift_cancellation_max_abs_residual_kWh": 8.881784197001252e-16,
+    "uniform_shift_d_net_kWh": -2.833333333333333,
+    "uniform_shift_d_rho_kWh": 2.833333333333332,
+    "insufficient_history_m_max": 2,
+    "insufficient_history_rho": 0.0,
+    "truncation_example": {
+      "corrected": [
+        0.0,
+        90.0,
+        5.0
+      ],
+      "truncated": [
+        true,
+        false,
+        false
+      ]
+    }
+  },
+  "prefix_check": {
+    "v0_h144": {
+      "m_bias": 27,
+      "m_net": 27,
+      "position": 22
+    },
+    "v0_h1": {
+      "m_bias": 28,
+      "m_net": 28,
+      "position": 23
+    },
+    "v6_h36": {
+      "m_bias": 28,
+      "m_net": 28,
+      "position": 23
+    }
+  },
+  "saved_check": {
+    "window_sizes": {
+      "v0": 48096,
+      "v6": 36406,
+      "v12": 24382,
+      "v18": 12358
+    },
+    "common_samples": 121242,
+    "c0_matches_frozen_net_max_abs_kWh": 0.0,
+    "c0_counts_match_frozen": true,
+    "c0_rho_matches_frozen": true,
+    "quantile_positions": {
+      "h144_0am": 22,
+      "other_0am": 23,
+      "later_versions": 23
+    }
+  },
+  "checks_note": "three classes only, as specified in the plan's section 4.3",
+  "limits": [
+    "shortfall/surplus are forecast-curve errors, not real emergency or curtailment; no storage is simulated and no cost is computed",
+    "the bias is a rolling 28-day mean; short-term bias stability is a hypothesis under test, not an established property",
+    "all results come from the same 2025 development data; this is a rolling causal diagnostic, not an independent blind test",
+    "coverage rising is not automatically better: it can come from excess surplus"
+  ]
+}
