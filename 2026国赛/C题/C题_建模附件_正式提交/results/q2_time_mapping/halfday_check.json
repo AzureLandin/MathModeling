@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "strategy_id": "N_fixed6000",
+      "date": "2025-06-21",
+      "prefix_slots": 72,
+      "max_prefix_difference": 0.0,
+      "state_entering_slot_72_kWh": 10800.0,
+      "passed": true
+    },
+    {
+      "strategy_id": "N_free",
+      "date": "2025-06-21",
+      "prefix_slots": 72,
+      "max_prefix_difference": 0.0,
+      "state_entering_slot_72_kWh": 10800.0,
+      "passed": true
+    }
+  ],
+  "max_prefix_difference": 0.0,
+  "all_passed": true
+}

@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "signature": "1a8d34b6ff7197feabf5da01749ad597c91cf28cef9564d153a9ebfdb4ac82d6",
+  "budget": "model training 0 / MILP 0 / dispatch re-runs 0",
+  "input_pairing": {
+    "window_sizes": {
+      "v0": 48096,
+      "v6": 36406,
+      "v12": 24382,
+      "v18": 12358
+    },
+    "unique_keys": true,
+    "counts_match_frozen_linear": true
+  },
+  "conversion": {
+    "first_hour_max_abs_diff_kW": 3.637978807091713e-12,
+    "midnight_tail_max_abs_diff_kW": 0.0,
+    "node_recovery_max_abs_diff_kW": 9.094947017729282e-13,
+    "synthetic": {
+      "constant_hour_integral_kWh": 3100.0,
+      "straight_line_checked": true
+    },
+    "max_hour_tiling_residual_kWh": 9.094947017729282e-13
+  },
+  "statistics": {
+    "paired_sample_sizes_consistent": true,
+    "delta_identity_max_residual_kWh": 2.2737367544323206e-13
+  },
+  "history_boundary": {
+    "midnight_tail_sample_days": [
+      "2025-05-24",
+      "2025-05-25",
+      "2025-05-26",
+      "2025-05-27",
+      "2025-05-28",
+      "2025-05-29",
+      "2025-05-30",
+      "2025-05-31",
+      "2025-06-01",
+      "2025-06-02",
+      "2025-06-03",
+      "2025-06-04",
+      "2025-06-05",
+      "2025-06-06",
+      "2025-06-07",
+      "2025-06-08",
+      "2025-06-09",
+      "2025-06-10",
+      "2025-06-11",
+      "2025-06-12",
+      "2025-06-13",
+      "2025-06-14",
+      "2025-06-15",
+      "2025-06-16",
+      "2025-06-17",
+      "2025-06-18",
+      "2025-06-19"
+    ],
+    "midnight_tail_m": 27,
+    "midnight_tail_position": 22,
+    "six_am_m": 28,
+    "six_am_position": 23,
+    "truncated_rho_v0_h144_kWh": 45.198697948421,
+    "truncated_rho_v1_h36_kWh": 37.82759979059165,
+    "midnight_tail_rho_linear_kWh": 45.198697948421,
+    "midnight_tail_rho_pchip_kWh": 45.198697948421
+  },
+  "checks_note": "three classes only, as specified in the plan's section 4.2",
+  "limits": [
+    "diagnostic grouping only; no new cleaning or night-gating rule",
+    "shortfall/surplus are forecast-curve errors, not real emergency or curtailment; no storage is simulated",
+    "hourly node error and within-hour curve error cannot be separated exactly under the 10-minute interval convention",
+    "2025 was already used for method design; this is development-time data analysis, not an independent blind test"
+  ]
+}

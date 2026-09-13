@@ -1,0 +1,29 @@
+{
+  "06:00_vs_00:00": {
+    "n": 36406,
+    "mean_abs_delta_pv_kW": 267.36085052646996,
+    "max_abs_delta_pv_kW": 3425.896425,
+    "intervals_above_1e_8": 24906,
+    "mean_delta_pv_kW": 29.068863401637092,
+    "mean_abs_delta_pv_kWh": 44.56014175441166,
+    "mean_delta_pv_kWh": 4.844810566939515
+  },
+  "12:00_vs_06:00": {
+    "n": 24382,
+    "mean_abs_delta_pv_kW": 115.16258289380144,
+    "max_abs_delta_pv_kW": 1743.4776416666673,
+    "intervals_above_1e_8": 13074,
+    "mean_delta_pv_kW": 11.91338669510295,
+    "mean_abs_delta_pv_kWh": 19.193763815633574,
+    "mean_delta_pv_kWh": 1.985564449183825
+  },
+  "18:00_vs_12:00": {
+    "n": 12358,
+    "mean_abs_delta_pv_kW": 0.0020975724227222394,
+    "max_abs_delta_pv_kW": 0.5883166666666995,
+    "intervals_above_1e_8": 228,
+    "mean_delta_pv_kW": 0.0006681178184172282,
+    "mean_abs_delta_pv_kWh": 0.0003495954037870399,
+    "mean_delta_pv_kWh": 0.0001113529697362047
+  }
+}

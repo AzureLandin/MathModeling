@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "signature": "74ceac508494368a68bc4ec82d6e56c25ae861c6d36d704edbbf318fc1d0b30f",
+  "checks_summary": {
+    "prices_and_mapping": 0.0,
+    "archive_identity_zero_version_max_abs": 0.0,
+    "adaptation_objective_delta": 0.0,
+    "ledger_max_energy_residual": 9.094947017729282e-13,
+    "ledger_max_cash_residual": 0.0
+  },
+  "budget": {
+    "main_solves": 3035,
+    "january": 29,
+    "Q42": 334,
+    "Q43_S0": 1336,
+    "Q43_S2": 1336,
+    "extra_validation_milp": 3,
+    "cap": 3035,
+    "replays_call_no_milp": true
+  },
+  "reuse_review": {
+    "reviewed": "results/q4_known_price/ (declared rules: attachment-4 prices, same January recipe, Q42 = Q2 frozen forecasts with q80)",
+    "decision": "NOT reused: this run recomputes January and Q42 inside the task book's no-reuse cap (3035 MILP) so that every reported number has a single reproducible origin; the draft is kept as a cross-check",
+    "january": {
+      "draft_feb1_state_kWh": 6097.354409999999,
+      "this_run_feb1_state_kWh": 6097.354409999999,
+      "difference_kWh": 0.0
+    },
+    "q42": {
+      "draft_natural_total_yuan": 14347907.89204545,
+      "this_run_natural_total_yuan": 14347907.89204545,
+      "difference_yuan": 0.0
+    },
+    "not_reusable": [
+      "old Q43 and F43 use Linear+q80 and are never renamed into S0 or S2",
+      "the draft keeps no binary charge mode in its nominal table"
+    ],
+    "note": "the draft's own ledger is never modified; only figures read from it are quoted"
+  },
+  "contrasts": {
+    "combined_Q42_minus_Q43_S0_yuan": -354234.60644091666,
+    "combined_share": -0.024688937865101995,
+    "note": "the Q42 to Q43 difference contains the PV forecast source, the update permission and the protection level together; it is not the value of PV information alone"
+  },
+  "public_initialization": {
+    "source": "recomputed in this run with attachment-4 prices (one shared trajectory)",
+    "jan1_initial_kWh": 6000.0,
+    "solves": 29,
+    "feb1_state_kWh": 6097.354409999999,
+    "feb1_owner": "2025-01-31",
+    "feb1_price_yuan_kWh": null,
+    "january_cost_excluded_from_formal": true,
+    "jan1_missing_segment": "2025-01-01 00:00-00:10 has no measurement: battery idle, supply, demand and cash left undefined rather than filled with zeros",
+    "naive_days": [
+      "2025-01-03",
+      "2025-01-04",
+      "2025-01-05",
+      "2025-01-06",
+      "2025-01-07",
+      "2025-01-08",
+      "2025-01-09",
+      "2025-01-10",
+      "2025-01-11",
+      "2025-01-12",
+      "2025-01-13",
+      "2025-01-14",
+      "2025-01-15",
+      "2025-01-16",
+      "2025-01-17",
+      "2025-01-18",
+      "2025-01-19",
+      "2025-01-20",
+      "2025-01-21",
+      "2025-01-22",
+      "2025-01-23",
+      "2025-01-24",
+      "2025-01-25",
+      "2025-01-26",
+      "2025-01-27",
+      "2025-01-28",
+      "2025-01-29",
+      "2025-01-30",
+      "2025-01-31"
+    ],
+    "feb1_carry_kWh": 0.0,
+    "feb1_carry_original_kWh": 0.0,
+    "feb1_tail_interval_start": "2025-02-01 00:00:00",
+    "january_last_natural_slot": {
+      "interval_start": "2025-01-31 23:50:00",
+      "q_eff_kWh": 1290.8083000000001,
+      "note": "this is the plan for 2025-01-31 23:50-24:00, NOT the 2025-02-01 00:00-00:10 commitment; the January horizon ends at the natural 24:00"
+    },
+    "feb1_carry_rule": "the formal period's first midnight executes the public carry, which is zero because the January pre-run plans only natural days; the next 00:10 keeps only the physical band"
+  },
+  "limitations": [
+    "S42 / S43_S0 / S43_S2 compare a re-optimised candidate with a fixed old plan replayed from the new initial state; they are not the pure price effect of re-running the frozen policy from the same新 state.",
+    "Q42 vs Q43 combines the PV forecast source, the update permission and the protection level; it is not the value of PV information alone and does not guarantee that 4-3 is cheaper.",
+    "Prices inside the planning horizon are a legal input: a probe that changes future prices is expected to change the current plan and is never treated as leakage.",
+    "March/June/September/December 2025 are one year of one already-designed dataset: this is a within-year backtest, not a cross-year blind test.",
+    "The auxiliary inventory valuation uses nu = median(price)/0.9 and is a post-hoc sensitivity only; it never enters optimisation or the cash metric.",
+    "Unused energy is not all curtailed PV or all unpurchased energy.",
+    "No figure was inspected visually (the agent cannot view images)."
+  ]
+}

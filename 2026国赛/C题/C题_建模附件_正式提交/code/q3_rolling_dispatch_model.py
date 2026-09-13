@@ -7,7 +7,6 @@ import sys
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = PACKAGE_ROOT.parent
 
 
 def main() -> None:
@@ -16,7 +15,7 @@ def main() -> None:
     args = parser.parse_args()
     if args.recompute:
         subprocess.run([
-            sys.executable, str(PROJECT_ROOT / "code/q3_intraday_load_cost_experiment.py"), "--mode", "full"
+            sys.executable, str(PACKAGE_ROOT / "code/q3_intraday_load_cost_experiment.py"), "--mode", "full"
         ], check=True)
     subprocess.run([sys.executable, str(Path(__file__).with_name("q1_q4_csv_processing.py")), "--only", "q3"], check=True)
 

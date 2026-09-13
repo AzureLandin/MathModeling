@@ -1,0 +1,26 @@
+[
+  {
+    "file": "q2_time_mapping_midnight.png",
+    "width": 1980,
+    "height": 648,
+    "distinct_colours": 515,
+    "non_white_fraction": 0.14025049881531362,
+    "readable": true
+  },
+  {
+    "file": "q2_time_mapping_costs.png",
+    "width": 1980,
+    "height": 810,
+    "distinct_colours": 458,
+    "non_white_fraction": 0.28407719166978423,
+    "readable": true
+  },
+  {
+    "file": "q2_time_mapping_soc.png",
+    "width": 1980,
+    "height": 1260,
+    "distinct_colours": 1144,
+    "non_white_fraction": 0.05593875260541927,
+    "readable": true
+  }
+]

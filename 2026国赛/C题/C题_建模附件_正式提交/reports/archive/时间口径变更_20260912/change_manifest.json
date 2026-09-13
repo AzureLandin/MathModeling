@@ -1,0 +1,14 @@
+{
+  "changed_documents": [
+    "E:\\MathModeling\\2026国赛\\C题\\reports\\项目进度.md",
+    "E:\\MathModeling\\2026国赛\\C题\\建模上下文记忆.md",
+    "E:\\MathModeling\\2026国赛\\C题\\reports\\问题二建模报告.md"
+  ],
+  "protected_files_unchanged": true,
+  "protected_sha256": {
+    "E:\\MathModeling\\2026国赛\\C题\\附件\\附件5\\result1.xlsx": "1da12cbebefb70416b5fbbf5120de59cde088a402fbeaf913ca084d203812d69",
+    "E:\\MathModeling\\2026国赛\\C题\\附件\\附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "E:\\MathModeling\\2026国赛\\C题\\code\\02_q1_baseline.py": "bda22327ff17b8b85d654538dd01dcb20fe662fcfc58c7e28b254c378b760dbc",
+    "E:\\MathModeling\\2026国赛\\C题\\outputs\\q1_start_time_20260912\\result1.xlsx": "86a583ebb6a578cf34a9aa1eb91121dfa6241b09c06609b81c7806fc0bc5c0d3"
+  }
+}

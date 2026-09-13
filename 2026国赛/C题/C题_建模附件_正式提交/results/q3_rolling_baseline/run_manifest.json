@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-12T10:09:44.836330+00:00",
+  "finished_utc": "2026-09-12T10:10:46.542145+00:00",
+  "wall_seconds": 61.70583029999398,
+  "timings": {
+    "inputs_seconds": 1.4792460999451578,
+    "protection_seconds": 0.9606723999604583,
+    "B1_seconds": 12.33273270004429,
+    "B2_seconds": 33.56991399987601,
+    "validation_seconds": 2.203329300042242
+  },
+  "signature": "a3a765b13804a1ca3f568c82a3f13082cc151e6c313c14caa55a2b08d635119c",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "n_solves": {
+    "B0": 0,
+    "B1": 334,
+    "B2": 1336
+  },
+  "outputs": {
+    "B0_dispatch.csv": "62b38b09405ce9b6ffc6d4df31aa87807c811d149940628a5acca0307d72cfc9",
+    "B1_dispatch.csv": "b8143eeceed42337b51eabe0930e0be78fc2da395ad09c129a8895fe3f9e9d3c",
+    "B1_nominal_trajectory.csv": "e58912db323c852321c77385c0b50a049687f7ce91cf9b5ffda19fc0ed9863b3",
+    "B1_plan_versions.csv": "c8e0008019aa9553683f16078e6faf2a1cc9bbcfd88f085bc613bb3ba6f33b13",
+    "B1_solver_log.csv": "cf53b25c4090ca0846f2f252f238e5340839f7e65535b8c7d597fd077c418a2c",
+    "B2_dispatch.csv": "de0cd209a8b3db71eb3b7e65bff7b9541cadc5cdd110870faacac68136cd5f8f",
+    "B2_nominal_trajectory.csv": "18ff1bb003a094dcaedc955400c9a61794d9aa702b1f3278c17d3bc3900a0bd2",
+    "B2_plan_versions.csv": "665c75dfb1dd7e14ff2b3c9e4ba456547ab8080f0bd23656311701e5179f9db4",
+    "B2_revision_decisions.csv": "991a6a6f030770f74bc6f93e2e8b0f3e769b376dbe3340eeacb1c87ef1f5aa92",
+    "B2_solver_log.csv": "26f7c36e6a73d8024f6ddc5c9fe0929a12744b15512950365f6c2e4386a5bbf4",
+    "checks.json": "2d814ac6a95854d7219c9bc1bbbde501f4c0a2234bd420eb9930af9ce194e6ca",
+    "contrast.csv": "393f7c337ece5b0251131f658d51ad56ec6eb4612e230ee2967f44d25e365e67",
+    "daily.csv": "ca89f7e2eab84a8df013bfec290aabde463ce645aed4f2c7127abbddf2c0f4e7",
+    "daily_contrasts.csv": "29aa9780608b6c4d349a07c6a2027d812597c68d3ba26e685cac77b3f9b380de",
+    "monthly.csv": "fabd287429de3f1ee564fde0d1792e1227bc861c2dab05299d2c8b9b96afd9fa",
+    "monthly_contrasts.csv": "c910aed4392741570861ca365b8fc357b3110ca76dd929afd5f32bc8e68a6f8d",
+    "prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "protected_after.json": "9e0fb3cb7cd7473430996e3c899464983e1f19edf9dcd009ac5c1de8980f6baa",
+    "protected_before.json": "9e0fb3cb7cd7473430996e3c899464983e1f19edf9dcd009ac5c1de8980f6baa",
+    "protection_summary.json": "7df51fa91a312edd31f0ed6e05f95a96daa89ed59c43709d1b10b18319a9f818",
+    "registration.json": "52711753762b5ceee35b20321999f6d229ce8dc1cd614266ef70574fe434f888",
+    "selected_dates.csv": "4e5c8618a5f0277f469204bdf221f4f3971c48e5db8321ae47a9aadf4625c7ea",
+    "summary.csv": "132fe6d078b21a5fa4643f91a58be5a0726a90f97d3d5764fdc3bce5b8162bf1",
+    "validation.json": "0f230f02074f3790b1616fde862913e2b79c272df3ae37042bb8056a0bc21c1e"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "registered_utc": "2026-09-12T17:09:08.400679+00:00",
+  "specification": "reports\\问题三\\问题三_日内负载修正前向预测对照实验方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q3 intraday load-correction forward forecast comparison (F0/F1/F2)",
+    "specification": "reports\\问题三\\问题三_日内负载修正前向预测对照实验方案.md",
+    "groups": {
+      "F0_original": "frozen 0:00 forecast reused unchanged",
+      "F1_hist_mean": "0:00 forecast + rolling historical mean residual ybar",
+      "F2_intraday_linear": "0:00 forecast + rolling historical intercept a + rolling historical slope beta times the same-day recent one-hour bias b"
+    },
+    "target_rule": "h=0 current 00:00-00:10; h=1..143 current 00:10..23:50; h=144 next 00:00-00:10",
+    "residual": "e[k,h] = truth_load[k,h] - issued_load[k,h] (kW); positive = load under-forecast",
+    "recent_feature": "b[k,r] = mean(e[k, s_r-6 .. s_r-1]), s_r = 6r; all six slots must be valid",
+    "labels": "y[k,r,j] = mean(e[k, s_r+6j .. s_r+6j+5]) for j = 0..23-r; the midnight tail y_tail[k,r] = e[k,144] is a separate 10-minute slot; 36 hour groups + 3 tail groups",
+    "history": {
+      "window_days": 28,
+      "min_samples": 14,
+      "definition": "d in [max(0,k-28), k-1], b and y valid for that group, and the required true intervals already ended at the day-k r:00 instant",
+      "rule": "F1 and F2 share exactly the same history set, filtered on b validity too; the label is always the frozen 0:00 forecast error",
+      "no_backfill": "early invalid dates are never replaced to reach 28 samples; one history date contributes exactly one (b, y) point"
+    },
+    "estimation": "closed-form univariate least squares with intercept, no regularisation and no grid search; beta is not constrained to be positive, below one, or decaying",
+    "fallback": {
+      "m_below_min": "F1 and F2 corrections are both 0 and fall back to F0",
+      "b_invalid": "F2 falls back to F1",
+      "degenerate_variance": "var(b) <= 1e-10 kW^2 -> beta = 0, a = ybar, F2 = F1"
+    },
+    "application": "one correction per full hour applied to its six 10-minute slots; final power clipped at zero; every node corrects the original 0:00 forecast without accumulating earlier node corrections; the 0:00 version keeps the original forecast including the midnight auxiliary slot and the template tail",
+    "evaluation": {
+      "main_set": "A = {(k,r,h): formal 334 days, r in {6,12,18}, s_r <= h < s_r+36}, 36072 unique realised 10-minute targets, 06:00-24:00 only",
+      "secondary_set": "B = each publication's full future window (109/73/37 slots), 73146 records with overlapping targets: diagnostic only",
+      "tail": "1002 midnight-tail records over 334 distinct realised midnight intervals predicted by three versions",
+      "metrics": "MAE / RMSE / Bias / mean positive residual / mean negative residual magnitude, all with the same N as denominator; the primary metric is the A-set 10-minute MAE and is not switched after the fact",
+      "hourly": "six clipped published predictions are averaged first, then compared with the realised hourly mean",
+      "paired": "group differences are paired record by record"
+    },
+    "gate": "primary gate is the A-set 10-minute MAE; differences <= 1e-08 kW are numerically tied and are not called an improvement. F2 must beat both F0 and F1 to be called better on the primary metric in this one-year forward backtest; no automatic model upgrade.",
+    "solver": "closed-form arithmetic only: 0 LightGBM fits, 0 MILP/LP/DP, 0 storage replay, 0 public-January rerun, 0 PV rebuild, 0 q75 rebuild, 0 grid search",
+    "validation": "three light checks only: input/history-eligibility/boundary, local closed-form and fallback, archive and scoring read-back"
+  },
+  "dependency": {
+    "previous_diagnostic": "results/q3_intraday_load_residual_diagnostic/hourly_pairs.csv (feature-definition cross-check only)",
+    "zero_budget": {
+      "lightgbm_training": 0,
+      "milp_lp_dp": 0,
+      "storage_replay": 0,
+      "public_january_dispatch_reruns": 0,
+      "pv_rebuild": 0,
+      "quantile_rebuild": 0,
+      "parameter_grid_search": 0
+    },
+    "note": "closed-form univariate rolling fits are NOT zero and are counted separately in fit_counts"
+  },
+  "input_sha256": {
+    "reports/问题三/问题三_日内负载修正前向预测对照实验方案.md": "ba958009164fa6b1b876f91d5b012c25984679733cf3b13100d375739eaac059",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "results/q2_time_mapping/archive_float.npz": "97e329f8c8ab988115fceba48d29528818f5a3b128f841f5ce938203f8e13c71",
+    "code/q3_intraday_load_residual_diagnostic.py": "20ffcfc569aea02b8770d7c1f3d654f9e4ac44d9a72bc10695f4f0ab61e6b9d6",
+    "results/q3_intraday_load_residual_diagnostic/hourly_pairs.csv": "c9d2309cc94844b899ed007ab30224ccee0c2fbcc0f1ecf752df0d307a8d37e3"
+  },
+  "code_sha256": "7513c8b86aaedf16eecd80ca7f354fbda29796101473c05ef8343e637defaa45",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T17:06:47.155834+00:00",
+      "previous_signature": "d624ff94b3e6dc0196c5979856916a5412808367ce33086eeffe84acf109b1f8",
+      "previous_code_sha256": "202dce726ec03a351188309c71e1ecb97d41ad5eb7e36fb0d888294eac131e5d",
+      "new_signature": "e9273143732964cc052edc8b3a00120d9fc0fce46472360c1c72b194488a7349",
+      "new_code_sha256": "3fc8836c0bf4e9d372765deacbf3cb146e183f73d1be74899bd62179e2c98eb0",
+      "reason": "the boundary and archive checks subtracted arrays containing legitimate NaN (past slots of a 6/12/18 publication), so np.max would have silently passed; a mask-aware comparator now proves the applicability masks agree first"
+    },
+    {
+      "amended_utc": "2026-09-12T17:08:35.437052+00:00",
+      "previous_signature": "e9273143732964cc052edc8b3a00120d9fc0fce46472360c1c72b194488a7349",
+      "previous_code_sha256": "3fc8836c0bf4e9d372765deacbf3cb146e183f73d1be74899bd62179e2c98eb0",
+      "new_signature": "c54dc41ae4d2279b0ac3bffa5e84f6cd219233308383494de1e467cda311e020",
+      "new_code_sha256": "3d422d2983fa865c56f64a0d1b62008ea58976408b85ac0fd6adb9887edad082",
+      "reason": "the boundary check compared every version of the perturbed day, but perturbing an earlier publication legitimately moves a later node's same-day feature; it now requires only the perturbed node's own publication to stay fixed and records the downstream change separately"
+    },
+    {
+      "amended_utc": "2026-09-12T17:09:08.401081+00:00",
+      "previous_signature": "c54dc41ae4d2279b0ac3bffa5e84f6cd219233308383494de1e467cda311e020",
+      "previous_code_sha256": "3d422d2983fa865c56f64a0d1b62008ea58976408b85ac0fd6adb9887edad082",
+      "new_signature": "d83c4ae298d398b5c7d93d289205a1ca0f2e004db127ae0e780d50427414a819",
+      "new_code_sha256": "7513c8b86aaedf16eecd80ca7f354fbda29796101473c05ef8343e637defaa45",
+      "reason": "the archive read-back built the baseline term with a wrong axis order and did not broadcast against the two-group correction array"
+    }
+  ],
+  "signature": "d83c4ae298d398b5c7d93d289205a1ca0f2e004db127ae0e780d50427414a819"
+}

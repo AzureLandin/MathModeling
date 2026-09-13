@@ -1,0 +1,59 @@
+{
+  "registered_utc": "2026-09-12T11:25:41.485120+00:00",
+  "specification": "reports\\问题三\\问题三_历史偏差校正轻量诊断实验方案.md",
+  "parameters": {
+    "experiment": "Q3 historical PV bias-correction diagnostic (C0_Linear vs C1_Bias28)",
+    "specification": "reports/问题三/问题三_历史偏差校正轻量诊断实验方案.md",
+    "budget": "new model training 0, MILP 0, dispatch re-runs 0",
+    "groups": {
+      "C0_Linear": "frozen Linear interval-mean PV and frozen W28/q80",
+      "C1_Bias28": "Linear + 28-day same-(publication hour, target) mean PV bias, non-negative truncation, own W28/q80 rebuilt from the historically issued corrected forecasts"
+    },
+    "bias": "$u_{j,v,h}=V_{j,h}-\\hat V^{(0)}_{j,v,h}$ (positive = the original forecast was too low); $b_{k,v,h}$ = arithmetic mean over the legal 28-day window, 0 when m<7; no trimming, no decay, no shrinkage, no full-year constant",
+    "correction": "$\\hat V^{(1)}=\\max(0,\\hat V^{(0)}+b)$; applied to the converted 10-minute interval-mean power; hourly nodes, interpolator and anchors unchanged",
+    "causality": "b is always estimated from ORIGINAL Linear errors and never recursively from corrected errors; every historical corrected forecast uses its own b_j",
+    "protection": {
+      "window_days": 28,
+      "alpha": 0.8,
+      "min_samples": 7,
+      "key": "publication hour, target day-offset, target clock",
+      "rule": "ascending order statistic at position ceil(0.8m); zero when m<7"
+    },
+    "signs": {
+      "pv_error": "e^V = V_hat - V (kW), positive = over-forecast",
+      "net_error": "eps = n - n_hat (kWh)",
+      "bias_estimate": "u = V - V_hat (opposite sign)"
+    },
+    "evaluation": "publication days 2025-02-01..2025-12-31; 0:00 h=1..144, 6/12/18 h=36/72/108..144; the 0:00 auxiliary h=0 is generated but excluded from the main metrics"
+  },
+  "dependency": {
+    "window_days": 28,
+    "min_samples": 7,
+    "alpha": 0.8,
+    "tolerance": 1e-08,
+    "generation_threshold_kW": 1.0,
+    "truth_source": "results/q3_forecast_interpolation_diagnostic/forecast_archive.npz (attachment-2 truth under the accepted interval-start mapping)"
+  },
+  "input_sha256": {
+    "results/q3_pv_time_conversion/pv_10min_forecasts.csv": "28ea9b115a09552ac408255d96917d38a6d0c82efe9777a04729b20b4c113580",
+    "results/q3_forecast_interpolation_diagnostic/forecast_archive.npz": "b3823e22f8c305396439d1dba50d289083c0132bf03fae8f1daae35064b340ad",
+    "results/q3_rolling_baseline/prediction_protection.npz": "b818a449e1e2f609e9e2a35501cdbddfa0f6ba71e946ccc397ec9e985446c3fb",
+    "reports/问题三/问题三_历史偏差校正轻量诊断实验方案.md": "4553e0a71053c232d97d09e0a70c2325f3c09139238094bb52de2251e52331ca"
+  },
+  "code_sha256": "bd681abb441ce7becda6663a1f396d70c0d0ae75ed83bfca7b93dd2169144933",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T11:25:41.485579+00:00",
+      "previous_signature": "4f7f034e7ebe22873e85a8dc0ddf8911b994b577fd236ae5ddc7415a3cb7afab",
+      "previous_code_sha256": "f0cdbab9dbc1dc984b0b7f58ec0ad92a30380b76d847c9b2c59d7a15b54375be",
+      "new_signature": "46044b8e35529d63ecdb50eaaf4ea2841d7bc1e297119dc4a64bff32450f70aa",
+      "new_code_sha256": "bd681abb441ce7becda6663a1f396d70c0d0ae75ed83bfca7b93dd2169144933",
+      "reason": "run_manifest.outputs 不再纳入报告层写入的 figure_integrity.json，否则重渲报告会使清单中本应受校验的哈希失配。仅改清单口径，偏差/校正/q80/指标数值不变。"
+    }
+  ],
+  "signature": "46044b8e35529d63ecdb50eaaf4ea2841d7bc1e297119dc4a64bff32450f70aa"
+}

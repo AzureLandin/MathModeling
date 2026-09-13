@@ -1,0 +1,63 @@
+{
+  "registered_utc": "2026-09-12T16:17:06.880665+00:00",
+  "specification": "reports\\问题三\\问题三_日内负载残差可预测性轻量诊断方案.md",
+  "time_version": "start_time_v1",
+  "parameters": {
+    "experiment": "Q3 intraday load-residual predictability, light read-only diagnostic",
+    "specification": "reports\\问题三\\问题三_日内负载残差可预测性轻量诊断方案.md",
+    "subject": "does the load deviation already observed at 6:00/12:00/18:00 carry a stable signal about the remaining hours of the same day",
+    "time_version": "start_time_v1",
+    "target_rule": "h=0 current 00:00-00:10; h=1..143 current 00:10..23:50; h=144 next 00:00-00:10; slot h starts at 00:00 + h*10 minutes of the publication day",
+    "residual": "eL[k,h] = truth_load[k,h] - issued_load[k,h] (kW); positive = load under-forecast",
+    "recent_feature": "b[k,r] = mean(eL[k, s_r-6 .. s_r-1]), s_r = 6r in {36,72,108}; the last slot starts at 05:50/11:50/17:50 and its interval ends exactly at the publication instant, so no h >= s_r observation is used",
+    "future_label": "y[k,r,j] = mean(eL[k, s_r+6j .. s_r+6j+5]), j = 0..23-r (18/12/6 full hours); the next-day midnight tail h=144 is a single 10-minute slot reported separately",
+    "statistics": "Pearson r and the descriptive slope beta = cov(b,y)/var(b) with intercept a = ybar - beta*bbar; sample standard deviation ddof=1; a constant series returns a missing correlation instead of 0",
+    "stability": "per-pair month table plus two full-period descriptive controls: month-demeaned and weekday-demeaned correlations, using within-group full-period means",
+    "evaluation": "2025-02-01 .. 2025-12-31, 334 days; one pair per (day, r, j); the same b must not be repeated into six independent samples",
+    "reference": "frozen Q2 15-feature LightGBM issued load; no retraining, no forecast publication",
+    "excluded": [
+      "the 2026-01-01 00:00-00:10 template tail (not produced)",
+      "any correction model, weight, gate, window search or cost estimate"
+    ],
+    "solver": "none: no training, no MILP/LP/DP, no storage replay, no prediction or quantile rebuild",
+    "validation": "three light checks only: input/sample bookkeeping, one boundary date with an in-memory truth shift, and one disk read-back recomputation"
+  },
+  "dependency": {
+    "bias_archive": "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz::issued_load,truth_load",
+    "q2_kernel_archive": "results/q2_time_mapping/archive_float.npz::issued_load",
+    "zero_budget": {
+      "training": 0,
+      "milp_lp_dp": 0,
+      "storage_replay": 0,
+      "public_january_reruns": 0,
+      "prediction_rebuild": 0,
+      "pv_forecast_rebuild": 0,
+      "quantile_rebuild": 0,
+      "window_search": 0,
+      "parameter_sweeps": 0
+    }
+  },
+  "input_sha256": {
+    "reports/问题三/问题三_日内负载残差可预测性轻量诊断方案.md": "c39221548e0b40e3c7b8abcec3051356eef9516e52bd6872febfcd7ee62eec23",
+    "results/q3_bias_correction_diagnostic/bias_forecast_archive.npz": "f96b8102e83381b384d28125f880d67cae4841d3e51b3857cd4a84bd90d1c7e1",
+    "results/q2_time_mapping/archive_float.npz": "97e329f8c8ab988115fceba48d29528818f5a3b128f841f5ce938203f8e13c71",
+    "code/29_q2_time_mapping_experiment.py": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+    "code/q3_rolling_baseline_experiment.py": "edf4914b7438f3e6117604ad853228eda427213e763c391beb12b4c3ad63c87b"
+  },
+  "code_sha256": "20ffcfc569aea02b8770d7c1f3d654f9e4ac44d9a72bc10695f4f0ab61e6b9d6",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "amendments": [
+    {
+      "amended_utc": "2026-09-12T16:17:01.783775+00:00",
+      "previous_signature": "c0be1c26f8459b9e0a97e510683a7b1a15067be76ab645d552e2f98dfd1c9ee5",
+      "previous_code_sha256": "f41d98ffdfc9fd0678822613f77f7f71bdafdf9ddc672beb7fd55dd9cb138bfe",
+      "new_signature": "00db21edf9d336a85ebc9ea40ed5c39e6ecdf7f58720c7e8c59d3ed812c33864",
+      "new_code_sha256": "20ffcfc569aea02b8770d7c1f3d654f9e4ac44d9a72bc10695f4f0ab61e6b9d6",
+      "reason": "register() rebuilt registration.json from scratch on an idempotent re-run and silently dropped the amendment trail; it now carries the existing list forward. NOTE: the four earlier amendment records of this script were already lost to that bug before the fix and are summarised here so the trail stays complete: (1) 9e7dc2f5ca23 -> 360d09217b7b, the 2025-06-21 boundary probe shifted the truth in place across nodes, accumulating +25/+50/+75 kW, so a fresh copy per publication node is taken; (2) 360d09217b7b -> 4e2405b7e03d, the disk read-back check referenced column stems that do not exist (mean_b_recomputed) and now compares explicit recomputed/saved column pairs; (3) 4e2405b7e03d -> f68d3e45c80a, added the direction/reversal stability rollup to validation.json and stopped counting midnight-tail rows as near-hour pairs in the console summary; (4) f68d3e45c80a -> c0be1c26f845, limitation text rewritten in Chinese for the rendered report. None of the four changed a statistic, window or sample definition."
+    }
+  ],
+  "signature": "00db21edf9d336a85ebc9ea40ed5c39e6ecdf7f58720c7e8c59d3ed812c33864"
+}

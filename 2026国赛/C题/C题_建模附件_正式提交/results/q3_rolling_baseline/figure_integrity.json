@@ -1,0 +1,20 @@
+{
+  "monthly_costs.png": {
+    "sha256": "258ce5962a28c0e398bb25ac127cd4ef75c08bd1419dc54a6d568f8a40b8e77b",
+    "bytes": 93340,
+    "width": 2160,
+    "height": 736,
+    "ink_coverage": 0.2537,
+    "distinct_colours": 265,
+    "note": "programmatic only; the agent cannot view images, so aesthetics are unverified"
+  },
+  "selected_dates_soc.png": {
+    "sha256": "0a8d96224b295702c65c7ab389fa2eede40a59dc1bceca0c649020ed5fdafe6a",
+    "bytes": 82043,
+    "width": 2080,
+    "height": 1152,
+    "ink_coverage": 0.0518,
+    "distinct_colours": 465,
+    "note": "programmatic only; the agent cannot view images, so aesthetics are unverified"
+  }
+}

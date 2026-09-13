@@ -1,0 +1,20 @@
+{
+  "monthly_pv_bias.png": {
+    "sha256": "377eb826f1c1d96a200971c33feaaf47f3499313b13abee6ab8e3bf3258551bf",
+    "bytes": 118883,
+    "width": 2080,
+    "height": 1120,
+    "ink_coverage": 0.1448,
+    "distinct_colours": 262,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "monthly_protected.png": {
+    "sha256": "6d088a6f6d835442cd574cba1778c1163293670f6b61ef40019ae14bbb85f220",
+    "bytes": 197099,
+    "width": 2080,
+    "height": 1120,
+    "ink_coverage": 0.1027,
+    "distinct_colours": 2206,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

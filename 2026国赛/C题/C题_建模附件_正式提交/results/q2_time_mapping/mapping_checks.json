@@ -1,0 +1,46 @@
+{
+  "rounds": [
+    {
+      "check": "row-to-natural bijection",
+      "worst": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    },
+    {
+      "check": "natural-day value count",
+      "worst": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    },
+    {
+      "check": "145-target identity",
+      "worst": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    },
+    {
+      "check": "natural price = last row then rows 0..142",
+      "worst": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    },
+    {
+      "check": "template objective price order",
+      "worst": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    },
+    {
+      "check": "source intervals are contiguous 10-minute steps",
+      "worst": 0.0,
+      "tolerance": 0.0,
+      "passed": true
+    }
+  ],
+  "source_interval_count": 52560,
+  "first_interval": "2025-01-01 00:10:00",
+  "last_interval": "2026-01-01 00:00:00",
+  "gap_slot_is_nan": true,
+  "values_preserved": 105264,
+  "all_passed": true
+}

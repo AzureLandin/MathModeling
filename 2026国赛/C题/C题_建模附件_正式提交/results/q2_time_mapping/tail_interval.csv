@@ -1,0 +1,3 @@
+﻿strategy_id,date,interval,price,planned_kWh,charge_kWh,discharge_kWh,emergency_kWh,unused_kWh,state_start_kWh,state_end_kWh,planned_cost_yuan,emergency_cost_yuan
+N_fixed6000,2026-01-01,00:00-00:10,0.4276,0.0,0.0,659.6633333333333,0.0,0.0,6287.685594191135,5554.726334931876,0.0,0.0
+N_free,2026-01-01,00:00-00:10,0.4276,623.0224708112437,0.0,36.640862522089606,0.0,0.0,1682.897933104455,1642.1858636354666,266.4044085188878,0.0

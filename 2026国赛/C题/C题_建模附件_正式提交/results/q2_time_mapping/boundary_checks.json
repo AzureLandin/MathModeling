@@ -1,0 +1,81 @@
+{
+  "rounds": [
+    {
+      "check": "mode switch changes only the S143 bound",
+      "value": [
+        719
+      ],
+      "expected": [
+        719
+      ],
+      "passed": true
+    },
+    {
+      "check": "terminal index is S143 (true natural-day 24:00)",
+      "value": 719,
+      "expected": 719,
+      "passed": true
+    },
+    {
+      "check": "nominal first-interval emergency recorded; plan stays feasible",
+      "value": [
+        2000.0,
+        6000.0
+      ],
+      "expected": [
+        2000.0,
+        6000.0
+      ],
+      "passed": true
+    },
+    {
+      "check": "empty battery cannot discharge below 1200 kWh",
+      "value": [
+        0.0,
+        1200.0,
+        2000.0
+      ],
+      "expected": [
+        0.0,
+        1200.0,
+        2000.0
+      ],
+      "passed": true
+    },
+    {
+      "check": "full battery absorbs only up to the power cap",
+      "value": [
+        0.0,
+        3000.0,
+        10800.0
+      ],
+      "expected": [
+        0.0,
+        3000.0,
+        10800.0
+      ],
+      "passed": true
+    },
+    {
+      "check": "negative protection retained (no purchase, balance closes)",
+      "value": [
+        0.0,
+        720.0,
+        0.0
+      ],
+      "expected": [
+        0.0,
+        720.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "check": "feedback equals the frozen controller",
+      "value": 0.0,
+      "expected": 0.0,
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

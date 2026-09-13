@@ -1,0 +1,309 @@
+{
+  "prices_and_mapping": {
+    "exact_rows": [
+      {
+        "label": "2025-01-01 00:10",
+        "day_index": 0,
+        "template_slot": 0,
+        "sheet": 0.4527,
+        "mapped": 0.4527,
+        "equal": true
+      },
+      {
+        "label": "2025-01-31 23:50",
+        "day_index": 30,
+        "template_slot": 142,
+        "sheet": 0.3139,
+        "mapped": 0.3139,
+        "equal": true
+      },
+      {
+        "label": "2025-02-01 00:10",
+        "day_index": 31,
+        "template_slot": 0,
+        "sheet": 0.3281,
+        "mapped": 0.3281,
+        "equal": true
+      },
+      {
+        "label": "2025-06-21 05:50",
+        "day_index": 171,
+        "template_slot": 34,
+        "sheet": 0.4169,
+        "mapped": 0.4169,
+        "equal": true
+      },
+      {
+        "label": "2025-06-21 06:00",
+        "day_index": 171,
+        "template_slot": 35,
+        "sheet": 0.7087,
+        "mapped": 0.7087,
+        "equal": true
+      },
+      {
+        "label": "2025-06-21 11:50",
+        "day_index": 171,
+        "template_slot": 70,
+        "sheet": 0.2711,
+        "mapped": 0.2711,
+        "equal": true
+      },
+      {
+        "label": "2025-06-21 12:00",
+        "day_index": 171,
+        "template_slot": 71,
+        "sheet": 0.2744,
+        "mapped": 0.2744,
+        "equal": true
+      },
+      {
+        "label": "2025-06-21 17:50",
+        "day_index": 171,
+        "template_slot": 106,
+        "sheet": 0.8445,
+        "mapped": 0.8445,
+        "equal": true
+      },
+      {
+        "label": "2025-06-21 18:00",
+        "day_index": 171,
+        "template_slot": 107,
+        "sheet": 1.1012,
+        "mapped": 1.1012,
+        "equal": true
+      },
+      {
+        "label": "2025-12-31 23:50",
+        "day_index": 364,
+        "template_slot": 142,
+        "sheet": 0.481,
+        "mapped": 0.481,
+        "equal": true
+      },
+      {
+        "label": "2026-01-01 00:00",
+        "day_index": 364,
+        "template_slot": 143,
+        "sheet": 0.462,
+        "mapped": 0.462,
+        "equal": true
+      }
+    ],
+    "natural_midnight_max_abs": 0.0,
+    "price_range_yuan_per_kWh": [
+      0.0076,
+      1.7936
+    ],
+    "mean_price_yuan_per_kWh": 0.7661976046423136,
+    "versions_share_the_delivery_price": true,
+    "rows_checked": 143,
+    "note": "checked against the raw sheet cell by cell, not against another copy of the same mapping function"
+  },
+  "archive_identity": {
+    "Q42": {
+      "load_max_abs_difference_kW": 0.0,
+      "note": "Q42 uses the Q2 0:00 issued load and PV with the saved q80 protection; the forecast is a single 0:00 series and has no intraday update"
+    },
+    "Q43_pv": {
+      "reach": [
+        {
+          "publication_hour": 0,
+          "first_target": 0,
+          "finite_cells": 48430
+        },
+        {
+          "publication_hour": 6,
+          "first_target": 36,
+          "finite_cells": 36406
+        },
+        {
+          "publication_hour": 12,
+          "first_target": 72,
+          "finite_cells": 24382
+        },
+        {
+          "publication_hour": 18,
+          "first_target": 108,
+          "finite_cells": 12358
+        }
+      ],
+      "note": "both Q43 branches use the same converted Linear PV; NaN before a version publishes is structural and kept"
+    },
+    "protection_identity": {
+      "s0_vs_saved_max_abs_kWh": 0.0,
+      "s2_vs_saved_max_abs_kWh": 0.0,
+      "s2_net_vs_saved_max_abs_kWh": 0.0,
+      "s0_rho_vs_saved_max_abs_kWh": 0.0
+    },
+    "spot_protection": [
+      {
+        "day": "2025-02-01",
+        "version": 0,
+        "h": 0,
+        "label": "0:00 auxiliary midnight",
+        "s0_protected_kWh": 470.1074629357714,
+        "s2_protected_kWh": 470.1074629357714,
+        "equal": true
+      },
+      {
+        "day": "2025-02-01",
+        "version": 0,
+        "h": 144,
+        "label": "0:00 next midnight",
+        "s0_protected_kWh": 619.1078638173968,
+        "s2_protected_kWh": 619.1078638173968,
+        "equal": true
+      },
+      {
+        "day": "2025-02-01",
+        "version": 6,
+        "h": 36,
+        "label": "6:00 first target",
+        "s0_protected_kWh": 545.4434931512767,
+        "s2_protected_kWh": 483.6331899890684,
+        "equal": false
+      }
+    ],
+    "candidate_separation": {
+      "max_abs_inside_day_kWh": 134.8150668427579,
+      "max_abs_at_zero_kWh": 0.0
+    }
+  },
+  "price_adaptation": {
+    "day": "2025-06-21",
+    "extra_milp_solves": 3,
+    "zero_plan": {
+      "saved_plan_cost_yuan": 17785.865508356415,
+      "resolved_plan_cost_yuan": 17785.865508356415,
+      "objective_delta_yuan": 0.0,
+      "plan_max_delta_kWh": 0.0,
+      "max_feasibility_violation_kWh": 1.0231815394945443e-12,
+      "note": "objective equality on the same input prices is the gate; a different plan vector at the same objective would only be another equal-cost vertex of the same MILP"
+    },
+    "decision_probes": [
+      {
+        "publication_hour": 0,
+        "branch": "Q43_S0",
+        "plan_max_delta_kWh": 0.0,
+        "objective_delta_yuan": 0.0,
+        "matches_saved_plan": true
+      },
+      {
+        "publication_hour": 6,
+        "branch": "Q43_S0",
+        "candidate_max_delta_kWh": 0.0,
+        "old_plan_source": "the saved `previous` column of the plan archive, never a slice of the final ledger",
+        "saved_accepted": true,
+        "probed_accepted": true,
+        "score_improvement_yuan": 734.1311142407103,
+        "max_feasibility_violation_kWh": 3.515706244646329e-12
+      }
+    ],
+    "note": "the probes rebuild only the probed decision from the same legal inputs; they do not claim to rebuild the whole forecast history. Known prices inside the planning horizon are legal inputs, so their presence is never treated as a leak; no probe changes an input and expects the decision to stay fixed."
+  },
+  "ledgers": {
+    "Q42": {
+      "rows": 48097,
+      "bus_balance_max_abs_kWh": 5.684341886080802e-14,
+      "recurrence_max_abs_kWh": 9.094947017729282e-13,
+      "continuity_max_abs_kWh": 0.0,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "ordinary_cash_max_abs_yuan": 0.0,
+      "adjustment_cash_max_abs_yuan": 0.0,
+      "emergency_cash_max_abs_yuan": 0.0,
+      "natural_segments": 48096,
+      "template_segments": 48096,
+      "bridge_yuan": 0.0,
+      "parts_vs_total_yuan": 0.0
+    },
+    "Q43_S0": {
+      "rows": 48097,
+      "bus_balance_max_abs_kWh": 5.684341886080802e-14,
+      "recurrence_max_abs_kWh": 9.094947017729282e-13,
+      "continuity_max_abs_kWh": 0.0,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "ordinary_cash_max_abs_yuan": 0.0,
+      "adjustment_cash_max_abs_yuan": 0.0,
+      "emergency_cash_max_abs_yuan": 0.0,
+      "natural_segments": 48096,
+      "template_segments": 48096,
+      "bridge_yuan": 0.0,
+      "parts_vs_total_yuan": 0.0
+    },
+    "Q43_S2": {
+      "rows": 48097,
+      "bus_balance_max_abs_kWh": 1.1368683772161603e-13,
+      "recurrence_max_abs_kWh": 9.094947017729282e-13,
+      "continuity_max_abs_kWh": 0.0,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "ordinary_cash_max_abs_yuan": 0.0,
+      "adjustment_cash_max_abs_yuan": 0.0,
+      "emergency_cash_max_abs_yuan": 0.0,
+      "natural_segments": 48096,
+      "template_segments": 48096,
+      "bridge_yuan": 0.0,
+      "parts_vs_total_yuan": 0.0
+    },
+    "F42": {
+      "rows": 48097,
+      "bus_balance_max_abs_kWh": 1.1368683772161603e-13,
+      "recurrence_max_abs_kWh": 9.094947017729282e-13,
+      "continuity_max_abs_kWh": 0.0,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "ordinary_cash_max_abs_yuan": 0.0,
+      "adjustment_cash_max_abs_yuan": 0.0,
+      "emergency_cash_max_abs_yuan": 0.0,
+      "natural_segments": 48096,
+      "template_segments": 48096,
+      "bridge_yuan": 282.71712579391897,
+      "parts_vs_total_yuan": 0.0
+    },
+    "F43_S0": {
+      "rows": 48097,
+      "bus_balance_max_abs_kWh": 1.1368683772161603e-13,
+      "recurrence_max_abs_kWh": 9.094947017729282e-13,
+      "continuity_max_abs_kWh": 0.0,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "ordinary_cash_max_abs_yuan": 0.0,
+      "adjustment_cash_max_abs_yuan": 0.0,
+      "emergency_cash_max_abs_yuan": 0.0,
+      "natural_segments": 48096,
+      "template_segments": 48096,
+      "bridge_yuan": 278.6906704828143,
+      "parts_vs_total_yuan": 0.0
+    },
+    "F43_S2": {
+      "rows": 48097,
+      "bus_balance_max_abs_kWh": 1.1368683772161603e-13,
+      "recurrence_max_abs_kWh": 9.094947017729282e-13,
+      "continuity_max_abs_kWh": 0.0,
+      "simultaneous_charge_discharge_kWh": 0.0,
+      "ordinary_cash_max_abs_yuan": 0.0,
+      "adjustment_cash_max_abs_yuan": 0.0,
+      "emergency_cash_max_abs_yuan": 0.0,
+      "natural_segments": 48096,
+      "template_segments": 48096,
+      "bridge_yuan": 276.01894161477685,
+      "parts_vs_total_yuan": 0.0
+    },
+    "shared_initial_state_kWh": {
+      "Q42": 6097.354409999999,
+      "Q43_S0": 6097.354409999999,
+      "Q43_S2": 6097.354409999999,
+      "F42": 6097.354409999999,
+      "F43_S0": 6097.354409999999,
+      "F43_S2": 6097.354409999999
+    }
+  },
+  "budget": {
+    "main_solves": 3035,
+    "january": 29,
+    "Q42": 334,
+    "Q43_S0": 1336,
+    "Q43_S2": 1336,
+    "extra_validation_milp": 3,
+    "cap": 3035,
+    "replays_call_no_milp": true
+  }
+}

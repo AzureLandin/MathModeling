@@ -1,0 +1,227 @@
+{
+  "status": "passed",
+  "signature": "ee26699f138c6ab515d02e3b279cdd5a6b0b0c0130ce66aacad6d2fec2663460",
+  "samples": {
+    "L75": {
+      "natural_intervals": 48096,
+      "paired_non_midnight": 47762,
+      "midnight_carry": 334,
+      "template_tail_excluded": "2026-01-01 00:00:00",
+      "paired_forecast_finite_cells": 191048,
+      "paired_forecast_expected_cells": 191048,
+      "midnight_forecast_null_cells": 1002,
+      "midnight_forecast_expected_null": 1002
+    },
+    "L80": {
+      "natural_intervals": 48096,
+      "paired_non_midnight": 47762,
+      "midnight_carry": 334,
+      "template_tail_excluded": "2026-01-01 00:00:00",
+      "paired_forecast_finite_cells": 191048,
+      "paired_forecast_expected_cells": 191048,
+      "midnight_forecast_null_cells": 1002,
+      "midnight_forecast_expected_null": 1002
+    },
+    "ledger_delta_net_kWh_max_abs": 0.0,
+    "ledger_delta_price_yuan_kWh_max_abs": 0.0,
+    "ledger_delta_actual_load_kW_max_abs": 0.0,
+    "ledger_delta_actual_pv_kW_max_abs": 0.0,
+    "ledger_alignment_tolerance": {
+      "atol": 1e-08,
+      "rtol": 0
+    },
+    "scope": "L75/L80 natural ledgers: 48096 natural segments, 47762 non-midnight pairings, 334 midnight carries; the template tail is excluded"
+  },
+  "mapping": {
+    "probes": [
+      {
+        "day": "2025-06-21",
+        "clock": "05:50",
+        "target_h": 35,
+        "version": 0,
+        "publication_clock": "00:00",
+        "publication_not_after_interval": true,
+        "age_hours": 5.833333333333333,
+        "age_bin": "[5,6)",
+        "forecast_pv_kW": 788.4021083333333,
+        "archive_pv_kW": 788.4021083333333,
+        "forecast_load_kW": 2806.076905001325,
+        "archive_load_kW": 2806.076905001325,
+        "expected_version": 0
+      },
+      {
+        "day": "2025-06-21",
+        "clock": "06:00",
+        "target_h": 36,
+        "version": 1,
+        "publication_clock": "06:00",
+        "publication_not_after_interval": true,
+        "age_hours": 0.0,
+        "age_bin": "[0,1)",
+        "forecast_pv_kW": 1013.5679416666668,
+        "archive_pv_kW": 1013.5679416666668,
+        "forecast_load_kW": 2753.0949658093914,
+        "archive_load_kW": 2753.0949658093914,
+        "expected_version": 1
+      },
+      {
+        "day": "2025-06-21",
+        "clock": "11:50",
+        "target_h": 71,
+        "version": 1,
+        "publication_clock": "06:00",
+        "publication_not_after_interval": true,
+        "age_hours": 5.833333333333333,
+        "age_bin": "[5,6)",
+        "forecast_pv_kW": 7376.004541666667,
+        "archive_pv_kW": 7376.004541666667,
+        "forecast_load_kW": 3730.4226180161363,
+        "archive_load_kW": 3730.4226180161363,
+        "expected_version": 1
+      },
+      {
+        "day": "2025-06-21",
+        "clock": "12:00",
+        "target_h": 72,
+        "version": 2,
+        "publication_clock": "12:00",
+        "publication_not_after_interval": true,
+        "age_hours": 0.0,
+        "age_bin": "[0,1)",
+        "forecast_pv_kW": 7439.487133333333,
+        "archive_pv_kW": 7439.487133333333,
+        "forecast_load_kW": 3689.4024002080214,
+        "archive_load_kW": 3689.4024002080214,
+        "expected_version": 2
+      },
+      {
+        "day": "2025-06-21",
+        "clock": "17:50",
+        "target_h": 107,
+        "version": 2,
+        "publication_clock": "12:00",
+        "publication_not_after_interval": true,
+        "age_hours": 5.833333333333333,
+        "age_bin": "[5,6)",
+        "forecast_pv_kW": 1102.714325,
+        "archive_pv_kW": 1102.714325,
+        "forecast_load_kW": 3462.082249760495,
+        "archive_load_kW": 3462.082249760495,
+        "expected_version": 2
+      },
+      {
+        "day": "2025-06-21",
+        "clock": "18:00",
+        "target_h": 108,
+        "version": 3,
+        "publication_clock": "18:00",
+        "publication_not_after_interval": true,
+        "age_hours": 0.0,
+        "age_bin": "[0,1)",
+        "forecast_pv_kW": 892.1460500000001,
+        "archive_pv_kW": 892.1460500000001,
+        "forecast_load_kW": 3495.972700005763,
+        "archive_load_kW": 3495.972700005763,
+        "expected_version": 3
+      }
+    ],
+    "tolerance": {
+      "atol": 1e-08,
+      "rtol": 0
+    },
+    "midnight_isolated": {
+      "interval_start": "2025-06-21 00:00:00",
+      "is_midnight": true,
+      "forecast_columns_null": true,
+      "note": "午夜继承段保留现金与应急，但从最新预报配对与 tau 诊断中排除"
+    }
+  },
+  "aggregates": {
+    "L75_hourly_energy_delta_vs_total_kWh": 0.0,
+    "L75_hourly_cost_delta_vs_total_yuan": 0.0,
+    "L75_total_delta_vs_summary_kWh": 0.0,
+    "L75_total_delta_vs_summary_yuan": 0.0,
+    "L75_node_age_plus_midnight_residual_kWh": 0.0,
+    "L75_merged_age_plus_midnight_residual_kWh": 0.0,
+    "L75_error_identity_max_abs_kWh": 4.2454928461665986e-13,
+    "L75_g_identity_max_abs_kWh": 2.842170943040401e-14,
+    "L75_truth_identity_max_abs_kWh": 2.2737367544323206e-13,
+    "L75_net_forecast_identity_max_abs_kWh": 0.0,
+    "L75_emergency_identity_max_abs_kWh": 2.8421709430404007e-13,
+    "L75_emergency_class_counts": {
+      "inventory_limited": 421,
+      "power_limited": 246
+    },
+    "L75_emergency_intervals": 667,
+    "L80_hourly_energy_delta_vs_total_kWh": 0.0,
+    "L80_hourly_cost_delta_vs_total_yuan": 0.0,
+    "L80_total_delta_vs_summary_kWh": 0.0,
+    "L80_total_delta_vs_summary_yuan": 1.4551915228366852e-11,
+    "L80_node_age_plus_midnight_residual_kWh": 0.0,
+    "L80_merged_age_plus_midnight_residual_kWh": 0.0,
+    "L80_error_identity_max_abs_kWh": 4.2454928461665986e-13,
+    "L80_g_identity_max_abs_kWh": 2.842170943040401e-14,
+    "L80_truth_identity_max_abs_kWh": 2.2737367544323206e-13,
+    "L80_net_forecast_identity_max_abs_kWh": 0.0,
+    "L80_emergency_identity_max_abs_kWh": 2.2737367544323206e-13,
+    "L80_emergency_class_counts": {
+      "inventory_limited": 246,
+      "power_limited": 203
+    },
+    "L80_emergency_intervals": 449,
+    "tolerances": {
+      "energy_atol": 1e-08,
+      "cash_atol": 0.0001,
+      "rtol": 0
+    },
+    "scope": "hourly sums, age groups + midnight, the error/g identities and the storage-class partition; no physics re-audit and no storage replay"
+  },
+  "totals": {
+    "L75": {
+      "emergency_kWh": 36526.874321672105,
+      "emergency_cost_yuan": 186246.70099771133
+    },
+    "L80": {
+      "emergency_kWh": 25269.234552697864,
+      "emergency_cost_yuan": 129830.99206441411
+    }
+  },
+  "top3_risk_hours": [
+    20,
+    10,
+    19
+  ],
+  "rule_satisfying_hours": [
+    9
+  ],
+  "reported_risk_hours": [
+    20,
+    10,
+    19,
+    9
+  ],
+  "excluded": [
+    "the 2026-01-01 00:00-00:10 template tail (one row per ledger)",
+    "the 334 midnight carry segments, from the latest-forecast pairing and tau diagnostic only; their cash and emergency stay in the hourly/monthly totals"
+  ],
+  "zero_budget": {
+    "training": 0,
+    "milp_lp_dp": 0,
+    "storage_replay": 0,
+    "public_january_reruns": 0,
+    "prediction_rebuild": 0,
+    "quantile_rebuild": 0,
+    "update_time_ablation": 0,
+    "parameter_sweeps": 0
+  },
+  "limits": [
+    "descriptive only: no new MILP, no storage replay, no update-time ablation and no parameter sweep, so no saving from a new publication time can be computed",
+    "emergency cost inside a subset is not a causal cost contribution and not a recoverable saving",
+    "the candidate publication clock is derived from the risk hour by a fixed one-hour engineering convention and is not an estimated optimum",
+    "with a 6-hourly publication grid, (publication node, forecast age) is in one-to-one correspondence with the clock hour, so age cannot be separated from hour-of-day",
+    "2025 was already used for method design: this describes one developed year, not an independent blind test",
+    "no figure was inspected visually (the agent cannot view images)",
+    "the two descriptive thresholds were introduced in this round, are not pre-registered, and only structure the candidate table: no publication time is excluded by them",
+    "the emergency-subset cost of an hour is companion evidence, not an isolated causal contribution; storage couples across periods, so no hour is ruled out"
+  ]
+}

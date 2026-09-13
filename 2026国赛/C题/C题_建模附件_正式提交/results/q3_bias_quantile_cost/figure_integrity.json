@@ -1,0 +1,20 @@
+{
+  "four_group_costs.png": {
+    "sha256": "a7a8a92796996688ef3fa9014b53af1fde2d0214ab3cfbf10c5573af9c00d079",
+    "bytes": 124545,
+    "width": 2240,
+    "height": 960,
+    "ink_coverage": 0.3799,
+    "distinct_colours": 960,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "monthly_contrasts.png": {
+    "sha256": "e66c1a85edc19c29464979feae1b80858e90d3905306488021008d6fd3b5484c",
+    "bytes": 91917,
+    "width": 2080,
+    "height": 1280,
+    "ink_coverage": 0.1761,
+    "distinct_colours": 262,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

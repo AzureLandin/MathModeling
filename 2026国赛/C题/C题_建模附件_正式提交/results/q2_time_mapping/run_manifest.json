@@ -1,0 +1,260 @@
+{
+  "started_utc": "2026-09-12T04:43:41.093428+00:00",
+  "finished_utc": "2026-09-12T04:47:53.879423+00:00",
+  "wall_seconds": 252.78601119993255,
+  "mode": "full",
+  "time_version": "start_time_v1",
+  "executable": "E:\\Anaconda\\envs\\math_modeling\\python.exe",
+  "python": "3.14.7 | packaged by Anaconda, Inc. | (main, Aug 14 2026, 10:12:46) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "signature": "c971b155b3e5aa63cc4067cb125eeff033ab757fd82f38803c8464bfb4cb4d5a",
+  "input_sha256": {
+    "code/14_q2_ridge_forecast_experiment.py": "abfa432f97d11d84d98b8fdd90d4004f091ec853a5ee3f91343f8411e816acf2",
+    "code/19_q2_lightgbm_residual_experiment.py": "4f7359ec04719629ddc93c322b51b384c9a4c2c448dca38cbd82406764671e81",
+    "code/21_q2_quantile_level_scan.py": "361815c0a8e3ba978262acd8f0d43030075152dc15119777ae3daeb71a827e9a",
+    "code/29_q2_time_mapping_experiment.py": "047289ea9867b4b99a26091996164d70c68332e64e120e3b8d45c2753091c96f",
+    "code/q1_start_time_recompute.py": "4a45ce75d7176da04ec06b50a0ad75fbe39e5d778f39caf7a0444e5b1fb97290",
+    "附件/附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件/附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "reports/问题二_统一新时间映射重跑实验方案.md": "2f6f99f75dfd53020c11cd9e0993995a518d03cecfdd53599b3e92d906406ec3",
+    "reports/时间口径变更与跨问题影响_20260912.md": "3271d20067d95b01a6fd21f6bdb97b0ddd0fada6c1b6e25903c0854b005f143d"
+  },
+  "parameters": {
+    "time_version": "start_time_v1",
+    "experiment": "unified interval-start mapping, new public January, retrained 15/12-column LightGBM under the new information set, two nominal terminal modes",
+    "interval_rule": "label 00:10 covers 00:10-00:20; label 0:00+1 covers the next day 00:00-00:10",
+    "natural_day_rule": "natural day d = previous source row column 143 ++ current row columns 0..142",
+    "price_rule": "natural-day price = source row 143 value then source rows 0..142",
+    "template_rule": "k-day 0:00 publishes 144 slots covering [k 00:10, (k+1) 00:10); the current midnight is executed from the previous day carry commitment and is never replanned",
+    "targets": {
+      "count": 145,
+      "mapping": "h=0 current 00:00; h=1..143 current 00:10..23:50; h=144 next 00:00; template slot j = h-1"
+    },
+    "midnight_target_rule": "both modes keep S0..S144 physically bounded; the fixed mode pins S143 (true natural-day 24:00); nothing pins S144",
+    "alpha": 0.8,
+    "residual_window_days": 28,
+    "min_history_days": 7,
+    "train_window_days": 56,
+    "min_train_days": 14,
+    "quantile_rule": "per-target empirical inverse distribution, 1-based position (m*a+99)//100, index position-1, no interpolation, negative corrections retained; h=144 has m=27 position 22, all other targets m=28 position 23",
+    "load_features": [
+      "l_base",
+      "l_b_minus_base",
+      "l_b_minus_b7",
+      "l_sameweekday_mean_minus_base",
+      "l_b_mean_minus_b7_mean",
+      "weekday_tue",
+      "weekday_wed",
+      "weekday_thu",
+      "weekday_fri",
+      "weekday_sat",
+      "weekday_sun",
+      "sin1",
+      "cos1",
+      "sin2",
+      "cos2"
+    ],
+    "pv_features": [
+      "v_base",
+      "v_b_minus_b1",
+      "v_week_mean_minus_base",
+      "v_b_mean_minus_b1_mean",
+      "sin1",
+      "cos1",
+      "sin2",
+      "cos2",
+      "support_duration_h",
+      "support_midpoint_h",
+      "support_phase",
+      "support_valid"
+    ],
+    "support_parameters": {
+      "history_days": 7,
+      "activity_threshold_kW": 1.0,
+      "padding_slots": 3
+    },
+    "solver": "local transcription of the frozen integer kernel; relative gap 1e-9, time limit 120 s; the only difference between the two modes is the S143 bound",
+    "ledgers": {
+      "A": "natural days 2025-02-01..2025-12-31, 334 days, 48096 segments",
+      "B": "template publications 2025-02-01..2025-12-31, 48096 segments, shifted by 10 minutes",
+      "bridge": "C_B - C_A = cost(tail 2026-01-01 00:00-00:10) - cost(head 2025-02-01 00:00-00:10)"
+    },
+    "reproduction": "new-run internal cold-start replay of N_fixed6000; no pre-registered new-convention cost constant exists and the old 27-module 1 CNY exemption is not reused",
+    "groups": [
+      {
+        "id": "N_fixed6000",
+        "mode": "fixed6000"
+      },
+      {
+        "id": "N_free",
+        "mode": "free"
+      }
+    ],
+    "comparison": "N_free minus N_fixed6000 (new time mapping, ledger A)"
+  },
+  "dependency": {
+    "first_load_feature_day": 9,
+    "first_pv_feature_day": 8,
+    "quantile_position_28": 23,
+    "quantile_position_27": 22,
+    "lgbm_params_sha256": "c9201bd1a693db46e053c35e9c0cb2e8b10a7cd4fe8feae52c3d226c9f56960f",
+    "lgbm_param_keys": [
+      "bagging_seed",
+      "boost_from_average",
+      "boosting_type",
+      "colsample_bytree",
+      "data_random_seed",
+      "deterministic",
+      "device_type",
+      "feature_fraction_seed",
+      "feature_pre_filter",
+      "force_col_wise",
+      "learning_rate",
+      "max_bin",
+      "max_depth",
+      "min_child_samples",
+      "min_child_weight",
+      "min_data_in_bin",
+      "min_split_gain",
+      "n_estimators",
+      "n_jobs",
+      "num_leaves",
+      "objective",
+      "random_state",
+      "reg_alpha",
+      "reg_lambda",
+      "subsample",
+      "subsample_for_bin",
+      "subsample_freq",
+      "verbosity"
+    ]
+  },
+  "protected_before_count": 10664,
+  "protected_unchanged": true,
+  "ledgers": {
+    "N_fixed6000": {
+      "ledger_A": {
+        "planned_kWh": 21776491.47031574,
+        "emergency_kWh": 68341.71217353357,
+        "unused_kWh": 2635676.915494953,
+        "charge_kWh": 6684272.493944998,
+        "discharge_kWh": 5414070.018584009,
+        "loss_kWh": 1269990.5847927234,
+        "planned_cost_yuan": 13303179.055716598,
+        "emergency_cost_yuan": 424869.11247530626,
+        "total_cost_yuan": 13728048.168191904,
+        "emergency_slots": 451,
+        "emergency_days": 117,
+        "initial_kWh": 6075.795025925926,
+        "final_kWh": 6287.685594191135,
+        "segments": 48096
+      },
+      "ledger_B": {
+        "planned_kWh": 21776491.47031574,
+        "emergency_kWh": 68341.71217353358,
+        "planned_cost_yuan": 13303179.055716598,
+        "emergency_cost_yuan": 424869.11247530626,
+        "total_cost_yuan": 13728048.168191904,
+        "segments": 48096
+      },
+      "head_cost_yuan": 0.0,
+      "tail_cost_yuan": 0.0,
+      "bridge_difference_yuan": 0.0,
+      "bridge_expected_yuan": 0.0,
+      "bridge_residual_yuan": 0.0
+    },
+    "N_free": {
+      "ledger_A": {
+        "planned_kWh": 21635744.292173043,
+        "emergency_kWh": 73095.96273054686,
+        "unused_kWh": 2573521.9744411064,
+        "charge_kWh": 6317463.664277316,
+        "discharge_kWh": 5121099.175448165,
+        "loss_kWh": 1200757.3859219723,
+        "planned_cost_yuan": 13264904.275916837,
+        "emergency_cost_yuan": 434433.4085148161,
+        "total_cost_yuan": 13699337.684431653,
+        "emergency_slots": 577,
+        "emergency_days": 119,
+        "initial_kWh": 6075.795025925926,
+        "final_kWh": 1682.897933104455,
+        "segments": 48096
+      },
+      "ledger_B": {
+        "planned_kWh": 21636367.314643852,
+        "emergency_kWh": 73095.96273054686,
+        "planned_cost_yuan": 13265170.680325355,
+        "emergency_cost_yuan": 434433.4085148161,
+        "total_cost_yuan": 13699604.088840172,
+        "segments": 48096
+      },
+      "head_cost_yuan": 0.0,
+      "tail_cost_yuan": 266.4044085188878,
+      "bridge_difference_yuan": 266.40440851822495,
+      "bridge_expected_yuan": 266.4044085188878,
+      "bridge_residual_yuan": 6.628511073358823e-10
+    }
+  },
+  "contrast": {
+    "comparison": "N_free minus N_fixed6000 (new time mapping, ledger A)",
+    "treatment": "N_free",
+    "baseline": "N_fixed6000",
+    "A_delta_planned_cost_yuan": -38274.77979976125,
+    "A_delta_emergency_cost_yuan": 9564.29603950982,
+    "A_delta_total_cost_yuan": -28710.483760250732,
+    "A_delta_total_percent": -0.20913740546724885,
+    "A_delta_emergency_kWh": 4754.250557013293,
+    "A_delta_planned_kWh": -140747.17814269662,
+    "A_delta_loss_kWh": -69233.19887075108,
+    "A_delta_final_kWh": -4604.787661086681,
+    "A_delta_emergency_days": 2,
+    "B_delta_total_cost_yuan": -28444.079351732507
+  },
+  "forecast_summary": {
+    "load_first_feature_day": 9,
+    "pv_first_feature_day": 8,
+    "load_first_trainable_day": 24,
+    "pv_first_trainable_day": 23,
+    "load_trained_days": 341,
+    "pv_trained_days": 342,
+    "formal_finite": true,
+    "formal_nonnegative": true,
+    "gated_off_slots": 20039,
+    "support_valid_days": 334,
+    "support_invalid_days": 0
+  },
+  "quantile": {
+    "position_28": 23,
+    "position_27": 22,
+    "h144_m_values": [
+      27
+    ],
+    "other_m_values": [
+      28
+    ],
+    "insufficient_reason_count": 0,
+    "all_passed": true
+  },
+  "self_checks_passed": {
+    "mapping": true,
+    "artificial": true,
+    "forecast": true,
+    "boundary": true,
+    "quantile": true,
+    "reproduction": true,
+    "carry": true,
+    "halfday": true,
+    "perturbation": true
+  },
+  "timings": {
+    "forecast_seconds": 23.19918360002339,
+    "scenario_N_fixed6000_seconds": 15.403637500014156,
+    "scenario_N_free_seconds": 14.344386299839243,
+    "reproduction_seconds": 15.023639899911359,
+    "perturbation_seconds": 162.88949920004234,
+    "figures_seconds": 0.6970790999475867
+  },
+  "artifact_count": 85,
+  "report": "reports\\问题二_统一新时间映射实验结果报告.md"
+}

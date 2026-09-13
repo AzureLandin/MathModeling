@@ -1,0 +1,2 @@
+﻿comparison,treatment,baseline,A_delta_planned_cost_yuan,A_delta_emergency_cost_yuan,A_delta_total_cost_yuan,A_delta_total_percent,A_delta_emergency_kWh,A_delta_planned_kWh,A_delta_loss_kWh,A_delta_final_kWh,A_delta_emergency_days,B_delta_total_cost_yuan
+"N_free minus N_fixed6000 (new time mapping, ledger A)",N_free,N_fixed6000,-38274.77979976125,9564.29603950982,-28710.483760250732,-0.20913740546724885,4754.250557013293,-140747.17814269662,-69233.19887075108,-4604.787661086681,2,-28444.079351732507

@@ -1,0 +1,202 @@
+{
+  "status": "passed",
+  "signature": "d83c4ae298d398b5c7d93d289205a1ca0f2e004db127ae0e780d50427414a819",
+  "checks": {
+    "inputs_and_history": {
+      "cross_check": {
+        "cells": 52925,
+        "agreeing_finite_cells": 52779,
+        "max_abs_difference_kW": 0.0,
+        "formal_cells": 48430
+      },
+      "formal_window": {
+        "first": "2025-02-01",
+        "last": "2025-12-31",
+        "days": 334
+      },
+      "residual_identity": {
+        "max_abs_difference_kW": 0.0
+      },
+      "history_eligibility": {
+        "groups": 14235,
+        "max_history_samples": 28,
+        "min_history_samples": 0,
+        "min_gap_days_to_publication": 1,
+        "labels_ending_after_publication": 0,
+        "groups_with_empty_history": 78,
+        "rule": "every history day d satisfies max(0,k-28) <= d < k and its whole label interval has ended at the day-k r:00 publication instant; F1 and F2 share the same set"
+      },
+      "feature_definition_vs_previous_diagnostic": {
+        "max_abs_b_difference_kW": 5.684341886080802e-14,
+        "max_abs_y_difference_kW": 1.1368683772161603e-13,
+        "note": "the rolling window and the label definition are unchanged from the reviewed diagnostic; this round changes only what is estimated from them"
+      }
+    },
+    "boundary_date": {
+      "day": "2025-06-21",
+      "k": 171,
+      "perturb_kW": 25.0,
+      "rule": "for each node the truth at and after its publication instant is shifted in memory on a fresh copy; that node's b, its estimated parameters and its published forecasts must not move, while the evaluation labels do",
+      "rows": [
+        {
+          "publication_hour": 6,
+          "s_r": 36,
+          "b_before_kW": -41.83237143964902,
+          "b_after_shift_kW": -41.83237143964902,
+          "b_abs_change_kW": 0.0,
+          "parameter_max_abs_change": 0.0,
+          "published_forecast_max_abs_change": 0.0,
+          "downstream_publication_max_abs_change": 20.78809038927011,
+          "y_first_hour_abs_change_kW": 24.999999999999993,
+          "tail_abs_change_kW": 25.0
+        },
+        {
+          "publication_hour": 12,
+          "s_r": 72,
+          "b_before_kW": 45.985319417479865,
+          "b_after_shift_kW": 45.985319417479865,
+          "b_abs_change_kW": 0.0,
+          "parameter_max_abs_change": 0.0,
+          "published_forecast_max_abs_change": 0.0,
+          "downstream_publication_max_abs_change": 14.98844817959207,
+          "y_first_hour_abs_change_kW": 24.999999999999986,
+          "tail_abs_change_kW": 25.0
+        },
+        {
+          "publication_hour": 18,
+          "s_r": 108,
+          "b_before_kW": -8.789033361679913,
+          "b_after_shift_kW": -8.789033361679913,
+          "b_abs_change_kW": 0.0,
+          "parameter_max_abs_change": 0.0,
+          "published_forecast_max_abs_change": 0.0,
+          "downstream_publication_max_abs_change": 0.0,
+          "y_first_hour_abs_change_kW": 25.0,
+          "tail_abs_change_kW": 25.0
+        }
+      ],
+      "max_abs_b_change_kW": 0.0,
+      "max_abs_parameter_change": 0.0,
+      "max_abs_published_forecast_change": 0.0,
+      "all_labels_moved": true,
+      "note": "only the perturbed node's own publication is required to stay fixed; a later node's same-day feature legitimately moves when an earlier instant is perturbed, which the downstream column records"
+    },
+    "closed_form_and_fallback": {
+      "recomputed_groups": [
+        {
+          "publication_hour": 6,
+          "j": 0,
+          "m": 28,
+          "a_kW": -14.065926925396615,
+          "beta": 0.2205383382744511,
+          "delta2_kW": -23.29156860877642,
+          "saved_delta2_kW": -23.29156860877641
+        },
+        {
+          "publication_hour": 18,
+          "j": 0,
+          "m": 28,
+          "a_kW": 11.970359948672273,
+          "beta": 0.5574342005115158,
+          "delta2_kW": 7.071052163435191,
+          "saved_delta2_kW": 7.071052163435239
+        }
+      ],
+      "max_abs_closed_form_difference": 4.796163466380676e-14,
+      "degenerate_b": {
+        "var_b_kW2": 0.0,
+        "beta": 0.0,
+        "a_kW": 13.5,
+        "f2_equals_f1": true
+      },
+      "perfect_positive_slope": 1.0,
+      "min_samples_gate": {
+        "below": 13,
+        "at": 14,
+        "rule": "m < 14 -> both corrections are 0 and both fall back"
+      },
+      "non_negative_clip": "max(0, forecast + correction) keeps the published power >= 0"
+    },
+    "readback": {
+      "version0_max_abs_difference_from_baseline_kW": 0.0,
+      "version6_max_abs_difference_kW": 0.0,
+      "version12_max_abs_difference_kW": 0.0,
+      "version18_max_abs_difference_kW": 0.0,
+      "counts": {
+        "A_targets": 36072,
+        "B_records": 73146,
+        "tail_records": 1002,
+        "unique_A_targets": 36072,
+        "distinct_tail_intervals": 334,
+        "duplicate_pair_rows": 0
+      },
+      "A_metric_readback_max_abs_difference": 2.842170943040401e-14,
+      "hourly_metric_max_abs_difference": 2.7284841053187847e-12,
+      "note": "recomputed only from the written tables; no solver or LightGBM call is involved, and no previous full-tree hashes are re-checked"
+    }
+  },
+  "fit_counts": {
+    "groups": 14235,
+    "fitted": 13650,
+    "fallback_m_below_min": 585,
+    "fallback_degenerate_variance": 0,
+    "fallback_b_invalid": 39
+  },
+  "parameter_summary_A": {
+    "publication_hour": -1,
+    "kind": "A_set_truncation",
+    "groups": 14235,
+    "fitted": 13650,
+    "fallback_m_below_min": 585,
+    "fallback_degenerate_variance": 0,
+    "fallback_b_invalid": 39,
+    "m_min": 0,
+    "m_median": 28.0,
+    "m_max": 28,
+    "beta_mean": 0.3801513060035336,
+    "beta_min": -1.179064728474054,
+    "beta_max": 4.005550304649817,
+    "beta_negative_share": 0.1936996336996337,
+    "delta1_mean_kW": 1.566669166411031,
+    "delta1_max_abs_kW": 218.49143105245625,
+    "delta2_mean_kW": 1.8356071835777998,
+    "delta2_min_kW": -788.5766977823899,
+    "delta2_max_kW": 677.9887568758901,
+    "delta2_max_abs_date": "2025-02-01",
+    "truncation_hits_f1": 0,
+    "truncation_hits_f2": 0,
+    "truncation_max_shortfall_kW_f1": 0.0,
+    "truncation_max_shortfall_kW_f2": 0.0
+  },
+  "primary_metric": {
+    "set": "A (36 slots per publication, 06:00-24:00 only, 36072 targets)",
+    "mae_kW": {
+      "F0_original": 142.25675205970754,
+      "F1_hist_mean": 141.72491874114124,
+      "F2_intraday_linear": 133.11487453371168
+    },
+    "gate_tolerance_kW": 1e-08
+  },
+  "verdict": "F2 在本年度前向回测中同时优于 F0 与 F1（主指标 A 集 10 分钟 MAE）：可称当天偏差模型比这两个基准的主指标更好，但需再结合 RMSE、各节点、月份与极端日判断是否值得设计费用对照，不自动升级模型",
+  "zero_budget": {
+    "lightgbm_training": 0,
+    "milp_lp_dp": 0,
+    "storage_replay": 0,
+    "public_january_dispatch_reruns": 0,
+    "pv_rebuild": 0,
+    "quantile_rebuild": 0,
+    "parameter_grid_search": 0
+  },
+  "limitations": [
+    "点预测误差不是费用：本轮没有调度、没有储能回放、没有 q75 重建，MAE 改善不能读成节费，也不能自动升级为正式模型。",
+    "主指标是 A 集逐段 10 分钟 MAE，事前固定、不得事后更换；小时均值只能作补充，不能用它代替逐段 MAE。",
+    "回归以平方误差估计、评价以 MAE 为主，二者不同；结果不佳也不能临时改主指标掩盖。",
+    "28 天参数窗口、14 日下限、按发布小时与未来小时分组都是工程设定，未证最优；本轮不调窗口、不加岭回归、不加门控、不按表现挑节点。",
+    "2025 年此前已参与方法设计，本轮仍不是跨年盲测，也不是独立样本外验证。",
+    "B 集 73,146 条记录含重叠目标，只作发布版本质量诊断，不能当独立区间或替代 A 集。",
+    "1,002 条午夜尾槽对应 334 个不同实际午夜区间、被三个版本各预测一次，不能当成三次实际发生。",
+    "每小时内统一平移可能造成小时边界跳变或局部恶化，本轮只记录不修正。",
+    "截断前修正量与截断后实际变化分开记录：截断命中时两者不等，不能混称一个修正量。",
+    "没有任何图件经过目视核查（本 Agent 无法查看图像），只做程序化完整性检查。"
+  ]
+}

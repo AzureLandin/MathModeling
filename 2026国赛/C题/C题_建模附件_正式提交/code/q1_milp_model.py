@@ -7,7 +7,6 @@ import sys
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = PACKAGE_ROOT.parent
 
 
 def main() -> None:
@@ -15,7 +14,7 @@ def main() -> None:
     parser.add_argument("--recompute", action="store_true", help="重新求解后再导出；默认只导出冻结结果")
     args = parser.parse_args()
     if args.recompute:
-        subprocess.run([sys.executable, str(PROJECT_ROOT / "code/q1_start_time_recompute.py")], check=True)
+        subprocess.run([sys.executable, str(PACKAGE_ROOT / "code/q1_start_time_recompute.py")], check=True)
     subprocess.run([sys.executable, str(Path(__file__).with_name("q1_q4_csv_processing.py")), "--only", "q1"], check=True)
 
 

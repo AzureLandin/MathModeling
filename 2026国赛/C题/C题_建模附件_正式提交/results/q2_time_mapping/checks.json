@@ -1,0 +1,579 @@
+{
+  "mapping": {
+    "rounds": [
+      {
+        "check": "row-to-natural bijection",
+        "worst": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "check": "natural-day value count",
+        "worst": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "check": "145-target identity",
+        "worst": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "check": "natural price = last row then rows 0..142",
+        "worst": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "check": "template objective price order",
+        "worst": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "check": "source intervals are contiguous 10-minute steps",
+        "worst": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      }
+    ],
+    "source_interval_count": 52560,
+    "first_interval": "2025-01-01 00:10:00",
+    "last_interval": "2026-01-01 00:00:00",
+    "gap_slot_is_nan": true,
+    "values_preserved": 105264,
+    "all_passed": true
+  },
+  "artificial_mapping": {
+    "cases": [
+      {
+        "day_index": 1,
+        "date": "2025-01-02",
+        "max_difference": 0.0,
+        "h0_interval": "2025-01-02 00:10:00",
+        "h144_interval": "2025-01-03 00:00:00"
+      },
+      {
+        "day_index": 100,
+        "date": "2025-04-11",
+        "max_difference": 0.0,
+        "h0_interval": "2025-04-11 00:10:00",
+        "h144_interval": "2025-04-12 00:00:00"
+      },
+      {
+        "day_index": 364,
+        "date": "2025-12-31",
+        "max_difference": 0.0,
+        "h0_interval": "2025-12-31 00:10:00",
+        "h144_interval": "2026-01-01 00:00:00"
+      }
+    ],
+    "worst": 0.0,
+    "all_passed": true
+  },
+  "forecast": {
+    "summary": {
+      "load_first_feature_day": 9,
+      "pv_first_feature_day": 8,
+      "load_first_trainable_day": 24,
+      "pv_first_trainable_day": 23,
+      "load_trained_days": 341,
+      "pv_trained_days": 342,
+      "formal_finite": true,
+      "formal_nonnegative": true,
+      "gated_off_slots": 20039,
+      "support_valid_days": 334,
+      "support_invalid_days": 0
+    },
+    "rounds": [
+      {
+        "check": "load first feature day is 9 (Jan 10 formed as 0-based 9)",
+        "value": 9,
+        "expected": 9,
+        "passed": true
+      },
+      {
+        "check": "pv first feature day is 8 (Jan 9)",
+        "value": 8,
+        "expected": 8,
+        "passed": true
+      },
+      {
+        "check": "h=144 pv base ignores the unknown current midnight",
+        "value": [
+          0.0,
+          0.0
+        ],
+        "expected": [
+          0.0,
+          0.0
+        ],
+        "passed": true
+      },
+      {
+        "check": "empty support window -> s=0,e=143,v=0 and no zeroing",
+        "value": [
+          0,
+          143,
+          0
+        ],
+        "expected": [
+          0,
+          143,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "check": "2025-01-01 00:00-00:10 stays unknown",
+        "value": 1.0,
+        "expected": 1.0,
+        "passed": true
+      },
+      {
+        "check": "every stored power value is carried into the natural arrays",
+        "value": 105120.0,
+        "expected": 105120.0,
+        "passed": true
+      }
+    ],
+    "all_passed": true
+  },
+  "boundary": {
+    "rounds": [
+      {
+        "check": "mode switch changes only the S143 bound",
+        "value": [
+          719
+        ],
+        "expected": [
+          719
+        ],
+        "passed": true
+      },
+      {
+        "check": "terminal index is S143 (true natural-day 24:00)",
+        "value": 719,
+        "expected": 719,
+        "passed": true
+      },
+      {
+        "check": "nominal first-interval emergency recorded; plan stays feasible",
+        "value": [
+          2000.0,
+          6000.0
+        ],
+        "expected": [
+          2000.0,
+          6000.0
+        ],
+        "passed": true
+      },
+      {
+        "check": "empty battery cannot discharge below 1200 kWh",
+        "value": [
+          0.0,
+          1200.0,
+          2000.0
+        ],
+        "expected": [
+          0.0,
+          1200.0,
+          2000.0
+        ],
+        "passed": true
+      },
+      {
+        "check": "full battery absorbs only up to the power cap",
+        "value": [
+          0.0,
+          3000.0,
+          10800.0
+        ],
+        "expected": [
+          0.0,
+          3000.0,
+          10800.0
+        ],
+        "passed": true
+      },
+      {
+        "check": "negative protection retained (no purchase, balance closes)",
+        "value": [
+          0.0,
+          720.0,
+          0.0
+        ],
+        "expected": [
+          0.0,
+          720.0,
+          0.0
+        ],
+        "passed": true
+      },
+      {
+        "check": "feedback equals the frozen controller",
+        "value": 0.0,
+        "expected": 0.0,
+        "passed": true
+      }
+    ],
+    "all_passed": true
+  },
+  "quantile": {
+    "position_28": 23,
+    "position_27": 22,
+    "h144_m_values": [
+      27
+    ],
+    "other_m_values": [
+      28
+    ],
+    "insufficient_reason_count": 0,
+    "all_passed": true
+  },
+  "reproduction": {
+    "segment_max_differences": {
+      "plan_kWh": 0.0,
+      "emergency_kWh": 0.0,
+      "charge_kWh": 0.0,
+      "discharge_kWh": 0.0,
+      "unused_kWh": 0.0,
+      "state_end_kWh": 0.0
+    },
+    "max_segment_difference_kWh": 0.0,
+    "cost_difference_yuan": 0.0,
+    "ledger_A_left": 13728048.168191904,
+    "ledger_A_right": 13728048.168191904,
+    "all_passed": true
+  },
+  "carry": {
+    "max_carry_difference_kWh": 0.0,
+    "ledger_A_segments": {
+      "N_fixed6000": 48096,
+      "N_free": 48096
+    },
+    "all_passed": true
+  },
+  "halfday": {
+    "cases": [
+      {
+        "strategy_id": "N_fixed6000",
+        "date": "2025-06-21",
+        "prefix_slots": 72,
+        "max_prefix_difference": 0.0,
+        "state_entering_slot_72_kWh": 10800.0,
+        "passed": true
+      },
+      {
+        "strategy_id": "N_free",
+        "date": "2025-06-21",
+        "prefix_slots": 72,
+        "max_prefix_difference": 0.0,
+        "state_entering_slot_72_kWh": 10800.0,
+        "passed": true
+      }
+    ],
+    "max_prefix_difference": 0.0,
+    "all_passed": true
+  },
+  "perturbation": {
+    "cases": [
+      {
+        "day_index": 31,
+        "date": "2025-02-01",
+        "case": "load_x1.2",
+        "groups": {
+          "N_fixed6000": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 5948.8231036956495,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 5590.1255146402145,
+            "clean_day_state_end_kWh": 7286.2587307306785,
+            "passed": true
+          },
+          "N_free": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 6341.64826574262,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 1200.0,
+            "clean_day_state_end_kWh": 2749.155534699689,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      {
+        "day_index": 31,
+        "date": "2025-02-01",
+        "case": "pv_x0.7",
+        "groups": {
+          "N_fixed6000": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 5795.863056486928,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 6439.606212198883,
+            "clean_day_state_end_kWh": 7286.2587307306785,
+            "passed": true
+          },
+          "N_free": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 5795.863056486928,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 1902.5030161678928,
+            "clean_day_state_end_kWh": 2749.155534699689,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      {
+        "day_index": 171,
+        "date": "2025-06-21",
+        "case": "load_x1.2",
+        "groups": {
+          "N_fixed6000": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 4998.648092572512,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 5323.234776293074,
+            "clean_day_state_end_kWh": 7539.649998266165,
+            "passed": true
+          },
+          "N_free": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 5658.1285750657025,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 1200.0,
+            "clean_day_state_end_kWh": 2965.0990246607307,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      {
+        "day_index": 171,
+        "date": "2025-06-21",
+        "case": "pv_x0.7",
+        "groups": {
+          "N_fixed6000": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 4099.646710864369,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 6735.380646975286,
+            "clean_day_state_end_kWh": 7539.649998266165,
+            "passed": true
+          },
+          "N_free": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 4117.722174675812,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 2160.829673369851,
+            "clean_day_state_end_kWh": 2965.0990246607307,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      {
+        "day_index": 354,
+        "date": "2025-12-21",
+        "case": "load_x1.2",
+        "groups": {
+          "N_fixed6000": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 18246.24250265134,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 4911.040086895207,
+            "clean_day_state_end_kWh": 6468.080483838159,
+            "passed": true
+          },
+          "N_free": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 19247.462653459414,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 1200.0,
+            "clean_day_state_end_kWh": 1798.2116229383357,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      {
+        "day_index": 354,
+        "date": "2025-12-21",
+        "case": "pv_x0.7",
+        "groups": {
+          "N_fixed6000": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 6738.440851846216,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 6292.114009824976,
+            "clean_day_state_end_kWh": 6468.080483838159,
+            "passed": true
+          },
+          "N_free": {
+            "prefix_plan_difference_kWh": 0.0,
+            "prefix_state_difference_kWh": 0.0,
+            "perturbation_day_plan_difference_kWh": 0.0,
+            "perturbation_day_entering_state_difference_kWh": 0.0,
+            "prefix_protection_difference_kWh": 0.0,
+            "perturbation_day_actual_emergency_kWh": 6738.440851846216,
+            "clean_day_actual_emergency_kWh": 0.0,
+            "perturbation_day_state_end_kWh": 1622.2451489251532,
+            "clean_day_state_end_kWh": 1798.2116229383357,
+            "passed": true
+          }
+        },
+        "passed": true
+      }
+    ],
+    "max_prefix_difference": 0.0,
+    "max_perturbation_day_plan_difference": 0.0,
+    "note": "a perturbation from day k on may change the actual execution of day k, but every earlier plan, state, feature, label and protection amount must stay bit-identical, and so must the plan published on day k itself",
+    "all_passed": true
+  },
+  "ledger": {
+    "N_fixed6000": {
+      "ledger_A": {
+        "planned_kWh": 21776491.47031574,
+        "emergency_kWh": 68341.71217353357,
+        "unused_kWh": 2635676.915494953,
+        "charge_kWh": 6684272.493944998,
+        "discharge_kWh": 5414070.018584009,
+        "loss_kWh": 1269990.5847927234,
+        "planned_cost_yuan": 13303179.055716598,
+        "emergency_cost_yuan": 424869.11247530626,
+        "total_cost_yuan": 13728048.168191904,
+        "emergency_slots": 451,
+        "emergency_days": 117,
+        "initial_kWh": 6075.795025925926,
+        "final_kWh": 6287.685594191135,
+        "segments": 48096
+      },
+      "ledger_B": {
+        "planned_kWh": 21776491.47031574,
+        "emergency_kWh": 68341.71217353358,
+        "planned_cost_yuan": 13303179.055716598,
+        "emergency_cost_yuan": 424869.11247530626,
+        "total_cost_yuan": 13728048.168191904,
+        "segments": 48096
+      },
+      "head_cost_yuan": 0.0,
+      "tail_cost_yuan": 0.0,
+      "bridge_difference_yuan": 0.0,
+      "bridge_expected_yuan": 0.0,
+      "bridge_residual_yuan": 0.0
+    },
+    "N_free": {
+      "ledger_A": {
+        "planned_kWh": 21635744.292173043,
+        "emergency_kWh": 73095.96273054686,
+        "unused_kWh": 2573521.9744411064,
+        "charge_kWh": 6317463.664277316,
+        "discharge_kWh": 5121099.175448165,
+        "loss_kWh": 1200757.3859219723,
+        "planned_cost_yuan": 13264904.275916837,
+        "emergency_cost_yuan": 434433.4085148161,
+        "total_cost_yuan": 13699337.684431653,
+        "emergency_slots": 577,
+        "emergency_days": 119,
+        "initial_kWh": 6075.795025925926,
+        "final_kWh": 1682.897933104455,
+        "segments": 48096
+      },
+      "ledger_B": {
+        "planned_kWh": 21636367.314643852,
+        "emergency_kWh": 73095.96273054686,
+        "planned_cost_yuan": 13265170.680325355,
+        "emergency_cost_yuan": 434433.4085148161,
+        "total_cost_yuan": 13699604.088840172,
+        "segments": 48096
+      },
+      "head_cost_yuan": 0.0,
+      "tail_cost_yuan": 266.4044085188878,
+      "bridge_difference_yuan": 266.40440851822495,
+      "bridge_expected_yuan": 266.4044085188878,
+      "bridge_residual_yuan": 6.628511073358823e-10
+    }
+  },
+  "energy": [
+    {
+      "comparison": "N_free minus N_fixed6000 (new time mapping, ledger A)",
+      "delta_planned_kWh": -140747.17814269662,
+      "delta_emergency_kWh": 4754.250557013293,
+      "delta_charge_kWh": -366808.8296676818,
+      "delta_discharge_kWh": -292970.843135844,
+      "delta_unused_kWh": -62154.941053846385,
+      "delta_loss_kWh": -69233.19887075108,
+      "delta_end_kWh": -4604.787661086681,
+      "identity_residual_kWh": 8.149072527885437e-10
+    }
+  ],
+  "physical_max": 9.094947017729282e-13,
+  "protected_unchanged": true,
+  "protected_changed": [],
+  "protected_missing": [],
+  "protected_count": 10664,
+  "thresholds": {
+    "energy_kWh": 1e-06,
+    "cost_yuan": 0.0001
+  },
+  "timings": {
+    "forecast_seconds": 23.19918360002339,
+    "scenario_N_fixed6000_seconds": 15.403637500014156,
+    "scenario_N_free_seconds": 14.344386299839243,
+    "reproduction_seconds": 15.023639899911359,
+    "perturbation_seconds": 162.88949920004234,
+    "figures_seconds": 0.6970790999475867
+  },
+  "workbooks": [
+    "results\\q2_time_mapping\\N_fixed6000_validation.xlsx",
+    "results\\q2_time_mapping\\N_free_validation.xlsx"
+  ]
+}

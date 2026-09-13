@@ -1,0 +1,56 @@
+{
+  "status": "complete",
+  "operation": "formal Question 1 delivery switched to start_time_v1 without re-solving",
+  "time_version": "start_time_v1",
+  "interval_rule": "source label 00:10 covers 00:10-00:20; final source label 0:00+1 covers next-day 00:00-00:10",
+  "physical_boundary_rule": "battery state is 6000 kWh at true 00:00 and true 24:00",
+  "template_rule": "purchase rows retain the official 00:10-to-next-day-00:10 labels and order",
+  "formal_workbook": "E:\\MathModeling\\2026国赛\\C题\\附件\\附件5\\result1.xlsx",
+  "pristine_template": "E:\\MathModeling\\2026国赛\\C题\\results\\template_backups\\result1_original.xlsx",
+  "old_formal_backup": "E:\\MathModeling\\2026国赛\\C题\\results\\template_backups\\result1_old_time_before_start_time_v1.xlsx",
+  "verified_copy": "E:\\MathModeling\\2026国赛\\C题\\results\\q1_start_time_20260912\\result1_formal_verified.xlsx",
+  "formal_replaced_this_run": false,
+  "hashes": {
+    "pristine_template_sha256": "28360e0974e7d6065394a8aba4e14a86773ae0036cc7d3ea1b211b515b03d688",
+    "formal_before_run_sha256": "62431e596c9d15b8bafb10598f24edf6f12a95bbe5830ac1398de9a6c0b54d8f",
+    "old_formal_sha256": "1da12cbebefb70416b5fbbf5120de59cde088a402fbeaf913ca084d203812d69",
+    "old_backup_sha256": "1da12cbebefb70416b5fbbf5120de59cde088a402fbeaf913ca084d203812d69",
+    "formal_sha256": "62431e596c9d15b8bafb10598f24edf6f12a95bbe5830ac1398de9a6c0b54d8f",
+    "verified_copy_sha256": "62431e596c9d15b8bafb10598f24edf6f12a95bbe5830ac1398de9a6c0b54d8f",
+    "payload_sha256": "9d02779eadb6a44cbc60630ee896e11ea1a9e2f5df625cabaf51c01cee926987",
+    "numeric_validation_sha256": "54f4652ed63001cb1eec8a735714e0cf8bd2d7807a7524a3a3d2ab632a09fa9c",
+    "script_sha256": "169be5021a01164b0d5bd1cd407c49a677d1adf0f9812b6bddaaf34b30b5b0b8"
+  },
+  "readback": {
+    "planned_cells": 144,
+    "storage_cells": 12,
+    "endpoint_cells": 2,
+    "total_filled_result_cells": 158,
+    "first_label": "0:10-0:20",
+    "penultimate_label": "23:50-0:00+1",
+    "last_label": "0:00+1-0:10+1",
+    "purchase_max_abs_error": 0.0,
+    "storage_max_abs_error": 0.0,
+    "endpoint_max_abs_error": 0.0,
+    "style_and_structure_equal_to_pristine_template": true,
+    "ooxml_package_preservation": {
+      "member_list_equal_to_pristine": true,
+      "member_count": 13,
+      "changed_members": [
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet1.xml"
+      ],
+      "only_worksheet_xml_changed": true,
+      "required_printer_and_shared_string_parts_present": true
+    }
+  },
+  "numeric_result": {
+    "grid_kWh": 59482.69899835391,
+    "cost_yuan": 35126.84858928963,
+    "initial_kWh": 6000.0,
+    "final_kWh": 6000.0,
+    "state_at_00_10_kWh": 6300.0,
+    "mip_gap": 0.0,
+    "lp_gap_yuan": 0.0
+  }
+}

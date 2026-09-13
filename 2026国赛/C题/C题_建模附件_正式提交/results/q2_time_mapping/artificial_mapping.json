@@ -1,0 +1,27 @@
+{
+  "cases": [
+    {
+      "day_index": 1,
+      "date": "2025-01-02",
+      "max_difference": 0.0,
+      "h0_interval": "2025-01-02 00:10:00",
+      "h144_interval": "2025-01-03 00:00:00"
+    },
+    {
+      "day_index": 100,
+      "date": "2025-04-11",
+      "max_difference": 0.0,
+      "h0_interval": "2025-04-11 00:10:00",
+      "h144_interval": "2025-04-12 00:00:00"
+    },
+    {
+      "day_index": 364,
+      "date": "2025-12-31",
+      "max_difference": 0.0,
+      "h0_interval": "2025-12-31 00:10:00",
+      "h144_interval": "2026-01-01 00:00:00"
+    }
+  ],
+  "worst": 0.0,
+  "all_passed": true
+}

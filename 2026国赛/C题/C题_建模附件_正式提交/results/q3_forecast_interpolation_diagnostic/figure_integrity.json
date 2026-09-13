@@ -1,0 +1,20 @@
+{
+  "monthly_mae_q2_vs_linear.png": {
+    "sha256": "554d06481b60e90998dcb8f0bd9979467489f4fd82b230ff76b17fcc74bc66f1",
+    "bytes": 81577,
+    "width": 2160,
+    "height": 736,
+    "ink_coverage": 0.269,
+    "distinct_colours": 267,
+    "note": "programmatic only; the agent cannot view images"
+  },
+  "selected_dates_1200_vintage.png": {
+    "sha256": "3d5652e46dcc2197897b51e4cf86d4bec65331d742d89335a5ebf632b3062aa7",
+    "bytes": 194767,
+    "width": 2080,
+    "height": 1152,
+    "ink_coverage": 0.0664,
+    "distinct_colours": 3671,
+    "note": "programmatic only; the agent cannot view images"
+  }
+}

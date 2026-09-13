@@ -1,0 +1,8 @@
+{
+  "max_carry_difference_kWh": 0.0,
+  "ledger_A_segments": {
+    "N_fixed6000": 48096,
+    "N_free": 48096
+  },
+  "all_passed": true
+}
