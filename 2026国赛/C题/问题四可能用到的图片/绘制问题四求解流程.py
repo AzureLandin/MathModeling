@@ -314,11 +314,11 @@ def draw_figure():
         105.0,
         15.0,
         8.2,
-        "保护净需求 n_pro(t)\n= [L_hat(t)−V_hat(t)]dt + rho(t)\nrho：历史残差分位数",
+        "保护净需求 n_pro(t)\n= [L_hat(t)−V_hat(t)]dt\n+ rho(t)，rho为残差分位数",
         edge=PURPLE,
         face=PURPLE_FILL,
         weight="bold",
-        fontsize=5.45,
+        fontsize=5.35,
     )
     core_model_box(ax)
     arrow(ax, (21.5, 109.1), (24.1, 109.1), color=PURPLE)
@@ -411,7 +411,7 @@ def draw_figure():
         48.0,
         33.0,
         5.6,
-        "4-2现金费用  C42 = sum[p(t)(q0(t) + 5e(t))]",
+        "4-2现金费用\nC42 = sum[p(t)(q0(t) + 5e(t))]",
         edge=BLUE,
         face=BLUE_FILL,
         weight="bold",
@@ -423,15 +423,15 @@ def draw_figure():
         48.0,
         33.0,
         5.6,
-        "4-3现金费用  C43 = sum[p(t)(q_eff(t) + 0.5|q_eff(t)−q0(t)| + 5e(t))]",
+        "4-3现金费用\nC43 = sum[p(t)(q_eff(t) + 0.5|q_eff(t)−q0(t)| + 5e(t))]",
         edge=OCHRE,
         face=OCHRE_FILL,
         weight="bold",
-        fontsize=5.25,
+        fontsize=5.4,
     )
-    rounded_box(ax, 24.5, 40.0, 20.5, 5.2, "F42  vs  Q42\n节省 115595.68 元", edge=BLUE, face="white", weight="bold", fontsize=6.0)
-    rounded_box(ax, 48.8, 40.0, 20.5, 5.2, "F43_S0  vs  Q43_S0\n节省 120292.72 元", edge=OCHRE, face="white", weight="bold", fontsize=5.85)
-    rounded_box(ax, 73.0, 40.0, 20.5, 5.2, "F43_S2  vs  Q43_S2\n节省 110164.02 元", edge=GREEN, face=GREEN_FILL, weight="bold", fontsize=5.85)
+    rounded_box(ax, 24.5, 40.0, 20.5, 5.2, "F42  vs  Q42\n节省 115,595.68 元", edge=BLUE, face="white", weight="bold", fontsize=6.0)
+    rounded_box(ax, 48.8, 40.0, 20.5, 5.2, "F43_S0  vs  Q43_S0\n节省 120,292.72 元", edge=OCHRE, face="white", weight="bold", fontsize=5.85)
+    rounded_box(ax, 73.0, 40.0, 20.5, 5.2, "F43_S2  vs  Q43_S2\n节省 110,164.02 元", edge=GREEN, face=GREEN_FILL, weight="bold", fontsize=5.85)
     rounded_box(
         ax,
         24.5,
@@ -456,7 +456,7 @@ def draw_figure():
         20.5,
         20.5,
         6.5,
-        "4-2最终方案：Q42\n总费用 14347907.89 元",
+        "4-2最终方案：Q42\n总费用 14,347,907.89 元",
         edge=BLUE,
         face=BLUE_FILL,
         weight="bold",
@@ -468,7 +468,7 @@ def draw_figure():
         20.5,
         21.5,
         6.5,
-        "4-3最终方案：Q43_S2\n总费用 13972808.91 元",
+        "4-3最终方案：Q43_S2\n总费用 13,972,808.91 元",
         edge=GREEN,
         face=GREEN_FILL,
         weight="bold",
@@ -480,7 +480,7 @@ def draw_figure():
         20.5,
         20.0,
         6.5,
-        "Q43_S2 比 Q42 少\n375098.98 元（2.6143%）",
+        "Q43_S2 比 Q42 少\n375,098.98 元（2.6143%）",
         edge=GREEN,
         face="white",
         weight="bold",

@@ -63,196 +63,52 @@ def table(rows, headers):
 
 
 def make_figures(monthly, contrasts, summary):
-    import matplotlib.patches as mpatches
-
-    Q3_PAPER = ROOT / "figures" / "q3_paper"
-    Q3_PAPER.mkdir(parents=True, exist_ok=True)
-
-    # -------------------------------------------------------------------------
-    # 图 1: 逐月费用差额对比 (monthly_cash_difference)
-    # -------------------------------------------------------------------------
-    fig1, ax1 = plt.subplots(figsize=(10.5, 5.2))
-    fig1.subplots_adjust(top=0.82, bottom=0.14, left=0.10, right=0.94)
-
-    months = monthly["month"].tolist()
-    month_labels = [f"{int(m.split('-')[1])}月" for m in months]
-    x = np.arange(len(months))
-    deltas = monthly["delta_yuan"].to_numpy()
-
-    colours = ["#229954" if v < 0 else "#CB4335" for v in deltas]
-    bars = ax1.bar(x, deltas, width=0.55, color=colours, edgecolor="#566573", lw=0.6, zorder=3)
-    ax1.axhline(0.0, color="#566573", lw=0.9, zorder=2)
-
-    h_green = mpatches.Patch(color="#229954", label="S2 更优 (费用降低，共 5 个月)")
-    h_red = mpatches.Patch(color="#CB4335", label="S0 更优 (费用增加，共 6 个月)")
-    leg1 = ax1.legend(
-        handles=[h_green, h_red],
-        loc="lower center",
-        bbox_to_anchor=(0.5, 1.02),
-        ncol=2,
-        frameon=False,
-        fontsize=9.0,
-    )
-
-    ax1.set_title(
-        "日内负荷修正多阶段优化 (S2) 相对日前基准 (S0) 逐月费用差额",
-        fontsize=11.5,
-        pad=32,
-        fontweight="bold",
-    )
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(month_labels, fontsize=9.5)
-    ax1.set_xlabel("时间 (2025年月份)", fontsize=10.0)
-    ax1.set_ylabel(r"月度费用差额 $\Delta C = C_{\mathrm{S2}} - C_{\mathrm{S0}}$ (元)", fontsize=10.0)
-    ax1.set_ylim(-19000, 10000)
-    ax1.grid(axis="y", ls=":", lw=0.6, alpha=0.55, zorder=1)
-
-    # 核心极值节点标注
-    ax1.annotate(
-        "最大节省: -15,351 元",
-        xy=(10, deltas[10]),
-        xytext=(10, deltas[10] - 2500),
-        ha="center",
-        va="top",
-        fontsize=8.2,
-        color="#229954",
-        fontweight="bold",
-        arrowprops=dict(arrowstyle="->", color="#229954", lw=0.8),
-        zorder=6,
-    )
-    ax1.annotate(
-        "次大节省: -14,186 元",
-        xy=(5, deltas[5]),
-        xytext=(5, deltas[5] - 2500),
-        ha="center",
-        va="top",
-        fontsize=8.2,
-        color="#229954",
-        fontweight="bold",
-        arrowprops=dict(arrowstyle="->", color="#229954", lw=0.8),
-        zorder=6,
-    )
-    ax1.annotate(
-        "最大增加: +6,595 元",
-        xy=(8, deltas[8]),
-        xytext=(8, deltas[8] + 2000),
-        ha="center",
-        va="bottom",
-        fontsize=8.2,
-        color="#CB4335",
-        fontweight="bold",
-        arrowprops=dict(arrowstyle="->", color="#CB4335", lw=0.8),
-        zorder=6,
-    )
-
-    ax1.text(
-        0.98,
-        0.94,
-        "全期累计净差额: -23,444.08 元\n(综合降幅约 0.176%)",
-        transform=ax1.transAxes,
-        ha="right",
-        va="top",
-        fontsize=8.8,
-        color="#1B4F72",
-        fontweight="bold",
-        bbox=dict(boxstyle="round,pad=0.4", facecolor="#EBF5FB", edgecolor="#AED6F1", lw=0.8),
-    )
-
+    fig, ax = plt.subplots(figsize=(9.8, 4.6))
+    colours = ["#2ca02c" if v < 0 else "#d62728" for v in monthly.delta_yuan]
+    ax.bar(monthly.month, monthly.delta_yuan, color=colours)
+    ax.axhline(0.0, color="black", lw=0.9)
+    ax.set_ylabel("月度现金差 S2 − S0（元）")
+    ax.set_title(f"分月现金差：负值表示 S2 更省（自然账本，全期 {signed(monthly.delta_yuan.sum())} 元，"
+                 f"未计库存估值）")
+    ax.tick_params(axis="x", rotation=45)
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout()
     path1 = FIG / "monthly_cash_difference.png"
-    fig1.savefig(path1, dpi=600, facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig1.savefig(FIG / "monthly_cash_difference.pdf", facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig1.savefig(FIG / "monthly_cash_difference.svg", facecolor="white", edgecolor="white", bbox_inches="tight")
+    fig.savefig(path1, dpi=160)
+    plt.close(fig)
 
-    # Paper directory mirror
-    fig1.savefig(Q3_PAPER / "q3_fig2_monthly_cash_difference.png", dpi=600, facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig1.savefig(Q3_PAPER / "q3_fig2_monthly_cash_difference.pdf", facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig1.savefig(Q3_PAPER / "q3_fig2_monthly_cash_difference.svg", facecolor="white", edgecolor="white", bbox_inches="tight")
-    plt.close(fig1)
+    fig, axes = plt.subplots(1, 2, figsize=(12.6, 4.8))
+    labels = [label for _, label in COMPONENTS] + ["合计"]
+    values = [float(contrasts.set_index("item").loc[key, "delta_yuan"]) for key, _ in COMPONENTS]
+    values.append(float(contrasts.set_index("item").loc["total", "delta_yuan"]))
+    axes[0].bar(labels, values, color=["#1f77b4", "#ff7f0e", "#2ca02c", "#7f7f7f"])
+    axes[0].axhline(0.0, color="black", lw=0.9)
+    axes[0].set_ylabel("S2 − S0（元）")
+    axes[0].set_title("现金三项差（正=更贵）")
+    axes[0].grid(axis="y", alpha=0.25)
+    for index, value in enumerate(values):
+        axes[0].annotate(f"{value:+,.0f}", (index, value), ha="center",
+                         va="bottom" if value >= 0 else "top", fontsize=8)
 
-    # -------------------------------------------------------------------------
-    # 图 2: 费用分项拆解与应急风险指标对比 (cost_components_and_emergency)
-    # -------------------------------------------------------------------------
-    contrasts_idx = contrasts.set_index("item")
-    summary_idx = summary.set_index("strategy_id")
-
-    fig2, (ax2_1, ax2_2) = plt.subplots(1, 2, figsize=(14.0, 5.5))
-    fig2.subplots_adjust(top=0.80, bottom=0.12, left=0.07, right=0.94, wspace=0.28)
-
-    st = fig2.suptitle(
-        "日内滚动多阶段优化 (S2) 相对日前基准 (S0) 费用构成与应急指标对比",
-        fontsize=12.5,
-        y=0.96,
-        fontweight="bold",
-    )
-
-    # Panel (a): 费用构成三项拆解与总费用差额
-    ax2_1.set_title("(a) 费用构成三项拆解与总费用差额", fontsize=10.5, pad=32, fontweight="bold")
-    items = ["ordinary", "adjustment", "emergency", "total"]
-    item_labels = ["普通购电", "计划调整费", "应急购电费", "总费用差额"]
-    values = [float(contrasts_idx.loc[k, "delta_yuan"]) for k in items]
-    cols = ["#1B4F72", "#CB4335", "#229954", "#2E86C1"]
-
-    ax2_1.bar(np.arange(len(items)), values, width=0.52, color=cols, edgecolor="#566573", lw=0.6, zorder=3)
-    ax2_1.axhline(0.0, color="#566573", lw=0.9, zorder=2)
-    ax2_1.set_xticks(np.arange(len(items)))
-    ax2_1.set_xticklabels(item_labels, fontsize=9.5)
-    ax2_1.set_ylabel(r"差额 $\Delta C = C_{\mathrm{S2}} - C_{\mathrm{S0}}$ (元)", fontsize=9.8)
-    ax2_1.set_ylim(-95000, 75000)
-    ax2_1.grid(axis="y", ls=":", lw=0.6, alpha=0.55, zorder=1)
-
-    for i, v in enumerate(values):
-        va = "bottom" if v >= 0 else "top"
-        y_off = 2500 if v >= 0 else -2500
-        prefix = "+" if v > 0 else ""
-        ax2_1.text(i, v + y_off, f"{prefix}{v:,.2f} 元", ha="center", va=va, fontsize=8.5, fontweight="bold", color=cols[i])
-
-    # Panel (b): 关键应急风险指标相对变化对比 (以 S0 为基准 100%)
-    ax2_2.set_title("(b) 关键应急风险指标相对变化对比 (以 S0 为基准 100%)", fontsize=10.5, pad=32, fontweight="bold")
-
-    metrics_keys = ["emergency_kWh", "emergency_intervals", "emergency_days", "emergency_events"]
-    metric_names = ["应急电量", "应急区间数", "应急天数", "应急事件数"]
-    units = ["kWh", "个", "天", "次"]
-
-    s0_vals = [float(summary_idx.loc[S0, k]) for k in metrics_keys]
-    s2_vals = [float(summary_idx.loc[S2, k]) for k in metrics_keys]
-
-    s0_pct = [100.0] * len(s0_vals)
-    s2_pct = [(v2 / v0) * 100.0 for v0, v2 in zip(s0_vals, s2_vals)]
-
-    x2 = np.arange(len(metrics_keys))
-    w = 0.35
-
-    ax2_2.bar(x2 - w/2, s0_pct, width=w, color="#4C72B0", edgecolor="#2B4C7E", lw=0.6, label="S0_L75 (日前基准)", zorder=3)
-    ax2_2.bar(x2 + w/2, s2_pct, width=w, color="#E67E22", edgecolor="#BA4A00", lw=0.6, label="S2_load_q75 (日内滚动)", zorder=3)
-
-    ax2_2.axhline(100.0, color="#78909C", ls="--", lw=1.0, zorder=2)
-    ax2_2.set_xticks(x2)
-    ax2_2.set_xticklabels(metric_names, fontsize=9.5)
-    ax2_2.set_ylabel("相对基准比例 (%)", fontsize=9.8)
-    ax2_2.set_ylim(0, 130)
-    ax2_2.grid(axis="y", ls=":", lw=0.6, alpha=0.55, zorder=1)
-
-    for i in range(len(metrics_keys)):
-        v0_str = f"{s0_vals[i]:,.0f}" if s0_vals[i] > 1000 else f"{int(s0_vals[i])}"
-        ax2_2.text(x2[i] - w/2, 102, f"{v0_str} {units[i]}", ha="center", va="bottom", fontsize=7.8, color="#2B4C7E")
-        diff_pct = s2_pct[i] - 100.0
-        diff_str = f"{diff_pct:+.1f}%"
-        v2_str = f"{s2_vals[i]:,.0f}" if s2_vals[i] > 1000 else f"{int(s2_vals[i])}"
-        ax2_2.text(x2[i] + w/2, s2_pct[i] + 2, f"{v2_str} {units[i]}\n({diff_str})", ha="center", va="bottom", fontsize=7.8, color="#BA4A00", fontweight="bold")
-
-    leg2 = ax2_2.legend(loc="lower center", bbox_to_anchor=(0.5, 1.02), ncol=2, frameon=False, fontsize=8.8)
-
+    index = summary.set_index("strategy_id")
+    metrics = [("应急电量\n(kWh)", "emergency_kWh"), ("应急区间数", "emergency_intervals"),
+               ("应急天数", "emergency_days"), ("应急事件数", "emergency_events")]
+    x = np.arange(len(metrics))
+    width = 0.38
+    axes[1].bar(x - width / 2, [float(index.loc[S0, key]) for _, key in metrics], width,
+                label="S0_L75", color="#4c72b0")
+    axes[1].bar(x + width / 2, [float(index.loc[S2, key]) for _, key in metrics], width,
+                label="S2_load_q75", color="#dd8452")
+    axes[1].set_xticks(x)
+    axes[1].set_xticklabels([label for label, _ in metrics])
+    axes[1].set_ylabel("数量")
+    axes[1].set_title("应急指标（口径不同，未归一化）")
+    axes[1].grid(axis="y", alpha=0.25)
+    axes[1].legend(fontsize=8)
+    fig.tight_layout()
     path2 = FIG / "cost_components_and_emergency.png"
-    fig2.savefig(path2, dpi=600, facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig2.savefig(FIG / "cost_components_and_emergency.pdf", facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig2.savefig(FIG / "cost_components_and_emergency.svg", facecolor="white", edgecolor="white", bbox_inches="tight")
-
-    # Paper directory mirror
-    fig2.savefig(Q3_PAPER / "q3_fig3_cost_components_and_emergency.png", dpi=600, facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig2.savefig(Q3_PAPER / "q3_fig3_cost_components_and_emergency.pdf", facecolor="white", edgecolor="white", bbox_inches="tight")
-    fig2.savefig(Q3_PAPER / "q3_fig3_cost_components_and_emergency.svg", facecolor="white", edgecolor="white", bbox_inches="tight")
-    plt.close(fig2)
-
+    fig.savefig(path2, dpi=160)
+    plt.close(fig)
     return [path1, path2]
 
 
@@ -516,8 +372,8 @@ def main():
         f"与整体节费主要来自 12 月与 7 月一致。")
     add("")
     paths = make_figures(monthly, pd.read_csv(OUT / "contrasts.csv"), pd.read_csv(OUT / "summary.csv"))
-    for path, caption in zip(paths, ("分月购电费用差额对比（负值表示 S2 更省）",
-                                     "费用构成三项拆解与应急风险指标对比")):
+    for path, caption in zip(paths, ("分月现金差（负值=S2 更省）",
+                                     "现金三项差与应急指标（口径不同，未归一化）")):
         add(f"![{caption}]({path.resolve().as_posix()})")
         add("")
     add("图只做程序化完整性检查（本 Agent 无法目视图像）；图内不画阈值线、不加显著性星号，"
@@ -613,5 +469,5 @@ def main():
 
 
 if __name__ == "__main__":
-    assert Path(sys.prefix).name in ("math_modeling", "conda", "base"), sys.prefix
+    assert Path(sys.prefix).name == "math_modeling", sys.prefix
     main()
