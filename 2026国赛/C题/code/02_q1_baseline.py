@@ -30,9 +30,16 @@ CONFIG = dict(dt_hours=1/6, capacity_kWh=12000., state_min_kWh=1200.,
 
 
 def solve(load, pv, price, eta=0.9, power=5000., integer=False,
-          initial_kWh=None, terminal_kWh=None):
+          initial_kWh=None, terminal_kWh=None, state_min_kWh=None,
+          state_max_kWh=None):
     initial_kWh = CONFIG['initial_kWh'] if initial_kWh is None else float(initial_kWh)
     terminal_kWh = initial_kWh if terminal_kWh is None else float(terminal_kWh)
+    state_min_kWh = CONFIG['state_min_kWh'] if state_min_kWh is None else float(state_min_kWh)
+    state_max_kWh = CONFIG['state_max_kWh'] if state_max_kWh is None else float(state_max_kWh)
+    if not state_min_kWh <= initial_kWh <= state_max_kWh:
+        raise ValueError('initial_kWh must lie within the state bounds')
+    if not state_min_kWh <= terminal_kWh <= state_max_kWh:
+        raise ValueError('terminal_kWh must lie within the state bounds')
     n = len(load)
     m = 5*n + 1
     cap = power * CONFIG['dt_hours']
@@ -48,7 +55,7 @@ def solve(load, pv, price, eta=0.9, power=5000., integer=False,
     eq = csr_matrix(eq)
     lower, upper = np.zeros(m), np.full(m, np.inf)
     upper[n:3*n] = cap
-    lower[4*n:], upper[4*n:] = CONFIG['state_min_kWh'], CONFIG['state_max_kWh']
+    lower[4*n:], upper[4*n:] = state_min_kWh, state_max_kWh
     lower[4*n] = upper[4*n] = initial_kWh
     lower[-1] = upper[-1] = terminal_kWh
     start = time.perf_counter()
@@ -75,7 +82,7 @@ def solve(load, pv, price, eta=0.9, power=5000., integer=False,
     checks = dict(bus_balance_max_abs_kWh=float(np.max(np.abs(q+pv/6+d-load/6-c-w))),
                   battery_balance_max_abs_kWh=float(np.max(np.abs(np.diff(state)-eta*c+d/eta))),
                   boundary_error_kWh=float(max(abs(state[0]-initial_kWh), abs(state[-1]-terminal_kWh))),
-                  state_bound_violation_kWh=float(max(0, 1200-state.min(), state.max()-10800)),
+                   state_bound_violation_kWh=float(max(0, state_min_kWh-state.min(), state.max()-state_max_kWh)),
                   flow_bound_violation_kWh=float(max(0, -min(q.min(), c.min(), d.min(), w.min()),
                                                      c.max()-cap, d.max()-cap)),
                   simultaneous_charge_discharge_kWh=float(np.minimum(c, d).max()))
