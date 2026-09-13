@@ -1,0 +1,34 @@
+{
+  "max_hour_energy_error_kWh": 3.637978807091713e-12,
+  "max_hourly_node_error_kW": 0.0,
+  "status": "passed",
+  "issue_count": 1460,
+  "hourly_node_count": 36500,
+  "interval_count": 210605,
+  "midnight_template_count": 52560,
+  "boundary_counts": {
+    "linear": 201480,
+    "previous_issue_at_current_time": 8754,
+    "tail_constant": 365,
+    "initial_first_forecast_hold": 6
+  },
+  "historical_prefix_unchanged": true,
+  "csv_readback_passed": true,
+  "source_sha256": "8a61b06c52bd0d639a1cc37c61a7d9f5b75edcbca718f64c1bd3498ec9f9d843",
+  "script_sha256": "1dc3df37d7584d4ee5cc574992e8b255f2793570f1667ecb5ba598e6ce5c2593",
+  "python": "3.11.16 | packaged by conda-forge | (main, Sep  2 2026, 23:31:17) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "E:\\conda\\envs\\math_modeling\\python.exe",
+  "dependencies": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "openpyxl": "3.1.5"
+  },
+  "step_minutes": 10,
+  "tolerance": 1e-08,
+  "timestamps": "Asia/Shanghai local time; naive timestamps",
+  "scope": "All issued forecasts, not a dispatch schedule or observed energy; no actual data used.",
+  "outputs": {
+    "pv_hourly_nodes.csv": "a77df6d65ee80ffe1acde17a6a3e09b9133dd276f9a7431d14bde4a67c944c7e",
+    "pv_10min_forecasts.csv": "28ea9b115a09552ac408255d96917d38a6d0c82efe9777a04729b20b4c113580"
+  }
+}

@@ -9,7 +9,7 @@ import openpyxl
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'results/q1_start_time_20260912'
-TEMPLATE=Path('C:/Users/Azure/Downloads/CUMCM2026Problems/C题/附件/附件5/result1.xlsx')
+TEMPLATE=ROOT/'附件/附件5/result1.xlsx'
 
 def main():
     OUT.mkdir(exist_ok=True)

@@ -17,8 +17,7 @@ import pandas as pd
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = PACKAGE_ROOT.parent
-ROOT = PROJECT_ROOT if (PROJECT_ROOT / "results").is_dir() else PACKAGE_ROOT
+ROOT = PACKAGE_ROOT
 OUT = PACKAGE_ROOT / "result"
 
 CANONICAL_COLUMNS = [

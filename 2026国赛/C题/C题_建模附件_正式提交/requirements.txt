@@ -1,0 +1,9 @@
+# 运行 code/ 下正式入口与关联重算内核所需的第三方包
+numpy>=1.24
+pandas>=2.0
+scipy>=1.9
+openpyxl>=3.1
+matplotlib>=3.7
+lightgbm>=4.0
+Pillow>=9.0
+pypdf>=3.0

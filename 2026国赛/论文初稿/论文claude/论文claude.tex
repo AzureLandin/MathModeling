@@ -259,7 +259,7 @@ $M$ & 单时段最大充放电电量，$M = P_{\max} \cdot \Delta t$ & kWh \\
 \noindent\textbf{（2）目标函数的确定}\\[6pt]
 \indent 微网的全天购电费用等于各时段购电量与对应电价之积的总和。以最小化全天购电费用为目标：
 \begin{equation}
-  \min \quad Z = \sum_{t=0}^{143} p_t \cdot q_t
+  \boxed{\min \quad Z = \sum_{t=0}^{143} p_t \cdot q_t}
   \label{eq:q1_obj}
 \end{equation}
 \noindent 其中$p_t$为第$t$个时段的电价（元/kWh）。由于充放电的费用已经通过其对购电量的影响计入购电费用，储能变量只进入约束而不直接进入目标函数，避免重复计费。
@@ -314,7 +314,7 @@ $M$ & 单时段最大充放电电量，$M = P_{\max} \cdot \Delta t$ & kWh \\
 
 \begin{equation}
 \begin{aligned}
-  \min \quad & Z = \sum_{t=0}^{143} p_t \cdot q_t \\[6pt]
+  \min \quad & \boxed{Z = \sum_{t=0}^{143} p_t \cdot q_t} \\[6pt]
   \text{s.t.} \quad 
   & \left.
   \begin{aligned}
@@ -495,7 +495,7 @@ $23{:}30$--$23{:}40$ & $0.4240$ & $571.62$ & $904.95$ \\
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\textwidth]{D:/数模/国赛/流程图2.pdf}
+  \includegraphics[width=0.7\textwidth]{../../C题/问题二可能用到的图片/流程图.pdf}
   \caption{问题二日前滚动求解流程}
   \label{fig:q2_flow}
 \end{figure}
@@ -548,7 +548,7 @@ $23{:}30$--$23{:}40$ & $0.4240$ & $571.62$ & $904.95$ \\
 日前MILP模型\upcite{silva2020dayahead}为：
 \begin{equation}
 \begin{aligned}
-  & \min \quad \sum_{t=0}^{143} p_t \cdot q_{k,t} \\
+  & \boxed{\min \quad \sum_{t=0}^{143} p_t \cdot q_{k,t}} \\
   & \text{s.t.} \quad q_{k,t} + \bar{d}_{k,t} = \widetilde{n}_{k,t} + \bar{c}_{k,t} + \bar{w}_{k,t}, \\
   & \quad\quad\; \bar{E}_{k,t+1} = \bar{E}_{k,t} + \eta_c \bar{c}_{k,t} - \bar{d}_{k,t}/\eta_d, \\
   & \quad\quad\; E_{\min} \leq \bar{E}_{k,t} \leq E_{\max}, \\
@@ -654,7 +654,7 @@ $N_{\text{free}}$  & 自由末态           & $\bm{13\,699\,337.68}$ & $13\,264\
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{../../C题/问题二可能用到的图片/q2_fig1_annual_cost_and_emergency_share.png}
+  \includegraphics[width=0.6\textwidth]{../../C题/问题二可能用到的图片/q2_fig1_annual_cost_and_emergency_share.png}
   \caption{问题二全年费用构成与应急购电占比}
   \label{fig:q2_annual_cost}
 \end{figure}
@@ -760,7 +760,7 @@ $N_{\text{free}}$  & 自由末态           & $\bm{13\,699\,337.68}$ & $13\,264\
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{../../C题/问题二可能用到的图片/q2_fig4_monthly_cost_differences.png}
+  \includegraphics[width=0.48\textwidth]{../../C题/问题二可能用到的图片/q2_fig4_monthly_cost_differences.png}
   \caption{自由名义末态相对固定$6\,000$~kWh名义末态的逐月费用差额}
   \label{fig:q2_monthly_cost_diff}
 \end{figure}
@@ -777,9 +777,11 @@ $N_{\text{free}}$  & 自由末态           & $\bm{13\,699\,337.68}$ & $13\,264\
 
 问题三整体滚动求解流程如图~\ref{fig:q3_flow}所示：每天先由$0{:}00$计划冻结全天原始购电方案，之后三个更新节点只对尚未交付的区间重优化，实际执行阶段逐段反馈并跨日衔接。
 
+\noindent 本文采用如下方案编号。字母$B$表示问题三首轮对照基准（Baseline），$B_0$、$B_1$、$B_2$分别用于比较问题二基准、更换附件3的$0{:}00$光伏预报以及引入日内滚动修订的效果。字母$S$表示最终费用比较中的策略方案（Strategy），$S_0$采用原始$0{:}00$负载预测，$S_2$采用F2日内负载修正；$S_1$虽对应F1历史偏差修正，但未进行完整费用回测。字母$Q$用于问题四波动电价下的重新优化方案，下标的第一位$4$表示问题四，第二位$2$或$3$表示沿用问题二或问题三的模型框架。这些字母均为方案标签，不是模型决策变量。
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.88\textwidth]{D:/数模/国赛/-问题三.drawio.png}
+  \includegraphics[width=0.88\textwidth]{../../C题/问题三可能用到的图片/流程图3.drawio.png}
   \caption{问题三滚动求解流程}
   \label{fig:q3_flow}
 \end{figure}
@@ -812,13 +814,15 @@ $N_{\text{free}}$  & 自由末态           & $\bm{13\,699\,337.68}$ & $13\,264\
 
 \noindent 考虑到日内多阶段调度是提升微网应对供需变化能力的常用手段\upcite{yan2018intraday}，本文在$0{:}00$生成原始计划后保留三个日内更新节点。记$\mathcal{D}_k$为第$k$日$0{:}00$计划覆盖的$144$个时段，$\mathcal{F}_r$为更新时刻$r$可调整的未来区间集合，$p_t$为电量交付区间的正常电价，$q_t^{0}$、$q_t^{r}$、$q_t^{\mathrm{eff}}$分别为$0{:}00$原始计划、$r$时刻候选计划与交付前最后一个合法版本的有效购电量。$0{:}00$时，在问题二相同的储能物理约束下，以最小化计划购电费用为目标求解原始计划：
 \begin{equation}
-  \min \quad \sum_{t\in\mathcal{D}_k} p_t q_t^{0}
+  \boxed{\min \quad \sum_{t\in\mathcal{D}_k} p_t q_t^{0}}
   \label{eq:q3_obj0}
 \end{equation}
 \noindent 在$r\in\{6{:}00,12{:}00,18{:}00\}$，MILP只对未来可调整区间重新决策，目标为最小化普通购电费与调整费用：
 \begin{equation}
-  \min \quad \sum_{t\in\mathcal{F}_r}
+  \boxed{\begin{aligned}
+  & \min \quad \sum_{t\in\mathcal{F}_r}
   \left[ p_t q_t^{r} + \frac{1}{2} p_t \left| q_t^{r} - q_t^{0} \right| \right]
+  \end{aligned}}
   \label{eq:q3_obj_r}
 \end{equation}
 \noindent 其中减购时保留电量按正常价支付、取消差额支付正常价$50\%$的违约费，增购时超过原始计划的差额按正常价$1.5$倍计费。实现时引入辅助变量$a_t\geq0$以及约束$a_t\geq q_t^{r}-q_t^{0}$、$a_t\geq q_t^{0}-q_t^{r}$，将绝对值项线性化为$0.5p_ta_t$。
@@ -890,7 +894,7 @@ $B_2$ 滚动修订    & $12\,930\,615.17$ & $431\,866.11$ & $129\,830.99$ & $\bm
 \end{tabular}}
 \end{table}
 
-\noindent 三组期末储电量相同，自然账本为$1\,682.90$~kWh、模板末端为$1\,642.19$~kWh，初始库存也相同，差异完全来自运行过程中的购电与应急行为。$B_1$较$B_0$总费用增加$148\,749.31$元，增幅为$1.0858\%$，其中普通购电费增加$187\,588.17$元、应急费减少$38\,838.85$元；从月度看$B_1$仅在$3/11$个月更省，逐月正负交替，说明单独把$0{:}00$预报更换为附件3版本在本配置下不是稳健改进。该差额同时包含预报来源与提前时长口径的变化，不能据此断言附件3预报"更差"。
+\noindent 三组最终储电量相同，真实用电量为$1\,682.90$~kWh、计划购电量为$1\,642.19$~kWh，初始库存也相同，差异完全来自运行过程中的购电与应急行为。$B_1$较$B_0$总费用增加$148\,749.31$元，增幅为$1.0858\%$，其中普通购电费增加$187\,588.17$元、应急费减少$38\,838.85$元；从月度看$B_1$仅在$3/11$个月更省，逐月正负交替，说明单独把$0{:}00$预报更换为附件3版本在本配置下不是稳健改进。该差额同时包含预报来源与提前时长口径的变化，不能据此断言附件3预报"更差"。
 
 $B_2$较$B_1$总费用减少$355\,774.73$元，降幅为$2.5691\%$，在$11/11$个月、$233/334$天更省：普通购电费减少$521\,877.27$元，应急费减少$265\,763.56$元，代价是$431\,866.11$元调整费；应急电量由$66\,348.3$~kWh降至$25\,269.2$~kWh。$B_2$较$B_0$仍少$207\,025.42$元，降幅为$1.5112\%$，应急电量较问题二基准下降$65.4\%$。图~\ref{fig:q3_monthly_costs}给出三组方案的月度总费用对比，$B_2$在全部$11$个月均低于$B_1$，滚动修订的节费并非由少量异常月份构成。
 
@@ -1035,14 +1039,14 @@ S2 & $12\,772\,385.33$ & $452\,943.46$ & $105\,049.17$ & $\bm{13\,330\,377.96}$ 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.88\textwidth]{../../C题/figures/q3_intraday_load_cost/cost_components_and_emergency.png}
+  \includegraphics[width=0.66\textwidth]{../../C题/figures/q3_intraday_load_cost/cost_components_and_emergency.png}
   \caption{问题三S2相对S0的现金分项与应急指标对比}
   \label{fig:q3_s2_cost}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.88\textwidth]{../../C题/figures/q3_intraday_load_cost/monthly_cash_difference.png}
+  \includegraphics[width=0.66\textwidth]{../../C题/figures/q3_intraday_load_cost/monthly_cash_difference.png}
   \caption{S2相对S0逐月现金费用差}
   \label{fig:q3_s2_monthly}
 \end{figure}
@@ -1062,7 +1066,7 @@ S2 & $12\,772\,385.33$ & $452\,943.46$ & $105\,049.17$ & $\bm{13\,330\,377.96}$ 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.88\textwidth]{D:/数模/国赛/-问题四.drawio.png}
+  \includegraphics[width=0.88\textwidth]{../../C题/问题四可能用到的图片/问题四求解流程.drawio.png}
   \caption{问题四滚动求解流程}
   \label{fig:q4_flow}
 \end{figure}
@@ -1138,7 +1142,7 @@ Q43\_S2 & $13\,362\,355.91$ & $480\,740.86$   & $129\,712.14$ & $\bm{13\,972\,80
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{../../C题/figures/q4_price_transfer/cost_components_and_savings.png}
+  \includegraphics[width=0.66\textwidth]{../../C题/figures/q4_price_transfer/cost_components_and_savings.png}
   \caption{问题四六组费用分解与重新优化节费量}
   \label{fig:q4_cost_savings}
 \end{figure}
@@ -1147,7 +1151,7 @@ Q43\_S2 & $13\,362\,355.91$ & $480\,740.86$   & $129\,712.14$ & $\bm{13\,972\,80
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{../../C题/figures/q4_paper/q4_fig1_monthly_savings_and_decomposition.png}
+  \includegraphics[width=0.66\textwidth]{../../C题/figures/q4_paper/q4_fig1_monthly_savings_and_decomposition.png}
   \caption{Q43\_S2相对Q42的逐月节费与费用分项分解}
   \label{fig:q4_monthly}
 \end{figure}

@@ -1,0 +1,2 @@
+﻿model,cost_yuan,grid_kWh,charge_kWh,discharge_kWh,initial_kWh,final_kWh,solver
+Q1 deterministic MILP,35126.948589289634,59482.69899835391,20740.66613168725,16799.939566666668,6000.0,6000.0,HiGHS MILP

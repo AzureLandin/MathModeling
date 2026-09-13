@@ -1,0 +1,39 @@
+{
+  "source": "D:\\\u5efa\u6a21\\MathModeling\\2026\u56fd\u8d5b\\C\u9898\\C\u9898_\u4ee3\u7801\u9644\u4ef6\u8fd0\u884c\u5305\\\u9644\u4ef6\\\u9644\u4ef64.xlsx",
+  "source_sha256": "20e9c93aeab5e8e21ae4dd15587f9e190f7408692504c1319598461cd654fe71",
+  "script_sha256": "09b4b76695c6e437f41e5b249fc8ef6a2fec6201fd346558fbedf0bac015ef05",
+  "numpy_version": "2.4.6",
+  "openpyxl_version": "3.1.5",
+  "scope": "Descriptive inspection only; no forecast backtest or scheduling.",
+  "sheets": [
+    {
+      "name": "Sheet1",
+      "shape": [
+        365,
+        144
+      ],
+      "first_date": "2025-01-01 00:00:00",
+      "last_date": "2025-12-31 00:00:00",
+      "unique_dates": 365,
+      "first_headers": [
+        "\u65e5\u671f\\\u65f6\u95f4",
+        "00:10:00",
+        "00:20:00",
+        "00:30:00"
+      ],
+      "last_headers": [
+        "23:40:00",
+        "23:50:00",
+        "0:00+1"
+      ],
+      "nonfinite_count": 0,
+      "nonpositive_count": 0,
+      "minimum_yuan_per_kWh": 0.0076,
+      "maximum_yuan_per_kWh": 1.7936,
+      "mean_yuan_per_kWh": 0.7661976046423136,
+      "std_yuan_per_kWh": 0.3406700960727655,
+      "adjacent_source_rows_same_slot_mae": 0.08447020375457877,
+      "unique_daily_curves": 365
+    }
+  ]
+}
