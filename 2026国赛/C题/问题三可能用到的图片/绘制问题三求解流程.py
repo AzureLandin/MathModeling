@@ -439,10 +439,10 @@ def draw_figure():
     arrow(ax, (21.5, stage_4), (24.1, stage_4), color=OCHRE)
     arrow(ax, (41.9, 66.2), (45.6, 66.2), color=OCHRE)
     arrow(ax, (64.4, 66.2), (68.6, 66.2), color=PURPLE)
-    polyline_arrow(ax, [(80.5, 61.4), (80.5, 58.1), (50.4, 54.0)], color=OCHRE)
+    polyline_arrow(ax, [(68.6, 64.8), (66.5, 64.8), (66.5, 56.6), (50.4, 54.0)], color=OCHRE)
     arrow(ax, (50.4, 52.1), (53.5, 52.1), color=OCHRE)
     arrow(ax, (64.4, 54.7), (69.6, 58.9), color=GREEN)
-    ax.text(65.8, 57.4, "是", ha="center", va="center", fontsize=6.2, fontweight="bold", color=GREEN)
+    ax.text(67.8, 59.0, "是", ha="center", va="center", fontsize=6.2, fontweight="bold", color=GREEN)
     arrow(ax, (64.4, 49.5), (69.6, 47.9), color=RED)
     ax.text(66.2, 47.1, "否", ha="center", va="center", fontsize=6.2, fontweight="bold", color=RED)
     arrow(ax, (83.9, 58.9), (87.2, 55.9), color=GREEN)
@@ -457,7 +457,7 @@ def draw_figure():
         dashed=True,
         zorder=1,
     )
-    ax.text(83.0, 70.9, "下一合法更新节点", ha="center", va="bottom", fontsize=5.7, color=OCHRE)
+    ax.text(83.0, 71.35, "下一合法更新节点", ha="center", va="center", fontsize=5.7, color=OCHRE)
 
     # 05 Physical execution uses realised net demand; it is not part of the deterministic MILP.
     rounded_box(ax, 24.5, 31.1, 15.5, 6.0, "执行当前 q_eff\n读取实际净需求 n(t)", edge=GREEN, face=GREEN_FILL, weight="bold", fontsize=6.2)

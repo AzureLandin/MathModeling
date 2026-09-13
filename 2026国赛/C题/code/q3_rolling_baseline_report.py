@@ -132,27 +132,69 @@ def make_monthly_figure(monthly):
 
 
 def make_soc_figure(selected):
-    fig, axes = plt.subplots(2, 2, figsize=(13.0, 7.2))
-    for ax, date in zip(axes.ravel(), SELECTED_DATES):
-        for group in GROUPS:
-            rows = selected[(selected.group == group) & (selected.date == date)]
-            if rows.empty:
-                continue
-            state = np.r_[rows.state_start_kWh.iloc[0], rows.state_end_kWh.to_numpy()]
-            hours = np.arange(len(state)) / 6.0
-            ax.plot(hours, state, label=LABEL[group].split(" ")[0], color=COLOR[group], linewidth=1.3)
-        ax.axhline(1200, color="grey", linewidth=0.7, linestyle="--")
-        ax.axhline(10800, color="grey", linewidth=0.7, linestyle="--")
-        ax.set_title(date)
-        ax.set_xlabel("自然日小时")
-        ax.set_ylabel("储电量（kWh）")
+    import matplotlib.lines as mlines
+    fig, axes = plt.subplots(2, 2, figsize=(12.0, 7.8), sharex=True, sharey=True)
+    axes_flat = axes.flatten()
+
+    dfs = {}
+    for g in GROUPS:
+        p = OUT / f"{g}_dispatch.csv"
+        if p.exists():
+            d = pd.read_csv(p)
+            d["dt"] = pd.to_datetime(d["interval_start"])
+            dfs[g] = d
+
+    date_titles = [
+        ("2025-03-20", "(a) 春季分日 (2025-03-20)"),
+        ("2025-06-21", "(b) 夏季分日 (2025-06-21)"),
+        ("2025-09-23", "(c) 秋季分日 (2025-09-23)"),
+        ("2025-12-21", "(d) 冬季分日 (2025-12-21)"),
+    ]
+
+    for idx, (date, title_text) in enumerate(date_titles):
+        ax = axes_flat[idx]
+        ax.axhline(10800, color="grey", linewidth=1.0, linestyle="--", zorder=2)
+        ax.axhline(1200, color="grey", linewidth=1.0, linestyle="--", zorder=2)
+
+        for g in GROUPS:
+            if g in dfs:
+                day_df = dfs[g][dfs[g]["dt"].dt.strftime("%Y-%m-%d") == date].sort_values("dt")
+                if not day_df.empty:
+                    state = np.append(day_df["state_start_kWh"].to_numpy(), day_df["state_end_kWh"].iloc[-1])
+                    hours = np.linspace(0, 24, len(state))
+                    lw = 1.8 if g == "B2" else 1.3
+                    ls = "--" if g == "B1" else "-"
+                    ax.plot(hours, state, color=COLOR[g], linewidth=lw, linestyle=ls, zorder=4)
+
+        if idx in (1, 3):
+            ax.text(24.1, 10800, "上限 10800 kWh", color="#566573", fontsize=7.5, va="center")
+            ax.text(24.1, 1200, "下限 1200 kWh", color="#566573", fontsize=7.5, va="center")
+
+        ax.set_title(title_text, fontsize=10.0, fontweight="bold", loc="left", pad=8)
         ax.set_xlim(0, 24)
-        ax.grid(alpha=0.3)
-        ax.legend(fontsize=8)
-    fig.suptitle("四个指定日期的三组实际储电量轨迹（灰色虚线为 1200/10800 kWh 物理界）")
-    fig.tight_layout()
+        ax.set_ylim(0, 12000)
+        ax.set_xticks(np.arange(0, 25, 4))
+        ax.set_xticklabels([f"{h:02d}:00" for h in range(0, 25, 4)], fontsize=8.5)
+        ax.grid(axis="both", linestyle=":", linewidth=0.5, alpha=0.45, zorder=1)
+        if idx in (0, 2):
+            ax.set_ylabel("储能荷电量 SOC (kWh)", fontsize=9.2)
+        if idx in (2, 3):
+            ax.set_xlabel("自然日运行时间 (小时)", fontsize=9.2)
+
+    handles = [
+        mlines.Line2D([], [], color=COLOR["B0"], lw=1.4, ls="-", label="B0: 日前优化基准 (问题二)"),
+        mlines.Line2D([], [], color=COLOR["B1"], lw=1.4, ls="--", label="B1: 日前单次计划 (附件3)"),
+        mlines.Line2D([], [], color=COLOR["B2"], lw=1.8, ls="-", label="B2: 日内滚动多阶段优化"),
+        mlines.Line2D([], [], color="grey", lw=1.0, ls="--", label="物理边界 (1200 / 10800 kWh)"),
+    ]
+    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.98), ncol=4, frameon=False, fontsize=9.0)
+    fig.suptitle("典型代表日三组策略储能荷电状态 (SOC) 全天运行轨迹对比", fontsize=12.0, fontweight="bold", y=1.02)
+    fig.subplots_adjust(top=0.91, bottom=0.08, left=0.08, right=0.93, hspace=0.25, wspace=0.18)
+
     path = FIG / "selected_dates_soc.png"
-    fig.savefig(path, dpi=160)
+    fig.savefig(path, dpi=600, facecolor="white", edgecolor="white", bbox_inches="tight")
+    fig.savefig(FIG / "selected_dates_soc.pdf", facecolor="white", edgecolor="white", bbox_inches="tight")
+    fig.savefig(FIG / "selected_dates_soc.svg", facecolor="white", edgecolor="white", bbox_inches="tight")
     plt.close(fig)
     return path
 
